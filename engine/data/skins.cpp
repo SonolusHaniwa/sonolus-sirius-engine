@@ -12,6 +12,7 @@ class Sprites {
     int ScratchArrow = 6;
     int Hold = 7;
     int Scratch = 8;
+    int StageBackground = 9;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -23,5 +24,6 @@ auto skins = defineSkins<class Sprites>({
     {"Sirius Scratch Note", Sprites.ScratchNote},
     {"Sirius Scratch Arrow", Sprites.ScratchArrow},
     {"Sirius Hold", Sprites.Hold},
-    {"Sirius Scratch", Sprites.Scratch}
+    {"Sirius Scratch", Sprites.Scratch},
+    {"Sirius Stage Background", Sprites.StageBackground}
 });

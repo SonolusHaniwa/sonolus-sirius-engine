@@ -10,6 +10,11 @@ using namespace playData;
 #include"data/effects.cpp"
 #include"data/particles.cpp"
 #include"data/buckets.cpp"
+#include"data/constants.cpp"
+#include"data/utils.cpp"
+#include"data/archetype/Initialization.cpp"
+#include"data/archetype/InputManager.cpp"
+#include"data/archetype/Stage.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"tutorialData/skins.cpp"

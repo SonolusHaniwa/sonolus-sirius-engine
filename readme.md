@@ -46,6 +46,7 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程�
 |6|Sirius Scratch Arrow|
 |7|Sirius Hold|
 |8|Sirius Scratch|
+|9|Sirius Stage Background
 
 ### Effect Clips
 
