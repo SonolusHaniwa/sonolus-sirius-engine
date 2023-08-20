@@ -14,12 +14,12 @@ class Clips {
 }Clips;
 
 auto effects = defineEffects<class Clips>({
-    {"Sirius Miss", Clips.Miss},
-    {"Sirius Great", Clips.Great},
-    {"Sirius Flick Great", Clips.FlickGreat},
-    {"Sirius Perfect", Clips.Perfect},
-    {"Sirius Flick Perfect", Clips.FlickPerfect},
+    {EffectClipName.Miss, Clips.Miss},
+    {EffectClipName.Great, Clips.Great},
+    {EffectClipName.GreatAlternative, Clips.FlickGreat},
+    {EffectClipName.Perfect, Clips.Perfect},
+    {EffectClipName.PerfectAlternative, Clips.FlickPerfect},
     {"Sirius Hold Start", Clips.HoldStart},
     {"Sirius Scratch", Clips.Scratch},
-    {"Sirius Hold", Clips.Hold}
+    {EffectClipName.Hold, Clips.Hold}
 });

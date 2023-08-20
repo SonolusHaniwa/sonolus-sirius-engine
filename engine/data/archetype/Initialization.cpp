@@ -32,11 +32,11 @@ class Initialization: public Archetype {
             var secondaryMetricValueY = secondaryMetricBarY - 0.035 * ui.secondaryMetricConfiguration.scale;
             // 连击指标参数
             var comboValueWidth = 0 * ui.comboConfiguration.scale;
-            var comboValueHeight = stage.h * 0.12 * ui.comboConfiguration.scale;
+            var comboValueHeight = stage.h * 0.08 * ui.comboConfiguration.scale;
             var comboValueX = stage.w * 0.475;
             var comboValueY = Lerp(t, b, 0.425);
             var comboTextWidth = 0 * ui.comboConfiguration.scale;
-            var comboTextHeight = stage.h * 0.05 * ui.comboConfiguration.scale;
+            var comboTextHeight = stage.h * 0.033 * ui.comboConfiguration.scale;
             var comboTextX = stage.w * 0.475;
             var comboTextY = Lerp(t, b, 0.425);
             // 判定指标参数

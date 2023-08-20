@@ -15,6 +15,9 @@ using namespace playData;
 #include"data/archetype/Initialization.cpp"
 #include"data/archetype/InputManager.cpp"
 #include"data/archetype/Stage.cpp"
+#include"data/archetype/NormalNote.cpp"
+#include"data/archetype/CriticalNote.cpp"
+#include"data/archetype/FlickNote.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"tutorialData/skins.cpp"

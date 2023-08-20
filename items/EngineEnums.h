@@ -419,4 +419,188 @@ class RuntimeFunction {
     string TimeToTimeScale = "TimeToTimeScale";
 }RuntimeFunction;
 
+class SkinSpriteName {
+    public:
+
+    string NoteHeadNeutral = "#NOTE_HEAD_NEUTRAL";
+    string NoteHeadRed = "#NOTE_HEAD_RED";
+    string NoteHeadGreen = "#NOTE_HEAD_GREEN";
+    string NoteHeadBlue = "#NOTE_HEAD_BLUE";
+    string NoteHeadYellow = "#NOTE_HEAD_YELLOW";
+    string NoteHeadPurple = "#NOTE_HEAD_PURPLE";
+    string NoteHeadCyan = "#NOTE_HEAD_CYAN";
+
+    string NoteTickNeutral = "#NOTE_TICK_NEUTRAL";
+    string NoteTickRed = "#NOTE_TICK_RED";
+    string NoteTickGreen = "#NOTE_TICK_GREEN";
+    string NoteTickBlue = "#NOTE_TICK_BLUE";
+    string NoteTickYellow = "#NOTE_TICK_YELLOW";
+    string NoteTickPurple = "#NOTE_TICK_PURPLE";
+    string NoteTickCyan = "#NOTE_TICK_CYAN";
+
+    string NoteTailNeutral = "#NOTE_TAIL_NEUTRAL";
+    string NoteTailRed = "#NOTE_TAIL_RED";
+    string NoteTailGreen = "#NOTE_TAIL_GREEN";
+    string NoteTailBlue = "#NOTE_TAIL_BLUE";
+    string NoteTailYellow = "#NOTE_TAIL_YELLOW";
+    string NoteTailPurple = "#NOTE_TAIL_PURPLE";
+    string NoteTailCyan = "#NOTE_TAIL_CYAN";
+
+    string NoteConnectionNeutral = "#NOTE_CONNECTION_NEUTRAL";
+    string NoteConnectionRed = "#NOTE_CONNECTION_RED";
+    string NoteConnectionGreen = "#NOTE_CONNECTION_GREEN";
+    string NoteConnectionBlue = "#NOTE_CONNECTION_BLUE";
+    string NoteConnectionYellow = "#NOTE_CONNECTION_YELLOW";
+    string NoteConnectionPurple = "#NOTE_CONNECTION_PURPLE";
+    string NoteConnectionCyan = "#NOTE_CONNECTION_CYAN";
+
+    string NoteConnectionNeutralSeamless = "#NOTE_CONNECTION_NEUTRAL_SEAMLESS";
+    string NoteConnectionRedSeamless = "#NOTE_CONNECTION_RED_SEAMLESS";
+    string NoteConnectionGreenSeamless = "#NOTE_CONNECTION_GREEN_SEAMLESS";
+    string NoteConnectionBlueSeamless = "#NOTE_CONNECTION_BLUE_SEAMLESS";
+    string NoteConnectionYellowSeamless = "#NOTE_CONNECTION_YELLOW_SEAMLESS";
+    string NoteConnectionPurpleSeamless = "#NOTE_CONNECTION_PURPLE_SEAMLESS";
+    string NoteConnectionCyanSeamless = "#NOTE_CONNECTION_CYAN_SEAMLESS";
+
+    string SimultaneousConnectionNeutral = "#SIMULTANEOUS_CONNECTION_NEUTRAL";
+    string SimultaneousConnectionRed = "#SIMULTANEOUS_CONNECTION_RED";
+    string SimultaneousConnectionGreen = "#SIMULTANEOUS_CONNECTION_GREEN";
+    string SimultaneousConnectionBlue = "#SIMULTANEOUS_CONNECTION_BLUE";
+    string SimultaneousConnectionYellow = "#SIMULTANEOUS_CONNECTION_YELLOW";
+    string SimultaneousConnectionPurple = "#SIMULTANEOUS_CONNECTION_PURPLE";
+    string SimultaneousConnectionCyan = "#SIMULTANEOUS_CONNECTION_CYAN";
+
+    string SimultaneousConnectionNeutralSeamless = "#SIMULTANEOUS_CONNECTION_NEUTRAL_SEAMLESS";
+    string SimultaneousConnectionRedSeamless = "#SIMULTANEOUS_CONNECTION_RED_SEAMLESS";
+    string SimultaneousConnectionGreenSeamless = "#SIMULTANEOUS_CONNECTION_GREEN_SEAMLESS";
+    string SimultaneousConnectionBlueSeamless = "#SIMULTANEOUS_CONNECTION_BLUE_SEAMLESS";
+    string SimultaneousConnectionYellowSeamless = "#SIMULTANEOUS_CONNECTION_YELLOW_SEAMLESS";
+    string SimultaneousConnectionPurpleSeamless = "#SIMULTANEOUS_CONNECTION_PURPLE_SEAMLESS";
+    string SimultaneousConnectionCyanSeamless = "#SIMULTANEOUS_CONNECTION_CYAN_SEAMLESS";
+
+    string DirectionalMarkerNeutral = "#DIRECTIONAL_MARKER_NEUTRAL";
+    string DirectionalMarkerRed = "#DIRECTIONAL_MARKER_RED";
+    string DirectionalMarkerGreen = "#DIRECTIONAL_MARKER_GREEN";
+    string DirectionalMarkerBlue = "#DIRECTIONAL_MARKER_BLUE";
+    string DirectionalMarkerYellow = "#DIRECTIONAL_MARKER_YELLOW";
+    string DirectionalMarkerPurple = "#DIRECTIONAL_MARKER_PURPLE";
+    string DirectionalMarkerCyan = "#DIRECTIONAL_MARKER_CYAN";
+
+    string SimultaneousMarkerNeutral = "#SIMULTANEOUS_MARKER_NEUTRAL";
+    string SimultaneousMarkerRed = "#SIMULTANEOUS_MARKER_RED";
+    string SimultaneousMarkerGreen = "#SIMULTANEOUS_MARKER_GREEN";
+    string SimultaneousMarkerBlue = "#SIMULTANEOUS_MARKER_BLUE";
+    string SimultaneousMarkerYellow = "#SIMULTANEOUS_MARKER_YELLOW";
+    string SimultaneousMarkerPurple = "#SIMULTANEOUS_MARKER_PURPLE";
+    string SimultaneousMarkerCyan = "#SIMULTANEOUS_MARKER_CYAN";
+
+    string StageMiddle = "#STAGE_MIDDLE";
+
+    string StageLeftBorder = "#STAGE_LEFT_BORDER";
+    string StageRightBorder = "#STAGE_RIGHT_BORDER";
+    string StageTopBorder = "#STAGE_TOP_BORDER";
+    string StageBottomBorder = "#STAGE_BOTTOM_BORDER";
+    string StageLeftBorderSeamless = "#STAGE_LEFT_BORDER_SEAMLESS";
+    string StageRightBorderSeamless = "#STAGE_RIGHT_BORDER_SEAMLESS";
+    string StageTopBorderSeamless = "#STAGE_TOP_BORDER_SEAMLESS";
+    string StageBottomBorderSeamless = "#STAGE_BOTTOM_BORDER_SEAMLESS";
+
+    string StageTopLeftCorner = "#STAGE_TOP_LEFT_CORNER";
+    string StageTopRightCorner = "#STAGE_TOP_RIGHT_CORNER";
+    string StageBottomLeftCorner = "#STAGE_BOTTOM_LEFT_CORNER";
+    string StageBottomRightCorner = "#STAGE_BOTTOM_RIGHT_CORNER";
+
+    string Lane = "#LANE";
+    string LaneSeamless = "#LANE_SEAMLESS";
+
+    string LaneAlternative = "#LANE_ALTERNATIVE";
+    string LaneAlternativeSeamless = "#LANE_ALTERNATIVE_SEAMLESS";
+
+    string JudgmentLine = "#JUDGMENT_LINE";
+    string NoteSlot = "#NOTE_SLOT";
+
+    string StageCover = "#STAGE_COVER";
+}SkinSpriteName;
+
+class EffectClipName {
+    public:
+
+    string Miss = "#MISS";
+    string Perfect = "#PERFECT";
+    string Great = "#GREAT";
+    string Good = "#GOOD";
+
+    string Hold = "#HOLD";
+
+    string MissAlternative = "#MISS_ALTERNATIVE";
+    string PerfectAlternative = "#PERFECT_ALTERNATIVE";
+    string GreatAlternative = "#GREAT_ALTERNATIVE";
+    string GoodAlternative = "#GOOD_ALTERNATIVE";
+
+    string HoldAlternative = "#HOLD_ALTERNATIVE";
+
+    string Stage = "#STAGE";
+}EffectClipName;
+
+class ParticleEffectName {
+    public:
+
+    string NoteCircularTapNeutral = "#NOTE_CIRCULAR_TAP_NEUTRAL";
+    string NoteCircularTapRed = "#NOTE_CIRCULAR_TAP_RED";
+    string NoteCircularTapGreen = "#NOTE_CIRCULAR_TAP_GREEN";
+    string NoteCircularTapBlue = "#NOTE_CIRCULAR_TAP_BLUE";
+    string NoteCircularTapYellow = "#NOTE_CIRCULAR_TAP_YELLOW";
+    string NoteCircularTapPurple = "#NOTE_CIRCULAR_TAP_PURPLE";
+    string NoteCircularTapCyan = "#NOTE_CIRCULAR_TAP_CYAN";
+
+    string NoteCircularAlternativeNeutral = "#NOTE_CIRCULAR_ALTERNATIVE_NEUTRAL";
+    string NoteCircularAlternativeRed = "#NOTE_CIRCULAR_ALTERNATIVE_RED";
+    string NoteCircularAlternativeGreen = "#NOTE_CIRCULAR_ALTERNATIVE_GREEN";
+    string NoteCircularAlternativeBlue = "#NOTE_CIRCULAR_ALTERNATIVE_BLUE";
+    string NoteCircularAlternativeYellow = "#NOTE_CIRCULAR_ALTERNATIVE_YELLOW";
+    string NoteCircularAlternativePurple = "#NOTE_CIRCULAR_ALTERNATIVE_PURPLE";
+    string NoteCircularAlternativeCyan = "#NOTE_CIRCULAR_ALTERNATIVE_CYAN";
+
+    string NoteCircularHoldNeutral = "#NOTE_CIRCULAR_HOLD_NEUTRAL";
+    string NoteCircularHoldRed = "#NOTE_CIRCULAR_HOLD_RED";
+    string NoteCircularHoldGreen = "#NOTE_CIRCULAR_HOLD_GREEN";
+    string NoteCircularHoldBlue = "#NOTE_CIRCULAR_HOLD_BLUE";
+    string NoteCircularHoldYellow = "#NOTE_CIRCULAR_HOLD_YELLOW";
+    string NoteCircularHoldPurple = "#NOTE_CIRCULAR_HOLD_PURPLE";
+    string NoteCircularHoldCyan = "#NOTE_CIRCULAR_HOLD_CYAN";
+
+    string NoteLinearTapNeutral = "#NOTE_LINEAR_TAP_NEUTRAL";
+    string NoteLinearTapRed = "#NOTE_LINEAR_TAP_RED";
+    string NoteLinearTapGreen = "#NOTE_LINEAR_TAP_GREEN";
+    string NoteLinearTapBlue = "#NOTE_LINEAR_TAP_BLUE";
+    string NoteLinearTapYellow = "#NOTE_LINEAR_TAP_YELLOW";
+    string NoteLinearTapPurple = "#NOTE_LINEAR_TAP_PURPLE";
+    string NoteLinearTapCyan = "#NOTE_LINEAR_TAP_CYAN";
+
+    string NoteLinearAlternativeNeutral = "#NOTE_LINEAR_ALTERNATIVE_NEUTRAL";
+    string NoteLinearAlternativeRed = "#NOTE_LINEAR_ALTERNATIVE_RED";
+    string NoteLinearAlternativeGreen = "#NOTE_LINEAR_ALTERNATIVE_GREEN";
+    string NoteLinearAlternativeBlue = "#NOTE_LINEAR_ALTERNATIVE_BLUE";
+    string NoteLinearAlternativeYellow = "#NOTE_LINEAR_ALTERNATIVE_YELLOW";
+    string NoteLinearAlternativePurple = "#NOTE_LINEAR_ALTERNATIVE_PURPLE";
+    string NoteLinearAlternativeCyan = "#NOTE_LINEAR_ALTERNATIVE_CYAN";
+
+    string NoteLinearHoldNeutral = "#NOTE_LINEAR_HOLD_NEUTRAL";
+    string NoteLinearHoldRed = "#NOTE_LINEAR_HOLD_RED";
+    string NoteLinearHoldGreen = "#NOTE_LINEAR_HOLD_GREEN";
+    string NoteLinearHoldBlue = "#NOTE_LINEAR_HOLD_BLUE";
+    string NoteLinearHoldYellow = "#NOTE_LINEAR_HOLD_YELLOW";
+    string NoteLinearHoldPurple = "#NOTE_LINEAR_HOLD_PURPLE";
+    string NoteLinearHoldCyan = "#NOTE_LINEAR_HOLD_CYAN";
+
+    string LaneCircular = "#LANE_CIRCULAR";
+    string LaneLinear = "#LANE_LINEAR";
+
+    string SlotCircular = "#SLOT_CIRCULAR";
+    string SlotLinear = "#SLOT_LINEAR";
+
+    string JudgeLineCircular = "#JUDGE_LINE_CIRCULAR";
+    string JudgeLineLinear = "#JUDGE_LINE_LINEAR";
+}ParticleEffectName;
+
 #endif
