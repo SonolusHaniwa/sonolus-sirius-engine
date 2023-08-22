@@ -1,7 +1,7 @@
-class CriticalNote : public Archetype {
+class SiriusCriticalScratchHoldStart : public Archetype {
     public:
 
-    string name = "Sirius Critical Note";
+    string name = "Sirius Critical Scratch Hold Start";
     vector<pair<string, int> > data = {{"beat", 0}, {"lane", 1}, {"laneLength", 2}};
     bool hasInput = true;
 

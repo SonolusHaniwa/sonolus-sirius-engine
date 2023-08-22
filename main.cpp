@@ -45,12 +45,14 @@ struct Note {
     }
 };
 
-Json::Value fromSirius(string path, int bgmOffset) {
+Json::Value fromSirius(string path, double chartOffset) {
     // 谱面读取
     ifstream fin(path); vector<Note> notes;
     while (!fin.eof()) {
         char unused = 0;
         Note x; fin >> x.startTime >> unused >> x.endTime >> unused >> x.type >> unused >> x.leftLane >> unused >> x.laneLength >> unused;
+		if (x.endTime == 0) break;
+		x.startTime += chartOffset; if (x.endTime != 0) x.endTime += chartOffset;
         string s; fin >> s; x.scratchLength = atoi(s.substr(s.find(",") + 1).c_str());
         s = s.substr(0, s.find(","));
         if (s == "JumpScratch") x.gimmickType = JumpScratch;
@@ -113,7 +115,7 @@ Json::Value fromSirius(string path, int bgmOffset) {
                 SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
                 SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
             } break;
-            case Critical: case SoundPurple: case CriticalHoldStart: case ScratchCriticalHoldStart:  {
+            case Critical: case SoundPurple: {
                 single["archetype"] = "Sirius Critical Note";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
@@ -136,9 +138,25 @@ Json::Value fromSirius(string path, int bgmOffset) {
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
                 SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+            } break; 
+            case CriticalHoldStart: {
+                single["archetype"] = "Sirius Critical Hold Start";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
             } break;
             case ScratchHoldStart: {
                 single["archetype"] = "Sirius Scratch Hold Start";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+            } break;
+            case ScratchCriticalHoldStart: {
+                single["archetype"] = "Sirius Critical Scratch Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
@@ -178,18 +196,22 @@ Json::Value fromSirius(string path, int bgmOffset) {
     }
 
 	Json::Value data;
-	data["bgmOffset"] = bgmOffset;
+	data["bgmOffset"] = 0;
 	data["entities"] = res;
 	return data;
 }
 
 int main(int argc, char** argv) {
     // 谱面转换测试
-	if (argc >= 3) {
-		Json::Value LevelData = fromSirius(argv[1], 0);
+	if (argc >= 4) {
+		ifstream fin(argv[2]);
+		string s; fin >> s; fin >> s;
+		s = s.substr(s.find(",", s.find(",") + 1) + 1, 5);
+		stringstream ss; ss << s; double offset; ss >> offset;
+		Json::Value LevelData = fromSirius(argv[1], offset);
 		string dataJson = json_encode(LevelData);
 		buffer data = compress_gzip(dataJson, 9);
-		ofstream preFout(argv[2]);
+		ofstream preFout(argv[3]);
 		for (int i = 0; i < data.size(); i++) preFout << data.v[i];
 		preFout.close();
 	}
@@ -204,7 +226,11 @@ int main(int argc, char** argv) {
         Stage,
         NormalNote,
         CriticalNote,
-        FlickNote
+        FlickNote,
+		SiriusHoldStart,
+		SiriusCriticalHoldStart,
+		SiriusScratchHoldStart,
+		SiriusCriticalScratchHoldStart
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

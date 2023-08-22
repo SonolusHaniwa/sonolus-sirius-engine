@@ -19,7 +19,7 @@ class FlickNote : public Archetype {
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             EntityInput.set(0, 1),
             EntityInput.set(1, 0),
-            Play(Clips.Perfect, minSFXDistance),
+            Play(Clips.HoldStart, minSFXDistance),
             EntityDespawn.set(0, 1)
         } FI
     };
@@ -31,7 +31,7 @@ class FlickNote : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i].id),
             IF (!movedLast(touches[i])) { CONTINUE } FI,
-            JudgeNote(times.now, beat),
+            JudgeFlickNote(times.now, beat),
             EntityDespawn.set(0, 1),
         } DONE
     };

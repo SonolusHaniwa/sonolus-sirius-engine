@@ -1,6 +1,6 @@
 using namespace std;
 
-const double maxSize = 2.5;                     // 判定大小
+const double maxSize = 1.0;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
 const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比

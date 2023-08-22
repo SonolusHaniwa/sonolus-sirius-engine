@@ -1,7 +1,7 @@
-class CriticalNote : public Archetype {
+class SiriusScratchHoldStart : public Archetype {
     public:
 
-    string name = "Sirius Critical Note";
+    string name = "Sirius Scratch Hold Start";
     vector<pair<string, int> > data = {{"beat", 0}, {"lane", 1}, {"laneLength", 2}};
     bool hasInput = true;
 
@@ -14,11 +14,11 @@ class CriticalNote : public Archetype {
     var shouldSpawn = times.now > beat - appearTime;
 
     var updateSequential = {
-        drawNormalNote(Sprites.CriticalNote, lane, enLane, beat),
+        drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             EntityInput.set(0, 1),
             EntityInput.set(1, 0),
-            Play(Clips.Scratch, minSFXDistance),
+            Play(Clips.Perfect, minSFXDistance),
             EntityDespawn.set(0, 1)
         } FI
     };
@@ -30,7 +30,7 @@ class CriticalNote : public Archetype {
             IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i].id),
-            JudgeCriticalNote(times.now, beat),
+            JudgeNote(times.now, beat),
             EntityDespawn.set(0, 1),
         } DONE
     };

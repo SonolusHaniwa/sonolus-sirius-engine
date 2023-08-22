@@ -41,15 +41,55 @@ var JudgeNote(var t, var beat) {
                 Play(Clips.Perfect, minSFXDistance)
             })}, {2, Execute({
                 EntityInput.set(0, 2),
-                Play(Clips.Great, minSFXDistance)
+                Play(Clips.Perfect, minSFXDistance)
             })}, {3, Execute({
                 EntityInput.set(0, 3),
             })}, {0, Execute({
                 EntityInput.set(0, 0),
-                Play(Clips.Miss, minSFXDistance)
+                Play(Clips.Great, minSFXDistance)
             })}
         })
     });
+}
+
+var JudgeFlickNote(var t, var beat) {
+	return Execute({
+		EntityInput.set(1, t - beat),
+		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.good, judgment.good), {
+			{1, Execute({
+				EntityInput.set(0, 1),
+				Play(Clips.HoldStart, minSFXDistance)
+			})}, {2, Execute({
+				EntityInput.set(0, 2),
+				Play(Clips.HoldStart, minSFXDistance)
+			})}, {3, Execute({
+				EntityInput.set(0, 3),
+			})}, {0, Execute({
+				EntityInput.set(0, 0),
+				Play(Clips.Miss, minSFXDistance)
+			})}
+		})
+	});
+}
+
+var JudgeCriticalNote(var t, var beat) {
+	return Execute({
+		EntityInput.set(1, t - beat),
+		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
+			{1, Execute({
+				EntityInput.set(0, 1),
+				Play(Clips.Scratch, minSFXDistance)
+			})}, {2, Execute({
+				EntityInput.set(0, 2),
+				Play(Clips.Scratch, minSFXDistance)
+			})}, {3, Execute({
+				EntityInput.set(0, 3),
+			})}, {0, Execute({
+				EntityInput.set(0, 0),
+				Play(Clips.Miss, minSFXDistance)
+			})}
+		})
+	});
 }
 
 var movedLast(Touch touch) {

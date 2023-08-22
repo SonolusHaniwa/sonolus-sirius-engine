@@ -18,6 +18,10 @@ using namespace playData;
 #include"data/archetype/NormalNote.cpp"
 #include"data/archetype/CriticalNote.cpp"
 #include"data/archetype/FlickNote.cpp"
+#include"data/archetype/HoldStart.cpp"
+#include"data/archetype/CriticalHoldStart.cpp"
+#include"data/archetype/ScratchHoldStart.cpp"
+#include"data/archetype/CriticalScratchHoldStart.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"tutorialData/skins.cpp"
