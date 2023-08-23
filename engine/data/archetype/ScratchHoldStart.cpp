@@ -29,7 +29,7 @@ class SiriusScratchHoldStart : public Archetype {
             IF (touches[i].started == false) { CONTINUE } FI,
             IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
             IF (isUsed(touches[i])) { CONTINUE } FI,
-            markAsUsed(touches[i].id),
+            markAsUsed(touches[i]),
             JudgeNote(times.now, beat),
             EntityDespawn.set(0, 1),
         } DONE

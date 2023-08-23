@@ -13,6 +13,10 @@ class FlickNote : public Archetype {
     var spawnOrder = 1000 + beat;
     var shouldSpawn = times.now > beat - appearTime;
 
+	var preprocess = {
+		trackTouchId.set(0)
+	};
+
     var updateSequential = {
         drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
         drawArrow(lane, enLane, beat),
@@ -29,18 +33,31 @@ class FlickNote : public Archetype {
         FOR (i, 0, touches.size, 1) {
             IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
             IF (isUsed(touches[i])) { CONTINUE } FI,
-            markAsUsed(touches[i].id),
-            IF (!movedLast(touches[i])) { CONTINUE } FI,
-            JudgeFlickNote(times.now, beat),
-            EntityDespawn.set(0, 1),
+			IF (trackTouchId.get() == 0 && touches[i].started == 1) {
+	            markAsUsed(touches[i]),
+				trackTouchId.set(touches[i].id),
+			} ELSE {
+				IF (trackTouchId.get() != touches[i].id) { CONTINUE } FI,
+				IF (!movedLast(touches[i])) { CONTINUE } FI,
+				markAsUsed(touches[i]),
+				JudgeFlickNote(times.now, beat),
+				EntityDespawn.set(0, 1),
+			} FI
         } DONE
     };
 
     var updateParallel =  {
         IF (times.now > beat + judgment.good) {
-            EntityInput.set(0, 0),
-            EntityInput.set(1, 0),
-            EntityDespawn.set(0, 1)
-        } FI
+			IF (trackTouchId.get() != 0) {
+				EntityInput.set(0, 2),
+				EntityInput.set(1, 0),
+				Play(Clips.HoldStart, minSFXDistance),
+				EntityDespawn.set(0, 1),
+			} ELSE {
+				EntityInput.set(0, 0),
+				EntityInput.set(1, 0),
+				EntityDespawn.set(0, 1)		
+			} FI
+		} FI
     };
 };

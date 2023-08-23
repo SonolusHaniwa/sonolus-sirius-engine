@@ -129,6 +129,7 @@ class line {
     }
 
     Vec getPosition(var percent) {
+//		percent = Min(1, Max(0, percent));
         return Vec(
             Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, percent * (1 - judgelineMarginBottom)),
             Lerp(lt.y, lb.y, percent * (1 - judgelineMarginBottom))
@@ -136,6 +137,7 @@ class line {
     }
 
     var getWidth(var percent) {
+//		percent = Min(1, Max(0, percent));
         return Lerp((rt.x - lt.x), (rb.x - lb.x), percent * (1 - judgelineMarginBottom));
     }
 }lines;

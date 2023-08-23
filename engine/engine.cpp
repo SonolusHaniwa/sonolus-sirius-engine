@@ -22,6 +22,7 @@ using namespace playData;
 #include"data/archetype/CriticalHoldStart.cpp"
 #include"data/archetype/ScratchHoldStart.cpp"
 #include"data/archetype/CriticalScratchHoldStart.cpp"
+#include"data/archetype/HoldEighth.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"tutorialData/skins.cpp"

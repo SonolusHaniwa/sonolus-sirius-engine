@@ -79,8 +79,8 @@ Json::Value fromSirius(string path, double chartOffset) {
 	res.append(single);
 	single["archetype"] = "Sirius Stage";
 	res.append(single);
-    double lastTime[13][13];
-    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0;
+    double lastTime[13][13]; int lastType[13][13];
+    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastType[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
         // 提前处理 Sirius HoldEnd;
         while (holdEnd.size() && (*holdEnd.begin()).endTime <= notes[i].startTime) {
@@ -103,6 +103,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
                 SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
             } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
+			lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0;
         }
         // 处理当前 Note
         Note x = notes[i]; Json::Value single;
@@ -165,6 +166,7 @@ Json::Value fromSirius(string path, double chartOffset) {
             } break;
             case Hold: case CriticalHold: case ScratchHold: {
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
             case HoldEighth: {
@@ -173,6 +175,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
             } break;
             case None: {
@@ -230,7 +233,8 @@ int main(int argc, char** argv) {
 		SiriusHoldStart,
 		SiriusCriticalHoldStart,
 		SiriusScratchHoldStart,
-		SiriusCriticalScratchHoldStart
+		SiriusCriticalScratchHoldStart,
+		SiriusHoldEighth
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
