@@ -97,7 +97,7 @@ class score {
 }score;
 
 var ease(var x) {
-    return Remap(Power({1.06, -45}), 1.06, 0, 1, Power({1.06, 45 * (x - 1)}));
+    return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
 }
 
 class line {

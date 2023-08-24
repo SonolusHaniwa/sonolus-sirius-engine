@@ -52,6 +52,13 @@ var JudgeNote(var t, var beat) {
     });
 }
 
+var JudgeNoteMuted(var t, var beat) {
+	return Execute({
+		EntityInput.set(1, t - beat),
+		EntityInput.set(0, (JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good)))
+	});
+}
+
 var JudgeFlickNote(var t, var beat) {
 	return Execute({
 		EntityInput.set(1, t - beat),
@@ -93,16 +100,16 @@ var JudgeCriticalNote(var t, var beat) {
 }
 
 var movedLast(Touch touch) {
-    return Abs(touch.dx) >= 0.01 && Abs(touch.dy) >= 0.01;
+    return Abs(touch.dx) >= 0.001 && Abs(touch.dy) >= 0.001;
 }
 
 var drawHoldEighth(var sprite, var lane, var enLane, var stBeat, var enBeat) {
-	Vec c1 = lines[lane].getPosition(ease((times.now - stBeat) / appearTime + 1));
-	Vec c2 = lines[lane].getPosition(ease((times.now - enBeat) / appearTime + 1));
-	Vec c3 = lines[enLane].getPosition(ease((times.now - stBeat) / appearTime + 1));
-	Vec c4 = lines[enLane].getPosition(ease((times.now - enBeat) / appearTime + 1));
-	var w1 = lines[lane].getWidth(ease((times.now - stBeat) / appearTime + 1));
-	var w2 = lines[lane].getWidth(ease((times.now - enBeat) / appearTime + 1));
+	Vec c1 = lines[lane].getPosition(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
+	Vec c2 = lines[lane].getPosition(ease((Min(1, times.now - enBeat) / appearTime + 1)));
+	Vec c3 = lines[enLane].getPosition(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
+	Vec c4 = lines[enLane].getPosition(ease(Min(1, (times.now - enBeat) / appearTime + 1)));
+	var w1 = lines[lane].getWidth(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
+	var w2 = lines[lane].getWidth(ease(Min(1, (times.now - enBeat) / appearTime + 1)));
 	Vec lb = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0), lt = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0);
 	Vec rb = c3 + Vec(w1 / 2 - noteMoveLength, 0), rt = c4 + Vec(w2 / 2 - noteMoveLength, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8);

@@ -28,7 +28,7 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dplay # 编译程序
 ./main # 在 dist 文件夹下生成 EnginePlayData 和 EngineConfiguration
 g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程序
 ./main # 在 dist 文件夹下生成 EngineTutorialData 和 EngineConfiguration
-./main LevelData.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
+./main LevelData.txt music_config.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
 ```
 
 ## Custom Resources
@@ -46,7 +46,7 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程�
 |6|Sirius Scratch Arrow|
 |7|Sirius Hold|
 |8|Sirius Scratch|
-|9|Sirius Stage Background
+|9|Sirius Stage Background|
 
 ### Effect Clips
 

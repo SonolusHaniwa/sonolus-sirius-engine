@@ -1,15 +1,14 @@
-class SiriusHoldEighth : public Archetype {
+class SiriusHoldEnd : public Archetype {
     public:
 
-    string name = "Sirius Hold Eighth";
-    vector<pair<string, int> > data = {{"beat", 0}, {"lastBeat", 1}, {"lane", 2}, {"laneLength", 3}, {"holdType", 4}};
+    string name = "Sirius Hold End";
+    vector<pair<string, int> > data = {{"beat", 0}, {"lastBeat", 1}, {"lane", 2}, {"laneLength", 3}};
     bool hasInput = true;
 
     var beat = EntityData.get(0);
 	var lastBeat = EntityData.get(1);
     var lane = EntityData.get(2);
     var laneLength = EntityData.get(3);
-	var holdType = EntityData.get(4);
     var enLane = lane + laneLength - 1;
 
     var spawnOrder = 1000 + lastBeat;
@@ -21,16 +20,13 @@ class SiriusHoldEighth : public Archetype {
 	};
 
     var updateSequential = {
-		drawHoldEighth(SwitchWithDefault(holdType, {
-			{100, Sprites.Hold},
-			{101, Sprites.Hold},
-			{110, Sprites.Scratch},
-		}, Sprites.Hold), lane, enLane, lastBeat, beat),
+		drawHoldEighth(Sprites.Hold, lane, enLane, lastBeat, beat),
+		drawNormalNote(Sprites.HoldNote, lane, enLane, beat),
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 		} FI,
         IF (LevelOption.get(Options.Autoplay)) {
-			trackTouchId.set(beat)
+            trackTouchId.set(beat)
         } FI
     };
 
@@ -44,7 +40,7 @@ class SiriusHoldEighth : public Archetype {
 
     var updateParallel ={
         IF (times.now > beat) {
-            JudgeNoteMuted(trackTouchId.get(), beat),
+            JudgeNote(trackTouchId.get(), beat),
 			StopLooped(playLoopedId.get()),
             EntityDespawn.set(0, 1)
         } FI
