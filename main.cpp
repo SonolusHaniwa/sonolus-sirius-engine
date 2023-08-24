@@ -41,6 +41,7 @@ struct Note {
     int scratchLength;
 
     bool operator < (const Note& a) const {
+		if (a.endTime == endTime) return leftLane * 100 + laneLength < a.leftLane * 100 + a.laneLength;
         return endTime < a.endTime;
     }
 };
@@ -185,6 +186,30 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][2]["name"] = "split"; single["data"][2]["value"] = x.gimmickType - 10;
             } break;
         } if (single["archetype"] != "") res.append(single);
+    }
+
+	// 处理完 HoldEnd
+	while (holdEnd.size()) {
+        Note x = *holdEnd.begin(); holdEnd.erase(holdEnd.begin()); Json::Value single;
+        if (x.type == Hold || x.type == CriticalHold) {
+            single["archetype"] = "Sirius Hold End";
+            single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+            single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+            SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+        } else {
+            single["archetype"] = "Sirius Scratch Hold End";
+            single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+            single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
+            SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+            SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+        } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
+        lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0;
     }
 
     // 处理同步线
