@@ -44,9 +44,9 @@ var JudgeNote(var t, var beat) {
                 Play(Clips.Perfect, minSFXDistance)
             })}, {3, Execute({
                 EntityInput.set(0, 3),
+//				Play(Clips.Great, minSFXDistance)
             })}, {0, Execute({
                 EntityInput.set(0, 0),
-                Play(Clips.Great, minSFXDistance)
             })}
         })
     });
@@ -71,9 +71,9 @@ var JudgeFlickNote(var t, var beat) {
 				Play(Clips.HoldStart, minSFXDistance)
 			})}, {3, Execute({
 				EntityInput.set(0, 3),
+//				Play(Clips.Great, minSFXDistance)
 			})}, {0, Execute({
-				EntityInput.set(0, 0),
-				Play(Clips.Miss, minSFXDistance)
+				EntityInput.set(0, 0)
 			})}
 		})
 	});
@@ -90,10 +90,10 @@ var JudgeCriticalNote(var t, var beat) {
 				EntityInput.set(0, 2),
 				Play(Clips.Scratch, minSFXDistance)
 			})}, {3, Execute({
-				EntityInput.set(0, 3),
+//				EntityInput.set(0, 3),
+				Play(Clips.Great, minSFXDistance)
 			})}, {0, Execute({
-				EntityInput.set(0, 0),
-				Play(Clips.Miss, minSFXDistance)
+				EntityInput.set(0, 0)
 			})}
 		})
 	});
