@@ -18,7 +18,14 @@ class Stage: public Archetype {
         drawJudgeline()
     }; 
 
+    int touchOrder = 10000;
     var touch = {
-
+        FOR (i, 0, touches.size, 1) {
+            IF (touches[i].started == false) { CONTINUE } FI,
+            IF (lines.inClickBox(touches[i], 1, 12) == false) { CONTINUE } FI,
+            IF (isUsed(touches[i])) { CONTINUE } FI,
+            markAsUsed(touches[i]),
+            Play(Clips.Stage, minSFXDistance),
+        } DONE
     };
 };

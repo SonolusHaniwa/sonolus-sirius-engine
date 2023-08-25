@@ -21,9 +21,7 @@ class FlickNote : public Archetype {
         drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
         drawArrow(lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
-            EntityInput.set(0, 1),
-            EntityInput.set(1, 0),
-            Play(Clips.HoldStart, minSFXDistance),
+            JudgeFlickNote(beat, beat),
             EntityDespawn.set(0, 1)
         } FI
     };
@@ -51,7 +49,7 @@ class FlickNote : public Archetype {
 			IF (trackTouchId.get() != 0) {
 				EntityInput.set(0, 2),
 				EntityInput.set(1, 0),
-				Play(Clips.HoldStart, minSFXDistance),
+				Play(Clips.Scratch, minSFXDistance),
 				EntityDespawn.set(0, 1),
 			} ELSE {
 				EntityInput.set(0, 0),

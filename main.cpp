@@ -74,6 +74,12 @@ Json::Value fromSirius(string path, double chartOffset) {
     // 开始转换
 	Json::Value res, single; set<Note> holdEnd;
     map<double, int> SyncLineLeft, SyncLineRight;
+    auto addSyncLine = [&](double beat, int leftLane, int laneLength) {
+        if (SyncLineLeft.find(beat) == SyncLineLeft.end()) SyncLineLeft[beat] = leftLane;
+        else SyncLineLeft[beat] = min(SyncLineLeft[beat], leftLane);
+        if (SyncLineRight.find(beat) == SyncLineRight.end()) SyncLineRight[beat] = leftLane + laneLength - 1;
+        else SyncLineRight[beat] = max(SyncLineRight[beat], leftLane + laneLength - 1);
+    };
 	single["archetype"] = "Sirius Initialization";
 	res.append(single);
 	single["archetype"] = "Sirius Input Manager";
@@ -92,8 +98,6 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-                SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
             } else {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
@@ -101,76 +105,77 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
-                SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
             } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
-			lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0;
+			lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
         }
         // 处理当前 Note
         Note x = notes[i]; Json::Value single;
         switch(x.type) {
-            case Normal: case Sound: {
+            case Normal: {
                 single["archetype"] = "Sirius Normal Note";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
-            case Critical: case SoundPurple: {
+            case Critical: {
                 single["archetype"] = "Sirius Critical Note";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
             case Flick: {
                 single["archetype"] = "Sirius Flick Note";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
             case HoldStart: {
                 single["archetype"] = "Sirius Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break; 
             case CriticalHoldStart: {
                 single["archetype"] = "Sirius Critical Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
             case ScratchHoldStart: {
                 single["archetype"] = "Sirius Scratch Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
             case ScratchCriticalHoldStart: {
                 single["archetype"] = "Sirius Critical Scratch Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-                SyncLineLeft[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-                SyncLineRight[x.startTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
             } break;
             case Hold: case CriticalHold: case ScratchHold: {
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
+            case Sound: case SoundPurple: {
+                single["archetype"] = "Sirius Sound";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
+                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+            } break;
             case HoldEighth: {
+                if (lastTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
                 single["archetype"] = "Sirius Hold Eighth";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
@@ -197,8 +202,6 @@ Json::Value fromSirius(string path, double chartOffset) {
             single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-            SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-            SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
@@ -206,16 +209,13 @@ Json::Value fromSirius(string path, double chartOffset) {
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
-            SyncLineLeft[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
-            SyncLineRight[x.endTime] = 1.0 * (x.leftLane * 2 + x.laneLength - 1) / 2;
         } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
-        lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0;
+        lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
 
     // 处理同步线
     for (auto v : SyncLineLeft) {
         double beat = v.first; int left = v.second;
-        if (SyncLineRight[beat] == left) continue;
         Json::Value single; single["archetype"] = "Sirius Sync Line";
         single["data"][0]["name"] = "beat"; single["data"][0]["value"] = beat;
         single["data"][1]["name"] = "left"; single["data"][1]["value"] = left;
@@ -260,8 +260,11 @@ int main(int argc, char** argv) {
 		SiriusScratchHoldStart,
 		SiriusCriticalScratchHoldStart,
 		SiriusHoldEighth,
+        SiriusSound,
 		SiriusHoldEnd,
-		SiriusScratchHoldEnd
+		SiriusScratchHoldEnd,
+        SyncLine,
+        SplitLine
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

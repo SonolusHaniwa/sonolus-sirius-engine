@@ -32,6 +32,38 @@ var drawArrow(var lane, var enLane, var beat) {
     });
 }
 
+var drawLeftArrow(var lane, var enLane, var beat) {
+    var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    var multiplier = w / lines[lane].getWidth(1);
+    Vec c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1));
+    Vec c2 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1));
+    var W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    var L = c1.x - w / 2, R = c2.x + w / 2;
+    var num = w * (enLane - lane + 1) * arrowPercent / W;
+    return Execute({
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, L + (i - 1) * W / 2, c1.y, L + (i - 1) * W / 2, c1.y + H / 2, 
+                L + (i + 1) * W / 2, c1.y + H / 2, L + (i + 1) * W / 2, c1.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
+        } DONE,
+    });
+}
+
+var drawRightArrow(var lane, var enLane, var beat) {
+    var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    var multiplier = w / lines[lane].getWidth(1);
+    Vec c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1));
+    Vec c2 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1));
+    var W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    var L = c1.x - w / 2, R = c2.x + w / 2;
+    var num = w * (enLane - lane + 1) * arrowPercent / W;
+    return Execute({
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, R - (i - 1) * W / 2, c2.y, R - (i - 1) * W / 2, c2.y + H / 2, 
+                R - (i + 1) * W / 2, c2.y + H / 2, R - (i + 1) * W / 2, c2.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
+        } DONE
+    });
+}
+
 var JudgeNote(var t, var beat) {
     return Execute({
         EntityInput.set(1, t - beat),
@@ -44,7 +76,7 @@ var JudgeNote(var t, var beat) {
                 Play(Clips.Perfect, minSFXDistance)
             })}, {3, Execute({
                 EntityInput.set(0, 3),
-//				Play(Clips.Great, minSFXDistance)
+				Play(Clips.Good, minSFXDistance)
             })}, {0, Execute({
                 EntityInput.set(0, 0),
             })}
@@ -65,13 +97,13 @@ var JudgeFlickNote(var t, var beat) {
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.good, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),
-				Play(Clips.HoldStart, minSFXDistance)
+				Play(Clips.Scratch, minSFXDistance)
 			})}, {2, Execute({
 				EntityInput.set(0, 2),
-				Play(Clips.HoldStart, minSFXDistance)
+				Play(Clips.Scratch, minSFXDistance)
 			})}, {3, Execute({
 				EntityInput.set(0, 3),
-//				Play(Clips.Great, minSFXDistance)
+				Play(Clips.Good, minSFXDistance)
 			})}, {0, Execute({
 				EntityInput.set(0, 0)
 			})}
@@ -85,13 +117,13 @@ var JudgeCriticalNote(var t, var beat) {
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),
-				Play(Clips.Scratch, minSFXDistance)
+				Play(Clips.CriticalPerfect, minSFXDistance)
 			})}, {2, Execute({
 				EntityInput.set(0, 2),
-				Play(Clips.Scratch, minSFXDistance)
+				Play(Clips.CriticalPerfect, minSFXDistance)
 			})}, {3, Execute({
-//				EntityInput.set(0, 3),
-				Play(Clips.Great, minSFXDistance)
+				EntityInput.set(0, 3),
+				Play(Clips.Good, minSFXDistance)
 			})}, {0, Execute({
 				EntityInput.set(0, 0)
 			})}
@@ -113,4 +145,62 @@ var drawHoldEighth(var sprite, var lane, var enLane, var stBeat, var enBeat) {
 	Vec lb = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0), lt = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0);
 	Vec rb = c3 + Vec(w1 / 2 - noteMoveLength, 0), rt = c4 + Vec(w2 / 2 - noteMoveLength, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8);
+}
+
+var drawTick(var sprite, var beat, var lane, var enLane) {
+    var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    var multiplier = w / lines[lane].getWidth(1);
+    Vec c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) - tickHeight / 2 / stage.h * multiplier);
+    Vec c2 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) + tickHeight / 2 / stage.h * multiplier);
+    Vec c3 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) - tickHeight / 2 / stage.h * multiplier);
+    Vec c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + tickHeight / 2 / stage.h * multiplier);
+    var m1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - tickHeight / 2 / stage.h * multiplier) / lines[lane].getWidth(1);
+    var m2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + tickHeight / 2 / stage.h * multiplier) / lines[lane].getWidth(1);
+	Vec cb = Vec((c2.x + c4.x) / 2, (c2.y + c4.y) / 2), ct = Vec((c1.x + c3.x) / 2, (c1.y + c3.y) / 2);
+	Vec lb = cb + Vec(-1 * m2 * tickWidth / 2, 0), lt = ct + Vec(-1 * m1 * tickWidth / 2, 0);
+	Vec rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
+	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 0.5);
+}
+
+var drawSyncLine(var beat, var lane, var enLane) {
+    var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    var multiplier = w / lines[lane].getWidth(1);
+    Vec c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) - syncLineHeight / 2 / stage.h * multiplier);
+    Vec c2 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) + syncLineHeight / 2 / stage.h * multiplier);
+    Vec c3 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) - syncLineHeight / 2 / stage.h * multiplier);
+    Vec c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + syncLineHeight / 2 / stage.h * multiplier);
+    var w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - syncLineHeight / 2 / stage.h * multiplier);
+    var w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + syncLineHeight / 2 / stage.h * multiplier);
+    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0);
+    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength, 0), rt = c3 + Vec(w1 / 2 - noteMoveLength, 0);
+    return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 5, 0.8);
+}
+
+// 上面为 0，下面为 1
+var drawLine(var id, var st, var en) {
+    Vec c1 = lines[id + 1].getPosition(ease(st));
+    Vec c2 = lines[id + 1].getPosition(ease(en));
+	var w1 = lines[id + 1].getWidth(ease(st));
+	var w2 = lines[id + 1].getWidth(ease(en));
+	Vec c3 = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0);
+	Vec c4 = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0);
+	Vec lb = c4 + Vec(-1 * noteMoveLength, 0), lt = c3 + Vec(-1 * noteMoveLength, 0);
+	Vec rb = c4 + Vec(noteMoveLength, 0), rt = c3 + Vec(noteMoveLength, 0);
+	return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, 1);
+}
+
+var drawEndLine(var st, var en) {
+
+}
+
+var drawSplitLine(var split) {
+	return drawLine(0, 0, 1);
+}
+
+var drawDisappearLine(var t, var split) {
+
+}
+
+var drawAppearLine(var t, var split) {
+	
 }

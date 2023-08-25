@@ -15,6 +15,10 @@ const var arrowWidth = 80.0 / 640.0;            // 箭头宽度
 const var arrowHeight = 240.0 / 640.0;          // 箭头高度
 const var arrowPercent = 1.6;                   // 箭头所占比例
 const var arrowSpeed = 20;                      // 箭头速率常数
+const var tickWidth = 168.0 / 640.0;            // tick 宽度
+const var tickHeight = 112.0 / 640.0;           // tick 高度
+const var syncLineHeight = 5.0 / 640.0;         // 同步线高度
+const var splitLineDumpLength = 0.75;           // 分裂线动画长度, basic: 0.7595
 
 class Vec {
     public:
