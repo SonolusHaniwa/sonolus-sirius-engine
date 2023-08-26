@@ -45,6 +45,7 @@ class SiriusScratchHoldEnd : public Archetype {
         IF (LevelOption.get(Options.Autoplay) || times.now < lastBeat) { Return(0) } FI,
         FOR (i, 0, touches.size, 1) {
             IF (!lines.inClickBox(touches[i], scratchLane, scratchEnLane)) { CONTINUE } FI,
+            trackTouchId.set(Max(trackTouchId.get(), beat - judgment.great)),
 			IF (!movedLast(touches[i])) { CONTINUE } FI,
             trackTouchId.set(beat)
         } DONE
