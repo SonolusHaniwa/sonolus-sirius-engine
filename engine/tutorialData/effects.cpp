@@ -3,23 +3,23 @@ using namespace std;
 class Clips {
     public:
 
-    int Miss = 0;
-    int Great = 1;
-    int FlickGreat = 2;
+    int Stage = 0;
+    int Good = 1;
+    int CriticalGood = 2;
     int Perfect = 3;
-    int FlickPerfect = 4;
-    int HoldStart = 5;
-    int Scratch = 6;
-    int Hold = 7;
+    int CriticalPerfect = 4;
+    int Scratch = 5;
+    int Hold = 6;
+    int Sound = 7;
 }Clips;
 
 auto effects = defineEffects<class Clips>({
-    {"Sirius Miss", Clips.Miss},
-    {"Sirius Great", Clips.Great},
-    {"Sirius Flick Great", Clips.FlickGreat},
-    {"Sirius Perfect", Clips.Perfect},
-    {"Sirius Flick Perfect", Clips.FlickPerfect},
-    {"Sirius Hold Start", Clips.HoldStart},
+    {EffectClipName.Stage, Clips.Stage},
+    {EffectClipName.Good, Clips.Good},
+    {EffectClipName.GoodAlternative, Clips.CriticalGood},
+    {EffectClipName.Perfect, Clips.Perfect},
+    {EffectClipName.PerfectAlternative, Clips.CriticalPerfect},
     {"Sirius Scratch", Clips.Scratch},
-    {"Sirius Hold", Clips.Hold}
+    {EffectClipName.Hold, Clips.Hold},
+    {EffectClipName.HoldAlternative, Clips.Sound},
 });
