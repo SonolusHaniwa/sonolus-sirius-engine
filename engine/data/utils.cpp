@@ -177,7 +177,7 @@ var drawSyncLine(var beat, var lane, var enLane) {
 }
 
 // 上面为 0，下面为 1
-var drawLine(var id, var st, var en) {
+var drawLine(var id, var st, var en, var a = 1) {
     Vec c1 = lines[id + 1].getFullPosition(ease(st));
     Vec c2 = lines[id + 1].getFullPosition(ease(en));
 	var w1 = lines[id + 1].getFullWidth(ease(st));
@@ -186,10 +186,10 @@ var drawLine(var id, var st, var en) {
 	Vec c4 = c2 + Vec(-1 * w2 / 2 - noteMoveLength, 0);
 	Vec lb = c4 + Vec(-1 * noteMoveLength, 0), lt = c3 + Vec(-1 * noteMoveLength, 0);
 	Vec rb = c4 + Vec(noteMoveLength, 0), rt = c3 + Vec(noteMoveLength, 0);
-	return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, LevelOption.get(Options.SplitLine));
+	return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
-var drawEndLine(var st, var en) {
+var drawEndLine(var st, var en, var a = 1) {
     Vec c1 = lines[12].getFullPosition(ease(st));
     Vec c2 = lines[12].getFullPosition(ease(en));
 	var w1 = lines[12].getFullWidth(ease(st));
@@ -198,7 +198,7 @@ var drawEndLine(var st, var en) {
 	Vec c4 = c2 + Vec(1 * w2 / 2 + noteMoveLength, 0);
 	Vec lb = c4 + Vec(-1 * noteMoveLength, 0), lt = c3 + Vec(-1 * noteMoveLength, 0);
 	Vec rb = c4 + Vec(noteMoveLength, 0), rt = c3 + Vec(noteMoveLength, 0);
-	return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, LevelOption.get(Options.SplitLine));
+	return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
 var drawSplitLine(var split) {
@@ -217,33 +217,35 @@ var drawSplitLine(var split) {
 }
 
 var drawDisappearLine(var t, var split) {
-    var p = 1 - t / splitLineDumpLength;
+    var p = 1;
+    var a = 1 - t / 0.2;
 	return Execute({
-        drawLine(0, 0, p),
-        drawEndLine(0, p),
+        drawLine(0, 0, p, a),
+        drawEndLine(0, p, a),
         Switch(split, {
             {1, {}},
-            {2, drawLine(6, 0, p)},
-            {3, {drawLine(4, 0, p), drawLine(8, 0, p)}},
-            {4, {drawLine(3, 0, p), drawLine(6, 0, p), drawLine(9, 0, p)}},
-            {5, {drawLine(3, 0, p), drawLine(5, 0, p), drawLine(7, 0, p), drawLine(9, 0, p)}},
-            {6, {drawLine(2, 0, p), drawLine(4, 0, p), drawLine(6, 0, p), drawLine(8, 0, p), drawLine(10, 0, p)}}
+            {2, drawLine(6, 0, p, a)},
+            {3, {drawLine(4, 0, p, a), drawLine(8, 0, p, a)}},
+            {4, {drawLine(3, 0, p, a), drawLine(6, 0, p, a), drawLine(9, 0, p, a)}},
+            {5, {drawLine(3, 0, p, a), drawLine(5, 0, p, a), drawLine(7, 0, p, a), drawLine(9, 0, p, a)}},
+            {6, {drawLine(2, 0, p, a), drawLine(4, 0, p, a), drawLine(6, 0, p, a), drawLine(8, 0, p, a), drawLine(10, 0, p, a)}}
         })
     });
 }
 
 var drawAppearLine(var t, var split) {
     var p = 1 - t / splitLineDumpLength;
+    var a = 1;
 	return Execute({
-        drawLine(0, p, 1),
-        drawEndLine(p, 1),
+        drawLine(0, p, 1, a),
+        drawEndLine(p, 1, a),
         Switch(split, {
             {1, {}},
-            {2, drawLine(6, p, 1)},
-            {3, {drawLine(4, p, 1), drawLine(8, p, 1)}},
-            {4, {drawLine(3, p, 1), drawLine(6, p, 1), drawLine(9, p, 1)}},
-            {5, {drawLine(3, p, 1), drawLine(5, p, 1), drawLine(7, p, 1), drawLine(9, p, 1)}},
-            {6, {drawLine(2, p, 1), drawLine(4, p, 1), drawLine(6, p, 1), drawLine(8, p, 1), drawLine(10, p, 1)}}
+            {2, drawLine(6, p, 1, a)},
+            {3, {drawLine(4, p, 1, a), drawLine(8, p, 1, a)}},
+            {4, {drawLine(3, p, 1, a), drawLine(6, p, 1, a), drawLine(9, p, 1, a)}},
+            {5, {drawLine(3, p, 1, a), drawLine(5, p, 1, a), drawLine(7, p, 1, a), drawLine(9, p, 1, a)}},
+            {6, {drawLine(2, p, 1, a), drawLine(4, p, 1, a), drawLine(6, p, 1, a), drawLine(8, p, 1, a), drawLine(10, p, 1, a)}}
         })
     });
 }
