@@ -32,12 +32,12 @@ class Initialization: public Archetype {
             var secondaryMetricValueY = secondaryMetricBarY - 0.035 * ui.secondaryMetricConfiguration.scale;
             // 连击指标参数
             var comboValueWidth = 0 * ui.comboConfiguration.scale;
-            var comboValueHeight = stage.h * 0.08 * ui.comboConfiguration.scale;
-            var comboValueX = stage.w * 0.475;
+            var comboValueHeight = screen.h * 0.08 * ui.comboConfiguration.scale;
+            var comboValueX = screen.w * 0.4;
             var comboValueY = Lerp(t, b, 0.425);
             var comboTextWidth = 0 * ui.comboConfiguration.scale;
-            var comboTextHeight = stage.h * 0.033 * ui.comboConfiguration.scale;
-            var comboTextX = stage.w * 0.475;
+            var comboTextHeight = screen.h * 0.033 * ui.comboConfiguration.scale;
+            var comboTextX = screen.w * 0.4;
             var comboTextY = Lerp(t, b, 0.425);
             // 判定指标参数
             var judgmentX = 0, judgmentY = -0.115 * stage.h;
@@ -55,6 +55,17 @@ class Initialization: public Archetype {
                 LevelScore.set(0, score.perfect),
                 LevelScore.set(1, score.great),
                 LevelScore.set(2, score.good),
+                lifes[3].set(0, 0, 0, -80),
+                lifes[4].set(0, 0, 0, -80),
+                lifes[5].set(0, 0, 0, -80),
+                lifes[6].set(0, 0, 0, -80),
+                lifes[7].set(0, 0, 0, -80),
+                lifes[8].set(0, 0, 0, -80),
+                lifes[9].set(0, 0, 0, -80),
+                lifes[10].set(0, 0, 0, -40),
+                lifes[11].set(0, 0, 0, -40),
+                lifes[12].set(0, 0, 0, -80),
+                lifes[13].set(0, 0, 0, -80),
             });
         }()
     };

@@ -17,7 +17,10 @@ class SiriusHoldEighth : public Archetype {
 
 	var preprocess = {
 		playLoopedId.set(0),
-		trackTouchId.set(0)
+		trackTouchId.set(0),
+        IF (LevelOption.get(Options.Mirror)) {
+            EntityData.set(2, 13 - enLane)
+        } FI
 	};
 
     var updateSequential = {

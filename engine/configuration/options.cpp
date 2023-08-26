@@ -3,14 +3,13 @@ using namespace std;
 class Options {
     public:
     
-    int Autoplay = 0;
+    int Autoplay = 0;         // Supported
     int Mirror = 1;
     int SplitRandom = 2;
-    int NoteSpeed = 3;
-    int NoteSize = 4;
-    int SyncLine = 5;
-    int LockAspectRatio = 6;
-    int SplitLine = 7;
+    int NoteSpeed = 3;        // Supported
+    int SyncLine = 4;         // Supported
+    int LockAspectRatio = 5;  // Supported
+    int SplitLine = 6;        // Supported
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -40,15 +39,6 @@ auto options = defineOptions<class Options>({
         def: 5,
         min: 1,
         max: 20,
-        step: 0.1,
-    }, {
-        name: NameText.NoteSize,
-        scope: Scope,
-        standard: 0,
-        type: OptionType.Slider,
-        def: 1,
-        min: 0.5,
-        max: 2.0,
         step: 0.1,
     }, {
         name: NameText.SimultaneousLineVisibility,

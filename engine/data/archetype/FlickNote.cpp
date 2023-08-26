@@ -14,7 +14,10 @@ class FlickNote : public Archetype {
     var shouldSpawn = times.now > beat - appearTime;
 
 	var preprocess = {
-		trackTouchId.set(0)
+		trackTouchId.set(0),
+        IF (LevelOption.get(Options.Mirror)) {
+            EntityData.set(1, 13 - enLane)
+        } FI
 	};
 
     var updateSequential = {

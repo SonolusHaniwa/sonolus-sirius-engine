@@ -13,16 +13,15 @@ class SplitLine: public Archetype {
     var shouldSpawn = times.now > beat;
 
     var updateSequential = {
-        drawSplitLine(split)
-        // IF (times.now > endBeat) {
-        //     drawDisappearLine(times.now - endBeat, split)
-        // } ELSE {
-        //     IF (times.now < beat + splitLineDumpLength) {
-        //         drawAppearLine(times.now - beat, split)
-        //     } ELSE {
-        //         drawSplitLine(split)
-        //     } FI
-        // } FI
+        IF (times.now > endBeat) {
+            drawDisappearLine(times.now - endBeat, split)
+        } ELSE {
+            IF (times.now < beat + splitLineDumpLength) {
+                drawAppearLine(times.now - beat, split)
+            } ELSE {
+                drawSplitLine(split)
+            } FI
+        } FI
     };
 
     var updateParallel = {

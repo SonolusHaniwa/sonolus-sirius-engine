@@ -12,8 +12,18 @@ class SyncLine: public Archetype {
     var spawnOrder = 1000 + beat;
     var shouldSpawn = times.now > beat - appearTime;
 
+    var preprocess = {
+        IF (LevelOption.get(Options.Mirror)) {
+            playLoopedId.set(left),
+            EntityData.set(1, 13 - right),
+            EntityData.set(2, 13 - playLoopedId.get())
+        } FI
+    };
+
     var updateSequential = {
-        drawSyncLine(beat, left, right)
+        IF (LevelOption.get(Options.SyncLine) == 1) {
+            drawSyncLine(beat, left, right)
+        } FI
     };
 
     var updateParallel = {

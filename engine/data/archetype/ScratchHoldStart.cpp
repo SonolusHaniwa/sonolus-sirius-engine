@@ -13,6 +13,12 @@ class SiriusScratchHoldStart : public Archetype {
     var spawnOrder = 1000 + beat;
     var shouldSpawn = times.now > beat - appearTime;
 
+    var preprocess = {
+        IF (LevelOption.get(Options.Mirror)) {
+            EntityData.set(1, 13 - enLane)
+        } FI
+    };
+
     var updateSequential = {
         drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
