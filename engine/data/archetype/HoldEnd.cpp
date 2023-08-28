@@ -44,6 +44,7 @@ class SiriusHoldEnd : public Archetype {
     var updateParallel ={
         IF (times.now > beat) {
             JudgeNote(trackTouchId.get(), beat),
+			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
 			StopLooped(playLoopedId.get()),
             EntityDespawn.set(0, 1)
         } FI

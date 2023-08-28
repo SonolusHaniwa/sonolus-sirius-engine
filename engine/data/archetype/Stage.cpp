@@ -19,13 +19,25 @@ class Stage: public Archetype {
     }; 
 
     int touchOrder = 10000;
+	var playStageParticle(Touch touch) {
+		var res = Execute({});
+		for (int i = 1; i <= 12; i++) {
+			res.args.push_back(Execute({
+				IF (lines.inClickBox(touch, i, i)) {
+					spawnLineEffect(i, i)
+				} FI
+			}));
+		}; return res;
+	}
     var touch = {
+		IF (LevelOption.get(Options.Autoplay)) { Return(0) } FI,
         FOR (i, 0, touches.size, 1) {
             IF (touches[i].started == false) { CONTINUE } FI,
             IF (lines.inClickBox(touches[i], 1, 12) == false) { CONTINUE } FI,
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             Play(Clips.Stage, minSFXDistance),
+			playStageParticle(touches[i])
         } DONE
     };
 };

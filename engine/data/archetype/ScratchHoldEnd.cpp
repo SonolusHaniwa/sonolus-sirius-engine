@@ -54,6 +54,7 @@ class SiriusScratchHoldEnd : public Archetype {
     var updateParallel = {
         IF ((times.now > beat && trackTouchId.get() != 0) || times.now > beat + judgment.good) {
             JudgeFlickNote(trackTouchId.get(), beat),
+			spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane),
 			StopLooped(playLoopedId.get()),
             EntityDespawn.set(0, 1)
         } FI

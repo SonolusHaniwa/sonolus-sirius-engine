@@ -12,6 +12,28 @@ var drawNormalNote(var sprite, var lane, var enLane, var beat) {
     return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
 }
 
+var spawnLineEffect(var lane, var enLane) {
+	var wt = lines[lane].getFullWidth(0), wb = lines[lane].getFullWidth(1);
+	Vec lb = lines[lane].getFullPosition(1) + Vec(-1 * wb / 2.0, 0), rb = lines[enLane].getFullPosition(1) + Vec(wb / 2.0, 0);
+	Vec lt = lines[lane].getFullPosition(0) + Vec(-1 * wt / 2.0, 0), rt = lines[enLane].getFullPosition(0) + Vec(wt / 2.0, 0);
+	return SpawnParticleEffect(Effects.Lane, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0);
+}
+
+var spawnEffect(var linear, var circular, var lane, var enLane) {
+	var w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	Vec c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	Vec c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	Vec lb = c1 + Vec(-1 * w / 2, 0), lt = c1 + Vec(-1 * w / 2, effectLinearHeight);
+	Vec rb = c2 + Vec(w / 2, 0), rt = c2 + Vec(w / 2, effectLinearHeight);
+	Vec lb2 = c1 + Vec(-1 * w / 2, 0), lt2 = c1 + Vec(-1 * w / 2, effectCircularHeight);
+	Vec rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
+	return Execute({
+		SpawnParticleEffect(linear, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0),
+		SpawnParticleEffect(circular, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 0),
+		spawnLineEffect(lane, enLane)
+	});
+}
+
 var drawArrow(var lane, var enLane, var beat) {
     var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
     var multiplier = w / lines[lane].getWidth(1);

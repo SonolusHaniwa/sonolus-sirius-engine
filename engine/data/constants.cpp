@@ -1,6 +1,6 @@
 using namespace std;
 
-const double maxSize = 1.0;                     // 判定大小
+const double maxSize = 0.2;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
 const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比
@@ -19,6 +19,10 @@ const var tickWidth = 168.0 / 640.0;            // tick 宽度
 const var tickHeight = 112.0 / 640.0;           // tick 高度
 const var syncLineHeight = 5.0 / 640.0;         // 同步线高度
 const var splitLineDumpLength = 0.75;           // 分裂线动画长度, basic: 0.7595
+const var effectLinearHeight = 280.0 / 640.0;   // 特效高度
+const var effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
+const var effectDurationTime = 0.5;             // 特效持续时间
+const var effectDistance = 20.0 / 640.0;        // 特效微调距离
 
 class Vec {
     public:

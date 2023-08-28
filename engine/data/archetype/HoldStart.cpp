@@ -23,6 +23,7 @@ class SiriusHoldStart : public Archetype {
         drawNormalNote(Sprites.HoldNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeNote(beat, beat),
+			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
             EntityDespawn.set(0, 1)
         } FI
     };
@@ -35,6 +36,7 @@ class SiriusHoldStart : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeNote(times.now, beat),
+			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
             EntityDespawn.set(0, 1),
         } DONE
     };

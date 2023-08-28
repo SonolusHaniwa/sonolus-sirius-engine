@@ -23,6 +23,7 @@ class SiriusCriticalHoldStart : public Archetype {
         drawNormalNote(Sprites.CriticalNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeCriticalNote(beat, beat),
+			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
             EntityDespawn.set(0, 1)
         } FI
     };
@@ -35,6 +36,7 @@ class SiriusCriticalHoldStart : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeCriticalNote(times.now, beat),
+			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
             EntityDespawn.set(0, 1),
         } DONE
     };
