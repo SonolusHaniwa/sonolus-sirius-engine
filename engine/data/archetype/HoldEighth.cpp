@@ -18,6 +18,7 @@ class SiriusHoldEighth : public Archetype {
 	var preprocess = {
 		playLoopedId.set(0),
 		trackTouchId.set(0),
+		isHighlighted.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
         } FI
@@ -31,6 +32,11 @@ class SiriusHoldEighth : public Archetype {
 		}, Sprites.Hold), lane, enLane, lastBeat, beat),
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
+			isHighlighted.set(spawnHoldEffect(SwitchWithDefault(holdType, {
+				{100, Effects.Hold},
+				{101, Effects.Hold},
+				{110, Effects.Scratch}
+			}, Effects.Hold), lane, enLane))
 		} FI,
         IF (LevelOption.get(Options.Autoplay)) {
 			trackTouchId.set(beat)
@@ -49,6 +55,7 @@ class SiriusHoldEighth : public Archetype {
         IF (times.now > beat) {
             JudgeNoteMuted(trackTouchId.get(), beat),
 			StopLooped(playLoopedId.get()),
+			DestroyParticleEffect(isHighlighted.get()),
             EntityDespawn.set(0, 1)
         } FI
     };

@@ -12,6 +12,8 @@ class Effects {
 	int HoldCircular = 6;
 	int ScratchLinear = 7;
 	int ScratchCircular = 8;
+	int Hold = 9;
+	int Scratch = 10;
 }Effects;
 
 auto particles = defineParticles<class Effects>({
@@ -23,5 +25,7 @@ auto particles = defineParticles<class Effects>({
 	{"#NOTE_LINEAR_TAP_GREEN", Effects.HoldLinear},
 	{"#NOTE_CIRCULAR_TAP_GREEN", Effects.HoldCircular},
 	{"#NOTE_LINEAR_TAP_CYAN", Effects.ScratchLinear},
-	{"#NOTE_CIRCULAR_TAP_CYAN", Effects.ScratchCircular}
+	{"#NOTE_CIRCULAR_TAP_CYAN", Effects.ScratchCircular},
+	{"#NOTE_CIRCULAR_HOLD_GREEN", Effects.Hold},
+	{"#NOTE_CIRCULAR_HOLD_CYAN", Effects.Scratch}
 });
