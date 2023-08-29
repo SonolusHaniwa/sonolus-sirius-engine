@@ -25,6 +25,7 @@ class SiriusHoldEnd : public Archetype {
     var updateSequential = {
 		drawHoldEighth(Sprites.Hold, lane, enLane, lastBeat, beat),
 		drawNormalNote(Sprites.HoldNote, lane, enLane, beat),
+        IF (times.now > lastBeat) { drawNormalNote(Sprites.HoldNote, lane, enLane, times.now) } FI,
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 		} FI,

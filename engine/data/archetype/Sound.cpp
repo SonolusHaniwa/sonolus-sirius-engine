@@ -34,6 +34,11 @@ class SiriusSound : public Archetype {
 			{101, Sprites.TouchTick},
 			{110, Sprites.TouchScratchTick},
 		}, Sprites.TouchTick), beat, lane, enLane),
+        IF (times.now > lastBeat) { drawNormalNote(SwitchWithDefault(holdType, {
+			{100, Sprites.HoldNote},
+			{101, Sprites.HoldNote},
+			{110, Sprites.ScratchNote},
+		}, Sprites.HoldNote), lane, enLane, times.now) } FI,
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 		} FI,

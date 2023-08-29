@@ -30,6 +30,11 @@ class SiriusHoldEighth : public Archetype {
 			{101, Sprites.Hold},
 			{110, Sprites.Scratch},
 		}, Sprites.Hold), lane, enLane, lastBeat, beat),
+        IF (times.now > lastBeat) { drawNormalNote(SwitchWithDefault(holdType, {
+			{100, Sprites.HoldNote},
+			{101, Sprites.HoldNote},
+			{110, Sprites.ScratchNote},
+		}, Sprites.HoldNote), lane, enLane, times.now) } FI,
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 			isHighlighted.set(spawnHoldEffect(SwitchWithDefault(holdType, {

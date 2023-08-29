@@ -29,6 +29,7 @@ class SiriusScratchHoldEnd : public Archetype {
     var updateSequential = {
 		drawHoldEighth(Sprites.Scratch, lane, enLane, lastBeat, beat),
 		drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, beat),
+        IF (times.now > lastBeat) { drawNormalNote(Sprites.ScratchNote, lane, enLane, times.now) } FI,
         IF (scratchLength > 0) { drawRightArrow(scratchLane, scratchEnLane, beat) } ELSE {
             IF (scratchLength < 0) { drawLeftArrow(scratchLane, scratchEnLane, beat) } 
             ELSE { drawArrow(scratchLane, scratchEnLane, beat) } FI
