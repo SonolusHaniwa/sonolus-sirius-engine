@@ -2,13 +2,16 @@
 
 A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.x.
 
-适用于 Sonolus 0.7.2+ 的 World Dai Star: Dream's Stellarium 引擎。
+适用于 Sonolus 0.7.2 的 World Dai Star: Dream's Stellarium 引擎。
 
 Use [sonolus.h](https://github.com/SonolusHaniwa/sonolus.h) and [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp) to develop.
 
 Todo List:
 
-
+- [ ] Finish writing buckets system
+- [ ] Finish writing tutorial mode
+- [ ] Designed particle effect for sirius
+- [ ] Update to Sonolus v0.7.3
 
 使用 Sonolus Server C++ v1.4.5 进行开发，并在 Ubuntu amd64 环境下编译通过。
 

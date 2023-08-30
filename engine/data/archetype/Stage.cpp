@@ -23,7 +23,7 @@ class Stage: public Archetype {
 		var res = Execute({});
 		for (int i = 1; i <= 12; i++) {
 			res.args.push_back(Execute({
-				IF (lines.inClickBox(touch, i, i)) {
+				IF (lines.inClickBox(touch, i, i, true)) {
 					spawnLineEffect(i, i)
 				} FI
 			}));

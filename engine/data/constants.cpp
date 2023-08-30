@@ -1,6 +1,6 @@
 using namespace std;
 
-const double maxSize = 0.0;                     // 判定大小
+const double maxSize = 1.0;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
 const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比
@@ -128,11 +128,11 @@ class line {
         return line(offset);
     };
 
-    var inClickBox(Touch x, var L, var R) {
+    var inClickBox(Touch x, var L, var R, bool strict = false) {
         Vec P = Vec(x.x, x.y);
         Vec lb = line(L).lb, lt = line(L).lt, rb = line(R).rb, rt = line(R).rt;
         var judgOffset = maxSize / 2 * (judgline.rbX - judgline.lbX) / 12;
-        lb.x -= judgOffset; lt.x -= judgOffset; rb.x += judgOffset; rt.x += judgOffset;
+        if (!strict) lb.x -= judgOffset, lt.x -= judgOffset, rb.x += judgOffset, rt.x += judgOffset;
         return ((P - lb) ^ (lt - lb)) >= 0 && ((P - lt) ^ (rt - lt)) >= 0 && ((P - rt) ^ (rb - rt)) >= 0 && ((P - rb) ^ (lb - rb)) >= 0;
     }
 

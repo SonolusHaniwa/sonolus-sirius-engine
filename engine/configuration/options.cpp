@@ -26,7 +26,7 @@ auto options = defineOptions<class Options>({
         type: OptionType.Toggle,
         def: 0
     }, {
-        name: "Split Random Fall",
+        name: "Split Random Fall (not implement yet)",
         scope: Scope,
         standard: 0,
         type: OptionType.Toggle,
