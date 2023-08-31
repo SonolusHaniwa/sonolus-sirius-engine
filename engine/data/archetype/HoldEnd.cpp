@@ -19,7 +19,8 @@ class SiriusHoldEnd : public Archetype {
 		trackTouchId.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
-        } FI
+        } FI,
+		EntityInput.set(2, Buckets.HoldEnd)
 	};
 
     var updateSequential = {

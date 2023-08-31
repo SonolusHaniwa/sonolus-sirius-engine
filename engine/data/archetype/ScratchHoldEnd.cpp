@@ -23,7 +23,8 @@ class SiriusScratchHoldEnd : public Archetype {
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane),
             EntityData.set(4, -1 * scratchLength)
-        } FI
+        } FI,
+		EntityInput.set(2, Buckets.ScratchHoldEnd)
 	};
 
     var updateSequential = {

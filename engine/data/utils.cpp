@@ -100,6 +100,7 @@ var drawRightArrow(var lane, var enLane, var beat) {
 var JudgeNote(var t, var beat) {
     return Execute({
         EntityInput.set(1, t - beat),
+		EntityInput.set(3, t - beat),
         Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
             {1, Execute({
                 EntityInput.set(0, 1),
@@ -120,6 +121,7 @@ var JudgeNote(var t, var beat) {
 var JudgeNoteMuted(var t, var beat) {
 	return Execute({
 		EntityInput.set(1, t - beat),
+		EntityInput.set(3, t - beat),
 		EntityInput.set(0, (JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good)))
 	});
 }
@@ -127,6 +129,7 @@ var JudgeNoteMuted(var t, var beat) {
 var JudgeFlickNote(var t, var beat) {
 	return Execute({
 		EntityInput.set(1, t - beat),
+		EntityInput.set(3, t - beat),
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.good, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),
@@ -147,6 +150,7 @@ var JudgeFlickNote(var t, var beat) {
 var JudgeCriticalNote(var t, var beat) {
 	return Execute({
 		EntityInput.set(1, t - beat),
+		EntityInput.set(3, t - beat),
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),

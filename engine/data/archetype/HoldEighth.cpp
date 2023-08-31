@@ -21,7 +21,9 @@ class SiriusHoldEighth : public Archetype {
 		isHighlighted.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
-        } FI
+        } FI,
+		IF (holdType == 110) { EntityInput.set(2, Buckets.ScratchHoldEighth) } 
+		ELSE { EntityInput.set(2, Buckets.NormalHoldEighth) } FI
 	};
 
     var updateSequential = {

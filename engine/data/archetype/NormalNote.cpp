@@ -16,7 +16,8 @@ class NormalNote : public Archetype {
     var preprocess = {
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(1, 13 - enLane)
-        } FI
+        } FI,
+		EntityInput.set(2, Buckets.NormalNote),
     };
 
     var updateSequential = {

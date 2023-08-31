@@ -17,7 +17,8 @@ class FlickNote : public Archetype {
 		trackTouchId.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(1, 13 - enLane)
-        } FI
+        } FI,
+		EntityInput.set(2, Buckets.FlickNote)
 	};
 
     var updateSequential = {
@@ -54,6 +55,7 @@ class FlickNote : public Archetype {
 			IF (trackTouchId.get() != 0) {
 				EntityInput.set(0, 2),
 				EntityInput.set(1, 0),
+				EntityInput.set(3, 0),
 				Play(Clips.Scratch, minSFXDistance),
 				spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane),
 				EntityDespawn.set(0, 1),
