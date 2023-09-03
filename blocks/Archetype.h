@@ -1,4 +1,5 @@
 using namespace std;
+#ifdef play
 class Archetype {
     public:
 
@@ -31,3 +32,19 @@ class Archetype {
 
     vector<pair<string, int> > data;
 };
+#elif preview
+
+class Archetype {
+    public:
+
+    string name = "Default Archtype";
+
+    int preprocessOrder = 0;
+    FuncNode preprocess = { Return(0) };
+
+    int renderOrder = 0;
+    FuncNode render = { Return(0) };
+
+    vector<pair<string, int> > data;
+};
+#endif

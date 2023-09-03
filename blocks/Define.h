@@ -13,6 +13,8 @@ T defineSkins(vector<pair<string, int> > skins) {
         engineData.skin_sprites.push_back(skins[i]);
     for (int i = 0; i < skins.size(); i++)
         engineTutorialData.skin_sprites.push_back(skins[i]);
+    for (int i = 0; i < skins.size(); i++)
+        enginePreviewData.skin_sprites.push_back(skins[i]);
     return T();
 }
 

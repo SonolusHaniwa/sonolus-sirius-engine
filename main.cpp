@@ -330,5 +330,15 @@ int main(int argc, char** argv) {
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
     fout.close(); fout.open((dist + "/EngineTutorialData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
+#elif preview
+    buffer data, configuration;
+    build<
+        // Replace with your archetypes here
+        Initialization
+    >(configuration, data);
+    ofstream fout((dist + "/EngineConfiguration"));
+    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+    fout.close(); fout.open((dist + "/EnginePreviewData"));
+    for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #endif
 }

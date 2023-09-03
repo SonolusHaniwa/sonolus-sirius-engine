@@ -38,4 +38,9 @@ using namespace tutorialData;
 #include"tutorialData/preprocess.cpp"
 #include"tutorialData/navigate.cpp"
 #include"tutorialData/update.cpp"
+#elif preview
+using namespace previewData;
+#include"previewData/skins.cpp"
+#include"previewData/constants.cpp"
+#include"previewData/archetype/Initialization.cpp"
 #endif

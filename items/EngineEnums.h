@@ -520,6 +520,14 @@ class SkinSpriteName {
     string NoteSlot = "#NOTE_SLOT";
 
     string StageCover = "#STAGE_COVER";
+
+    string GridNeutral = "#GRID_NEUTRAL";
+    string GridRed = "#GRID_RED";
+    string GridGreen = "#GRID_GREEN";
+    string GridBlue = "#GRID_BLUE";
+    string GridYellow = "#GRID_YELLOW";
+    string GridPurple = "#GRID_PURPLE";
+    string GridCyan = "#GRID_CYAN";
 }SkinSpriteName;
 
 class EffectClipName {

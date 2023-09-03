@@ -17,15 +17,15 @@ class Effects {
 }Effects;
 
 auto particles = defineParticles<class Effects>({
-	{"#NOTE_LINEAR_TAP_PURPLE", Effects.NormalLinear},
-	{"#NOTE_CIRCULAR_TAP_PURPLE", Effects.NormalCircular},
-	{"#LANE_LINEAR", Effects.Lane},
-	{"#NOTE_LINEAR_TAP_RED", Effects.CriticalLinear},
-	{"#NOTE_CIRCULAR_TAP_RED", Effects.CriticalCircular},
-	{"#NOTE_LINEAR_TAP_GREEN", Effects.HoldLinear},
-	{"#NOTE_CIRCULAR_TAP_GREEN", Effects.HoldCircular},
-	{"#NOTE_LINEAR_TAP_CYAN", Effects.ScratchLinear},
-	{"#NOTE_CIRCULAR_TAP_CYAN", Effects.ScratchCircular},
-	{"#NOTE_CIRCULAR_HOLD_GREEN", Effects.Hold},
-	{"#NOTE_CIRCULAR_HOLD_CYAN", Effects.Scratch}
+	{ParticleEffectName.NoteLinearTapPurple, Effects.NormalLinear},
+	{ParticleEffectName.NoteCircularTapPurple, Effects.NormalCircular},
+	{ParticleEffectName.LaneLinear, Effects.Lane},
+	{ParticleEffectName.NoteLinearTapRed, Effects.CriticalLinear},
+	{ParticleEffectName.NoteCircularTapRed, Effects.CriticalCircular},
+	{ParticleEffectName.NoteLinearTapGreen, Effects.HoldLinear},
+	{ParticleEffectName.NoteCircularTapGreen, Effects.HoldCircular},
+	{ParticleEffectName.NoteLinearTapCyan, Effects.ScratchLinear},
+	{ParticleEffectName.NoteCircularTapCyan, Effects.ScratchCircular},
+	{ParticleEffectName.NoteCircularHoldGreen, Effects.Hold},
+	{ParticleEffectName.NoteCircularHoldCyan, Effects.Scratch}
 });
