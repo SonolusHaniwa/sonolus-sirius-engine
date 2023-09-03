@@ -255,7 +255,7 @@ var drawSplitLine(var split) {
 
 var drawDisappearLine(var t, var split) {
     var p = 1;
-    var a = 1 - t / 0.2;
+    var a = 1 - t / splitLineAnimationEnd;
 	return Execute({
         drawLine(0, 0, p, a),
         drawEndLine(0, p, a),
@@ -271,7 +271,7 @@ var drawDisappearLine(var t, var split) {
 }
 
 var drawAppearLine(var t, var split) {
-    var p = 1 - t / splitLineDumpLength;
+    var p = 1 - t / splitLineAnimationStart;
     var a = 1;
 	return Execute({
         drawLine(0, p, 1, a),

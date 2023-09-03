@@ -6,18 +6,18 @@ class SplitLine: public Archetype {
     bool input = false;
 
     var beat = EntityData.get(0);
-    var endBeat = Max(beat + splitLineDumpLength, EntityData.get(1));
+    var endBeat = EntityData.get(1);
     var split = EntityData.get(2);
 
-    var spawnOrder = 1000 + beat + appearTime;
-    var shouldSpawn = times.now > beat;
+    var spawnOrder = 1000 + beat - splitLineAnimationStart + appearTime;
+    var shouldSpawn = times.now > beat - splitLineAnimationStart;
 
     var updateSequential = {
         IF (times.now > endBeat) {
             drawDisappearLine(times.now - endBeat, split)
         } ELSE {
-            IF (times.now < beat + splitLineDumpLength) {
-                drawAppearLine(times.now - beat, split)
+            IF (times.now < beat) {
+                drawAppearLine(splitLineAnimationStart - beat + times.now, split)
             } ELSE {
                 drawSplitLine(split)
             } FI
@@ -25,7 +25,7 @@ class SplitLine: public Archetype {
     };
 
     var updateParallel = {
-        IF (times.now > endBeat + splitLineDumpLength) {
+        IF (times.now > endBeat + splitLineAnimationEnd) {
             EntityDespawn.set(0, 1)
         } FI
     };

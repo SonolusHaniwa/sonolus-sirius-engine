@@ -46,16 +46,32 @@ struct Note {
     }
 };
 
-Json::Value fromSirius(string path, double chartOffset) {
+vector<string> explode(const char* seperator, const char* source) {
+	string src = source; vector<string> res;
+	while (src.find(seperator) != string::npos) {
+		int wh = src.find(seperator);
+		res.push_back(src.substr(0, src.find(seperator)));
+		src = src.substr(wh + string(seperator).size());
+	} res.push_back(src);
+	return res;
+}
+
+Json::Value fromSirius(string path, double chartOffset, double bgmOffset = 0) {
     // 谱面读取
     ifstream fin(path); vector<Note> notes;
     while (!fin.eof()) {
         char unused = 0;
-        Note x; fin >> x.startTime >> unused >> x.endTime >> unused >> x.type >> unused >> x.leftLane >> unused >> x.laneLength >> unused;
-		if (x.endTime == 0) break;
-		x.startTime += chartOffset; if (x.endTime != 0) x.endTime += chartOffset;
-        string s; fin >> s; x.scratchLength = atoi(s.substr(s.find(",") + 1).c_str());
-        s = s.substr(0, s.find(","));
+        Note x; string xx; getline(fin, xx);
+        auto components = explode(",", xx.c_str());
+        if (components.size() < 7) break;
+        x.startTime = atof(components[0].c_str()) + chartOffset;
+        x.endTime = atof(components[1].c_str());
+        if (x.endTime != -1) x.endTime += chartOffset;
+        x.type = atoi(components[2].c_str());
+        x.leftLane = atoi(components[3].c_str());
+        x.laneLength = atoi(components[4].c_str());
+        string s = components[5];
+        x.scratchLength = atoi(components[6].c_str());
         if (s == "JumpScratch") x.gimmickType = JumpScratch;
         else if (s == "OneDirection") x.gimmickType = OneDirection;
         else if (s == "11") x.gimmickType = Split1;
@@ -66,10 +82,11 @@ Json::Value fromSirius(string path, double chartOffset) {
         else if (s == "16") x.gimmickType = Split6;
         else x.gimmickType = 0;
         notes.push_back(x);
-    } sort(notes.begin(), notes.end(), [](Note a, Note b){
+    } sort(notes.begin(), notes.end(), [&](Note a, Note b){
         if (a.startTime == b.startTime) return a.type < b.type;
         return a.startTime < b.startTime;
     });
+    cout << "[INFO] Total Note Number: " << notes.size() << endl;
 
     // 开始转换
 	Json::Value res, single; set<Note> holdEnd;
@@ -86,7 +103,7 @@ Json::Value fromSirius(string path, double chartOffset) {
 	res.append(single);
 	single["archetype"] = "Sirius Stage";
 	res.append(single);
-    double lastTime[13][13]; int lastType[13][13];
+    double lastTime[13][13]; int lastType[13][13], total = 0;
     for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastType[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
         // 提前处理 Sirius HoldEnd;
@@ -98,6 +115,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+                total++;
             } else {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
@@ -105,11 +123,13 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
+                total++;
             } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
 			lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
         }
         // 处理当前 Note
         Note x = notes[i]; Json::Value single;
+        single["archetype"] = "";
         switch(x.type) {
             case Normal: {
                 single["archetype"] = "Sirius Normal Note";
@@ -117,6 +137,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case Critical: {
                 single["archetype"] = "Sirius Critical Note";
@@ -124,6 +145,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case Flick: {
                 single["archetype"] = "Sirius Flick Note";
@@ -131,6 +153,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case HoldStart: {
                 single["archetype"] = "Sirius Hold Start";
@@ -138,6 +161,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break; 
             case CriticalHoldStart: {
                 single["archetype"] = "Sirius Critical Hold Start";
@@ -145,6 +169,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case ScratchHoldStart: {
                 single["archetype"] = "Sirius Scratch Hold Start";
@@ -152,6 +177,7 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case ScratchCriticalHoldStart: {
                 single["archetype"] = "Sirius Critical Scratch Hold Start";
@@ -159,13 +185,14 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case Hold: case CriticalHold: case ScratchHold: {
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
-            case Sound: case SoundPurple: {
+            case Sound: {
                 single["archetype"] = "Sirius Sound";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
@@ -173,6 +200,18 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
 				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                total++;
+            } break;
+            case SoundPurple: {
+                single["archetype"] = "Sirius Scratch Hold End";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
+                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+                single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = 0;
+                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
             } break;
             case HoldEighth: {
                 if (lastTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
@@ -183,14 +222,18 @@ Json::Value fromSirius(string path, double chartOffset) {
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
 				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                total++;
             } break;
             case None: {
                 single["archetype"] = "Sirius Split Line";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "endBeat"; single["data"][1]["value"] = x.endTime;
                 single["data"][2]["name"] = "split"; single["data"][2]["value"] = x.gimmickType - 10;
+                single["data"][3]["name"] = "color"; single["data"][3]["value"] = x.scratchLength;
             } break;
         } if (single["archetype"] != "") res.append(single);
+        if (single["archetype"] == Json::Value::null) cout << single << endl;
+        if ((10 * (i + 1) / notes.size()) != (10 * i / notes.size())) cout << "[INFO] " << 100 * (i + 1) / notes.size() << "% Notes Solved." << endl;
     }
 
 	// 处理完 HoldEnd
@@ -202,6 +245,7 @@ Json::Value fromSirius(string path, double chartOffset) {
             single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            total++;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
@@ -209,9 +253,13 @@ Json::Value fromSirius(string path, double chartOffset) {
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
+            total++;
         } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
         lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
+
+    cout << "[INFO] Total Note Number: " << total << endl;
+    cout << "[INFO] Solving Sync Line..." << endl;
 
     // 处理同步线
     for (auto v : SyncLineLeft) {
@@ -223,8 +271,10 @@ Json::Value fromSirius(string path, double chartOffset) {
         res.append(single);
     }
 
+    cout << "[INFO] Sync Line Solved." << endl;
+
 	Json::Value data;
-	data["bgmOffset"] = 0;
+	data["bgmOffset"] = bgmOffset;
 	data["entities"] = res;
 	return data;
 }
@@ -238,10 +288,13 @@ int main(int argc, char** argv) {
 		stringstream ss; ss << s; double offset; ss >> offset;
 		Json::Value LevelData = fromSirius(argv[1], offset);
 		string dataJson = json_encode(LevelData);
+        cout << "Compressing..." << endl;
 		buffer data = compress_gzip(dataJson, 9);
+        cout << "Compress Finished." << endl;
 		ofstream preFout(argv[3]);
-		for (int i = 0; i < data.size(); i++) preFout << data.v[i];
+        for (int i = 0; i < data.size(); i++) preFout << data.v[i];
 		preFout.close();
+        return 0;
 	}
 
     engineConfiguration.ui = configurationUI;
