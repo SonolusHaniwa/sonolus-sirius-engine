@@ -417,6 +417,7 @@ class RuntimeFunction {
     string TimeToStartingScaledTime = "TimeToStartingScaledTime";
     string TimeToStartingTime = "TimeToStartingTime";
     string TimeToTimeScale = "TimeToTimeScale";
+    string Print = "Print";
 }RuntimeFunction;
 
 class SkinSpriteName {
@@ -610,5 +611,41 @@ class ParticleEffectName {
     string JudgeLineCircular = "#JUDGE_LINE_CIRCULAR";
     string JudgeLineLinear = "#JUDGE_LINE_LINEAR";
 }ParticleEffectName;
+
+class Scroll {
+    public:
+
+    int LeftToRight = 0;
+    int TopToBottom = 1;
+    int RightToLeft = 2;
+    int BottomToTop = 3;
+}Scroll;
+
+class PrintColor {
+    public:
+
+    int Theme = -1;
+    int Neutral = 0;
+    int Red = 1;
+    int Green = 2;
+    int Blue = 3;
+    int Yellow = 4;
+    int Purple = 5;
+    int Cyan = 6;
+}PrintColor;
+
+class PrintFormat {
+    public:
+
+    int Number = 0;
+    int Percentage = 1;
+    int Time = 10;
+    int Score = 11;
+    int BPM = 20;
+    int TimeScale = 21;
+    int BeatCount = 30;
+    int MeasureCount = 31;
+    int EntityCount = 32;
+}PrintFormat;
 
 #endif
