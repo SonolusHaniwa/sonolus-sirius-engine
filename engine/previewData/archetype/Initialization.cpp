@@ -4,7 +4,7 @@ class Initialization: public Archetype {
     string name = "Sirius Initialization";
 
     var preprocess = {
-        canvas.set(Scroll.LeftToRight, 10),
+		duration.set(0), noteCount.set(0),
         [](){
             var menuWidth = 0.15 * ui.menuConfiguration.scale;
             var menuHeight = 0.15 * ui.menuConfiguration.scale;

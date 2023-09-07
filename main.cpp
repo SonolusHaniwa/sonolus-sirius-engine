@@ -334,7 +334,19 @@ int main(int argc, char** argv) {
     buffer data, configuration;
     build<
         // Replace with your archetypes here
-        Initialization
+        Initialization,
+		Stage,
+		SiriusNormalNote,
+		SiriusCriticalNote,
+		SiriusFlickNote,
+		SiriusHoldStart,
+		SiriusHoldEighth,
+		SiriusCriticalHoldStart,
+		SiriusScratchHoldStart,
+		SiriusCriticalScratchHoldStart,
+		SiriusHoldEnd,
+		SiriusScratchHoldEnd,
+		SiriusSound
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

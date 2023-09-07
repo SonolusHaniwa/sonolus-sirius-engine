@@ -42,5 +42,18 @@ using namespace tutorialData;
 using namespace previewData;
 #include"previewData/skins.cpp"
 #include"previewData/constants.cpp"
+#include"previewData/utils.cpp"
 #include"previewData/archetype/Initialization.cpp"
+#include"previewData/archetype/Stage.cpp"
+#include"previewData/archetype/NormalNote.cpp"
+#include"previewData/archetype/CriticalNote.cpp"
+#include"previewData/archetype/FlickNote.cpp"
+#include"previewData/archetype/HoldStart.cpp"
+#include"previewData/archetype/HoldEighth.cpp"
+#include"previewData/archetype/CriticalHoldStart.cpp"
+#include"previewData/archetype/ScratchHoldStart.cpp"
+#include"previewData/archetype/CriticalScratchHoldStart.cpp"
+#include"previewData/archetype/HoldEnd.cpp"
+#include"previewData/archetype/ScratchHoldEnd.cpp"
+#include"previewData/archetype/Sound.cpp"
 #endif

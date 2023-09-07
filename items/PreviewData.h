@@ -111,7 +111,7 @@ namespace previewData {
         configuration menuConfiguration = configuration(0);
     }ui;
 
-    int allocatorSize[10000] = {0};
+    int allocatorSize[10001] = {0};
 
     template<int identifierId>
     class Array {
@@ -196,4 +196,6 @@ namespace previewData {
             return Set(identifierId, offset, value);
         }
     };
+
+	Variable<TemporaryMemoryId> ForPt;
 };
