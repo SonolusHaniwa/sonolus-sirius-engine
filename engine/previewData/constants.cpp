@@ -10,7 +10,11 @@ const var noteHeight = 0.04;                        // 按键高度
 const var adjustDistance = 0.005;                   // 按键微调距离
 const var noteCountDistance = 10;                   // 按键计数长度
 const var tickWidth = 0.03;                         // tick 宽度
-const var tickHeight = 0.045;			    // tick 高度
-Variable<PreviewDataId> duration;               // 谱面时长
-Variable<PreviewDataId> noteCount;              // note 数量
+const var tickHeight = 0.045;						// tick 高度
+const var syncLineHeight = 0.003; 					// 同步线高度
+const var arrowWidth = 0.03;						// 箭头宽度
+const var arrowHeight = 0.06;						// 箭头高度
+const var arrowPercent = 1.6;						// 箭头占比
+Variable<PreviewDataId> duration;                   // 谱面时长
+Variable<PreviewDataId> noteCount;                  // note 数量
 Variable<EntitySharedMemoryId> noteId;

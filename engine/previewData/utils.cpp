@@ -39,7 +39,7 @@ var drawNote(var sprite, var time, var st, var en) {
 	var len = stageWidth / 12.0;
 	var l = x + (st - 7) * len + adjustDistance, r = x + (en - 6) * len - adjustDistance;
 	var t = y + noteHeight / 2.0, b = y - noteHeight / 2.0;
-	return Draw(sprite, l, b, l, t, r, t, r, b, 3, 1);
+	return Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
 }
 
 var drawTick(var sprite, var time, var st, var en) {
@@ -48,7 +48,7 @@ var drawTick(var sprite, var time, var st, var en) {
 	var cx = x - (6.5 - (st + en) / 2.0) * len;
 	var l = cx - tickWidth / 2.0, r = cx + tickWidth / 2.0;
 	var t = cy + tickHeight / 2.0, b = cy - tickHeight / 2.0;
-	return Draw(sprite, l, b, l, t, r, t, r, b, 3, 1);
+	return Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
 }
 
 var drawHold(var sprite, var stt, var ent, var st, var en) {
@@ -62,6 +62,51 @@ var drawHold(var sprite, var stt, var ent, var st, var en) {
 				var l = c + (st - 7) * len + adjustDistance, r = c + (en - 6) * len - adjustDistance;
 				return Draw(sprite, l, b, l, t, r, t, r, b, 2, 1);
 			}(i)
+		} DONE
+	});
+}
+
+var drawSyncLine(var time, var st, var en) {
+	var cx = getPos(time).first, y = getPos(time).second;
+	var len = stageWidth / 12.0;
+	var l = cx - (6.5 - st) * len, r = cx - (6.5 - en) * len;
+	var t = y + syncLineHeight / 2.0, b = y - syncLineHeight / 2.0;
+	return Draw(Sprites.SyncLine, l, b, l, t, r, t, r, b, 3, 1);
+}
+
+var drawArrow(var time, var st, var en) {
+	var cx = getPos(time).first, b = getPos(time).second;
+	var len = stageWidth / 12.0, w = arrowWidth;
+	var l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	var t = b + arrowHeight, num = (r - l) / 2 * arrowPercent / arrowWidth;
+	return Execute({
+		FOR (i, 1, num, 1) {
+			Draw(Sprites.ScratchArrow, l + (i - 1) * w / 2, b, l + (i - 1) * w / 2, t, l + (i + 1) * w / 2, t, l + (i + 1) * w / 2, b, 1000, 1),
+			Draw(Sprites.ScratchArrow, r - (i - 1) * w / 2, b, r - (i - 1) * w / 2, t, r - (i + 1) * w / 2, t, r - (i + 1) * w / 2, b, 1000, 1)
+		} DONE
+	});
+}
+
+var drawLeftArrow(var time, var st, var en) {
+	var cx = getPos(time).first, b = getPos(time).second;
+	var len = stageWidth / 12.0, w = arrowWidth;
+	var l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	var t = b + arrowHeight, num = (r - l) * arrowPercent / arrowWidth;
+	return Execute({
+		FOR (i, 1, num, 1) {
+			Draw(Sprites.ScratchArrow, l + (i - 1) * w / 2, b, l + (i - 1) * w / 2, t, l + (i + 1) * w / 2, t, l + (i + 1) * w / 2, b, 1000, 1)
+		} DONE
+	});
+}
+
+var drawRightArrow(var time, var st, var en) {
+	var cx = getPos(time).first, b = getPos(time).second;
+	var len = stageWidth / 12.0, w = arrowWidth;
+	var l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	var t = b + arrowHeight, num = (r - l) * arrowPercent / arrowWidth;
+	return Execute({
+		FOR (i, 1, num, 1) {
+			Draw(Sprites.ScratchArrow, r - (i - 1) * w / 2, b, r - (i - 1) * w / 2, t, r - (i + 1) * w / 2, t, r - (i + 1) * w / 2, b, 1000, 1)
 		} DONE
 	});
 }

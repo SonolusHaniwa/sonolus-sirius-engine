@@ -19,6 +19,7 @@ class SiriusFlickNote: public Archetype {
 		IF (noteId.get() % noteCountDistance == 0) {
 			drawNoteCount(beat, noteId.get())
 		} FI,
-		drawNote(Sprites.ScratchNote, beat, lane, enLane)
+		drawNote(Sprites.ScratchNote, beat, lane, enLane),
+		drawArrow(beat, lane, enLane)
 	};
 };

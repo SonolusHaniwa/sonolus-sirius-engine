@@ -24,6 +24,11 @@ class SiriusScratchHoldEnd: public Archetype {
 			drawNoteCount(beat, noteId.get())
 		} FI,
 		drawNote(Sprites.ScratchNote, beat, scratchLane, scratchEnLane),
-		drawHold(Sprites.Scratch, lastBeat, beat, lane, enLane)
+		drawHold(Sprites.Scratch, lastBeat, beat, lane, enLane),
+		IF (scratchLength > 0) { drawRightArrow(beat, scratchLane, scratchEnLane) }
+		ELSE {
+			IF (scratchLength < 0) { drawLeftArrow(beat, scratchLane, scratchEnLane) }
+			ELSE { drawArrow(beat, scratchLane, scratchEnLane) } FI
+		} FI
 	};
 };
