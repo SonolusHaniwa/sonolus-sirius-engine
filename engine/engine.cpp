@@ -57,4 +57,5 @@ using namespace previewData;
 #include"previewData/archetype/ScratchHoldEnd.cpp"
 #include"previewData/archetype/Sound.cpp"
 #include"previewData/archetype/SyncLine.cpp"
+#include"previewData/archetype/SplitLine.cpp"
 #endif

@@ -23,6 +23,9 @@ int main() {
     defineCode << "auto skins = defineSkins<class Sprites>({" << endl;
     utilsCode << "var getSplitLine(var id) {" << endl;
     utilsCode << "    return Switch(id, {" << endl;
+    // 编写 readme
+    stringstream readmeCode;
+    readmeCode << "|ID|Sprite|" << endl << "|:-:|:-:|" << endl;
     // 读取图片
     FILE *fp = fopen("./SkinTexture.png", "rb");
     png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -38,7 +41,6 @@ int main() {
         for (auto it2 = member2.begin(); it2 != member2.end(); it2++) {
             string id = (*it).substr(68);
             id = id.substr(0, id.size() - 7);
-            cout << id << endl;
             int X = x, 
                 r = 255 * source[*it][*it2]["r"].asDouble(),
                 g = 255 * source[*it][*it2]["g"].asDouble(),
@@ -64,19 +66,19 @@ int main() {
             Json::Value splitLineFull, splitLineTrans1, splitLineTrans2;
             splitLineFull["name"] = "Sirius Split Line #" + id;
             splitLineFull["x"] = x + 1;
-            splitLineFull["y"] = maxY;
+            splitLineFull["y"] = maxY + 1;
             splitLineFull["w"] = 1;
             splitLineFull["h"] = 256;
             splitLineFull["transform"] = source2["sprites"][0]["transform"];
             splitLineTrans1["name"] = "Sirius Split Line Transform 1 #" + id;
             splitLineTrans1["x"] = x + 1;
-            splitLineTrans1["y"] = maxY + 256;
+            splitLineTrans1["y"] = maxY + 257;
             splitLineTrans1["w"] = 1;
             splitLineTrans1["h"] = 256;
             splitLineTrans1["transform"] = source2["sprites"][0]["transform"];
             splitLineTrans2["name"] = "Sirius Split Line Transform 2 #" + id;
             splitLineTrans2["x"] = x + 1;
-            splitLineTrans2["y"] = maxY + 512;
+            splitLineTrans2["y"] = maxY + 513;
             splitLineTrans2["w"] = 1;
             splitLineTrans2["h"] = 256;
             splitLineTrans2["transform"] = source2["sprites"][0]["transform"];
@@ -127,5 +129,10 @@ int main() {
     fout2 << classCode.str() << endl;
     fout2 << defineCode.str() << endl;
     fout2 << utilsCode.str() << endl;
+    // 输出 readme
+    for (int i = 0; i < source2["sprites"].size(); i++) {
+        readmeCode << "|" << i << "|" << source2["sprites"][i]["name"].asString() << "|" << endl;
+    } ofstream fout3("readme");
+    fout3 << readmeCode.str() << endl;
     return 0;
 }

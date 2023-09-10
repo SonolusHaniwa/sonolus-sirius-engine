@@ -265,7 +265,8 @@ var drawSplitLine(var split) {
                 drawLine(4, 0, 1, 1, splitLineMemory[2]), 
                 drawLine(6, 0, 1, 1, splitLineMemory[3]), 
                 drawLine(8, 0, 1, 1, splitLineMemory[4]), 
-                drawLine(10, 0, 1, 1, splitLineMemory[5])}}
+                drawLine(10, 0, 1, 1, splitLineMemory[5])
+            }}
         })
     });
 }
@@ -296,7 +297,8 @@ var drawDisappearLine(var t, var split) {
                 drawLine(4, 0, p, a, splitLineMemory[2]), 
                 drawLine(6, 0, p, a, splitLineMemory[3]), 
                 drawLine(8, 0, p, a, splitLineMemory[4]), 
-                drawLine(10, 0, p, a, splitLineMemory[5])}}
+                drawLine(10, 0, p, a, splitLineMemory[5])
+            }}
         })
     });
 }
