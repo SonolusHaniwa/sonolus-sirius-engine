@@ -7,8 +7,8 @@ var drawNormalNote(var sprite, var lane, var enLane, var beat) {
     Vec c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
     var w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
     var w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
-    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0);
-    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength, 0), rt = c3 + Vec(w1 / 2 - noteMoveLength, 0);
+    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength * w1 / lines[lane].getWidth(1), 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength * w2 / lines[lane].getWidth(1), 0);
+    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength * w1 / lines[lane].getWidth(1), 0), rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / lines[lane].getWidth(1), 0);
     return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
 }
 
@@ -173,14 +173,15 @@ var movedLast(Touch touch) {
 }
 
 var drawHoldEighth(var sprite, var lane, var enLane, var stBeat, var enBeat) {
+    var w = lines[lane].getWidth(1);
 	Vec c1 = lines[lane].getPosition(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
 	Vec c2 = lines[lane].getPosition(ease((Min(1, times.now - enBeat) / appearTime + 1)));
 	Vec c3 = lines[enLane].getPosition(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
 	Vec c4 = lines[enLane].getPosition(ease(Min(1, (times.now - enBeat) / appearTime + 1)));
 	var w1 = lines[lane].getWidth(ease(Min(1, (times.now - stBeat) / appearTime + 1)));
 	var w2 = lines[lane].getWidth(ease(Min(1, (times.now - enBeat) / appearTime + 1)));
-	Vec lb = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0), lt = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0);
-	Vec rb = c3 + Vec(w1 / 2 - noteMoveLength, 0), rt = c4 + Vec(w2 / 2 - noteMoveLength, 0);
+	Vec lb = c1 + Vec(-1 * w1 / 2 + noteMoveLength * w1 / w, 0), lt = c2 + Vec(-1 * w2 / 2 + noteMoveLength * w2 / w, 0);
+	Vec rb = c3 + Vec(w1 / 2 - noteMoveLength * w1 / w, 0), rt = c4 + Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8);
 }
 
@@ -208,33 +209,35 @@ var drawSyncLine(var beat, var lane, var enLane) {
     Vec c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + syncLineHeight / 2 / stage.h * multiplier);
     var w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - syncLineHeight / 2 / stage.h * multiplier);
     var w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + syncLineHeight / 2 / stage.h * multiplier);
-    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength, 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength, 0);
-    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength, 0), rt = c3 + Vec(w1 / 2 - noteMoveLength, 0);
+    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength * multiplier, 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength * multiplier, 0);
+    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength * multiplier, 0), rt = c3 + Vec(w1 / 2 - noteMoveLength * multiplier, 0);
     return Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 5, 0.8);
 }
 
 // 上面为 0，下面为 1
 var drawLine(var id, var st, var en, var a, var sprite) {
+    var w = lines[id + 1].getWidth(1);
     Vec c1 = lines[id + 1].getFullPosition(ease(st));
     Vec c2 = lines[id + 1].getFullPosition(ease(en));
 	var w1 = lines[id + 1].getFullWidth(ease(st));
 	var w2 = lines[id + 1].getFullWidth(ease(en));
-	Vec c3 = c1 + Vec(-1 * w1 / 2 - noteMoveLength, 0);
-	Vec c4 = c2 + Vec(-1 * w2 / 2 - noteMoveLength, 0);
-	Vec lb = c4 + Vec(-1 * noteMoveLength, 0), lt = c3 + Vec(-1 * noteMoveLength, 0);
-	Vec rb = c4 + Vec(noteMoveLength, 0), rt = c3 + Vec(noteMoveLength, 0);
+	Vec c3 = c1 + Vec(-1 * w1 / 2, 0);
+	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
+	Vec lb = c4 + Vec(-1 * noteMoveLength * w2 / w, 0), lt = c3 + Vec(-1 * noteMoveLength * w1 / w, 0);
+	Vec rb = c4 + Vec(noteMoveLength * w2 / w, 0), rt = c3 + Vec(noteMoveLength * w1 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
 var drawEndLine(var st, var en, var a, var sprite) {
+    var w = lines[12].getWidth(1);
     Vec c1 = lines[12].getFullPosition(ease(st));
     Vec c2 = lines[12].getFullPosition(ease(en));
 	var w1 = lines[12].getFullWidth(ease(st));
 	var w2 = lines[12].getFullWidth(ease(en));
-	Vec c3 = c1 + Vec(1 * w1 / 2 + noteMoveLength, 0);
-	Vec c4 = c2 + Vec(1 * w2 / 2 + noteMoveLength, 0);
-	Vec lb = c4 + Vec(-1 * noteMoveLength, 0), lt = c3 + Vec(-1 * noteMoveLength, 0);
-	Vec rb = c4 + Vec(noteMoveLength, 0), rt = c3 + Vec(noteMoveLength, 0);
+	Vec c3 = c1 + Vec(1 * w1 / 2, 0);
+	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
+	Vec lb = c4 + Vec(-1 * noteMoveLength * w2 / w, 0), lt = c3 + Vec(-1 * noteMoveLength * w1 / w, 0);
+	Vec rb = c4 + Vec(noteMoveLength * w2 / w, 0), rt = c3 + Vec(noteMoveLength * w1 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
