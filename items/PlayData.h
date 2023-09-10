@@ -230,7 +230,7 @@ namespace playData {
         FuncNode vw = RuntimeTouch.get(Add({Multiply({offset, 15}), 14}));
     }touches;
 
-    int allocatorSize[10000] = {0};
+    int allocatorSize[10001] = {0};
 
     template<int identifierId>
     class Array {

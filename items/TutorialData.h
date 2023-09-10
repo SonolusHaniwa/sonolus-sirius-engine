@@ -94,7 +94,7 @@ namespace tutorialData {
         configuration instructionConfiguration = configuration(2);
     }ui;
 
-    int allocatorSize[10000] = {0};
+    int allocatorSize[10001] = {0};
 
     template<int identifierId>
     class Array {

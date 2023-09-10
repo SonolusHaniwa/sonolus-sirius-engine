@@ -159,3 +159,5 @@ class line {
         return Lerp((rt.x - lt.x), (rb.x - lb.x), percent);
     }
 }lines;
+
+auto splitLineMemory = Array<EntityMemoryId>(16);
