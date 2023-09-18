@@ -14,11 +14,13 @@ class SiriusHoldEighth : public Archetype {
 
     var spawnOrder = 1000 + lastBeat;
     var shouldSpawn = times.now > lastBeat - appearTime;
+	Variable<EntityMemoryId> hasHold;
 
 	var preprocess = {
 		playLoopedId.set(0),
 		trackTouchId.set(0),
 		isHighlighted.set(0),
+		hasHold.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
         } FI,
@@ -37,25 +39,28 @@ class SiriusHoldEighth : public Archetype {
 			{101, Sprites.HoldNote},
 			{110, Sprites.ScratchNote},
 		}, Sprites.HoldNote), lane, enLane, times.now) } FI,
-		IF (times.now > lastBeat && playLoopedId.get() == 0) {
-			playLoopedId.set(PlayLooped(Clips.Hold)),
-			isHighlighted.set(spawnHoldEffect(SwitchWithDefault(holdType, {
-				{100, Effects.Hold},
-				{101, Effects.Hold},
-				{110, Effects.Scratch}
-			}, Effects.Hold), lane, enLane))
-		} FI,
         IF (LevelOption.get(Options.Autoplay)) {
 			trackTouchId.set(beat)
         } FI
     };
 
     var touch = {
-        IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+        IF (LevelOption.get(Options.Autoplay) || times.now < lastBeat) { Return(0) } FI,
+		hasHold.set(0),
         FOR (i, 0, touches.size, 1) {
             IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
-            trackTouchId.set(Max(trackTouchId.get(), times.now))
-        } DONE
+            trackTouchId.set(Max(trackTouchId.get(), times.now)),
+			hasHold.set(1)
+        } DONE,
+		IF (hasHold.get() == 1 && playLoopedId.get() == 0) {
+			playLoopedId.set(PlayLooped(Clips.Hold)),
+			isHighlighted.set(spawnHoldEffect(SwitchWithDefault(holdType, {{100, Effects.Hold}, {101, Effects.Hold}, {110, Effects.Scratch}}, Effects.Hold), lane, enLane))
+		} FI, IF (hasHold.get() == 0 && playLoopedId.get() != 0) {
+			StopLooped(playLoopedId.get()),
+			playLoopedId.set(0),
+			DestroyParticleEffect(isHighlighted.get()),
+			isHighlighted.set(0)
+		} FI
     };
 
     var updateParallel ={

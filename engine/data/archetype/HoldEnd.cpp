@@ -14,9 +14,13 @@ class SiriusHoldEnd : public Archetype {
     var spawnOrder = 1000 + lastBeat;
     var shouldSpawn = times.now > lastBeat - appearTime;
 
+	Variable<EntityMemoryId> hasHold;
+
 	var preprocess = {
 		playLoopedId.set(0),
 		trackTouchId.set(0),
+		isHighlighted.set(0),
+		hasHold.set(0),
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
         } FI,
@@ -27,27 +31,38 @@ class SiriusHoldEnd : public Archetype {
 		drawHoldEighth(Sprites.Hold, lane, enLane, lastBeat, beat),
 		drawNormalNote(Sprites.HoldNote, lane, enLane, beat),
         IF (times.now > lastBeat) { drawNormalNote(Sprites.HoldNote, lane, enLane, times.now) } FI,
-		IF (times.now > lastBeat && playLoopedId.get() == 0) {
-			playLoopedId.set(PlayLooped(Clips.Hold)),
-		} FI,
         IF (LevelOption.get(Options.Autoplay)) {
             trackTouchId.set(beat)
         } FI
     };
 
     var touch = {
-        IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+        IF (LevelOption.get(Options.Autoplay) || times.now < lastBeat) { Return(0) } FI,
+		hasHold.set(0),
         FOR (i, 0, touches.size, 1) {
             IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
-            trackTouchId.set(Max(trackTouchId.get(), times.now))
-        } DONE
+            trackTouchId.set(Max(trackTouchId.get(), times.now)),
+			hasHold.set(1)
+        } DONE,
+		IF (hasHold.get() == 1 && playLoopedId.get() == 0) {
+			playLoopedId.set(PlayLooped(Clips.Hold)),
+			isHighlighted.set(spawnHoldEffect(Effects.Hold, lane, enLane))
+		} FI, IF (hasHold.get() == 0 && playLoopedId.get() != 0) {
+				StopLooped(playLoopedId.get()),
+				playLoopedId.set(0),
+				DestroyParticleEffect(isHighlighted.get()),
+				isHighlighted.set(0)
+		} FI
     };
 
     var updateParallel ={
         IF (times.now > beat) {
             JudgeNote(trackTouchId.get(), beat),
-			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
 			StopLooped(playLoopedId.get()),
+			DestroyParticleEffect(isHighlighted.get()),
+			IF (EntityInput.get(0) != 0) {
+				spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane)
+			} FI,
             EntityDespawn.set(0, 1)
         } FI
     };
