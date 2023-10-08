@@ -48,6 +48,7 @@ jobs:
           bash run.sh
 
           for name in "./sonolus-server/data/"; do
+              echo "Uploading $name..."
               ./tools/onedriveUploader $name 0
           done
           cp sonolus-server/data.json wds/
