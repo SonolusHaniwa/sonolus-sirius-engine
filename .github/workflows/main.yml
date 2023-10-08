@@ -47,7 +47,7 @@ jobs:
           
           bash run.sh
           
-          cp data.json wds/
+          cp sonolus-server/data.json wds/
           cp sonolus-server/sonolus.db wds/
 
       - name: Commit to World Dai Star Private
