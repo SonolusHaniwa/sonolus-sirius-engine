@@ -21,7 +21,7 @@ class SiriusSound: public Archetype {
 		IF (noteId.get() % noteCountDistance == 0) {
 			drawNoteCount(beat, noteId.get())
 		} FI,
-		drawTick(SwitchWithDefault(holdType, {{100, Sprites.TouchTick}, {101, Sprites.TouchTick}, {110, Sprites.TouchScratchTick}}, Sprites.TouchTick), beat, lane, enLane),
-		drawHold(SwitchWithDefault(holdType, {{100, Sprites.Hold}, {101, Sprites.Hold}, {110, Sprites.Scratch}}, Sprites.Hold), lastBeat, beat, lane, enLane)
+		drawTick(SwitchWithDefault(holdType, {{100, Sprites.TouchTick}, {101, Sprites.TouchTick}, {110, Sprites.TouchScratchTick}, {111, Sprites.TouchScratchTick}}, Sprites.TouchTick), beat, lane, enLane),
+		drawHold(SwitchWithDefault(holdType, {{100, Sprites.Hold}, {101, Sprites.Hold}, {110, Sprites.Scratch}, {111, Sprites.Scratch}}, Sprites.Hold), lastBeat, beat, lane, enLane)
 	};
 };

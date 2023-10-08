@@ -22,7 +22,7 @@ class SiriusHoldEighth : public Archetype {
         IF (LevelOption.get(Options.Mirror)) {
             EntityData.set(2, 13 - enLane)
         } FI,
-		IF (holdType == 110) { EntityInput.set(2, Buckets.ScratchHoldEighth) } 
+		IF (holdType == 110 || holdType == 111) { EntityInput.set(2, Buckets.ScratchHoldEighth) } 
 		ELSE { EntityInput.set(2, Buckets.NormalHoldEighth) } FI
 	};
 
@@ -31,18 +31,21 @@ class SiriusHoldEighth : public Archetype {
 			{100, Sprites.Hold},
 			{101, Sprites.Hold},
 			{110, Sprites.Scratch},
+            {111, Sprites.Scratch}
 		}, Sprites.Hold), lane, enLane, lastBeat, beat),
         IF (times.now > lastBeat) { drawNormalNote(SwitchWithDefault(holdType, {
 			{100, Sprites.HoldNote},
 			{101, Sprites.HoldNote},
 			{110, Sprites.ScratchNote},
+            {111, Sprites.ScratchNote}
 		}, Sprites.HoldNote), lane, enLane, times.now) } FI,
 		IF (times.now > lastBeat && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 			isHighlighted.set(spawnHoldEffect(SwitchWithDefault(holdType, {
 				{100, Effects.Hold},
 				{101, Effects.Hold},
-				{110, Effects.Scratch}
+				{110, Effects.Scratch},
+                {111, Effects.Scratch}
 			}, Effects.Hold), lane, enLane))
 		} FI,
         IF (LevelOption.get(Options.Autoplay)) {

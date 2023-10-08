@@ -19,6 +19,7 @@ enum NoteType {
     Hold = 100,
     CriticalHold = 101,
     ScratchHold = 110,
+    ScratchCriticalHold = 111,
     HoldEighth = 900
 };
 enum GimmickType {
@@ -187,7 +188,7 @@ Json::Value fromSirius(string path, double chartOffset, double bgmOffset = 0) {
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
-            case Hold: case CriticalHold: case ScratchHold: {
+            case Hold: case CriticalHold: case ScratchHold: case ScratchCriticalHold: {
                 lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
