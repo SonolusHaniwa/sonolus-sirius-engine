@@ -53,6 +53,7 @@ jobs:
           cd sonolus-server && unzip -n sonolus.zip
 
           echo -e $YELLOW"Syncing data into database..."$RESET
+          ./sonolus serve &
           ./sonolus buildcpp play ../sirius
           ./sonolus buildcpp tutorial ../sirius
           ./sonolus buildcpp preview ../sirius
