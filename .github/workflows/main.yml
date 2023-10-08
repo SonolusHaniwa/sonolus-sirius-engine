@@ -46,7 +46,10 @@ jobs:
           cd ..
           
           bash run.sh
-          
+
+          for name in "./sonolus-server/data/*"; do
+              ./tools/onedriveUploader ./sonolus-server/data/$name 0
+          done
           cp sonolus-server/data.json wds/
           cp sonolus-server/sonolus.db wds/
 
