@@ -40,7 +40,8 @@ jobs:
         run: |
           mkdir sonolus-server
           cp wds/sonolus.db sonolus-server/
-          
+
+          cat > ./run.sh <<EOF
           ARCH="x64"
           VERSION=v1.4.6
           YELLOW="\e[93m"
@@ -64,6 +65,9 @@ jobs:
           sudo pkill sonolus
           
           echo -e $YELLOW"Sync finished"$RESET
+          EOF
+
+          bash run.sh
           
           cp data.json wds/
           cp sonolus-server/sonolus.db wds/
