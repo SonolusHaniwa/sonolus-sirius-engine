@@ -40,6 +40,7 @@ jobs:
         run: |
           mkdir sonolus-server
           cp wds/sonolus.db sonolus-server/
+          g++ exportor.cpp -o sonolus-server/exportor -lcurl -ljsoncpp
 
           bash run.sh
           
