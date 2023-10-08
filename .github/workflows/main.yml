@@ -36,10 +36,6 @@ jobs:
           sudo apt update
           sudo apt install g++ libjsoncpp-dev openssl libbrotli-dev libcurl4-openssl-dev libzip-dev libmysqlclient-dev libsqlite3-dev imagemagick ffmpeg libmsgpack-dev liblz4-dev -y
 
-      - name: Compiling programs
-        run: |
-          ./make
-
       - name: Uploading data to server
         run: |
           mkdir sonolus-server
