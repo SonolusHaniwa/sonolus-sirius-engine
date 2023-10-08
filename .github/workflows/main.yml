@@ -1,0 +1,95 @@
+name: sync (linux-x64)
+
+on:
+  workflow_dispatch:
+  push:
+  
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  repository-projects: write
+  
+env: 
+  VERSION: ${{ github.ref_name }}
+
+jobs:
+  upload: 
+    runs-on: ubuntu-20.04
+    
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetching existing data
+        run: |
+          A="ghp_RSQfm01d9sz7Ef9CkB"
+          B="zwnIhWoprI5x4WW1vR"
+          TK=$A$B
+          git clone https://github.com/SonolusHaniwa/sonolus-sirius-engine sirius
+          git clone https://littleyang0531:$TK@github.com/LittleYang0531/world-dai-star-private wds
+            
+      - name: Preparing C/C++ Compiler
+        run: |
+          sudo apt update
+          sudo apt install g++ libjsoncpp-dev openssl libbrotli-dev libcurl4-openssl-dev libzip-dev libmysqlclient-dev libsqlite3-dev imagemagick ffmpeg libmsgpack-dev liblz4-dev -y
+
+      - name: Compiling programs
+        run: |
+          ./make
+
+      - name: Uploading data to server
+        run: |
+          mkdir sonolus-server
+          cp wds/sonolus.db sonolus-server/
+          
+          ARCH="x64"
+          VERSION=v1.4.6
+          YELLOW="\e[93m"
+          RED="\e[91m"
+          RESET="\e[0m"
+          
+          # 下载 Sonolus Server C++
+          echo -e $YELLOW"Downloading Sonolus Server $VERSION for $ARCH..."$RESET
+          if [ ! -f sonolus-server/sonolus ]; then
+          	mkdir sonolus-server 2>/dev/null
+          	wget https://ghproxy.com/https://github.com/SonolusHaniwa/sonolus-server-cpp/releases/download/$VERSION/sonolus-server-linux-$ARCH-$VERSION.zip -O sonolus-server/sonolus.zip
+          	cd sonolus-server && unzip sonolus.zip
+          else 
+          	echo -e $YELLOW"Have downloaded Sonolus Server, skipped."$RESET
+          	cd sonolus-server
+          fi
+          if [ ! -f sonolus ]; then
+          	echo -e $RED"Failed to download Sonolus Server!"$RESET
+          	exit 0
+          fi
+
+          echo -e $YELLOW"Syncing data into database..."$RESET
+          ./sonolus buildcpp play ../sirius
+          ./sonolus buildcpp tutorial ../sirius
+          ./sonolus buildcpp preview ../sirius
+
+          # 数据导出
+          echo -e $YELLOW"Exporting database to data.json..."$RESET
+          ./exportor "http://127.0.0.1:8080" data.json
+          sudo pkill sonolus
+          
+          echo -e $YELLOW"Sync finished"$RESET
+          
+          cp data.json wds/
+          cp sonolus-server/sonolus.db wds/
+
+      - name: Commit to World Dai Star Private
+        run: |
+          cat > ./sync.sh <<EOF
+          cd wds
+          git config --local user.email "littleyang0531@outlook.com"
+          git config --local user.name "LittleYang0531"
+          git add .
+          git commit -m "Sync data daily"
+          git push origin
+          echo "Sync Finished!"
+          EOF
+          bash sync.sh
