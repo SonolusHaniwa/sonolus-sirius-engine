@@ -1,8 +1,7 @@
-name: sync (linux-x64)
+name: upload (linux-x64)
 
 on:
   workflow_dispatch:
-  push:
   
 permissions:
   contents: write
@@ -30,7 +29,8 @@ jobs:
           TK=$A$B
           git clone https://github.com/SonolusHaniwa/sonolus-sirius-engine sirius
           git clone https://littleyang0531:$TK@github.com/LittleYang0531/world-dai-star-private wds
-            
+          git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/sirius-sync tools
+          
       - name: Preparing C/C++ Compiler
         run: |
           sudo apt update
@@ -40,8 +40,10 @@ jobs:
         run: |
           mkdir sonolus-server
           cp wds/sonolus.db sonolus-server/
-          g++ exportor.cpp -o sonolus-server/exportor -lcurl -ljsoncpp
-
+          cd tools
+          ./make
+          cp exportor ../sonolus-server/
+          
           bash run.sh
           
           cp data.json wds/
