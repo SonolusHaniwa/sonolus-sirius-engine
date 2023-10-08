@@ -10,7 +10,7 @@ wget https://ghproxy.com/https://github.com/SonolusHaniwa/sonolus-server-cpp/rel
 cd sonolus-server && unzip -n sonolus.zip
 
 echo -e $YELLOW"Syncing data into database..."$RESET
-./sonolus serve &
+./sonolus serve >/dev/null 2>&1 &
 ./sonolus buildcpp play ../sirius
 ./sonolus buildcpp tutorial ../sirius
 ./sonolus buildcpp preview ../sirius
