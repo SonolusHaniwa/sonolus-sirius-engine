@@ -64,6 +64,7 @@ class SiriusSound : public Archetype {
         IF (times.now > beat) {
             JudgeNoteMuted(trackTouchId.get(), beat),
 			StopLooped(playLoopedId.get()),
+			Play(Clips.Sound, minSFXDistance),
             EntityDespawn.set(0, 1)
         } FI
     };

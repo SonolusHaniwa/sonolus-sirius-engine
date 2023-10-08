@@ -17,6 +17,8 @@ class SiriusScratchHoldEnd : public Archetype {
     var spawnOrder = 1000 + lastBeat;
     var shouldSpawn = times.now > lastBeat - appearTime;
 
+	Variable<EntityMemoryId> hasHold;
+
 	var preprocess = {
 		playLoopedId.set(0),
 		trackTouchId.set(0),
@@ -35,9 +37,6 @@ class SiriusScratchHoldEnd : public Archetype {
             IF (scratchLength < 0) { drawLeftArrow(scratchLane, scratchEnLane, beat) } 
             ELSE { drawArrow(scratchLane, scratchEnLane, beat) } FI
         } FI,
-		IF (times.now > lastBeat && playLoopedId.get() == 0) {
-			playLoopedId.set(PlayLooped(Clips.Hold)),
-		} FI,
         IF (LevelOption.get(Options.Autoplay)) {
             trackTouchId.set(beat)
         } FI
@@ -45,18 +44,35 @@ class SiriusScratchHoldEnd : public Archetype {
 
     var touch = {
         IF (LevelOption.get(Options.Autoplay) || times.now < lastBeat) { Return(0) } FI,
+		hasHold.set(0),
+		FOR (i, 0, touches.size, 1) {
+			IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
+			hasHold.set(1)
+		} DONE, 
         FOR (i, 0, touches.size, 1) {
             IF (!lines.inClickBox(touches[i], scratchLane, scratchEnLane)) { CONTINUE } FI,
             trackTouchId.set(Max(trackTouchId.get(), beat - judgment.great)),
 			IF (!movedLast(touches[i])) { CONTINUE } FI,
             trackTouchId.set(beat)
-        } DONE
+        } DONE,
+		IF (hasHold.get() == 1 && playLoopedId.get() == 0) {
+			playLoopedId.set(PlayLooped(Clips.Hold)),
+			isHighlighted.set(spawnHoldEffect(Effects.Scratch, lane, enLane))
+		} FI, IF (hasHold.get() == 0 && playLoopedId.get() != 0) {
+			StopLooped(playLoopedId.get()),
+			playLoopedId.set(0),
+			DestroyParticleEffect(isHighlighted.get()),
+			isHighlighted.set(0)
+		} FI,
     };
 
     var updateParallel = {
         IF ((times.now > beat && trackTouchId.get() != 0) || times.now > beat + judgment.good) {
             JudgeFlickNote(trackTouchId.get(), beat),
-			spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane),
+			DestroyParticleEffect(isHighlighted.get()),
+			IF (EntityInput.get(0) != 0) {
+				spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane)
+			} FI,
 			StopLooped(playLoopedId.get()),
             EntityDespawn.set(0, 1)
         } FI
