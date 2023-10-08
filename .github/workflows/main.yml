@@ -43,6 +43,7 @@ jobs:
           cd tools
           ./make
           cp exportor ../sonolus-server/
+          cd ..
           
           bash run.sh
           
