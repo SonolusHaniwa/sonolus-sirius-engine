@@ -1,8 +1,8 @@
 # Sonolus Sirius Engine
 
-A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.x.
+A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.3.
 
-适用于 Sonolus 0.7.2 的 World Dai Star: Dream's Stellarium 引擎。
+适用于 Sonolus 0.7.3 的 World Dai Star: Dream's Stellarium 引擎。
 
 Use [sonolus.h](https://github.com/SonolusHaniwa/sonolus.h) and [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp) to develop.
 
@@ -12,7 +12,7 @@ Todo List:
 - [ ] Finish writing tutorial mode
 - [x] Finish writing preview mode
 - [ ] Designed particle effect for sirius
-- [ ] Update to Sonolus v0.7.3
+- [x] Update to Sonolus v0.7.3
 
 使用 Sonolus Server C++ v1.4.6 进行开发，并在 Ubuntu amd64 环境下编译通过。
 
@@ -32,13 +32,32 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dplay # 编译程序
 ./main # 在 dist 文件夹下生成 EnginePlayData 和 EngineConfiguration
 g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程序
 ./main # 在 dist 文件夹下生成 EngineTutorialData 和 EngineConfiguration
-./main LevelData.txt music_config.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
+./main txt2data LevelData.txt music_config.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
 
 g++ skin_maker.cpp -os -ljsoncpp -lpng # 编译皮肤生成器
 ./s # 生成皮肤及相关文件
 ```
 
 ## Custom Resources
+
+### 自制谱方法
+
+请使用 Ched 编写世界大明星谱面，下列是音符对照表:
+
+|Sirius|Ched|
+|:-:|:-:|
+|Tap 音符|Tap 音符|
+|高亮 Tap 音符|高亮 Tap 音符|
+|Flick 音符|Flick 音符 + 向上 Air 音符|
+|Hold 音符(青色)|Slide 音符|
+|Scratch Hold 音符(紫色)|Slide 终点 + 向上 Air 音符|
+|高亮 (Scratch) Hold 音符|Slide 起点 + 高亮 Tap 音符|
+|Scratch 音符(在 Hold 音符中)|Slide 中途 + 向上 Air 音符|
+|(Scratch) Hold 中继点|Hold 中继点|
+|Jump Scratch 音符|用 Flick 音符覆盖一个 Slide 音符的起点和另一个 Slide 音符的重点 + 指定方向的 Air 音符|
+|分裂线|使用 HiSpeed 事件指定，整数部分指定轨道数，小数部分指定分裂线样式。整数部分为整十数表示分裂线结束|
+
+样例谱面: [chs 格式]() [sus 格式]() [谱面预览视频]()
 
 ### Skin Sprites
 
