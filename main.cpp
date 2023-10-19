@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
             cout << "Compressing..." << endl;
             buffer data = compress_gzip(LevelData, 9);
             cout << "Compress Finished." << endl;
-            ofstream fout(argv[3]);
+            ofstream fout(argv[4]);
             for (int i = 0; i < data.size(); i++) fout << data.v[i];
             fout.close();
             return 0;
