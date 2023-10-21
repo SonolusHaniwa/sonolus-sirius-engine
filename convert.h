@@ -1,3 +1,5 @@
+const int magicNumber = 0x114514;
+
 enum NoteType {
     None = 0,
     Normal = 10,
@@ -308,6 +310,7 @@ string fromSUS(string text) {
     vector<tuple<string, int, int, string> > mainData;
     map<int, int> bpmList;
     int currentBpm = 120; double currentTime = 0;
+    int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
     for (int i = 0; i < lines.size(); i++) {
         while (lines[i].back() == '\n' || lines[i].back() == '\r') lines[i].pop_back();
         if (lines[i].size() && lines[i][0] == '\r') lines[i] = lines[i].substr(1);
@@ -334,6 +337,51 @@ string fromSUS(string text) {
             continue;
         }
         if (head.substr(0, 3) == "TIL") {
+            body = body.substr(1, body.size() - 2);
+            auto exp = explode(", ", body.c_str());
+            for (auto i = 0; i < exp.size(); i++) {
+                string tmp = exp[i];
+                auto tmp1 = explode(":", tmp.c_str());
+                if (tmp1.size() != 2)
+                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+                string beat = tmp1[0], type = tmp1[1];
+                auto tmp2 = explode("'", beat.c_str());
+                if (tmp2.size() != 2)
+                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+                auto tmp3 = explode(".", type.c_str());
+                if (tmp3.size() != 2)
+                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+                switch(tmp2[1].size()) {
+                    case 0: tmp2[1] = "0000"; break;
+                    case 1: tmp2[1] = "000" + tmp2[1]; break;
+                    case 2: tmp2[1] = "00" + tmp2[1]; break;
+                    case 3: tmp2[1] = "0" + tmp2[1]; break;
+                } exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
+            }
+            sort(exp.begin(), exp.end());
+            for (auto i = 0; i < exp.size(); i++) {
+                string tmp = exp[i];
+                auto tmp1 = explode(":", tmp.c_str());
+                string beat = tmp1[0], type = tmp1[1];
+                auto tmp2 = explode("'", beat.c_str());
+                auto tmp3 = explode(".", type.c_str());
+                int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
+                if (currentSplitLine != 0) { // 分割线终点
+                    if (currentSplitLine * 10 != lines || currentSplitLineType != types)
+                        throw runtime_error("Overlapped Split Line: " + exp[i]);
+                    currentSplitLine = 0; currentSplitLineType = 0;
+                } else {
+                    if (lines > 6 || lines < 1) 
+                        throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+                    currentSplitLine = lines; currentSplitLineType = types;
+                }
+                switch(tmp2[0].size()) {
+                    case 0: tmp2[0] = "000"; break;
+                    case 1: tmp2[0] = "00" + tmp2[0]; break;
+                    case 2: tmp2[0] = "0" + tmp2[0]; break;
+                }
+                mainData.push_back({tmp2[0] + "SL", atoi(tmp2[1].c_str()), 1920, type});
+            }
             continue;
         }
         for (int j = 0; j < body.size(); j += 2) 
@@ -365,6 +413,16 @@ string fromSUS(string text) {
         if (prop == "08") { // BPM Change
             int bpm = bpmList[atoi(get<3>(mainData[i]).c_str())];
             currentBpm = bpm;
+        } else if (prop == "SL") { // Split Line
+            auto tmp = explode(".", body.c_str());
+            int line = atoi(tmp[0].c_str()), type = atoi(tmp[1].c_str());
+            if (currentSplitLine == 0)
+                currentSplitLine = line, currentSplitLineType = type, currentSplitLineTime = currentTime;
+            else {
+                txt << currentSplitLineTime - 1 << "," << currentTime + 1 << "," << 0 << "," << -1 << "," << 0 << ","
+                    << 10 + currentSplitLine << "," << currentSplitLineType << endl; // 调整 Split Line 的时间
+                currentSplitLine = 0; currentSplitLineType = 0; currentSplitLineTime = 0;
+            }
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
@@ -413,22 +471,24 @@ string fromSUS(string text) {
                 }
 
                 // Note 讨论
-                if (!isSlideStart && !isSlideEnd && !isSlideSound) continue;
+                if (!isSlideStart && !isSlideEnd && !isSlideSound && !isFlick) continue;
                 if (isSlideSound) {
                     if (!inSlide) throw runtime_error("Unknown Slide Sound in [" + to_string(l) + ", " + to_string(r) + "]");
                     txt << t << "," << -1 << "," << Sound << "," 
-                        << l << "," << r << "," << 0 << "," << 0 << endl;
-                } 
+                        << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                }
                 if (isSlideEnd) {
                     if (!inSlide) throw runtime_error("Unknown Slide End in [" + to_string(l) + ", " + to_string(r) + "]");
                     int ScratchType = 0;
                     for (int i = 1; i <= 12; i++) {
-                        if (i > l && i < r) continue;
-                        for (auto x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
+                        if (i > l && i <= r) continue;
+                        for (auto &x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
-                            if (prop[0] == '5') 
-                                ScratchSlide = true, ScratchType = (i <= l ? i - r - 1 : i - l + 1);
+                            if (prop[0] == '5') {
+                                ScratchSlide = true, ScratchType = (i == l ? 0 : (i < l ? i - r - 1 : i - l + 1));
+                                x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                            }
                         }
                     }
                     int noteType = (isCritical ? 
@@ -437,27 +497,72 @@ string fromSUS(string text) {
                     int holdType = (isCritical ? 
                         (ScratchSlide ? ScratchCriticalHold : CriticalHold) :
                         (ScratchSlide ? ScratchHold : Hold));
-                    if (addStart) txt << startTime << "," << -1 << "," << noteType << "," << l << "," << r << "," << 0 << "," << 0 << endl;
-                    txt << startTime << "," << t << "," << holdType << "," << l << "," << r << "," 
+                    if (addStart) txt << startTime << "," << -1 << "," << noteType << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    txt << startTime << "," << t << "," << holdType << "," << l << "," << (r - l + 1) << "," 
                         << (ScratchType == 0 ? "0" : "JumpScratch") << "," << ScratchType << endl;
                     tickTime = ticks_per_beat / 3840.0 * 60 * 4 / bpm; // 最好不要在 Slide 中间切换 BPM
-                    for (double i = startTime + tickTime; i <= t - tickTime; i += tickTime) {
-                        if (noteList[l][r][i].size()) continue;
-                        txt << i << "," << -1 << "," << HoldEighth << "," << l << "," << r << "," << 0 << "," << 0 << endl;
+                    // cout << t - tickTime << endl;
+                    for (double i = startTime + tickTime; i <= t - 0.0001; i += tickTime) {
+                        txt << i << "," << -1 << "," << HoldEighth << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                     } 
                     inSlide = false, CriticalSlide = false, ScratchSlide = false, addStart = true;
+                }
+                if (isFlick && inSlide) {
+                    txt << t << "," << -1 << "," << SoundPurple << "," 
+                        << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    for (auto &x : noteList[l][r][t]) {
+                        string head = get<0>(x), body = get<3>(x);
+                        string prop = head.substr(3);
+                        if (prop[0] == '5') {
+                            x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                        }
+                    }
                 }
                 if (isSlideStart) {
                     if (inSlide) throw runtime_error("Overlapped Slide in [" + to_string(l) + ", " + to_string(r) + "]");
                     inSlide = true; CriticalSlide = isCritical;
-                    for (int i = 1; i <= 12; i++) {
-                        if (i > l && i < r) continue;
-                        for (auto x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
+                    if (isCritical) {
+                        for (auto &x : noteList[l][r][t]) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
-                            if (prop[0] == '5') ScratchSlide = true, addStart = false;
+                            if (prop[0] == '1' && body[0] == '2') {
+                                x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                                break;
+                            }
+                        }
+                    }
+                    for (int i = 1; i <= 12; i++) {
+                        if (i > l && i < r) continue;
+                        for (auto &x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
+                            string head = get<0>(x), body = get<3>(x);
+                            string prop = head.substr(3);
+                            if (prop[0] == '5') {
+                                ScratchSlide = true, addStart = false;
+                                break; 
+                            }
                         }
                     } startTime = t;
+                }
+            }
+        }
+    }
+
+    // 处理余下 Note
+    for (int l = 1; l <= 12; l++) {
+        for (int r = l; r <= 12; r++) {
+            for (auto x : noteList[l][r]) {
+                double t = x.first; auto info = x.second;
+                for (auto xx : info) {
+                    if (get<1>(xx) == magicNumber) continue;
+                    string head = get<0>(xx), body = get<3>(xx);
+                    string prop = head.substr(3);
+                    if (prop[0] == '1') {
+                        if (body[0] == '1') txt << t << "," << -1 << "," << Normal << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                        if (body[0] == '2') txt << t << "," << -1 << "," << Critical << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    }
+                    if (prop[0] == '5') {
+                        txt << t << "," << -1 << "," << Flick << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    }
                 }
             }
         }

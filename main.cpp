@@ -52,26 +52,36 @@ int main(int argc, char** argv) {
     // 谱面转换测试
     if (argc >= 2) {
         if (string(argv[1]) == "txt2data") {
-            if (argc < 5) helpText(argc, argv);
+            if (argc != 5) helpText(argc, argv);
             string info = readFile(argv[3]); string chart = readFile(argv[2]);
             double chartOffset = fromMusicInfo(info);
             string LevelData = fromSirius(chart, chartOffset);
             cout << "Compressing..." << endl;
             buffer data = compress_gzip(LevelData, 9);
             cout << "Compress Finished." << endl;
-            ofstream fout(argv[3]);
+            ofstream fout(argv[4]);
             for (int i = 0; i < data.size(); i++) fout << data.v[i];
             fout.close();
             return 0;
         } else if (string(argv[1]) == "sus2txt") {
-            if (argc < 4) helpText(argc, argv);
+            if (argc != 4) helpText(argc, argv);
             string sus = readFile(argv[2]);
             string txt = fromSUS(sus);
             ofstream fout(argv[3]);
             fout << txt; fout.close();
             return 0;
         } else if (string(argv[1]) == "sus2data") {
-
+            if (argc != 5) helpText(argc, argv);
+            string info = readFile(argv[3]); string chart = readFile(argv[2]);
+            double chartOffset = fromMusicInfo(info);
+            string LevelData = fromSirius(fromSUS(chart), chartOffset);
+            cout << "Compressing..." << endl;
+            buffer data = compress_gzip(LevelData, 9);
+            cout << "Compress Finished." << endl;
+            ofstream fout(argv[4]);
+            for (int i = 0; i < data.size(); i++) fout << data.v[i];
+            fout.close();
+            return 0;
         } else helpText(argc, argv);
     }
 
