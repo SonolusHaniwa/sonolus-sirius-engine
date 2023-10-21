@@ -57,7 +57,7 @@ g++ skin_maker.cpp -os -ljsoncpp -lpng # 编译皮肤生成器
 |Jump Scratch 音符|用 Flick 音符覆盖一个 Slide 音符的起点和另一个 Slide 音符的重点 + 指定方向的 Air 音符|
 |分裂线|使用 HiSpeed 事件指定，整数部分指定轨道数，小数部分指定分裂线样式。整数部分为整十数表示分裂线结束|
 
-样例谱面: [chs 格式]() [sus 格式]() [谱面预览视频]()
+样例谱面: [chs 格式](https://oneindex.littleyang.me/api/raw?path=/data/satellite.chs) [sus 格式](https://oneindex.littleyang.me/api/raw?path=/data/satellite.sus) [谱面预览视频](https://www.bilibili.com/video/BV1AH4y1R7xX)
 
 ### Skin Sprites
 
