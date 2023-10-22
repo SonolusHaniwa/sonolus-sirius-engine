@@ -21,7 +21,9 @@ class SiriusScratchHoldStart : public Archetype {
     };
 
     var updateSequential = {
-        drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
+        IF (times.now <= beat) {
+            drawNormalNote(Sprites.ScratchNote, lane, enLane, beat)
+        } FI,
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeNote(beat, beat),
 			spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane),

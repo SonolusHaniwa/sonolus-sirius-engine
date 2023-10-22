@@ -37,10 +37,59 @@ FuncNode tutorialUpdate = 0;
 #include"items/PreviewData.h"
 
 map<EngineDataNode, int> hashMap;
+// 双哈希 + 手动哈希表 O(n)
+// const int64_t k1 = 23;
+// const int64_t k2 = 55331;
+// const int64_t p1 = 1e9 + 7;
+// const int64_t p2 = 998244353;
+// struct hashMap {
+//     int *map1, *map2;
+//     hashMap() {
+//         map1 = new int[1 << 20];
+//         map2 = new int[1 << 20];
+//         memset(map1, -1, sizeof(map1));
+//         memset(map2, -1, sizeof(map2));
+//     }
+//     int64_t getHash(EngineDataNode v, bool hashType) {
+//         string tmp = v.type;
+//         if (v.type == "value") tmp += to_string(v.value.value);
+//         else {
+//             tmp += v.func.func;
+//             for (int i = 0; i < v.func.args.size(); i++) tmp += to_string(v.func.args[i]);
+//         } int64_t hash = 0;
+//         for (int i = 0; i < tmp.size(); i++) 
+//             hash *= hashType ? k1 : k2, hash %= hashType ? p1 : p2,
+//             hash += tmp[i], hash %= hashType ? p1 : p2;
+//         return hash;
+//     }
+//     void insert(EngineDataNode key, int value) {
+//         int64_t hash1 = getHash(key, 0);
+//         int64_t hash2 = getHash(key, 1);
+//         hash1 %= (1 << 20); hash2 %= (1 << 20);
+//         map1[hash1] = value; map2[hash2] = value;
+//     }
+//     int get(EngineDataNode key) {
+//         int64_t hash1 = getHash(key, 0);
+//         int64_t hash2 = getHash(key, 1);
+//         hash1 %= (1 << 20); hash2 %= (1 << 20);
+//         if (map1[hash1] != map2[hash2]) throw runtime_error("Hash Collision!");
+//         return map1[hash1];
+//     }
+//     bool exist(EngineDataNode key) {
+//         int64_t hash1 = getHash(key, 0);
+//         int64_t hash2 = getHash(key, 1);
+//         hash1 %= (1 << 20); hash2 %= (1 << 20);
+//         if (map1[hash1] != map2[hash2]) throw runtime_error("Hash Collision!");
+//         return map1[hash1] != -1;
+//     }
+// }hashMap;
+
+int globalCounter = 0;
+int lastGlobalCounter = 0;
 
 template<typename T>
 int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
-    EngineDataNode res;
+    EngineDataNode res; globalCounter++;
     if (script.isValue == true) res = EngineDataValueNode(script.value);
     else {
         // Return 函数判断
@@ -56,7 +105,11 @@ int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
                 nodesContainer,
                 blockCounter + (script.func == "Block")));
         res = EngineDataFunctionNode(script.func, args);
-    } if (hashMap.find(res) != hashMap.end()) return hashMap[res];
+    } 
+    // if (hashMap.exist(res)) return hashMap.get(res);
+    // hashMap.insert(res, nodesContainer.nodes.size()); nodesContainer.nodes.push_back(res);
+    // return hashMap.get(res);
+    if (hashMap.find(res) != hashMap.end()) return hashMap[res];
     hashMap[res] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
     return hashMap[res];
 }
@@ -76,10 +129,16 @@ int buildFuncNode3(FuncNode func) {
     return buildScript(res, enginePreviewData);
 }
 
+time_t millitime() {
+    return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
+}
+
 template<typename T>
 void buildArchetype(T unused) {
     #ifdef play
+    time_t st = millitime();
     T archetype; EngineDataArchetype newArchetype;
+    cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
     newArchetype.preprocess.order = archetype.preprocessOrder;
@@ -100,8 +159,14 @@ void buildArchetype(T unused) {
     newArchetype.terminate.index = buildFuncNode(archetype.terminate);
     newArchetype.data = archetype.data;
     engineData.archetypes.push_back(newArchetype);
+    time_t d = millitime() - st;
+    cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 
+         << fixed << setprecision(0) 
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s." << endl;
     #elif preview
+    time_t st = millitime();
     T archetype; EnginePreviewDataArchetype newArchetype;
+    cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.preprocess.order = archetype.preprocessOrder;
     newArchetype.preprocess.index = buildFuncNode3(archetype.preprocess);
@@ -109,6 +174,10 @@ void buildArchetype(T unused) {
     newArchetype.render.index = buildFuncNode3(archetype.render);
     newArchetype.data = archetype.data;
     enginePreviewData.archetypes.push_back(newArchetype);
+    time_t d = millitime() - st;
+    cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 
+         << fixed << setprecision(0) 
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s." << endl;
     #endif
 }
 

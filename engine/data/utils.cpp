@@ -221,10 +221,11 @@ var drawLine(var id, var st, var en, var a, var sprite) {
     Vec c2 = lines[id + 1].getFullPosition(ease(en));
 	var w1 = lines[id + 1].getFullWidth(ease(st));
 	var w2 = lines[id + 1].getFullWidth(ease(en));
+    var move = splitLineLength / 2;
 	Vec c3 = c1 + Vec(-1 * w1 / 2, 0);
 	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
-	Vec lb = c4 + Vec(-1 * noteMoveLength * w2 / w, 0), lt = c3 + Vec(-1 * noteMoveLength * w1 / w, 0);
-	Vec rb = c4 + Vec(noteMoveLength * w2 / w, 0), rt = c3 + Vec(noteMoveLength * w1 / w, 0);
+	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
+	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
@@ -234,10 +235,11 @@ var drawEndLine(var st, var en, var a, var sprite) {
     Vec c2 = lines[12].getFullPosition(ease(en));
 	var w1 = lines[12].getFullWidth(ease(st));
 	var w2 = lines[12].getFullWidth(ease(en));
+    var move = splitLineLength / 2;
 	Vec c3 = c1 + Vec(1 * w1 / 2, 0);
 	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
-	Vec lb = c4 + Vec(-1 * noteMoveLength * w2 / w, 0), lt = c3 + Vec(-1 * noteMoveLength * w1 / w, 0);
-	Vec rb = c4 + Vec(noteMoveLength * w2 / w, 0), rt = c3 + Vec(noteMoveLength * w1 / w, 0);
+	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
+	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
 }
 
