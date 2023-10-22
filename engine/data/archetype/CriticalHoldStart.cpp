@@ -35,7 +35,7 @@ class SiriusCriticalHoldStart : public Archetype {
         IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
         FOR (i, 0, touches.size, 1) {
             IF (touches[i].started == false) { CONTINUE } FI,
-            IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
+            IF (!lines.inClickBox(touches[i], lane, enLane, true)) { CONTINUE } FI,
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeCriticalNote(times.now, beat),

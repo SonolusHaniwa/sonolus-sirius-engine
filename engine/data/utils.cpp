@@ -12,6 +12,21 @@ var drawNormalNote(var sprite, var lane, var enLane, var beat) {
     return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
 }
 
+var drawHiddenLine() {
+    var sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - LevelOption.get(Options.Hidden)) * appearTime;
+    var w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    var multiplier = w / lines[lane].getWidth(1);
+    Vec c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) - hiddenLineHeight / 2 / stage.h * multiplier);
+    Vec c2 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) + hiddenLineHeight / 2 / stage.h * multiplier);
+    Vec c3 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) - hiddenLineHeight / 2 / stage.h * multiplier);
+    Vec c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + hiddenLineHeight / 2 / stage.h * multiplier);
+    var w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - hiddenLineHeight / 2 / stage.h * multiplier);
+    var w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + hiddenLineHeight / 2 / stage.h * multiplier);
+    Vec lb = c2 + Vec(-1 * w2 / 2 + noteMoveLength * w1 / lines[lane].getWidth(1), 0), lt = c1 + Vec(-1 * w1 / 2 + noteMoveLength * w2 / lines[lane].getWidth(1), 0);
+    Vec rb = c4 + Vec(1 * w2 / 2 - noteMoveLength * w1 / lines[lane].getWidth(1), 0), rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / lines[lane].getWidth(1), 0);
+    return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10, 0.6);
+}
+
 var spawnLineEffect(var lane, var enLane) {
 	var wt = lines[lane].getFullWidth(0), wb = lines[lane].getFullWidth(1);
 	Vec lb = lines[lane].getFullPosition(1) + Vec(-1 * wb / 2.0, 0), rb = lines[enLane].getFullPosition(1) + Vec(wb / 2.0, 0);
@@ -53,16 +68,18 @@ var drawArrow(var lane, var enLane, var beat) {
     var W = arrowWidth * multiplier, H = arrowHeight * multiplier;
     var L = c1.x - w / 2, R = c2.x + w / 2;
     var num = w * (enLane - lane + 1) / 2 * arrowPercent / W;
-    return Execute({
-        FOR (i, 1, num, 1) {
-            Draw(Sprites.ScratchArrow, L + (i - 1) * W / 2, c1.y, L + (i - 1) * W / 2, c1.y + H / 2, 
-                L + (i + 1) * W / 2, c1.y + H / 2, L + (i + 1) * W / 2, c1.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num)
-        } DONE, 
-        FOR (i, 1, num, 1) {
-            Draw(Sprites.ScratchArrow, R - (i - 1) * W / 2, c2.y, R - (i - 1) * W / 2, c2.y + H / 2, 
-                R - (i + 1) * W / 2, c2.y + H / 2, R - (i + 1) * W / 2, c2.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num)
-        } DONE
-    });
+    return IF (ease((times.now - beat) / appearTime + 1) > hiddenPercent) {
+        Execute({
+            FOR (i, 1, num, 1) {
+                Draw(Sprites.ScratchArrow, L + (i - 1) * W / 2, c1.y, L + (i - 1) * W / 2, c1.y + H / 2, 
+                    L + (i + 1) * W / 2, c1.y + H / 2, L + (i + 1) * W / 2, c1.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num)
+            } DONE, 
+            FOR (i, 1, num, 1) {
+                Draw(Sprites.ScratchArrow, R - (i - 1) * W / 2, c2.y, R - (i - 1) * W / 2, c2.y + H / 2, 
+                    R - (i + 1) * W / 2, c2.y + H / 2, R - (i + 1) * W / 2, c2.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num)
+            } DONE
+        })
+    } FI;
 }
 
 var drawLeftArrow(var lane, var enLane, var beat) {
@@ -73,12 +90,14 @@ var drawLeftArrow(var lane, var enLane, var beat) {
     var W = arrowWidth * multiplier, H = arrowHeight * multiplier;
     var L = c1.x - w / 2, R = c2.x + w / 2;
     var num = w * (enLane - lane + 1) * arrowPercent / W;
-    return Execute({
-        FOR (i, 1, num, 1) {
-            Draw(Sprites.ScratchArrow, L + (i - 1) * W / 2, c1.y, L + (i - 1) * W / 2, c1.y + H / 2, 
-                L + (i + 1) * W / 2, c1.y + H / 2, L + (i + 1) * W / 2, c1.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
-        } DONE,
-    });
+    return IF (ease((times.now - beat) / appearTime + 1) > hiddenPercent) {
+        Execute({
+            FOR (i, 1, num, 1) {
+                Draw(Sprites.ScratchArrow, L + (i - 1) * W / 2, c1.y, L + (i - 1) * W / 2, c1.y + H / 2, 
+                    L + (i + 1) * W / 2, c1.y + H / 2, L + (i + 1) * W / 2, c1.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
+            } DONE,
+        })
+    } FI;
 }
 
 var drawRightArrow(var lane, var enLane, var beat) {
@@ -89,12 +108,14 @@ var drawRightArrow(var lane, var enLane, var beat) {
     var W = arrowWidth * multiplier, H = arrowHeight * multiplier;
     var L = c1.x - w / 2, R = c2.x + w / 2;
     var num = w * (enLane - lane + 1) * arrowPercent / W;
-    return Execute({
-        FOR (i, 1, num, 1) {
-            Draw(Sprites.ScratchArrow, R - (i - 1) * W / 2, c2.y, R - (i - 1) * W / 2, c2.y + H / 2, 
-                R - (i + 1) * W / 2, c2.y + H / 2, R - (i + 1) * W / 2, c2.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
-        } DONE
-    });
+    return IF (ease((times.now - beat) / appearTime + 1) > hiddenPercent) {
+        Execute({
+            FOR (i, 1, num, 1) {
+                Draw(Sprites.ScratchArrow, R - (i - 1) * W / 2, c2.y, R - (i - 1) * W / 2, c2.y + H / 2, 
+                    R - (i + 1) * W / 2, c2.y + H / 2, R - (i + 1) * W / 2, c2.y, 1001 - beat, 1 - 0.8 * Mod({i + times.now * arrowSpeed * 2, num}) / num)
+            } DONE
+        })
+    } FI;
 }
 
 var JudgeNote(var t, var beat) {

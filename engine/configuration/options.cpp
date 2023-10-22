@@ -4,12 +4,14 @@ class Options {
     public:
     
     int Autoplay = 0;         // Supported
-    int Mirror = 1;
-    int SplitRandom = 2;
-    int NoteSpeed = 3;        // Supported
-    int SyncLine = 4;         // Supported
-    int LockAspectRatio = 5;  // Supported
-    int SplitLine = 6;        // Supported
+    int Mirror = 1;           // Supported
+    int NoteSpeed = 2;        // Supported
+    int Hidden = 3;
+    int SplitRandom = 4;
+    int SplitLine = 5;        // Supported
+    int SyncLine = 6;         // Supported
+    int LockAspectRatio = 7;  // Supported
+    
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -26,12 +28,6 @@ auto options = defineOptions<class Options>({
         type: OptionType.Toggle,
         def: 0
     }, {
-        name: "Split Random Fall (not implement yet)",
-        scope: Scope,
-        standard: 0,
-        type: OptionType.Toggle,
-        def: 0
-    }, {
         name: NameText.NoteSpeed,
         scope: Scope,
         standard: 0,
@@ -40,6 +36,32 @@ auto options = defineOptions<class Options>({
         min: 1,
         max: 20,
         step: 0.1,
+    }, {
+        name: NameText.VerticalStageCover,
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Slider,
+        def: 0,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        unit: UnitText.Percentage,
+    }, {
+        name: "Split Random Fall (not implement yet)",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0
+    }, {
+        name: "Split Line Visibility",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Slider,
+        def: 1,
+        min: 0,
+        max: 1,
+        step: 0.01,
+        unit: UnitText.Percentage,
     }, {
         name: NameText.SimultaneousLineVisibility,
         scope: Scope,
@@ -52,15 +74,5 @@ auto options = defineOptions<class Options>({
         standard: 0,
         type: OptionType.Toggle,
         def: 1,
-    }, {
-        name: "Split Line Visibility",
-        scope: Scope,
-        standard: 0,
-        type: OptionType.Slider,
-        def: 1,
-        min: 0,
-        max: 1,
-        step: 0.01,
-        unit: UnitText.Percentage,
     }
 });

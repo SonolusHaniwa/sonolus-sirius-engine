@@ -15,6 +15,7 @@ class Stage: public Archetype {
     var updateSequential = {
         Draw(Sprites.Stage, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 1, 1),
         Draw(Sprites.StageBackground, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 2, 0.6),
+        drawHiddenLine(),
         drawJudgeline()
     }; 
 

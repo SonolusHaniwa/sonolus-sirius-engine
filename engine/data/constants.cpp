@@ -1,6 +1,6 @@
 using namespace std;
 
-const double maxSize = 2.0;                     // 判定大小
+const double maxSize = 0.5;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
 const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比
@@ -25,6 +25,7 @@ const var effectLinearHeight = 280.0 / 640.0;   // 特效高度
 const var effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
 const var effectDurationTime = 0.5;             // 特效持续时间
 const var effectDistance = 20.0 / 640.0;        // 特效微调距离
+const var hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
 
 class Vec {
     public:
@@ -80,8 +81,13 @@ class judgline {
     var rtY = ltY;
 }judgline;
 
+var ease(var x) {
+    return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
+}
+
 const var noteSpeed = stage.h / defaultAppearTime * Power({1.3, LevelOption.get(Options.NoteSpeed) - 5});
 const var appearTime = stage.h / noteSpeed;
+const var hiddenPercent = ease(LevelOption.get(Options.Hidden));
 
 const var t = If(
 	LevelOption.get(Options.LockAspectRatio) && screen.aspectRatio < targetAspectRatio,
@@ -105,10 +111,6 @@ class score {
 	var great = 0.8;
 	var good = 0.5;
 }score;
-
-var ease(var x) {
-    return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
-}
 
 class line {
     public:
@@ -139,25 +141,29 @@ class line {
     }
 
     Vec getPosition(var percent) {
+        var RealPercent = IF (percent <= hiddenPercent) { hiddenPercent } ELSE { percent } FI;
         return Vec(
-            Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, percent * (1 - judgelineMarginBottom)),
-            Lerp(lt.y, lb.y, percent * (1 - judgelineMarginBottom))
+            Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, RealPercent * (1 - judgelineMarginBottom)),
+            Lerp(lt.y, lb.y, RealPercent * (1 - judgelineMarginBottom))
         );
     }
 
     var getWidth(var percent) {
-        return Lerp((rt.x - lt.x), (rb.x - lb.x), percent * (1 - judgelineMarginBottom));
+        var RealPercent = IF (percent <= hiddenPercent) { hiddenPercent } ELSE { percent } FI;
+        return Lerp((rt.x - lt.x), (rb.x - lb.x), RealPercent * (1 - judgelineMarginBottom));
     }
 
     Vec getFullPosition(var percent) {
+        var RealPercent = percent;
         return Vec(
-            Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, percent),
-            Lerp(lt.y, lb.y, percent)
+            Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, RealPercent),
+            Lerp(lt.y, lb.y, RealPercent)
         );
     }
 
     var getFullWidth(var percent) {
-        return Lerp((rt.x - lt.x), (rb.x - lb.x), percent);
+        var RealPercent = percent;
+        return Lerp((rt.x - lt.x), (rb.x - lb.x), RealPercent);
     }
 }lines;
 
