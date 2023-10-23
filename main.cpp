@@ -1,9 +1,16 @@
+// 避免编译 Particle 的时候报 "y1 is ambiguous"
+#define y1 y1_decrypted
 #include<bits/stdc++.h>
+#undef y1
 #include"sonolus.h"
 using namespace std;
 
 const string dist = "./dist";
+#ifdef particle
+#include"particle/particle.cpp"
+#else
 #include"engine/engine.cpp"
+#endif
 
 vector<string> explode(const char* seperator, const char* source) {
 	string src = source; vector<string> res;
@@ -85,8 +92,8 @@ int main(int argc, char** argv) {
         } else helpText(argc, argv);
     }
 
-    engineConfiguration.ui = configurationUI;
 #ifdef play
+	engineConfiguration.ui = configurationUI;
     buffer data, configuration;
     build<
         // Replace with your archetypes here
@@ -112,6 +119,7 @@ int main(int argc, char** argv) {
     fout.close(); fout.open((dist + "/EngineData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #elif tutorial
+	engineConfiguration.ui = configurationUI;
     buffer data, configuration;
     build(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
@@ -119,6 +127,7 @@ int main(int argc, char** argv) {
     fout.close(); fout.open((dist + "/EngineTutorialData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #elif preview
+	engineConfiguration.ui = configurationUI;
     buffer data, configuration;
     build<
         // Replace with your archetypes here
@@ -142,5 +151,11 @@ int main(int argc, char** argv) {
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
     fout.close(); fout.open((dist + "/EnginePreviewData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
+#elif particle
+	buffer data;
+	particleBuild(data);
+	ofstream fout((dist + "/ParticleData"));
+	for (int i = 0; i < data.size(); i++) fout << data.v[i];
+	fout.close();
 #endif
 }

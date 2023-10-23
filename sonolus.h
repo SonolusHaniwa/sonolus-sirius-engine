@@ -35,6 +35,7 @@ FuncNode tutorialUpdate = 0;
 #include"items/PlayData.h"
 #include"items/TutorialData.h"
 #include"items/PreviewData.h"
+#include"items/ParticleData.h"
 
 map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
@@ -202,6 +203,18 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     buildArchetype<Args...>(Args()...);
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #endif
+}
+
+void particleBuild(buffer& data) {
+	int width = 0, height = 0;
+	Json::Value res;
+	res["width"] = width;
+	res["height"] = height;
+	res["interpolation"] = true;
+	res["sprites"].resize(0);
+	res["effects"].resize(0);
+	for (int i = 0; i < effects.size(); i++) res["effects"].append(effects[i].toJsonObject());
+	data = compress_gzip(json_encode(res));
 }
 
 #define IF(cond) If(cond, Execute(

@@ -1,16 +1,30 @@
 {
-  "name": "sirius",
-  "i18n": [
-    {
-      "localization": "default",
-      "title": "Sirius",
-      "subtitle": "World Dai Star: Dream's Stellarium",
-      "author": "LittleYang0531",
-      "skin": "sirius",
-      "background": "sirius-default",
-      "effect": "sirius",
-      "particle": "pjsekai",
-      "description": "A recreation of World Dai Star: Dream's Stellarium engine in Sonolus.\nVersion: 1.0.0.20231022_beta\n\nGithub Repository\nhttps://github.com/SonolusHaniwa/sonolus-sirius-engine"
-    }
-  ]
+  "particle": {
+	"name": "sirius",
+	"i18n": [
+	  {
+		"localization": "default",
+		"title": "Sirius",
+		"subtitle": "World Dai Star: Dream's Stellarium",
+		"author": "LittleYang0531",
+		"description": "Version: 1.0.0.20231022_beta"
+	  }
+	]
+  },
+  "engine": {
+    "name": "sirius",
+    "i18n": [
+      {
+        "localization": "default",
+        "title": "Sirius",
+        "subtitle": "World Dai Star: Dream's Stellarium",
+        "author": "LittleYang0531",
+        "skin": "sirius",
+        "background": "sirius-default",
+        "effect": "sirius",
+        "particle": "pjsekai",
+        "description": "A recreation of World Dai Star: Dream's Stellarium engine in Sonolus.\nVersion: 1.0.0.20231022_beta\n\nGithub Repository\nhttps://github.com/SonolusHaniwa/sonolus-sirius-engine"
+      }
+    ]	
+  }
 }
