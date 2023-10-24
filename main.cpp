@@ -153,7 +153,7 @@ int main(int argc, char** argv) {
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #elif particle
 	buffer data;
-	particleBuild(data);
+	particleBuild(data, dist + "/ParticleTexture");
 	ofstream fout((dist + "/ParticleData"));
 	for (int i = 0; i < data.size(); i++) fout << data.v[i];
 	fout.close();

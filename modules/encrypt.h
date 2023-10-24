@@ -1,5 +1,6 @@
 #ifndef ENCRYPT_H
 #define ENCRYPT_H
+#include<openssl/ssl.h>
 
 // base64编码部分
 std::string base64_chars =

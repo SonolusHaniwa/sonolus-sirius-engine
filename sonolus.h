@@ -1,6 +1,3 @@
-#include<jsoncpp/json/json.h>
-#include<openssl/ssl.h>
-
 #include"modules/modules.h"
 
 #include"items/Exception.h"
@@ -205,16 +202,17 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #endif
 }
 
-void particleBuild(buffer& data) {
-	int width = 0, height = 0;
+void particleBuild(buffer& data, string texturePath) {
+	Json::Value textureInfo = packSprites(texturePath);
 	Json::Value res;
-	res["width"] = width;
-	res["height"] = height;
+	res["width"] = textureInfo["width"];
+	res["height"] = textureInfo["height"];
 	res["interpolation"] = true;
-	res["sprites"].resize(0);
+	res["sprites"] = textureInfo["sprites"];
 	res["effects"].resize(0);
 	for (int i = 0; i < effects.size(); i++) res["effects"].append(effects[i].toJsonObject());
 	data = compress_gzip(json_encode(res));
+	cout << "Success to pack ParticleData!" << endl;
 }
 
 #define IF(cond) If(cond, Execute(

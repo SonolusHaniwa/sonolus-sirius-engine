@@ -124,6 +124,58 @@ vector<string> Sprites;
 vector<ParticleDataEffect> effects;
 #define defineSprite(name) int name = [](){Sprites.push_back(#name);return Sprites.size() - 1;}()
 void defineEffect(ParticleDataEffect effect) { effects.push_back(effect); }
+Json::Value packSprites(string texturePath) {
+	cout << "Reading sprites..." << endl;
+	vector<image> imgs;
+	for (int i = 0; i < Sprites.size(); i++) {
+		string imgPath = "./particle/sprites/" + Sprites[i] + ".png";
+		if (!fileExists(imgPath)) 
+			throw runtime_error(("Unknown Sprites \"particle/sprites/" + Sprites[i] + ".png").c_str());
+		image img = readImage(imgPath);
+		imgs.push_back(img);
+	}
+
+	cout << "Calculating texture..." << endl;
+	using namespace rbp;
+	vector<RectSize> rects, rects_back; vector<Rect> result_rects; 
+	vector<size_t> rects_id, rects_id_back, result_ids;
+	for (int i = 0; i < imgs.size(); i++) rects.push_back({imgs[i].width, imgs[i].height});
+	for (int i = 0; i < imgs.size(); i++) rects_id.push_back(i);
+	rects_id_back = rects_id; rects_back = rects;
+	int width = 512, height = 512;
+	while (true) {
+		rects = rects_back, rects_id = rects_id_back;
+		result_rects.clear(); result_ids.clear();
+		auto RectsFactory = MaxRects(width, height, false);
+		int res = RectsFactory.insert(1, rects, rects_id, result_rects, result_ids);
+		if (res == rects.size()) break;
+		width *= 2, height *= 2;
+	}
+
+	cout << "Writing texture..." << endl;
+	image outimg; Json::Value res;
+	outimg.width = width, outimg.height = height;
+	res["width"] = width; res["height"] = height;
+	res["sprites"].resize(0);
+	outimg.data = new png_bytep[height];
+	for (int i = 0; i < height; i++) outimg.data[i] = reinterpret_cast<png_bytep>(new Byte[width * 4]);
+	for (int i = 0; i < result_rects.size(); i++) {
+		int id = result_ids[i], x = result_rects[i].x, y = result_rects[i].y;
+		res["sprites"][i]["x"] = x; res["sprites"][i]["y"] = y;
+		res["sprites"][i]["w"] = result_rects[i].width, res["sprites"][i]["h"] = result_rects[i].height;
+		for (int j = y; j < y + result_rects[i].height; j++) {
+			for (int k = x; k < x + result_rects[i].width; k++) {
+				outimg.data[j][k * 4] = imgs[id].data[j - y][(k - x) * imgs[id].channel];
+				outimg.data[j][k * 4 + 1] = imgs[id].data[j - y][(k - x) * imgs[id].channel + 1];
+				outimg.data[j][k * 4 + 2] = imgs[id].data[j - y][(k - x) * imgs[id].channel + 2];
+				outimg.data[j][k * 4 + 3] = imgs[id].channel < 4 ? 255 : imgs[id].data[j - y][(k - x) * imgs[id].channel + 3];
+			}
+		}
+	}
+	writeImage(texturePath, outimg);
+	cout << "Success to pack sprites into texture!" << endl;
+	return res;
+}
 
 namespace particleData {
 	TransformExpressionInput c("c");
