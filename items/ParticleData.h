@@ -6,7 +6,7 @@ class TransformExpression {
 	vector<pair<string, double> > expression;
 
 	Json::Value toJsonObject() {
-		Json::Value json;
+		Json::Value json; json = Json::objectValue;
 		for (int i = 0 ; i < expression.size(); i++)
 			json[expression[i].first] = expression[i].second;
 		return json;
@@ -20,8 +20,9 @@ class TransformExpressionInput {
 
 	TransformExpressionInput(string name): name(name){}
 	TransformExpressionInput operator * (double multiplier) {
-		this->multiplier *= multiplier;
-		return (*this);
+		TransformExpressionInput res = (*this);
+		res.multiplier *= multiplier;
+		return res;
 	}
 	operator TransformExpression() {
 		TransformExpression exp;
@@ -58,10 +59,10 @@ class ParticleSpriteProperty {
 	string ease;
 
 	Json::Value toJsonObject() {
-		Json::Value res;
-		res["from"] = from.toJsonObject();
-		res["to"] = to.toJsonObject();
-		res["ease"] = ease;
+		Json::Value res; res = Json::objectValue;
+		if (from.expression.size()) res["from"] = from.toJsonObject();
+		if (to.expression.size()) res["to"] = to.toJsonObject();
+		if (ease != "") res["ease"] = ease;
 		return res;
 	}
 };
@@ -120,17 +121,17 @@ class ParticleDataEffect {
 	}
 };
 
-vector<string> Sprites;
-vector<ParticleDataEffect> effects;
-#define defineSprite(name) int name = [](){Sprites.push_back(#name);return Sprites.size() - 1;}()
-void defineEffect(ParticleDataEffect effect) { effects.push_back(effect); }
+vector<string> sprites;
+vector<ParticleDataEffect> particle_effects;
+#define defineSprite(name) int name = [](){sprites.push_back(#name);return sprites.size() - 1;}()
+void defineEffect(ParticleDataEffect effect) { particle_effects.push_back(effect); }
 Json::Value packSprites(string texturePath) {
 	cout << "Reading sprites..." << endl;
 	vector<image> imgs;
-	for (int i = 0; i < Sprites.size(); i++) {
-		string imgPath = "./particle/sprites/" + Sprites[i] + ".png";
+	for (int i = 0; i < sprites.size(); i++) {
+		string imgPath = "./particle/sprites/" + sprites[i] + ".png";
 		if (!fileExists(imgPath)) 
-			throw runtime_error(("Unknown Sprites \"particle/sprites/" + Sprites[i] + ".png").c_str());
+			throw runtime_error(("Unknown Sprites \"particle/sprites/" + sprites[i] + ".png").c_str());
 		image img = readImage(imgPath);
 		imgs.push_back(img);
 	}
@@ -161,8 +162,8 @@ Json::Value packSprites(string texturePath) {
 	for (int i = 0; i < height; i++) outimg.data[i] = reinterpret_cast<png_bytep>(new Byte[width * 4]);
 	for (int i = 0; i < result_rects.size(); i++) {
 		int id = result_ids[i], x = result_rects[i].x, y = result_rects[i].y;
-		res["sprites"][i]["x"] = x; res["sprites"][i]["y"] = y;
-		res["sprites"][i]["w"] = result_rects[i].width, res["sprites"][i]["h"] = result_rects[i].height;
+		res["sprites"][id]["x"] = x + 1; res["sprites"][id]["y"] = y + 1;
+		res["sprites"][id]["w"] = result_rects[i].width, res["sprites"][id]["h"] = result_rects[i].height;
 		for (int j = y; j < y + result_rects[i].height; j++) {
 			for (int k = x; k < x + result_rects[i].width; k++) {
 				outimg.data[j][k * 4] = imgs[id].data[j - y][(k - x) * imgs[id].channel];

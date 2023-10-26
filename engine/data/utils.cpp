@@ -35,8 +35,25 @@ var spawnLineEffect(var lane, var enLane) {
 }
 
 var spawnEffect(var linear, var circular, var lane, var enLane) {
-	var w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
-	Vec c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	var w = lines[lane].getWidth(ease(1));
+	Vec c1 = lines[lane].getPosition(ease(1) - effectCircularHeight / 2 / stage.h);
+	Vec c2 = lines[lane].getPosition(ease(1) + effectCircularHeight / 2 / stage.h);
+	Vec c3 = lines[enLane].getPosition(ease(1) - effectCircularHeight / 2 / stage.h);
+	Vec c4 = lines[enLane].getPosition(ease(1) + effectCircularHeight / 2 / stage.h);
+	var w1 = lines[lane].getWidth(ease(1) - effectCircularHeight / 2 / stage.h);
+	var w2 = lines[lane].getWidth(ease(1) + effectCircularHeight / 2 / stage.h);
+	Vec lb = c2 + Vec(-1 * w2 / 2, 0), lt = c1 + Vec(-1 * w1 / 2, 0);
+	Vec rb = c4 + Vec(1 * w2 / 2, 0), rt = c3 + Vec(1 * w1 / 2, 0);
+	Vec c5 = lines[lane].getPosition(ease(1)), c6 = lines[enLane].getPosition(ease(1));
+	Vec c7 = Vec((stage.w / 12.0) * (lane - 1) + stage.l, c5.y), c8 = Vec((stage.w / 12.0) * enLane + stage.l, c5.y);
+	Vec lb2 = c5 + Vec(-1 * w / 2, -1 * effectDistance), lt2 = c7 + Vec(0, effectLinearHeight);
+	Vec rb2 = c6 + Vec(w / 2, -1 * effectDistance), rt2 = c8 + Vec(0, effectLinearHeight);
+	return Execute({
+		SpawnParticleEffect(linear, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 0),
+		SpawnParticleEffect(circular, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0),
+		spawnLineEffect(lane, enLane)
+	});
+/*	Vec c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
 	Vec c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
 	Vec lb = c1 + Vec(-1 * w / 2, 0), lt = c1 + Vec(-1 * w / 2, effectLinearHeight);
 	Vec rb = c2 + Vec(w / 2, 0), rt = c2 + Vec(w / 2, effectLinearHeight);
@@ -46,7 +63,7 @@ var spawnEffect(var linear, var circular, var lane, var enLane) {
 		SpawnParticleEffect(linear, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0),
 		SpawnParticleEffect(circular, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 0),
 		spawnLineEffect(lane, enLane)
-	});
+	});*/
 }
 
 var spawnHoldEffect(var effect, var lane, var enLane) {

@@ -21,9 +21,9 @@ const var tickHeight = 112.0 / 640.0;           // tick 高度
 const var syncLineHeight = 5.0 / 640.0;         // 同步线高度
 const var splitLineAnimationStart = 0.75;       // 分裂线起始动画长度, basic: 0.7595
 const var splitLineAnimationEnd = 0.20;         // 分裂线结束动画长度, basic: 0.7595
-const var effectLinearHeight = 280.0 / 640.0;   // 特效高度
-const var effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
-const var effectDurationTime = 0.5;             // 特效持续时间
+const var effectLinearHeight = 640.0 / 640.0;   // 特效高度
+const var effectCircularHeight = 85.0 / 640.0;  // 特效 2 高度
+const var effectDurationTime = 0.375;           // 特效持续时间
 const var effectDistance = 20.0 / 640.0;        // 特效微调距离
 const var hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
 

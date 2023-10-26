@@ -73,7 +73,7 @@ class SiriusScratchHoldEnd : public Archetype {
             JudgeFlickNote(trackTouchId.get(), beat),
 			DestroyParticleEffect(isHighlighted.get()),
 			IF (EntityInput.get(0) != 0) {
-				spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane)
+				spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane)
 			} FI,
 			StopLooped(playLoopedId.get()),
             EntityDespawn.set(0, 1)

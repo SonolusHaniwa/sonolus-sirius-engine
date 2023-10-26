@@ -210,7 +210,7 @@ void particleBuild(buffer& data, string texturePath) {
 	res["interpolation"] = true;
 	res["sprites"] = textureInfo["sprites"];
 	res["effects"].resize(0);
-	for (int i = 0; i < effects.size(); i++) res["effects"].append(effects[i].toJsonObject());
+	for (int i = 0; i < particle_effects.size(); i++) res["effects"].append(particle_effects[i].toJsonObject());
 	data = compress_gzip(json_encode(res));
 	cout << "Success to pack ParticleData!" << endl;
 }
