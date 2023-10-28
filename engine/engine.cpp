@@ -12,6 +12,7 @@ using namespace playData;
 #include"data/buckets.cpp"
 #include"data/constants.cpp"
 #include"data/utils.cpp"
+// #include"data/ParticleFactory.cpp"
 #include"data/archetype/Initialization.cpp"
 #include"data/archetype/InputManager.cpp"
 #include"data/archetype/Stage.cpp"
@@ -28,6 +29,7 @@ using namespace playData;
 #include"data/archetype/ScratchHoldEnd.cpp"
 #include"data/archetype/SyncLine.cpp"
 #include"data/archetype/SplitLine.cpp"
+#include"data/particle/RedTap.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"tutorialData/skins.cpp"

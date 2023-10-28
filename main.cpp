@@ -101,7 +101,8 @@ int main(int argc, char** argv) {
         InputManager,
         Stage,
         NormalNote,
-        CriticalNote,
+		RedTap
+        /*CriticalNote,
         FlickNote,
 		SiriusHoldStart,
 		SiriusCriticalHoldStart,
@@ -112,7 +113,7 @@ int main(int argc, char** argv) {
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
         SyncLine,
-        SplitLine
+        SplitLine*/
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

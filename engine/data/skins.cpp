@@ -327,6 +327,13 @@ class Sprites {
     int SplitLineTrans1_9 = 321;
     int SplitLineTrans2_9 = 322;
     int HiddenLine = 333;
+	int VerticalLine = 334;
+	int HorizontalLine = 335;
+	int LinearBackground = 336;
+	int LinearLine = 337;
+	int LinearStar = 338;
+	int FlickCircle = 339;
+	int FlickStar = 340;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -653,5 +660,12 @@ auto skins = defineSkins<class Sprites>({
     {"Sirius Split Line #9", Sprites.SplitLine_9},
     {"Sirius Split Line Transform 1 #9", Sprites.SplitLineTrans1_9},
     {"Sirius Split Line Transform 2 #9", Sprites.SplitLineTrans2_9},
-    {"Sirius Hidden Line", Sprites.HiddenLine}
+    {"Sirius Hidden Line", Sprites.HiddenLine},
+	{"Sirius Vertical Line", Sprites.VerticalLine},
+	{"Sirius Horizontal Line", Sprites.HorizontalLine},
+	{"Sirius Linear Background", Sprites.LinearBackground},
+	{"Sirius Linear Line", Sprites.LinearLine},
+	{"Sirius Linear Star", Sprites.LinearStar},
+	{"Sirius Flick Circle", Sprites.FlickCircle},
+	{"Sirius Flick Star", Sprites.FlickStar}
 });

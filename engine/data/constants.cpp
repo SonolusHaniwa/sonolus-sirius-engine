@@ -26,6 +26,10 @@ const var effectCircularHeight = 85.0 / 640.0;  // 特效 2 高度
 const var effectDurationTime = 0.375;           // 特效持续时间
 const var effectDistance = 20.0 / 640.0;        // 特效微调距离
 const var hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
+const var JudgelineTopHeight = 0.015;           // 判定线顶端高度
+const var JudgelineBottomHeight = 0.020;
+
+const var RedTap_Archetype = 4;
 
 class Vec {
     public:

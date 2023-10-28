@@ -24,8 +24,9 @@ class NormalNote : public Archetype {
         drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeNote(beat, beat),
-			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
-            EntityDespawn.set(0, 1)
+//			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
+			Spawn(RedTap_Archetype, {lane, enLane}),
+			EntityDespawn.set(0, 1)
         } FI
     };
 
@@ -37,8 +38,8 @@ class NormalNote : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeNote(times.now, beat),
-			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
-            EntityDespawn.set(0, 1),
+//			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
+			EntityDespawn.set(0, 1)
         } DONE
     };
 
