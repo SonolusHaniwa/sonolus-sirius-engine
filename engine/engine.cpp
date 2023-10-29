@@ -35,6 +35,8 @@ using namespace tutorialData;
 #include"tutorialData/particles.cpp"
 #include"tutorialData/instructionTexts.cpp"
 #include"tutorialData/instructionIcons.cpp"
+#include"tutorialData/constants.cpp"
+#include"tutorialData/utils.cpp"
 #include"tutorialData/preprocess.cpp"
 #include"tutorialData/navigate.cpp"
 #include"tutorialData/update.cpp"

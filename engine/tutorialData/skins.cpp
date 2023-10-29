@@ -326,6 +326,7 @@ class Sprites {
     int SplitLine_9 = 320;
     int SplitLineTrans1_9 = 321;
     int SplitLineTrans2_9 = 322;
+    int HiddenLine = 333;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -652,4 +653,5 @@ auto skins = defineSkins<class Sprites>({
     {"Sirius Split Line #9", Sprites.SplitLine_9},
     {"Sirius Split Line Transform 1 #9", Sprites.SplitLineTrans1_9},
     {"Sirius Split Line Transform 2 #9", Sprites.SplitLineTrans2_9},
+    {"Sirius Hidden Line", Sprites.HiddenLine}
 });
