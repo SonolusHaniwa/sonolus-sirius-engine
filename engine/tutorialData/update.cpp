@@ -1,5 +1,9 @@
 using namespace std;
 
 auto update = defineUpdate({
-    drawStage()
+    drawStage(),
+	tutorialNavigation.mod(5),
+	Switch(tutorialNavigation.get(), {
+		{0, NoteTutorial.Run()}
+	})
 });
