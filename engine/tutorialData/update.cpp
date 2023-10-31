@@ -5,6 +5,7 @@ auto update = defineUpdate({
 	tutorialNavigation.mod(5),
 	Switch(tutorialNavigation.get(), {
 		{0, NoteTutorial.Run()},
-		{1, FlickTutorial.Run()}
+		{1, FlickTutorial.Run()},
+		{2, HoldTutorial.Run()}
 	})
 });

@@ -172,14 +172,14 @@ var drawNormalNote(var sprite, var lane, var enLane, var percent) {
     return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000, 1);
 }
 
-var drawHoldEighth(var sprite, var lane, var enLane, var t, var stBeat, var enBeat) {
+var drawHoldEighth(var sprite, var lane, var enLane, var p1, var p2) {
     var w = lines[lane].getWidth(1);
-	Vec c1 = lines[lane].getPosition(ease(Min(1, (t - stBeat) / appearTime + 1)));
-	Vec c2 = lines[lane].getPosition(ease((Min(1, t - enBeat) / appearTime + 1)));
-	Vec c3 = lines[enLane].getPosition(ease(Min(1, (t - stBeat) / appearTime + 1)));
-	Vec c4 = lines[enLane].getPosition(ease(Min(1, (t - enBeat) / appearTime + 1)));
-	var w1 = lines[lane].getWidth(ease(Min(1, (t - stBeat) / appearTime + 1)));
-	var w2 = lines[lane].getWidth(ease(Min(1, (t - enBeat) / appearTime + 1)));
+	Vec c1 = lines[lane].getPosition(ease(Min(1, p1 + 1)));
+	Vec c2 = lines[lane].getPosition(ease(Min(1, p2 + 1)));
+	Vec c3 = lines[enLane].getPosition(ease(Min(1, p1 + 1)));
+	Vec c4 = lines[enLane].getPosition(ease(Min(1, p2 + 1)));
+	var w1 = lines[lane].getWidth(ease(Min(1, p1 + 1)));
+	var w2 = lines[lane].getWidth(ease(Min(1, p2 + 1)));
 	Vec lb = c1 + Vec(-1 * w1 / 2 + noteMoveLength * w1 / w, 0), lt = c2 + Vec(-1 * w2 / 2 + noteMoveLength * w2 / w, 0);
 	Vec rb = c3 + Vec(w1 / 2 - noteMoveLength * w1 / w, 0), rt = c4 + Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
 	return Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8);
