@@ -38,6 +38,7 @@ using namespace tutorialData;
 #include"tutorialData/constants.cpp"
 #include"tutorialData/utils.cpp"
 #include"tutorialData/components/Note.cpp"
+#include"tutorialData/components/Flick.cpp"
 #include"tutorialData/preprocess.cpp"
 #include"tutorialData/navigate.cpp"
 #include"tutorialData/update.cpp"
