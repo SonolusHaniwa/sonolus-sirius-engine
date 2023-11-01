@@ -6,7 +6,7 @@ RESET="\e[0m"
 
 # 下载 Sonolus Server C++
 echo -e $YELLOW"Downloading Sonolus Server $VERSION for $ARCH..."$RESET
-wget https://ghproxy.com/https://github.com/SonolusHaniwa/sonolus-server-cpp/releases/download/$VERSION/sonolus-server-linux-$ARCH-$VERSION.zip -O sonolus-server/sonolus.zip
+wget https://github.com/SonolusHaniwa/sonolus-server-cpp/releases/download/$VERSION/sonolus-server-linux-$ARCH-$VERSION.zip -O sonolus-server/sonolus.zip
 cd sonolus-server && unzip -n sonolus.zip
 
 echo -e $YELLOW"Syncing data into database..."$RESET
