@@ -139,7 +139,7 @@ class HoldTutorial {
 	var CriticalClick2(var t) {
 		var p = t / tutorialClickTime;
 		return {
-			instruction.set(Texts.HoldEndNote),
+			instruction.set(Texts.CriticalHoldEndNote),
 			drawNormalNote(Sprites.HoldNote, 5, 8, 0),
 			drawFrozenHand(5, 8, 100 - p * 400 % 100, true, false)
 		};

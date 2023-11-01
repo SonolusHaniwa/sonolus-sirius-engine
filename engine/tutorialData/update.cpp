@@ -6,6 +6,7 @@ auto update = defineUpdate({
 	Switch(tutorialNavigation.get(), {
 		{0, NoteTutorial.Run()},
 		{1, FlickTutorial.Run()},
-		{2, HoldTutorial.Run()}
+		{2, HoldTutorial.Run()},
+		{3, ScratchTutorial.Run()}
 	})
 });
