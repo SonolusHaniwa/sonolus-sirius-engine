@@ -67,6 +67,33 @@ var drawUpperHand(var lane, var enLane, var percent, var angle, bool in = false,
 	return Paint(Icons.hand, x, y, handSize, angle, 2000, a);
 }
 
+
+var drawHorizontalHand(var lane, var enLane, var lane2, var enLane2, var percent, var angle, bool in = false, bool out = true) {
+	var stX = (lines[lane].getPosition(1).x + lines[enLane].getPosition(1).x) / 2;
+	var goalX =  (lines[lane2].getPosition(1).x + lines[enLane2].getPosition(1).x) / 2;
+	var goalY = lines[lane].getPosition(1).y;
+	var y = goalY;
+	var x = stX + IF (percent < 25) {
+		0
+	} ELSE {
+		IF (percent < 75) {
+			(percent - 25) / 50 * (goalX - stX)
+		} ELSE {
+			goalX - stX
+		} FI
+	} FI;
+	var a = IF (percent < 25) {
+		(!in) ? 1 : 1.0 * percent / 25
+	} ELSE {
+		IF (percent < 75) {
+			1
+		} ELSE {
+			(!out) ? 1 : 1.0 - 1.0 * (percent - 75) / 25
+		} FI
+	} FI;
+	return Paint(Icons.hand, x, y, handSize, angle, 2000, a);
+}
+
 var spawnLineEffect(var lane, var enLane) {
 	var wt = lines[lane].getFullWidth(0), wb = lines[lane].getFullWidth(1);
 	Vec lb = lines[lane].getFullPosition(1) + Vec(-1 * wb / 2.0, 0), rb = lines[enLane].getFullPosition(1) + Vec(wb / 2.0, 0);

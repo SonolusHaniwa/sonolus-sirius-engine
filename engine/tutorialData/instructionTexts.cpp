@@ -14,6 +14,9 @@ class Texts {
 	int ScratchEndNote = 8;
 	int CriticalScratchStartNote = 9;
 	int CriticalScratchEndNote = 10;
+	int JumpScratchStartNote = 11;
+	int JumpScratchMiddleNote = 12;
+	int JumpScratchEndNote = 13;
 }Texts;
 
 auto texts = defineInstructionTexts<class Texts>({
@@ -28,4 +31,7 @@ auto texts = defineInstructionTexts<class Texts>({
 	{InstructionText.Flick, Texts.ScratchEndNote},
 	{InstructionText.HoldAndFollow, Texts.CriticalScratchStartNote},
 	{InstructionText.Flick, Texts.CriticalScratchEndNote},
+	{InstructionText.HoldAndFollow, Texts.JumpScratchStartNote},
+	{InstructionText.Flick, Texts.JumpScratchMiddleNote},
+	{InstructionText.Flick, Texts.JumpScratchEndNote},
 });

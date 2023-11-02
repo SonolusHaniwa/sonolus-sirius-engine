@@ -41,6 +41,7 @@ using namespace tutorialData;
 #include"tutorialData/components/Flick.cpp"
 #include"tutorialData/components/Hold.cpp"
 #include"tutorialData/components/Scratch.cpp"
+#include"tutorialData/components/JumpScratch.cpp"
 #include"tutorialData/preprocess.cpp"
 #include"tutorialData/navigate.cpp"
 #include"tutorialData/update.cpp"
