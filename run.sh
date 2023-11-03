@@ -15,6 +15,7 @@ echo -e $YELLOW"Syncing data into database..."$RESET
 ./sonolus buildcpp play ../sirius
 ./sonolus buildcpp tutorial ../sirius
 ./sonolus buildcpp preview ../sirius
+sqlite3 sonolus.db "SELECT * FROM Engine";
 
 # 数据导出
 echo -e $YELLOW"Exporting database to data.json..."$RESET
