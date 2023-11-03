@@ -11,7 +11,7 @@ cd sonolus-server && unzip -n sonolus.zip
 
 echo -e $YELLOW"Syncing data into database..."$RESET
 ./sonolus serve >/dev/null 2>&1 &
-./sonolus import ../sirius/sirius.srp
+# ./sonolus import ../sirius/sirius.srp
 ./sonolus buildcpp play ../sirius
 ./sonolus buildcpp tutorial ../sirius
 ./sonolus buildcpp preview ../sirius
