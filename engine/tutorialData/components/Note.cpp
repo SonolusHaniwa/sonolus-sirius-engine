@@ -81,15 +81,30 @@ class NoteTutorial {
 		var t5 = t4 + tutorialFallTime;
 		var t6 = t5 + tutorialClickTime;
 		var t7 = t6 + tutorialDisappearTime;
-		return IF (timesNow < t0) { Froze(timesNow) } 
-		ELSE { IF (timesNow < t4) {
-			IF (timesNow < t2) { NormalFall(timesNow - t0) } 
-			ELSE { IF (timesNow < t3) { NormalClick(timesNow - t2) }
-			ELSE { NormalDisappear(timesNow - t3) } FI } FI
-		} ELSE { IF (timesNow < t7) {
-			IF ( timesNow < t5 ) { CriticalFall(timesNow - t4) }
-			ELSE { IF (timesNow < t6) { CriticalClick(timesNow - t5) }
-			ELSE { CriticalDisappear(timesNow - t6) } FI } FI
-		} ELSE { nextTutorial() } FI } FI } FI;
+		return {
+			IF (timesNow - t0 < splitLineAnimationStart) {
+				IF (timesNow - t0 > 0) {
+					drawAppearLine(timesNow - t0, 3)
+				} FI
+			} ELSE {
+				IF (timesNow - t6 > 0) {
+					IF (timesNow - t6 < splitLineAnimationEnd) { 
+						drawDisappearLine(timesNow - t6, 3) 
+					} FI
+				} ELSE {
+					drawSplitLine(3)
+				} FI
+			} FI,
+			IF (timesNow < t0) { Froze(timesNow) } 
+			ELSE { IF (timesNow < t4) {
+				IF (timesNow < t2) { NormalFall(timesNow - t0) } 
+				ELSE { IF (timesNow < t3) { NormalClick(timesNow - t2) }
+				ELSE { NormalDisappear(timesNow - t3) } FI } FI
+			} ELSE { IF (timesNow < t7) {
+				IF ( timesNow < t5 ) { CriticalFall(timesNow - t4) }
+				ELSE { IF (timesNow < t6) { CriticalClick(timesNow - t5) }
+				ELSE { CriticalDisappear(timesNow - t6) } FI } FI
+			} ELSE { nextTutorial() } FI } FI } FI
+		};
 	}
 }NoteTutorial;

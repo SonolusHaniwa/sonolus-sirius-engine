@@ -22,5 +22,6 @@ auto preprocess = definePreprocess({
         });
     }(),
     tutorialStartTime.set(times.now),
-    tutorialNavigation.set(0)
+    tutorialNavigation.set(0),
+    getSplitLine(5)
 });

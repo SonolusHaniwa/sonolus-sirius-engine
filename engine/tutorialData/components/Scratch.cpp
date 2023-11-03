@@ -199,23 +199,38 @@ class ScratchTutorial {
 		var t11 = t10 + tutorialFallTime;
 		var t12 = t11 + tutorialClickTime;
 		var t13 = t12 + tutorialDisappearTime;
-		return IF (timesNow < t0) { Froze(timesNow) } 
-		ELSE { IF (timesNow < t4) {
-			IF (timesNow < t2) { NormalFall(timesNow - t0) } 
-			ELSE { IF (timesNow < t3) { NormalClick(timesNow - t2) }
-			ELSE { NormalDisappear(timesNow - t3) } FI } FI
-		} ELSE { IF (timesNow < t7) {
-			IF ( timesNow < t5 ) { NormalFall2(timesNow - t4) }
-			ELSE { IF (timesNow < t6) { NormalClick2(timesNow - t5) }
-			ELSE { NormalDisappear2(timesNow - t6) } FI } FI
-		} ELSE { IF (timesNow < t10) {
-			IF (timesNow < t8) { CriticalFall(timesNow - t7) }
-			ELSE { IF (timesNow < t9) { CriticalClick(timesNow - t8) }
-			ELSE { CriticalDisappear(timesNow - t9) } FI } FI 
-		} ELSE { IF (timesNow < t13) { 
-			IF (timesNow < t11) { CriticalFall2(timesNow - t10) }
-			ELSE { IF (timesNow < t12) { CriticalClick2(timesNow - t11) }
-			ELSE { CriticalDisappear2(timesNow - t12) } FI } FI
-		} ELSE { nextTutorial() } FI } FI } FI } FI } FI;
+		return {
+			IF (timesNow - t0 < splitLineAnimationStart) {
+				IF (timesNow - t0 > 0) {
+					drawAppearLine(timesNow - t0, 3)
+				} FI
+			} ELSE {
+				IF (timesNow - t12 > 0) {
+					IF (timesNow - t12 < splitLineAnimationEnd) { 
+						drawDisappearLine(timesNow - t12, 3) 
+					} FI
+				} ELSE {
+					drawSplitLine(3)
+				} FI
+			} FI,
+			IF (timesNow < t0) { Froze(timesNow) } 
+			ELSE { IF (timesNow < t4) {
+				IF (timesNow < t2) { NormalFall(timesNow - t0) } 
+				ELSE { IF (timesNow < t3) { NormalClick(timesNow - t2) }
+				ELSE { NormalDisappear(timesNow - t3) } FI } FI
+			} ELSE { IF (timesNow < t7) {
+				IF ( timesNow < t5 ) { NormalFall2(timesNow - t4) }
+				ELSE { IF (timesNow < t6) { NormalClick2(timesNow - t5) }
+				ELSE { NormalDisappear2(timesNow - t6) } FI } FI
+			} ELSE { IF (timesNow < t10) {
+				IF (timesNow < t8) { CriticalFall(timesNow - t7) }
+				ELSE { IF (timesNow < t9) { CriticalClick(timesNow - t8) }
+				ELSE { CriticalDisappear(timesNow - t9) } FI } FI 
+			} ELSE { IF (timesNow < t13) { 
+				IF (timesNow < t11) { CriticalFall2(timesNow - t10) }
+				ELSE { IF (timesNow < t12) { CriticalClick2(timesNow - t11) }
+				ELSE { CriticalDisappear2(timesNow - t12) } FI } FI
+			} ELSE { nextTutorial() } FI } FI } FI } FI } FI
+		};
 	}
 }ScratchTutorial;

@@ -68,11 +68,26 @@ class FlickTutorial {
 		var t2 = t0 + tutorialFallTime;
 		var t3 = t2 + tutorialClickTime;
 		var t4 = t3 + tutorialDisappearTime;
-		return IF (timesNow < t0) { Froze(timesNow) } 
-		ELSE { IF (timesNow < t4) {
-			IF (timesNow < t2) { Fall(timesNow - t0) } 
-			ELSE { IF (timesNow < t3) { Click(timesNow - t2) }
-			ELSE { Disappear(timesNow - t3) } FI } FI
-		} ELSE { nextTutorial() } FI } FI;
+		return {
+			IF (timesNow - t0 < splitLineAnimationStart) {
+				IF (timesNow - t0 > 0) {
+					drawAppearLine(timesNow - t0, 3)
+				} FI
+			} ELSE {
+				IF (timesNow - t3 > 0) {
+					IF (timesNow - t3 < splitLineAnimationEnd) { 
+						drawDisappearLine(timesNow - t3, 3) 
+					} FI
+				} ELSE {
+					drawSplitLine(3)
+				} FI
+			} FI,
+			IF (timesNow < t0) { Froze(timesNow) } 
+			ELSE { IF (timesNow < t4) {
+				IF (timesNow < t2) { Fall(timesNow - t0) } 
+				ELSE { IF (timesNow < t3) { Click(timesNow - t2) }
+				ELSE { Disappear(timesNow - t3) } FI } FI
+			} ELSE { nextTutorial() } FI } FI
+		};
 	}
 }FlickTutorial;

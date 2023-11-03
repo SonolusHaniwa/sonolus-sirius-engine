@@ -221,19 +221,34 @@ class JumpScratchTutorial {
 		var t10 = t9 + tutorialDisappearTime;
 		var tNow = IF (timesNow >= t10) { timesNow - (t10 - t0) } ELSE { timesNow } FI;
 		var isCritical = IF (timesNow >= t10) { 1 } ELSE { 0 } FI;
-		return IF (tNow < t0) { Froze(tNow) } 
-		ELSE { IF (tNow < t4) {
-			IF (tNow < t2) { Fall(tNow - t0, isCritical) } 
-			ELSE { IF (tNow < t3) { Click(tNow - t2, isCritical) }
-			ELSE { Disappear(tNow - t3, isCritical) } FI } FI
-		} ELSE { IF (tNow < t7) {
-			IF ( tNow < t5 ) { Fall2(tNow - t4, isCritical) }
-			ELSE { IF (tNow < t6) { Click2(tNow - t5, isCritical) }
-			ELSE { Disappear2(tNow - t6, isCritical) } FI } FI
-		} ELSE { IF (tNow < t10) {
-			IF (tNow < t8) { Fall3(tNow - t7, isCritical) }
-			ELSE { IF (tNow < t9) { Click3(tNow - t8, isCritical) }
-			ELSE { Disappear3(tNow - t9, isCritical) } FI } FI 
-		} ELSE { nextTutorial() } FI } FI } FI } FI;
+		return {
+			IF (timesNow - t0 < splitLineAnimationStart) {
+				IF (timesNow - t0 > 0) {
+					drawAppearLine(timesNow - t0, 1)
+				} FI
+			} ELSE {
+				IF (timesNow - (t9 + t10 - t0) > 0) {
+					IF (timesNow - (t9 + t10 - t0) < splitLineAnimationEnd) { 
+						drawDisappearLine(timesNow - (t9 + t10 - t0), 1) 
+					} FI
+				} ELSE {
+					drawSplitLine(1)
+				} FI
+			} FI,
+			IF (tNow < t0) { Froze(tNow) } 
+			ELSE { IF (tNow < t4) {
+				IF (tNow < t2) { Fall(tNow - t0, isCritical) } 
+				ELSE { IF (tNow < t3) { Click(tNow - t2, isCritical) }
+				ELSE { Disappear(tNow - t3, isCritical) } FI } FI
+			} ELSE { IF (tNow < t7) {
+				IF ( tNow < t5 ) { Fall2(tNow - t4, isCritical) }
+				ELSE { IF (tNow < t6) { Click2(tNow - t5, isCritical) }
+				ELSE { Disappear2(tNow - t6, isCritical) } FI } FI
+			} ELSE { IF (tNow < t10) {
+				IF (tNow < t8) { Fall3(tNow - t7, isCritical) }
+				ELSE { IF (tNow < t9) { Click3(tNow - t8, isCritical) }
+				ELSE { Disappear3(tNow - t9, isCritical) } FI } FI 
+			} ELSE { nextTutorial() } FI } FI } FI } FI
+		};
 	}
 }JumpScratchTutorial;
