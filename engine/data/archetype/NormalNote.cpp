@@ -23,9 +23,15 @@ class NormalNote : public Archetype {
     var updateSequential = {
         drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
+            currentJudge.set(Sprites.JudgeAuto),
+            currentJudgeStartTime.set(times.now),
             JudgeNote(beat, beat),
 			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
             EntityDespawn.set(0, 1)
+        } FI,
+        IF (times.now > beat + judgment.good) {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
         } FI
     };
 
@@ -37,6 +43,7 @@ class NormalNote : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeNote(times.now, beat),
+            SpawnJudgeText(times.now, beat), 
 			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
             EntityDespawn.set(0, 1),
         } DONE
@@ -46,7 +53,7 @@ class NormalNote : public Archetype {
         IF (times.now > beat + judgment.good) {
             EntityInput.set(0, 0),
             EntityInput.set(1, 0),
-            EntityDespawn.set(0, 1)
+            EntityDespawn.set(0, 1),
         } FI
     };
 };

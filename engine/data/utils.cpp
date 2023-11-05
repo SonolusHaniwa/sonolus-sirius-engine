@@ -189,6 +189,48 @@ var JudgeCriticalNote(var t, var beat) {
 	});
 }
 
+var SpawnJudgeText(var t, var beat, bool isFlick = false) {
+	return Execute({
+        IF (!isFlick && t - beat >= -1 * judgeText.perfectPlus && t - beat <= judgeText.perfectPlus) {
+            currentJudge.set(Sprites.JudgePerfectPlus),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (!isFlick && t - beat >= -1 * judgeText.perfect && t - beat <= judgeText.perfect) {
+            currentJudge.set(Sprites.JudgePerfect),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (t - beat >= -1 * judgeText.great && t - beat <= judgeText.great) {
+            currentJudge.set(Sprites.JudgeGreat),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (t - beat >= -1 * judgeText.good && t - beat <= judgeText.good) {
+            currentJudge.set(Sprites.JudgeGood),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (t - beat >= -1 * judgeText.bad && t - beat <= judgeText.bad) {
+            currentJudge.set(Sprites.JudgeBad),
+            currentJudgeStartTime.set(times.now),
+        } ELSE {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
+        } FI } FI } FI } FI } FI
+	});
+}
+
+var SpawnFlickJudgeText(var t, var beat) {
+	return Execute({
+        IF (t - beat >= -1 * judgeText.perfectPlus && t - beat <= judgeText.perfectPlus) {
+            currentJudge.set(Sprites.JudgePerfectPlus),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (t - beat >= -1 * judgeText.perfect && t - beat <= judgeText.perfect) {
+            currentJudge.set(Sprites.JudgePerfect),
+            currentJudgeStartTime.set(times.now),
+        } ELSE { IF (t - beat >= -1 * judgeText.bad && t - beat <= judgeText.bad) {
+            currentJudge.set(Sprites.JudgeGreat),
+            currentJudgeStartTime.set(times.now),
+        } ELSE {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
+        } FI } FI } FI
+	});
+}
+
 var movedLast(Touch touch) {
     return Abs(touch.dx) >= 0.001 && Abs(touch.dy) >= 0.001;
 }

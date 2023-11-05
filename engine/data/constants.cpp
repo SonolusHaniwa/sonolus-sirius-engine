@@ -6,7 +6,7 @@ const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比
 const var defaultAppearTime = 3.0;              // note 默认出现时间
 const var minSFXDistance = 0.02;                // 最小音效时间
-const var judgelineMarginBottom = 0.2;          // 判定线距离底部距离
+const var judgelineMarginBottom = 0.25;         // 判定线距离底部距离
 const var judgelineHeight = 85.0 / 640.0;       // 判定线高度
 const var noteHeight = 85.0 / 640.0;            // note 高度
 const var judglineMoveLength = 0.01;            // judgline 微调距离
@@ -26,6 +26,15 @@ const var effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
 const var effectDurationTime = 0.5;             // 特效持续时间
 const var effectDistance = 20.0 / 640.0;        // 特效微调距离
 const var hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
+const var judgePerfectPlusRatio = 332.0 / 76.0; // 判定文字 Perfect+ 比例
+const var judgePerfectRatio = 307.0 / 76.0;     // 判定文字 Perfect 比例
+const var judgeGreatRatio = 247.0 / 76.0;       // 判定文字 Great 比例
+const var judgeGoodRatio = 237.0 / 76.0;        // 判定文字 Good 比例
+const var judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
+const var judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
+const var judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
+const var judgeTextHeight = 0.15;               // 判定文字高度
+const var judgeTextDuration = 0.2;
 
 class Vec {
     public:
@@ -104,6 +113,16 @@ class judgment {
 	var good = 0.125;
 }judgment;
 
+class judgeText {
+    public:
+
+    var perfectPlus = 0.025;
+    var perfect = 0.04;
+    var great = 0.07;
+    var good = 0.1;
+    var bad = 0.125;
+}judgeText;
+
 class score {
 	public:
 
@@ -168,3 +187,5 @@ class line {
 }lines;
 
 auto splitLineMemory = Array<EntityMemoryId>(16);
+Variable<LevelMemoryId> currentJudge;
+Variable<LevelMemoryId> currentJudgeStartTime;

@@ -41,7 +41,19 @@ class SiriusScratchHoldEnd : public Archetype {
         } FI,
         IF (LevelOption.get(Options.Autoplay)) {
             trackTouchId.set(beat)
-        } FI
+        } FI,
+        IF (times.now > beat + judgment.good) {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
+        } FI,
+		IF ((times.now > beat && trackTouchId.get() != 0) || times.now > beat + judgment.good) {
+			IF (LevelOption.get(Options.Autoplay)) {
+				currentJudge.set(Sprites.JudgeAuto),
+				currentJudgeStartTime.set(times.now),
+			} ELSE {
+				SpawnFlickJudgeText(trackTouchId.get(), beat)
+			} FI,
+		} FI
     };
 
     var touch = {
@@ -60,7 +72,8 @@ class SiriusScratchHoldEnd : public Archetype {
 		IF (hasHold.get() == 1 && playLoopedId.get() == 0) {
 			playLoopedId.set(PlayLooped(Clips.Hold)),
 			isHighlighted.set(spawnHoldEffect(Effects.Scratch, lane, enLane))
-		} FI, IF (hasHold.get() == 0 && playLoopedId.get() != 0) {
+		} FI, 
+        IF (hasHold.get() == 0 && playLoopedId.get() != 0) {
 			StopLooped(playLoopedId.get()),
 			playLoopedId.set(0),
 			DestroyParticleEffect(isHighlighted.get()),

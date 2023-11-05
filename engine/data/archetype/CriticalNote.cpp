@@ -24,8 +24,14 @@ class CriticalNote : public Archetype {
         drawNormalNote(Sprites.CriticalNote, lane, enLane, beat),
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeCriticalNote(beat, beat),
+            currentJudge.set(Sprites.JudgeAuto),
+            currentJudgeStartTime.set(times.now),
 			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
             EntityDespawn.set(0, 1)
+        } FI,
+        IF (times.now > beat + judgment.good) {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
         } FI
     };
 
@@ -37,6 +43,7 @@ class CriticalNote : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeCriticalNote(times.now, beat),
+            SpawnJudgeText(times.now, beat), 
 			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
             EntityDespawn.set(0, 1),
         } DONE

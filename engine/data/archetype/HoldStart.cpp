@@ -26,8 +26,14 @@ class SiriusHoldStart : public Archetype {
         } FI,
         IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
             JudgeNote(beat, beat),
+            currentJudge.set(Sprites.JudgeAuto),
+            currentJudgeStartTime.set(times.now),
 			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
             EntityDespawn.set(0, 1)
+        } FI,
+        IF (times.now > beat + judgment.good) {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
         } FI
     };
 
@@ -39,6 +45,7 @@ class SiriusHoldStart : public Archetype {
             IF (isUsed(touches[i])) { CONTINUE } FI,
             markAsUsed(touches[i]),
             JudgeNote(times.now, beat),
+            SpawnJudgeText(times.now, beat), 
 			spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane),
             EntityDespawn.set(0, 1),
         } DONE

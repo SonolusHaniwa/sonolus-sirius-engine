@@ -33,14 +33,14 @@ EngineConfigurationUI configurationUI = {
     },
     .judgmentAnimation = {
         .scale = {
-            .from = 0.2,
-            .to = 1.0,
+            .from = 0.0,
+            .to = 0.0,
             .duration = 0.2,
             .ease = AnimationEase.InSine
         },
         .alpha = {
-            .from = 0.2,
-            .to = 1.0,
+            .from = 0.0,
+            .to = 0.0,
             .duration = 0.2,
             .ease = AnimationEase.InSine
         }

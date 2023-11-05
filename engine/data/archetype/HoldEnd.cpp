@@ -35,7 +35,19 @@ class SiriusHoldEnd : public Archetype {
         } FI,
         IF (LevelOption.get(Options.Autoplay)) {
             trackTouchId.set(beat)
-        } FI
+        } FI,
+        IF (times.now > beat + judgment.good) {
+            currentJudge.set(Sprites.JudgeMiss),
+            currentJudgeStartTime.set(times.now),
+        } FI,
+		IF (times.now > beat) {
+			IF (LevelOption.get(Options.Autoplay)) {
+				currentJudge.set(Sprites.JudgeAuto),
+				currentJudgeStartTime.set(times.now),
+			} ELSE {
+				SpawnJudgeText(trackTouchId.get(), beat)
+			} FI,
+		} FI
     };
 
     var touch = {
