@@ -1,5 +1,4 @@
 {
-  "engine": {
     "name": "sirius",
     "i18n": [
       {
@@ -14,5 +13,4 @@
         "description": "A recreation of World Dai Star: Dream's Stellarium engine in Sonolus.\nVersion: 1.0.0.20231103_beta\n\nGithub Repository\nhttps://github.com/SonolusHaniwa/sonolus-sirius-engine"
       }
     ]
-  }
 }
