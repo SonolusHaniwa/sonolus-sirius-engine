@@ -5,8 +5,7 @@ class Initialization: public Archetype {
     bool input = false;
     vector<pair<string, int> > data = {};
 
-    var preprocess = {
-        [](){
+    var preprocess() {
             // 界面开关参数
             var menuWidth = 0.15 * ui.menuConfiguration.scale;
             var menuHeight = 0.15 * ui.menuConfiguration.scale;
@@ -80,14 +79,13 @@ class Initialization: public Archetype {
 				buckets[11].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good),
 				buckets[12].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good),
             });
-        }()
-    };
+    }
 
-    var spawnOrder = 0;
+    var spawnOrder() { return 0; }
 
-    var shouldSpawn = 1;
+    var shouldSpawn() { return 1; }
 
-    var updateSequential = {
-        EntityDespawn.set(0, 1)
-    };
+    var updateSequential() {
+        return EntityDespawn.set(0, 1);
+    }
 };

@@ -13,7 +13,7 @@ class FuncNode {
     FuncNode(){};
     FuncNode(int value): isValue(true), value(value){};
     FuncNode(double value): isValue(true), value(value){};
-    FuncNode(string func, vector<FuncNode> args): isValue(false), func(func), args(args){};
+	FuncNode(string func, vector<FuncNode> args): isValue(false), func(func), args(args){};
     FuncNode(initializer_list<FuncNode> args): isValue(false), func("Execute"), args(args){};
 
     string stringify(int tabSize = 2, int maxSize = 100, int tabDepth = 0) {

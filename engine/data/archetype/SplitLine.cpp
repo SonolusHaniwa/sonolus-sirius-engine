@@ -10,25 +10,29 @@ class SplitLine: public Archetype {
     var split = EntityData.get(2);
     var color = EntityData.get(3);
 
-    var spawnOrder = 1000 + beat - splitLineAnimationStart + appearTime;
-    var shouldSpawn = times.now > beat - splitLineAnimationStart;
+    var spawnOrder() { return 1000 + beat - splitLineAnimationStart + appearTime; }
+    var shouldSpawn() { return times.now > beat - splitLineAnimationStart; }
 
-    var updateSequential = {
-        getSplitLine(color),
-        IF (times.now > endBeat) {
-            drawDisappearLine(times.now - endBeat, split)
-        } ELSE {
-            IF (times.now < beat) {
-                drawAppearLine(splitLineAnimationStart - beat + times.now, split)
-            } ELSE {
-                drawSplitLine(split)
-            } FI
-        } FI
-    };
+    var updateSequential() {
+		return {
+	        getSplitLine(color),
+	        IF (times.now > endBeat) {
+	            drawDisappearLine(times.now - endBeat, split)
+	        } ELSE {
+		        IF (times.now < beat) {
+		            drawAppearLine(splitLineAnimationStart - beat + times.now, split)
+		        } ELSE {
+		            drawSplitLine(split)
+		        } FI
+		    } FI
+		};
+	}
 
-    var updateParallel = {
-        IF (times.now > endBeat + splitLineAnimationEnd) {
+    var updateParallel() {
+		return {
+	        IF (times.now > endBeat + splitLineAnimationEnd) {
             EntityDespawn.set(0, 1)
-        } FI
-    };
+	         } FI
+	    };
+	}
 };

@@ -233,58 +233,6 @@ namespace playData {
     int allocatorSize[10001] = {0};
 
     template<int identifierId>
-    class Array {
-        public:
-
-        int offset;
-        int capacity;
-        FuncNode size = Get(identifierId, 0);
-        int sizeOffset = 0;
-
-        Array(){}
-        Array(int capacity):capacity(capacity){
-            sizeOffset = allocatorSize[identifierId];
-            size = Get(identifierId, sizeOffset);
-            offset = allocatorSize[identifierId] + 1;
-            allocatorSize[identifierId] += capacity + 1;
-        };
-        FuncNode operator [] (FuncNode id) {
-            return Get(identifierId, Add({id, offset}));
-        }
-        FuncNode add(FuncNode value) {
-            return Execute({
-                Set(identifierId, Add({size, offset}), value),
-                Set(identifierId, sizeOffset, Add({size, 1})),
-            });
-        }
-        FuncNode has(FuncNode value) {
-            FuncNode res = false;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    true,
-                    res
-                );
-            } return res;
-        }
-        FuncNode indexOf(FuncNode value) {
-            FuncNode res = -1;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    i,
-                    res
-                );
-            } return res;
-        }
-        FuncNode clear() {
-            FuncNode res = Execute({Set(identifierId, sizeOffset, 0)});
-            for (int i = 0; i < capacity; i++) res.args.push_back(Set(identifierId, Add({i, offset}), 0));
-            return res;
-        }
-    };
-
-    template<int identifierId>
     class Variable {
         public:
 
@@ -316,7 +264,72 @@ namespace playData {
         }
     };
 
-    Variable<EntityMemoryId> ForPt;
+    Variable<EntityMemoryId> ForPt[MaxForSize];
+
+    template<int identifierId>
+    class Array {
+        public:
+
+        int offset;
+        int capacity;
+        FuncNode size = Get(identifierId, 0);
+        int sizeOffset = 0;
+
+        Array(){}
+        Array(int capacity):capacity(capacity){
+            sizeOffset = allocatorSize[identifierId];
+            size = Get(identifierId, sizeOffset);
+            offset = allocatorSize[identifierId] + 1;
+            allocatorSize[identifierId] += capacity + 1;
+        };
+        FuncNode operator [] (FuncNode id) {
+            return Get(identifierId, Add({id, offset}));
+        }
+        FuncNode add(FuncNode value) {
+            return Execute({
+                Set(identifierId, Add({size, offset}), value),
+                Set(identifierId, sizeOffset, Add({size, 1})),
+            });
+        }
+        FuncNode has(FuncNode value) {
+/*            FuncNode res = false;
+            for (int i = capacity - 1; i >= 0; i--) {
+                res = If(
+                    Equal(Get(identifierId, Add({i, offset})), value),
+                    true,
+                    res
+                );
+            } return res;*/
+			return Block(Execute({
+				FOR (i, 0, capacity, 1) {
+					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
+				} DONE,
+				Break(1, 0)
+			}));
+        }
+        FuncNode indexOf(FuncNode value) {
+/*            FuncNode res = -1;
+            for (int i = capacity - 1; i >= 0; i--) {
+                res = If(
+                    Equal(Get(identifierId, Add({i, offset})), value),
+                    i,
+                    res
+                );
+            } return res;*/
+			return Block(Execute({
+				FOR (i, 0, capacity, 1) {
+					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
+				} DONE,
+				Break(1, -1),
+			}));
+        }
+        FuncNode clear() {
+            FuncNode res = Execute({Set(identifierId, sizeOffset, 0)});
+            for (int i = 0; i < capacity; i++) res.args.push_back(Set(identifierId, Add({i, offset}), 0));
+            return res;
+        }
+    };
+
     Variable<EntityMemoryId> isHighlighted;
     Variable<EntityMemoryId> playLoopedId;
     Variable<EntityMemoryId> trackTouchId;

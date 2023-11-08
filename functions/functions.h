@@ -43,9 +43,16 @@ FuncNode BeatToTime(FuncNode beat) {
     return FuncNode(RuntimeFunction.BeatToTime, {beat});
 }
 
-FuncNode Block(FuncNode body) {
+int blockCounter = 0;
+FuncNode __builtin_Block(FuncNode body) {
     return FuncNode(RuntimeFunction.Block, {body});
 }
+#define Block(body) [&](){ \
+	blockCounter++; \
+	auto res = __builtin_Block(body); \
+	blockCounter--; \
+	return res; \
+}()
 
 FuncNode Break(FuncNode count, FuncNode value) {
     return FuncNode(RuntimeFunction.Break, {count, value});
@@ -614,7 +621,7 @@ FuncNode While(FuncNode test, FuncNode body) {
 // 自定义函数
 
 FuncNode Return(FuncNode code) {
-    return FuncNode("Return", {code});
+    return Break(blockCounter, code);
 }
 
 FuncNode If(FuncNode cond, FuncNode block) {

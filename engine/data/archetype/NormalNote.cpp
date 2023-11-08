@@ -10,50 +10,58 @@ class NormalNote : public Archetype {
     var laneLength = EntityData.get(2);
     var enLane = lane + laneLength - 1;
 
-    var spawnOrder = 1000 + beat;
-    var shouldSpawn = times.now > beat - appearTime;
+    var spawnOrder() { return 1000 + beat; }
+    var shouldSpawn() { return times.now > beat - appearTime; }
 
-    var preprocess = {
-        IF (LevelOption.get(Options.Mirror)) {
-            EntityData.set(1, 13 - enLane)
-        } FI,
-		EntityInput.set(2, Buckets.NormalNote),
-    };
+	var preprocess() {
+		return {
+	        IF (LevelOption.get(Options.Mirror)) {
+	            EntityData.set(1, 13 - enLane)
+	        } FI,
+			EntityInput.set(2, Buckets.NormalNote),
+	    };
+	}
 
-    var updateSequential = {
-        drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
-        IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
-            currentJudge.set(Sprites.JudgeAuto),
-            currentJudgeStartTime.set(times.now),
-            JudgeNote(beat, beat),
-			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
-            EntityDespawn.set(0, 1)
-        } FI,
-        IF (times.now > beat + judgment.good) {
-            currentJudge.set(Sprites.JudgeMiss),
-            currentJudgeStartTime.set(times.now),
-        } FI
-    };
+    var updateSequential() {
+		return {
+	        drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
+	        IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
+	            currentJudge.set(Sprites.JudgeAuto),
+	            currentJudgeStartTime.set(times.now),
+		        JudgeNote(beat, beat),
+				spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
+			    EntityDespawn.set(0, 1)
+			} FI,
+			IF (times.now > beat + judgment.good) {
+			    currentJudge.set(Sprites.JudgeMiss),
+			    currentJudgeStartTime.set(times.now),
+			} FI
+		};
+	}
 
-    var touch = {
-        IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
-        FOR (i, 0, touches.size, 1) {
-            IF (touches[i].started == false) { CONTINUE } FI,
-            IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
-            IF (isUsed(touches[i])) { CONTINUE } FI,
-            markAsUsed(touches[i]),
-            JudgeNote(times.now, beat),
-            SpawnJudgeText(times.now, beat), 
-			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
-            EntityDespawn.set(0, 1),
-        } DONE
-    };
+    var touch() {
+		return {
+			IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+			FOR (i, 0, touches.size, 1) {
+			    IF (touches[i].started == false) { CONTINUE } FI,
+		        IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
+		        IF (isUsed(touches[i])) { CONTINUE } FI,
+		        markAsUsed(touches[i]),
+		        JudgeNote(times.now, beat),
+		        SpawnJudgeText(times.now, beat), 
+				spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
+		        EntityDespawn.set(0, 1),
+		    } DONE
+		};
+	}
 
-    var updateParallel =  {
-        IF (times.now > beat + judgment.good) {
-            EntityInput.set(0, 0),
-            EntityInput.set(1, 0),
-            EntityDespawn.set(0, 1),
-        } FI
-    };
+    var updateParallel() {
+		return {
+	        IF (times.now > beat + judgment.good) {
+	            EntityInput.set(0, 0),
+	            EntityInput.set(1, 0),
+	            EntityDespawn.set(0, 1),
+	        } FI
+	    };	
+	}
 };
