@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class FuncNode {
+/*class FuncNode {
     public:
     bool isValue;
     double value;
@@ -37,6 +37,58 @@ class FuncNode {
 ostream& operator << (ostream& out, FuncNode x) {
     out << x.stringify();
     return out;
-}
+}*/
+
+map<EngineDataNode, int> hashMap;
+vector<EngineDataNode> container;
+
+class FuncNode {
+	private:
+	int nodeId = 0;
+	bool writeable = true;
+	void checkWriteable() {
+		if (!writeable) {
+			throwError("You cannot write FuncNode again!");
+			exit(1);
+		} writeable = true;
+	}
+	int allocate(EngineDataNode tmp) {
+		globalCounter++;
+		if (hashMap.find(tmp) != hashMap.end()) return hashMap[tmp];
+		hashMap[tmp] = container.size(); container.push_back(tmp);
+		return hashMap[tmp];
+	}
+
+	public:
+	int getNodeId() {
+		return nodeId;
+	}
+
+	FuncNode(){ checkWriteable(); }
+	FuncNode(int value) {
+		checkWriteable();
+		EngineDataNode tmp = EngineDataValueNode(value);
+		nodeId = allocate(tmp);
+	}
+	FuncNode(double value) {
+		checkWriteable();
+		EngineDataNode tmp = EngineDataValueNode(value);
+		nodeId = allocate(tmp);
+	}
+	FuncNode(string func, vector<FuncNode> args) {
+		checkWriteable();
+		vector<int> nodes;
+		for (int i = 0; i < args.size(); i++) nodes.push_back(args[i].getNodeId());
+		EngineDataNode tmp = EngineDataFunctionNode(func, nodes);
+		nodeId = allocate(tmp);
+	}
+	FuncNode(initializer_list<FuncNode> args) {
+		checkWriteable(); 
+		vector<FuncNode> args2 = args; vector<int> nodes;
+		for (int i = 0; i < args2.size(); i++) nodes.push_back(args2[i].getNodeId());
+		EngineDataNode tmp = EngineDataFunctionNode("Execute", nodes);
+		nodeId = allocate(tmp);
+	}
+};
 
 #endif

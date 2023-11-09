@@ -324,9 +324,9 @@ namespace playData {
 			}));
         }
         FuncNode clear() {
-            FuncNode res = Execute({Set(identifierId, sizeOffset, 0)});
-            for (int i = 0; i < capacity; i++) res.args.push_back(Set(identifierId, Add({i, offset}), 0));
-            return res;
+            vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
+            for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
+            return Execute(res);
         }
     };
 

@@ -147,10 +147,10 @@ class EngineDataFunctionNode {
     public:
 
     string func;
-    vector<double> args;
+    vector<int> args;
 
     EngineDataFunctionNode(){}
-    EngineDataFunctionNode(string func, vector<double> args): func(func), args(args){}
+    EngineDataFunctionNode(string func, vector<int> args): func(func), args(args){}
     EngineDataFunctionNode(Json::Value arr) {
         func = arr["func"].asString();
         for (int i = 0; i < arr["args"].size(); i++) args.push_back(arr["args"][i].asDouble());

@@ -10,12 +10,13 @@ using namespace std;
 
 #include"items/Exception.h"
 #include"items/EngineEnums.h"
-#include"items/FuncNode.h"
 #include"items/EngineConfiguration.h"
 #include"items/EngineData.h"
 #include"items/EngineTutorialData.h"
 #include"items/EnginePreviewData.h"
 
+int globalCounter = 0, lastGlobalCounter = 0;
+#include"items/FuncNode.h"
 #include"functions/functions.h"
 #ifndef DISABLE_REDEFINE
 #include"functions/redefine.h"
@@ -37,7 +38,7 @@ FuncNode tutorialUpdate = 0;
 #include"blocks/Define.h"
 #include"blocks/Pointer.h"
 
-map<EngineDataNode, int> hashMap;
+// map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
 // const int64_t k1 = 23;
 // const int64_t k2 = 55331;
@@ -85,10 +86,7 @@ map<EngineDataNode, int> hashMap;
 //     }
 // }hashMap;
 
-int globalCounter = 0;
-int lastGlobalCounter = 0;
-
-template<typename T>
+/*template<typename T>
 int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
 	globalCounter++;
 //	if (hashMap.find(script.stringify(0, 1)) != hashMap.end()) return hashMap[script.stringify(0, 5)];
@@ -96,10 +94,10 @@ int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
     if (script.isValue == true) res = EngineDataValueNode(script.value);
     else {
         // Return 函数判断
-/*        if (script.func == "Return") {
+        if (script.func == "Return") {
             script.func = "Break"; FuncNode code = script.args[0];
             script.args = {blockCounter, code};
-        }*/
+        }
         // 其余函数
         vector<double> args;
         for (int i = 0; i < script.args.size(); i++) 
@@ -115,11 +113,11 @@ int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
     if (hashMap.find(res) != hashMap.end()) return hashMap[res];
     hashMap[res] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
     return hashMap[res];
-/*	hashMap[script.stringify(0, 1)] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
-	return hashMap[script.stringify(0, 1)];*/
-}
+	hashMap[script.stringify(0, 1)] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
+	return hashMap[script.stringify(0, 1)];
+}*/
 
-int buildFuncNode(FuncNode func) {
+/*int buildFuncNode(FuncNode func) {
     return buildScript(func, engineData);
 }
 
@@ -129,7 +127,7 @@ int buildFuncNode2(FuncNode func) {
 
 int buildFuncNode3(FuncNode func) {
     return buildScript(func, enginePreviewData);
-}
+}*/
 
 time_t millitime() {
     return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
@@ -145,22 +143,22 @@ void buildArchetype(T archetype) {
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
     newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = buildFuncNode(Block(archetype.preprocess()));
+    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
     newArchetype.spawnOrder.order = archetype.spawnOrderOrder;
-    newArchetype.spawnOrder.index = buildFuncNode(Block(archetype.spawnOrder()));
+    newArchetype.spawnOrder.index = Block(archetype.spawnOrder()).getNodeId();
     newArchetype.shouldSpawn.order = archetype.shouldSpawnOrder;
-    newArchetype.shouldSpawn.index = buildFuncNode(Block(archetype.shouldSpawn()));
+    newArchetype.shouldSpawn.index = Block(archetype.shouldSpawn()).getNodeId();
     newArchetype.initialize.order = archetype.initializeOrder;
-    newArchetype.initialize.index = buildFuncNode(Block(archetype.initialize()));
+    newArchetype.initialize.index = Block(archetype.initialize()).getNodeId();
     newArchetype.updateSequential.order = archetype.updateSequentialOrder;
-    newArchetype.updateSequential.index = buildFuncNode(Block(archetype.updateSequential()));
+    newArchetype.updateSequential.index = Block(archetype.updateSequential()).getNodeId();
 //	archetype.updateSequential();
     newArchetype.touch.order = archetype.touchOrder;
-    newArchetype.touch.index = buildFuncNode(Block(archetype.touch()));
+    newArchetype.touch.index = Block(archetype.touch()).getNodeId();
     newArchetype.updateParallel.order = archetype.updateParallelOrder;
-    newArchetype.updateParallel.index = buildFuncNode(Block(archetype.updateParallel()));
+    newArchetype.updateParallel.index = Block(archetype.updateParallel()).getNodeId();
     newArchetype.terminate.order = archetype.terminateOrder;
-    newArchetype.terminate.index = buildFuncNode(Block(archetype.terminate()));
+    newArchetype.terminate.index = Block(archetype.terminate()).getNodeId();
     newArchetype.data = archetype.data;
     engineData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
@@ -198,6 +196,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     configurationBuffer = compress_gzip(json_encode(configuration));
 #ifdef play
     buildArchetype<Args...>(Args()...);
+	engineData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
     engineTutorialData.preprocess = buildFuncNode2(tutorialPreprocess);

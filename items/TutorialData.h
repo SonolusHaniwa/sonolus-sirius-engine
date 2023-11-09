@@ -176,9 +176,9 @@ namespace tutorialData {
             } return res;
         }
         FuncNode clear() {
-            FuncNode res = Execute({Set(identifierId, sizeOffset, 0)});
-            for (int i = 0; i < capacity; i++) res.args.push_back(Set(identifierId, Add({i, offset}), 0));
-            return res;
+            vector<FuncNode> args = {Set(identifierId, sizeOffset, 0)};
+            for (int i = 0; i < capacity; i++) args.push_back(Set(identifierId, Add({i, offset}), 0));
+            return Execute(args);
         }
     };
 

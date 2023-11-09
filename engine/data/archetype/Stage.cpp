@@ -39,14 +39,14 @@ class Stage: public Archetype {
 
     int touchOrder = 10000;
 	var playStageParticle(Touch touch) {
-		var res = Execute({});
+		vector<var> args;
 		for (int i = 1; i <= 12; i++) {
-			res.args.push_back(Execute({
+			args.push_back(Execute({
 				IF (lines.inClickBox(touch, i, i, true)) {
 					spawnLineEffect(i, i)
 				} FI
 			}));
-		}; return res;
+		}; return Execute(args);
 	}
 
     var touch() {
