@@ -30,9 +30,9 @@ EngineData engineData;
 EngineTutorialData engineTutorialData;
 EngineConfiguration engineConfiguration;
 EnginePreviewData enginePreviewData;
-FuncNode tutorialPreprocess = 0;
-FuncNode tutorialNavigate = 0;
-FuncNode tutorialUpdate = 0;
+function<FuncNode()> tutorialPreprocess;
+function<FuncNode()> tutorialNavigate;
+function<FuncNode()> tutorialUpdate;
 
 #include"blocks/Archetype.h"
 #include"blocks/Define.h"
@@ -172,9 +172,9 @@ void buildArchetype(T archetype) {
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = buildFuncNode3(archetype.preprocess());
+    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
     newArchetype.render.order = archetype.renderOrder;
-    newArchetype.render.index = buildFuncNode3(archetype.render());
+    newArchetype.render.index = Block(archetype.render()).getNodeId();
     newArchetype.data = archetype.data;
     enginePreviewData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
@@ -199,12 +199,14 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 	engineData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
-    engineTutorialData.preprocess = buildFuncNode2(tutorialPreprocess);
-    engineTutorialData.navigate = buildFuncNode2(tutorialNavigate);
-    engineTutorialData.update = buildFuncNode2(tutorialUpdate);
+    engineTutorialData.preprocess = Block(tutorialPreprocess()).getNodeId();
+    engineTutorialData.navigate = Block(tutorialNavigate()).getNodeId();
+    engineTutorialData.update = Block(tutorialUpdate()).getNodeId();
+	engineTutorialData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineTutorialData.toJsonObject()));
 #elif preview
     buildArchetype<Args...>(Args()...);
+	enginePreviewData.nodes = container;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #endif
 }

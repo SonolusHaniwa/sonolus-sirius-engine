@@ -94,7 +94,7 @@ int main(int argc, char** argv) {
         InputManager,
         Stage,
         NormalNote,
-//        CriticalNote,
+        CriticalNote,
         FlickNote,
 /*		SiriusHoldStart,
 		SiriusCriticalHoldStart,

@@ -10,17 +10,21 @@ class SiriusHoldEnd: public Archetype {
 	var laneLength = EntityData.get(3);
 	var enLane = lane + laneLength - 1;
 
-    var preprocess = {
-		duration.set(Max(duration.get(), beat)),
-		noteCount.add(1),
-		noteId.set(noteCount.get())
-    };
+    var preprocess() {
+		return {
+			duration.set(Max(duration.get(), beat)),
+			noteCount.add(1),
+			noteId.set(noteCount.get())
+	    };
+	}
 
-	var render = {
-		IF (noteId.get() % noteCountDistance == 0) {
-			drawNoteCount(beat, noteId.get())
-		} FI,
-		drawNote(Sprites.HoldNote, beat, lane, enLane),
-		drawHold(Sprites.Hold, lastBeat, beat, lane, enLane)
-	};
+	var render() {
+		return {
+			IF (noteId.get() % noteCountDistance == 0) {
+				drawNoteCount(beat, noteId.get())
+			} FI,
+			drawNote(Sprites.HoldNote, beat, lane, enLane),
+			drawHold(Sprites.Hold, lastBeat, beat, lane, enLane)
+		};	
+	}
 };

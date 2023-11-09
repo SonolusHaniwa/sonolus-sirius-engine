@@ -16,7 +16,7 @@ using namespace playData;
 #include"data/archetype/InputManager.cpp"
 #include"data/archetype/Stage.cpp"
 #include"data/archetype/NormalNote.cpp"
-//#include"data/archetype/CriticalNote.cpp"
+#include"data/archetype/CriticalNote.cpp"
 #include"data/archetype/FlickNote.cpp"
 /*#include"data/archetype/HoldStart.cpp"
 #include"data/archetype/CriticalHoldStart.cpp"

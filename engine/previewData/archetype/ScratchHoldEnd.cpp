@@ -13,22 +13,26 @@ class SiriusScratchHoldEnd: public Archetype {
 	var scratchLane = IF (scratchLength >= 0) { lane } ELSE { enLane + scratchLength + 1 } FI;
 	var scratchEnLane = IF (scratchLength <= 0) { enLane } ELSE { lane + scratchLength - 1 } FI;
 
-    var preprocess = {
-		duration.set(Max(duration.get(), beat)),
-		noteCount.add(1),
-		noteId.set(noteCount.get())
-    };
+    var preprocess() {
+		return {
+			duration.set(Max(duration.get(), beat)),
+			noteCount.add(1),
+			noteId.set(noteCount.get())
+	    };
+	}
 
-	var render = {
-		IF (noteId.get() % noteCountDistance == 0) {
-			drawNoteCount(beat, noteId.get())
-		} FI,
-		drawNote(Sprites.ScratchNote, beat, scratchLane, scratchEnLane),
-		drawHold(Sprites.Scratch, lastBeat, beat, lane, enLane),
-		IF (scratchLength > 0) { drawRightArrow(beat, scratchLane, scratchEnLane) }
-		ELSE {
-			IF (scratchLength < 0) { drawLeftArrow(beat, scratchLane, scratchEnLane) }
-			ELSE { drawArrow(beat, scratchLane, scratchEnLane) } FI
-		} FI
-	};
+	var render() {
+		return {
+			IF (noteId.get() % noteCountDistance == 0) {
+				drawNoteCount(beat, noteId.get())
+			} FI,
+			drawNote(Sprites.ScratchNote, beat, scratchLane, scratchEnLane),
+			drawHold(Sprites.Scratch, lastBeat, beat, lane, enLane),
+			IF (scratchLength > 0) { drawRightArrow(beat, scratchLane, scratchEnLane) }
+			ELSE {
+				IF (scratchLength < 0) { drawLeftArrow(beat, scratchLane, scratchEnLane) }
+				ELSE { drawArrow(beat, scratchLane, scratchEnLane) } FI
+			} FI
+		};
+	}
 };

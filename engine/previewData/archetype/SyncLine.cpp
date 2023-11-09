@@ -8,11 +8,7 @@ class SiriusSyncLine: public Archetype {
 	var left = EntityData.get(1);
 	var right = EntityData.get(2);
 
-    var preprocess = {
-		
-    };
-
-	var render = {
-		drawSyncLine(beat, left, right)
-	};
+	var render() {
+		return drawSyncLine(beat, left, right);
+	}
 };
