@@ -9,11 +9,9 @@ class InputManager: public Archetype {
 
     string name = "Sirius Input Manager";
 
-    var spawnOrder = 1;
+    var spawnOrder() { return 1; }
     
-    var shouldSpawn = EntityInfoArray.get(2) == EntityState.Despawned;
+    var shouldSpawn() { return EntityInfoArray.get(2) == EntityState.Despawned; }
 
-    var touch = {
-        usedTouchIds.clear()
-    };
+    var touch() { return usedTouchIds.clear(); }
 };	

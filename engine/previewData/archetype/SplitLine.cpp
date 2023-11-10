@@ -8,14 +8,16 @@ class SplitLine: public Archetype {
 	var split = EntityData.get(2);
 	var color = EntityData.get(3);
 
-    var preprocess = {
-		duration.set(Max(duration.get(), beat)),
-    };
+    var preprocess() {
+		return duration.set(Max(duration.get(), beat));
+    }
 
-	var render = {
-		getSplitLine(color),
-		drawSplitLine(beat - splitLineAnimationStart, beat, 1, split),
-		drawSplitLine(beat, endBeat, 0, split),
-		drawSplitLine(endBeat, endBeat + splitLineAnimationEnd, 2, split)
-	};
+	var render() {
+		return {
+			getSplitLine(color),
+			drawSplitLine(beat - splitLineAnimationStart, beat, 1, split),
+			drawSplitLine(beat, endBeat, 0, split),
+			drawSplitLine(endBeat, endBeat + splitLineAnimationEnd, 2, split)
+		};
+	}
 };

@@ -12,72 +12,79 @@ class SiriusSound : public Archetype {
 	var holdType = EntityData.get(4);
     var enLane = lane + laneLength - 1;
 
-    var spawnOrder = 1000 + lastBeat;
-    var shouldSpawn = times.now > lastBeat - appearTime;
+    var spawnOrder() { return 1000 + lastBeat; }
+    var shouldSpawn() { return times.now > lastBeat - appearTime; }
 
-	var preprocess = {
-		playLoopedId.set(0),
-		trackTouchId.set(0),
-        IF (LevelOption.get(Options.Mirror)) {
-            EntityData.set(2, 13 - enLane)
-        } FI,
-		IF (holdType == 110) { EntityInput.set(2, Buckets.ScratchSound) }
-		ELSE { EntityInput.set(2, Buckets.Sound) } FI
-	};
+	var preprocess() {
+        return {
+            playLoopedId.set(0),
+            trackTouchId.set(0),
+            IF (LevelOption.get(Options.Mirror)) {
+                EntityData.set(2, 13 - enLane)
+            } FI,
+            IF (holdType == 110) { EntityInput.set(2, Buckets.ScratchSound) }
+            ELSE { EntityInput.set(2, Buckets.Sound) } FI
+        };
+    }
 
-    var updateSequential = {
-		drawHoldEighth(SwitchWithDefault(holdType, {
-			{100, Sprites.Hold},
-			{101, Sprites.Hold},
-			{110, Sprites.Scratch},
-            {111, Sprites.Scratch}
-		}, Sprites.Hold), lane, enLane, lastBeat, beat),
-        drawTick(SwitchWithDefault(holdType, {
-			{100, Sprites.TouchTick},
-			{101, Sprites.TouchTick},
-			{110, Sprites.TouchScratchTick},
-            {111, Sprites.TouchScratchTick}
-		}, Sprites.TouchTick), beat, lane, enLane),
-        IF (times.now > lastBeat) { drawNormalNote(SwitchWithDefault(holdType, {
-			{100, Sprites.HoldNote},
-			{101, Sprites.HoldNote},
-			{110, Sprites.ScratchNote},
-            {111, Sprites.ScratchNote}
-		}, Sprites.HoldNote), lane, enLane, times.now) } FI,
-		IF (times.now > lastBeat && playLoopedId.get() == 0) {
-			playLoopedId.set(PlayLooped(Clips.Hold)),
-		} FI,
-        IF (LevelOption.get(Options.Autoplay)) {
-			trackTouchId.set(beat)
-        } FI,
-        IF (times.now > beat + judgment.good) {
-            currentJudge.set(Sprites.JudgeMiss),
-            currentJudgeStartTime.set(times.now),
-        } FI,
-		IF (times.now > beat) {
-			IF (LevelOption.get(Options.Autoplay)) {
-				currentJudge.set(Sprites.JudgeAuto),
-				currentJudgeStartTime.set(times.now),
-			} ELSE {
-				SpawnJudgeText(trackTouchId.get(), beat)
-			} FI,
-		} FI
-    };
+    var updateSequential() {
+        return {
+            drawHoldEighth(SwitchWithDefault(holdType, {
+                {100, Sprites.Hold},
+                {101, Sprites.Hold},
+                {110, Sprites.Scratch},
+                {111, Sprites.Scratch}
+            }, Sprites.Hold), lane, enLane, lastBeat, beat),
+            drawTick(SwitchWithDefault(holdType, {
+                {100, Sprites.TouchTick},
+                {101, Sprites.TouchTick},
+                {110, Sprites.TouchScratchTick},
+                {111, Sprites.TouchScratchTick}
+            }, Sprites.TouchTick), beat, lane, enLane),
+            IF (times.now > lastBeat) { drawNormalNote(SwitchWithDefault(holdType, {
+                {100, Sprites.HoldNote},
+                {101, Sprites.HoldNote},
+                {110, Sprites.ScratchNote},
+                {111, Sprites.ScratchNote}
+            }, Sprites.HoldNote), lane, enLane, times.now) } FI,
+            IF (times.now > lastBeat && playLoopedId.get() == 0) {
+                playLoopedId.set(PlayLooped(Clips.Hold)),
+            } FI,
+            IF (LevelOption.get(Options.Autoplay)) {
+                trackTouchId.set(beat)
+            } FI,
+            IF (times.now > beat + judgment.good) {
+                SpawnSubJudgeText(Sprites.JudgeMiss)
+            } FI,
+            IF (times.now > beat) {
+                IF (LevelOption.get(Options.Autoplay)) {
+                    currentJudge.set(Sprites.JudgeAuto),
+                    currentJudgeStartTime.set(times.now),
+                } ELSE {
+                    SpawnJudgeText(trackTouchId.get(), beat)
+                } FI,
+            } FI
+        };
+    }
 
-    var touch = {
-        IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
-        FOR (i, 0, touches.size, 1) {
-            IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
-            trackTouchId.set(Max(trackTouchId.get(), times.now))
-        } DONE
-    };
+    var touch() {
+        return {
+            IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+            FOR (i, 0, touches.size, 1) {
+                IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
+                trackTouchId.set(Max(trackTouchId.get(), times.now))
+            } DONE
+        };
+    }
 
-    var updateParallel ={
-        IF (times.now > beat) {
-            JudgeNoteMuted(trackTouchId.get(), beat),
-			StopLooped(playLoopedId.get()),
-			Play(Clips.Sound, minSFXDistance),
-            EntityDespawn.set(0, 1)
-        } FI
-    };
+    var updateParallel() {
+        return {
+            IF (times.now > beat) {
+                JudgeNoteMuted(trackTouchId.get(), beat),
+                StopLooped(playLoopedId.get()),
+                Play(Clips.Sound, minSFXDistance),
+                EntityDespawn.set(0, 1)
+            } FI
+        };
+    }
 };

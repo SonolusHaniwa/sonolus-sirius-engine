@@ -350,12 +350,10 @@ var drawAppearLine(var t, var split) {
 }
 
 var setSplitLine(vector<var> lines) {
-    var res = Execute({
-        splitLineMemory.clear()
-    });
+    vector<var> args = {splitLineMemory.clear()};
     for (int i = 0; i < 16; i++) {
-        res.args.push_back(splitLineMemory.add(lines[i % lines.size()]));
-    } return res;
+        args.push_back(splitLineMemory.add(lines[i % lines.size()]));
+    } return Execute(args);
 }
 
 var getSplitLine(var id) {

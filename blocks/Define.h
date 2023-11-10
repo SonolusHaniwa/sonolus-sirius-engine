@@ -57,17 +57,17 @@ T defineInstructionIcons(vector<pair<string, int> > icons) {
     return T();
 }
 
-FuncNode definePreprocess(FuncNode func) {
+function<FuncNode()> definePreprocess(function<FuncNode()> func) {
     tutorialPreprocess = func;
     return func;
 }
 
-FuncNode defineNavigate(FuncNode func) {
+function<FuncNode()> defineNavigate(function<FuncNode()> func) {
     tutorialNavigate = func;
     return func;
 }
 
-FuncNode defineUpdate(FuncNode func) {
+function<FuncNode()> defineUpdate(function<FuncNode()> func) {
     tutorialUpdate = func;
     return func;
 }

@@ -1,3 +1,8 @@
+#ifndef MaxForSize
+const int MaxForSize = 16;
+#endif
+
+using namespace std;
 #include<jsoncpp/json/json.h>
 #include<openssl/ssl.h>
 
@@ -5,12 +10,13 @@
 
 #include"items/Exception.h"
 #include"items/EngineEnums.h"
-#include"items/FuncNode.h"
 #include"items/EngineConfiguration.h"
 #include"items/EngineData.h"
 #include"items/EngineTutorialData.h"
 #include"items/EnginePreviewData.h"
 
+int globalCounter = 0, lastGlobalCounter = 0;
+#include"items/FuncNode.h"
 #include"functions/functions.h"
 #ifndef DISABLE_REDEFINE
 #include"functions/redefine.h"
@@ -24,19 +30,15 @@ EngineData engineData;
 EngineTutorialData engineTutorialData;
 EngineConfiguration engineConfiguration;
 EnginePreviewData enginePreviewData;
-FuncNode tutorialPreprocess = 0;
-FuncNode tutorialNavigate = 0;
-FuncNode tutorialUpdate = 0;
+function<FuncNode()> tutorialPreprocess;
+function<FuncNode()> tutorialNavigate;
+function<FuncNode()> tutorialUpdate;
 
 #include"blocks/Archetype.h"
 #include"blocks/Define.h"
 #include"blocks/Pointer.h"
 
-#include"items/PlayData.h"
-#include"items/TutorialData.h"
-#include"items/PreviewData.h"
-
-map<EngineDataNode, int> hashMap;
+// map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
 // const int64_t k1 = 23;
 // const int64_t k2 = 55331;
@@ -84,12 +86,11 @@ map<EngineDataNode, int> hashMap;
 //     }
 // }hashMap;
 
-int globalCounter = 0;
-int lastGlobalCounter = 0;
-
-template<typename T>
+/*template<typename T>
 int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
-    EngineDataNode res; globalCounter++;
+	globalCounter++;
+//	if (hashMap.find(script.stringify(0, 1)) != hashMap.end()) return hashMap[script.stringify(0, 5)];
+    EngineDataNode res;
     if (script.isValue == true) res = EngineDataValueNode(script.value);
     else {
         // Return 函数判断
@@ -112,78 +113,81 @@ int buildScript(FuncNode script, T& nodesContainer, int blockCounter = 0) {
     if (hashMap.find(res) != hashMap.end()) return hashMap[res];
     hashMap[res] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
     return hashMap[res];
-}
+	hashMap[script.stringify(0, 1)] = nodesContainer.nodes.size(); nodesContainer.nodes.push_back(res);
+	return hashMap[script.stringify(0, 1)];
+}*/
 
-int buildFuncNode(FuncNode func) {
-    FuncNode res = FuncNode("Block", {func});
-    return buildScript(res, engineData);
+/*int buildFuncNode(FuncNode func) {
+    return buildScript(func, engineData);
 }
 
 int buildFuncNode2(FuncNode func) {
-    FuncNode res = FuncNode("Block", {func});
-    return buildScript(res, engineTutorialData);
+    return buildScript(func, engineTutorialData);
 }
 
 int buildFuncNode3(FuncNode func) {
-    FuncNode res = FuncNode("Block", {func});
-    return buildScript(res, enginePreviewData);
-}
+    return buildScript(func, enginePreviewData);
+}*/
 
 time_t millitime() {
     return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
 }
 
 template<typename T>
-void buildArchetype(T unused) {
+void buildArchetype(T archetype) {
+	lastGlobalCounter = globalCounter;
     #ifdef play
     time_t st = millitime();
-    T archetype; EngineDataArchetype newArchetype;
+    EngineDataArchetype newArchetype;
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
     newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = buildFuncNode(archetype.preprocess);
+    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
     newArchetype.spawnOrder.order = archetype.spawnOrderOrder;
-    newArchetype.spawnOrder.index = buildFuncNode(archetype.spawnOrder);
+    newArchetype.spawnOrder.index = Block(archetype.spawnOrder()).getNodeId();
     newArchetype.shouldSpawn.order = archetype.shouldSpawnOrder;
-    newArchetype.shouldSpawn.index = buildFuncNode(archetype.shouldSpawn);
+    newArchetype.shouldSpawn.index = Block(archetype.shouldSpawn()).getNodeId();
     newArchetype.initialize.order = archetype.initializeOrder;
-    newArchetype.initialize.index = buildFuncNode(archetype.initialize);
+    newArchetype.initialize.index = Block(archetype.initialize()).getNodeId();
     newArchetype.updateSequential.order = archetype.updateSequentialOrder;
-    newArchetype.updateSequential.index = buildFuncNode(archetype.updateSequential);
+    newArchetype.updateSequential.index = Block(archetype.updateSequential()).getNodeId();
+//	archetype.updateSequential();
     newArchetype.touch.order = archetype.touchOrder;
-    newArchetype.touch.index = buildFuncNode(archetype.touch);
+    newArchetype.touch.index = Block(archetype.touch()).getNodeId();
     newArchetype.updateParallel.order = archetype.updateParallelOrder;
-    newArchetype.updateParallel.index = buildFuncNode(archetype.updateParallel);
+    newArchetype.updateParallel.index = Block(archetype.updateParallel()).getNodeId();
     newArchetype.terminate.order = archetype.terminateOrder;
-    newArchetype.terminate.index = buildFuncNode(archetype.terminate);
+    newArchetype.terminate.index = Block(archetype.terminate()).getNodeId();
     newArchetype.data = archetype.data;
     engineData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
     cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 
-         << fixed << setprecision(0) 
-         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s." << endl;
+		 << fixed << setprecision(0) 
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
+		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     #elif preview
     time_t st = millitime();
-    T archetype; EnginePreviewDataArchetype newArchetype;
+    EnginePreviewDataArchetype newArchetype;
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = buildFuncNode3(archetype.preprocess);
+    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
     newArchetype.render.order = archetype.renderOrder;
-    newArchetype.render.index = buildFuncNode3(archetype.render);
+    newArchetype.render.index = Block(archetype.render()).getNodeId();
     newArchetype.data = archetype.data;
     enginePreviewData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
     cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 
-         << fixed << setprecision(0) 
-         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s." << endl;
+		 << fixed << setprecision(0)
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
+		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     #endif
 }
 
 template<typename T, typename... Args> 
 void buildArchetype(T unused, Args... args) {
-    buildArchetype<T>(T()); buildArchetype<Args...>(args...);
+    buildArchetype<T>(unused); buildArchetype<Args...>(args...);
 }
 
 template<typename... Args>
@@ -192,30 +196,48 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     configurationBuffer = compress_gzip(json_encode(configuration));
 #ifdef play
     buildArchetype<Args...>(Args()...);
+	engineData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
-    engineTutorialData.preprocess = buildFuncNode2(tutorialPreprocess);
-    engineTutorialData.navigate = buildFuncNode2(tutorialNavigate);
-    engineTutorialData.update = buildFuncNode2(tutorialUpdate);
+    cout << "Solving Archetype \"Sonolus Tutorial Default\"..." << endl;
+    time_t st = millitime();
+    engineTutorialData.preprocess = Block(tutorialPreprocess()).getNodeId();
+    engineTutorialData.navigate = Block(tutorialNavigate()).getNodeId();
+    engineTutorialData.update = Block(tutorialUpdate()).getNodeId();
+	engineTutorialData.nodes = container;
+    time_t d = millitime() - st;
+    cout << "Solved Archetype \"Sonolus Tutorial Default\" in " << d << "ms. Speed: " 
+		 << fixed << setprecision(0)
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
+		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     dataBuffer = compress_gzip(json_encode(engineTutorialData.toJsonObject()));
 #elif preview
     buildArchetype<Args...>(Args()...);
+	enginePreviewData.nodes = container;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #endif
 }
 
+int ForPtIterator = 0;
 #define IF(cond) If(cond, Execute(
 #define ELSE ), Execute(
 #define FI ))
 #define FOR(i, st, en, step) [&](){\
-    FuncNode i = ForPt.get(); \
-    return Block(Execute({\
-        ForPt.set(st - step), \
-        While(ForPt.get() < en - step, Block(Execute({\
-            ForPt.set(ForPt.get() + step), \
+	FuncNode i = ForPt[++ForPtIterator].get(); \
+	blockCounter += 2; \
+    auto res = __builtin_Block(Execute({\
+        ForPt[ForPtIterator].set(st - step), \
+        While(ForPt[ForPtIterator].get() < en - step, __builtin_Block(Execute({\
+            ForPt[ForPtIterator].set(ForPt[ForPtIterator].get() + step), \
             Execute(
 #define DONE )}))) \
     })); \
+	blockCounter -= 2; ForPtIterator--; \
+	return res; \
 }()
 #define CONTINUE Break(1, 0)
 #define BREAK Break(2, 0)
+
+#include"items/PlayData.h"
+#include"items/TutorialData.h"
+#include"items/PreviewData.h"
