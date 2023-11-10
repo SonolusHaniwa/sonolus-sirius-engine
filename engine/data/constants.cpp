@@ -108,9 +108,11 @@ const var b = t - stage.h;
 class judgment {
 	public:
 
-	var perfect = 0.04;
-	var great = 0.07;
-	var good = 0.125;
+    var perfectPlus = 0.025;
+    var perfect = 0.04;
+    var great = 0.07;
+    var good = 0.1;
+    var bad = 0.125;
 }judgment;
 
 class judgeText {

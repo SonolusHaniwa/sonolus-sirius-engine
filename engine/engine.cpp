@@ -18,7 +18,7 @@ using namespace playData;
 #include"data/archetype/NormalNote.cpp"
 #include"data/archetype/CriticalNote.cpp"
 #include"data/archetype/FlickNote.cpp"
-/*#include"data/archetype/HoldStart.cpp"
+#include"data/archetype/HoldStart.cpp"
 #include"data/archetype/CriticalHoldStart.cpp"
 #include"data/archetype/ScratchHoldStart.cpp"
 #include"data/archetype/CriticalScratchHoldStart.cpp"
@@ -26,7 +26,7 @@ using namespace playData;
 #include"data/archetype/HoldEighth.cpp"
 #include"data/archetype/HoldEnd.cpp"
 #include"data/archetype/ScratchHoldEnd.cpp"
-#include"data/archetype/SyncLine.cpp"*/
+#include"data/archetype/SyncLine.cpp"
 #include"data/archetype/SplitLine.cpp"
 #elif tutorial
 using namespace tutorialData;

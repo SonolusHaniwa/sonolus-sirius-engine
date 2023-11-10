@@ -35,8 +35,7 @@ class FlickNote : public Archetype {
 	            EntityDespawn.set(0, 1)
 	        } FI,
 	        IF (times.now > beat + judgment.good) {
-	            currentJudge.set(Sprites.JudgeMiss),
-	            currentJudgeStartTime.set(times.now),
+                SpawnSubJudgeText(Sprites.JudgeMiss)
 	        } FI,
 	        IF (times.now > beat + judgment.good) {
 				IF (trackTouchId.get() != 0) {

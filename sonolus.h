@@ -199,10 +199,17 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 	engineData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
+    cout << "Solving Archetype \"Sonolus Tutorial Default\"..." << endl;
+    time_t st = millitime();
     engineTutorialData.preprocess = Block(tutorialPreprocess()).getNodeId();
     engineTutorialData.navigate = Block(tutorialNavigate()).getNodeId();
     engineTutorialData.update = Block(tutorialUpdate()).getNodeId();
 	engineTutorialData.nodes = container;
+    time_t d = millitime() - st;
+    cout << "Solved Archetype \"Sonolus Tutorial Default\" in " << d << "ms. Speed: " 
+		 << fixed << setprecision(0)
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
+		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     dataBuffer = compress_gzip(json_encode(engineTutorialData.toJsonObject()));
 #elif preview
     buildArchetype<Args...>(Args()...);

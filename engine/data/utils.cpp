@@ -189,26 +189,31 @@ var JudgeCriticalNote(var t, var beat) {
 	});
 }
 
+var SpawnSubJudgeText(var sprite) {
+    return {
+        IF (currentJudgeStartTime.get() == times.now) {
+            currentJudge.set(Max(currentJudge.get(), sprite))
+        } ELSE {
+            currentJudge.set(sprite),
+            currentJudgeStartTime.set(times.now)
+        } FI
+    };
+}
+
 var SpawnJudgeText(var t, var beat, bool isFlick = false) {
 	return Execute({
         IF (!isFlick && t - beat >= -1 * judgeText.perfectPlus && t - beat <= judgeText.perfectPlus) {
-            currentJudge.set(Sprites.JudgePerfectPlus),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgePerfectPlus)
         } ELSE { IF (!isFlick && t - beat >= -1 * judgeText.perfect && t - beat <= judgeText.perfect) {
-            currentJudge.set(Sprites.JudgePerfect),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgePerfect)
         } ELSE { IF (t - beat >= -1 * judgeText.great && t - beat <= judgeText.great) {
-            currentJudge.set(Sprites.JudgeGreat),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeGreat)
         } ELSE { IF (t - beat >= -1 * judgeText.good && t - beat <= judgeText.good) {
-            currentJudge.set(Sprites.JudgeGood),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeGood)
         } ELSE { IF (t - beat >= -1 * judgeText.bad && t - beat <= judgeText.bad) {
-            currentJudge.set(Sprites.JudgeBad),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeBad)
         } ELSE {
-            currentJudge.set(Sprites.JudgeMiss),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeMiss)
         } FI } FI } FI } FI } FI
 	});
 }
@@ -216,17 +221,13 @@ var SpawnJudgeText(var t, var beat, bool isFlick = false) {
 var SpawnFlickJudgeText(var t, var beat) {
 	return Execute({
         IF (t - beat >= -1 * judgeText.perfectPlus && t - beat <= judgeText.perfectPlus) {
-            currentJudge.set(Sprites.JudgePerfectPlus),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgePerfectPlus)
         } ELSE { IF (t - beat >= -1 * judgeText.perfect && t - beat <= judgeText.perfect) {
-            currentJudge.set(Sprites.JudgePerfect),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgePerfect)
         } ELSE { IF (t - beat >= -1 * judgeText.bad && t - beat <= judgeText.bad) {
-            currentJudge.set(Sprites.JudgeGreat),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeGood)
         } ELSE {
-            currentJudge.set(Sprites.JudgeMiss),
-            currentJudgeStartTime.set(times.now),
+            SpawnSubJudgeText(Sprites.JudgeMiss)
         } FI } FI } FI
 	});
 }

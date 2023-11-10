@@ -9,26 +9,32 @@ class SyncLine: public Archetype {
     var left = EntityData.get(1);
     var right = EntityData.get(2);
 
-    var spawnOrder = 1000 + beat;
-    var shouldSpawn = times.now > beat - appearTime;
+    var spawnOrder() { return 1000 + beat; }
+    var shouldSpawn() { return times.now > beat - appearTime; }
 
-    var preprocess = {
-        IF (LevelOption.get(Options.Mirror)) {
-            playLoopedId.set(left),
-            EntityData.set(1, 13 - right),
-            EntityData.set(2, 13 - playLoopedId.get())
-        } FI
-    };
+    var preprocess() {
+        return {
+            IF (LevelOption.get(Options.Mirror)) {
+                playLoopedId.set(left),
+                EntityData.set(1, 13 - right),
+                EntityData.set(2, 13 - playLoopedId.get())
+            } FI
+        };
+    }
 
-    var updateSequential = {
-        IF (LevelOption.get(Options.SyncLine) == 1) {
-            drawSyncLine(beat, left, right)
-        } FI
-    };
+    var updateSequential() {
+        return {
+            IF (LevelOption.get(Options.SyncLine) == 1) {
+                drawSyncLine(beat, left, right)
+            } FI
+        };
+    }
 
-    var updateParallel = {
-        IF (times.now > beat) {
-            EntityDespawn.set(0, 1)
-        } FI
-    };
+    var updateParallel() {
+        return {
+            IF (times.now > beat) {
+                EntityDespawn.set(0, 1)
+            } FI
+        };
+    }
 };
