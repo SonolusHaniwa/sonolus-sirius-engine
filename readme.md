@@ -14,6 +14,7 @@ Todo List:
 - [ ] Designed particle effect for sirius
 - [x] Update to Sonolus v0.7.3
 - [x] Optimize compilation speed (9.0s -> 0.2s)
+- [ ] Change Combo Style
 
 使用 Sonolus Server C++ v1.4.6 进行开发，并在 Ubuntu amd64 环境下编译通过。
 

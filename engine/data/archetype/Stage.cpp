@@ -122,8 +122,8 @@ class Stage: public Archetype {
 	var drawCombo() {
 		var combo = currentCombo.get();
 		var type = comboType.get();
-        var scale = 0.4 + 0.6 * Ease(Min(1, (times.now - currentComboStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
-        var a = 0.4 + 0.6 * Ease(Min(1, (times.now - currentComboStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
+        var scale = 0.4 + 0.6 * (Min(1, (times.now - currentComboStartTime.get()) / comboDuration));
+        var a = 0.4 + 0.6 * (Min(1, (times.now - currentComboStartTime.get()) / comboDuration));
 		var h = (comboTextHeight + comboNumberHeight) * scale;
 		var tL = screen.w * 0.4 - comboTextHeight * Switch(type, {{0, comboAPRatio}, {1, comboFCRatio}, {2, comboRatio}}) / 2 * scale;
 		var tR = screen.w * 0.4 + comboTextHeight * Switch(type, {{0, comboAPRatio}, {1, comboFCRatio}, {2, comboRatio}}) / 2 * scale;
@@ -163,7 +163,7 @@ class Stage: public Archetype {
 			IF (LevelOption.get(Options.Hidden) != 0) { drawHiddenLine() } FI, 
 			Draw(Sprites.Judgeline, judgline.lbX, judgline.lbY, judgline.ltX, judgline.ltY, judgline.rtX, judgline.rtY, judgline.rbX, judgline.rbY, 3, 1),
 			drawJudgeText(),
-			drawCombo()
+			// drawCombo()
 		};
 	}
 
