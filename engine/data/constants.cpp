@@ -34,7 +34,43 @@ const var judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 const var judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 const var judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 const var judgeTextHeight = 0.15;               // 判定文字高度
-const var judgeTextDuration = 0.2;
+const var judgeTextDuration = 0.2;              // 判定文字动画时间
+const var comboRatio = 154.0 / 37.0;            // combo 文字比例
+const var combo0Ratio = 118.0 / 148.0;          // combo 0 文字比例
+const var combo1Ratio = 87.0 / 148.0;           // combo 1 文字比例
+const var combo2Ratio = 118.0 / 148.0;          // combo 2 文字比例
+const var combo3Ratio = 118.0 / 148.0;          // combo 3 文字比例
+const var combo4Ratio = 118.0 / 148.0;          // combo 4 文字比例
+const var combo5Ratio = 118.0 / 148.0;          // combo 5 文字比例
+const var combo6Ratio = 118.0 / 148.0;          // combo 6 文字比例
+const var combo7Ratio = 118.0 / 148.0;          // combo 7 文字比例
+const var combo8Ratio = 118.0 / 148.0;          // combo 8 文字比例
+const var combo9Ratio = 118.0 / 148.0;          // combo 9 文字比例
+const var comboFCRatio = 154.0 / 37.0;          // combo FC 文字比例
+const var comboFC0Ratio = 118.0 / 148.0;        // combo FC 0 文字比例
+const var comboFC1Ratio = 87.0 / 148.0;         // combo FC 1 文字比例
+const var comboFC2Ratio = 118.0 / 148.0;        // combo FC 2 文字比例
+const var comboFC3Ratio = 118.0 / 148.0;        // combo FC 3 文字比例
+const var comboFC4Ratio = 118.0 / 148.0;        // combo FC 4 文字比例
+const var comboFC5Ratio = 118.0 / 148.0;        // combo FC 5 文字比例
+const var comboFC6Ratio = 118.0 / 148.0;        // combo FC 6 文字比例
+const var comboFC7Ratio = 118.0 / 148.0;        // combo FC 7 文字比例
+const var comboFC8Ratio = 118.0 / 148.0;        // combo FC 8 文字比例
+const var comboFC9Ratio = 118.0 / 148.0;        // combo FC 9 文字比例
+const var comboAPRatio = 168.0 / 48.0;          // combo AP 文字比例
+const var comboAP0Ratio = 118.0 / 148.0;        // combo AP 0 文字比例
+const var comboAP1Ratio = 87.0 / 148.0;         // combo AP 1 文字比例
+const var comboAP2Ratio = 118.0 / 148.0;        // combo AP 2 文字比例
+const var comboAP3Ratio = 118.0 / 148.0;        // combo AP 3 文字比例
+const var comboAP4Ratio = 118.0 / 148.0;        // combo AP 4 文字比例
+const var comboAP5Ratio = 118.0 / 148.0;        // combo AP 5 文字比例
+const var comboAP6Ratio = 118.0 / 148.0;        // combo AP 6 文字比例
+const var comboAP7Ratio = 118.0 / 148.0;        // combo AP 7 文字比例
+const var comboAP8Ratio = 118.0 / 148.0;        // combo AP 8 文字比例
+const var comboAP9Ratio = 118.0 / 148.0;        // combo AP 9 文字比例
+const var comboNumberHeight = 0.3;              // combo 数字高度
+const var comboTextHeight = 0.1;                // combo 文字高度
+const var comboTextDuration = 0.2;              // combo 文字动画时间
 
 class Vec {
     public:
@@ -191,3 +227,6 @@ class line {
 auto splitLineMemory = Array<EntityMemoryId>(16);
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;
+Variable<LevelMemoryId> currentCombo;
+Variable<LevelMemoryId> currentComboStartTime;
+Variable<LevelMemoryId> comboType;

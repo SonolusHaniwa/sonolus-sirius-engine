@@ -118,6 +118,25 @@ var drawRightArrow(var lane, var enLane, var beat) {
     } FI;
 }
 
+var addCombo() {
+    return Execute({
+        currentCombo.set(currentCombo.get() + 1),
+        currentComboStartTime.set(times.now)
+    });
+}
+
+var setComboType(var type) {
+    return comboType.set(Max(comboType.get(), type));
+}
+
+var clearCombo() {
+    return Execute({
+        currentCombo.set(0),
+        currentComboStartTime.set(times.now),
+        setComboType(2)
+    });
+}
+
 var JudgeNote(var t, var beat) {
     return Execute({
         EntityInput.set(1, t - beat),
@@ -125,15 +144,19 @@ var JudgeNote(var t, var beat) {
         Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
             {1, Execute({
                 EntityInput.set(0, 1),
-                Play(Clips.Perfect, minSFXDistance)
+                Play(Clips.Perfect, minSFXDistance),
+                addCombo()
             })}, {2, Execute({
                 EntityInput.set(0, 2),
-                Play(Clips.Perfect, minSFXDistance)
+                Play(Clips.Perfect, minSFXDistance),
+                addCombo(), setComboType(1)
             })}, {3, Execute({
                 EntityInput.set(0, 3),
-				Play(Clips.Good, minSFXDistance)
+				Play(Clips.Good, minSFXDistance),
+                clearCombo()
             })}, {0, Execute({
                 EntityInput.set(0, 0),
+                clearCombo()
             })}
         })
     });
@@ -143,7 +166,8 @@ var JudgeNoteMuted(var t, var beat) {
 	return Execute({
 		EntityInput.set(1, t - beat),
 		EntityInput.set(3, t - beat),
-		EntityInput.set(0, (JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good)))
+		EntityInput.set(0, (JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good))),
+        addCombo()
 	});
 }
 
@@ -154,15 +178,19 @@ var JudgeFlickNote(var t, var beat) {
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.good, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),
-				Play(Clips.Scratch, minSFXDistance)
+				Play(Clips.Scratch, minSFXDistance),
+                addCombo()
 			})}, {2, Execute({
 				EntityInput.set(0, 2),
-				Play(Clips.Scratch, minSFXDistance)
+				Play(Clips.Scratch, minSFXDistance),
+                addCombo(), setComboType(1)
 			})}, {3, Execute({
 				EntityInput.set(0, 3),
-				Play(Clips.Good, minSFXDistance)
+				Play(Clips.Good, minSFXDistance),
+                addCombo(), setComboType(1)
 			})}, {0, Execute({
-				EntityInput.set(0, 0)
+				EntityInput.set(0, 0),
+                clearCombo()
 			})}
 		})
 	});
@@ -175,15 +203,19 @@ var JudgeCriticalNote(var t, var beat) {
 		Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
 			{1, Execute({
 				EntityInput.set(0, 1),
-				Play(Clips.CriticalPerfect, minSFXDistance)
+				Play(Clips.CriticalPerfect, minSFXDistance),
+                addCombo()
 			})}, {2, Execute({
 				EntityInput.set(0, 2),
-				Play(Clips.CriticalPerfect, minSFXDistance)
+				Play(Clips.CriticalPerfect, minSFXDistance),
+                addCombo(), setComboType(1)
 			})}, {3, Execute({
 				EntityInput.set(0, 3),
-				Play(Clips.Good, minSFXDistance)
+				Play(Clips.Good, minSFXDistance),
+                clearCombo()
 			})}, {0, Execute({
-				EntityInput.set(0, 0)
+				EntityInput.set(0, 0),
+                clearCombo()
 			})}
 		})
 	});

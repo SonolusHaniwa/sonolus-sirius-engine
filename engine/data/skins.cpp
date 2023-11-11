@@ -2,7 +2,6 @@ using namespace std;
 
 class Sprites {
     public:
-
     int Stage = 0;
     int Judgeline = 1;
     int NormalNote = 2;
@@ -326,14 +325,47 @@ class Sprites {
     int SplitLine_9 = 320;
     int SplitLineTrans1_9 = 321;
     int SplitLineTrans2_9 = 322;
-    int HiddenLine = 333;
-    int JudgePerfectPlus = 334;
-    int JudgePerfect = 335;
-    int JudgeGreat = 336;
-    int JudgeGood = 337;
-    int JudgeBad = 338;
-    int JudgeMiss = 339;
-    int JudgeAuto = 340;
+    int HiddenLine = 323;
+    int JudgePerfectPlus = 324;
+    int JudgePerfect = 325;
+    int JudgeGreat = 326;
+    int JudgeGood = 327;
+    int JudgeBad = 328;
+    int JudgeMiss = 329;
+    int JudgeAuto = 330;
+    int Combo = 331;
+    int Combo0 = 332;
+    int Combo1 = 333;
+    int Combo2 = 334;
+    int Combo3 = 335;
+    int Combo4 = 336;
+    int Combo5 = 337;
+    int Combo6 = 338;
+    int Combo7 = 339;
+    int Combo8 = 340;
+    int Combo9 = 341;
+    int ComboFC = 342;
+    int ComboFC0 = 343;
+    int ComboFC1 = 344;
+    int ComboFC2 = 345;
+    int ComboFC3 = 346;
+    int ComboFC4 = 347;
+    int ComboFC5 = 348;
+    int ComboFC6 = 349;
+    int ComboFC7 = 350;
+    int ComboFC8 = 351;
+    int ComboFC9 = 352;
+    int ComboAP = 353;
+    int ComboAP0 = 354;
+    int ComboAP1 = 355;
+    int ComboAP2 = 356;
+    int ComboAP3 = 357;
+    int ComboAP4 = 358;
+    int ComboAP5 = 359;
+    int ComboAP6 = 360;
+    int ComboAP7 = 361;
+    int ComboAP8 = 362;
+    int ComboAP9 = 363;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -667,5 +699,38 @@ auto skins = defineSkins<class Sprites>({
     {"Sirius Judge Good", Sprites.JudgeGood},
     {"Sirius Judge Bad", Sprites.JudgeBad},
     {"Sirius Judge Miss", Sprites.JudgeMiss},
-    {"Sirius Judge Auto", Sprites.JudgeAuto}
+    {"Sirius Judge Auto", Sprites.JudgeAuto},
+    {"Sirius Combo", Sprites.Combo},
+    {"Sirius Combo 0", Sprites.Combo0},
+    {"Sirius Combo 1", Sprites.Combo1},
+    {"Sirius Combo 2", Sprites.Combo2},
+    {"Sirius Combo 3", Sprites.Combo3},
+    {"Sirius Combo 4", Sprites.Combo4},
+    {"Sirius Combo 5", Sprites.Combo5},
+    {"Sirius Combo 6", Sprites.Combo6},
+    {"Sirius Combo 7", Sprites.Combo7},
+    {"Sirius Combo 8", Sprites.Combo8},
+    {"Sirius Combo 9", Sprites.Combo9},
+    {"Sirius Combo FC", Sprites.ComboFC},
+    {"Sirius Combo FC 0", Sprites.ComboFC0},
+    {"Sirius Combo FC 1", Sprites.ComboFC1},
+    {"Sirius Combo FC 2", Sprites.ComboFC2},
+    {"Sirius Combo FC 3", Sprites.ComboFC3},
+    {"Sirius Combo FC 4", Sprites.ComboFC4},
+    {"Sirius Combo FC 5", Sprites.ComboFC5},
+    {"Sirius Combo FC 6", Sprites.ComboFC6},
+    {"Sirius Combo FC 7", Sprites.ComboFC7},
+    {"Sirius Combo FC 8", Sprites.ComboFC8},
+    {"Sirius Combo FC 9", Sprites.ComboFC9},
+    {"Sirius Combo AP", Sprites.ComboAP},
+    {"Sirius Combo AP 0", Sprites.ComboAP0},
+    {"Sirius Combo AP 1", Sprites.ComboAP1},
+    {"Sirius Combo AP 2", Sprites.ComboAP2},
+    {"Sirius Combo AP 3", Sprites.ComboAP3},
+    {"Sirius Combo AP 4", Sprites.ComboAP4},
+    {"Sirius Combo AP 5", Sprites.ComboAP5},
+    {"Sirius Combo AP 6", Sprites.ComboAP6},
+    {"Sirius Combo AP 7", Sprites.ComboAP7},
+    {"Sirius Combo AP 8", Sprites.ComboAP8},
+    {"Sirius Combo AP 9", Sprites.ComboAP9},
 });

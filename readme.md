@@ -9,10 +9,11 @@ Use [sonolus.h](https://github.com/SonolusHaniwa/sonolus.h) and [sonolus-server-
 Todo List:
 
 - [x] Finish writing buckets system
-- [ ] Finish writing tutorial mode
+- [x] Finish writing tutorial mode
 - [x] Finish writing preview mode
 - [ ] Designed particle effect for sirius
 - [x] Update to Sonolus v0.7.3
+- [x] Optimize compilation speed (9.0s -> 0.2s)
 
 使用 Sonolus Server C++ v1.4.6 进行开发，并在 Ubuntu amd64 环境下编译通过。
 
@@ -32,6 +33,8 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dplay # 编译程序
 ./main # 在 dist 文件夹下生成 EnginePlayData 和 EngineConfiguration
 g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程序
 ./main # 在 dist 文件夹下生成 EngineTutorialData 和 EngineConfiguration
+g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dpreview # 编译程序
+./main # 在 dist 文件夹下生成 EnginePreviewData 和 EngineConfiguration
 ./main txt2data LevelData.txt music_config.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
 
 g++ skin_maker.cpp -os -ljsoncpp -lpng # 编译皮肤生成器
