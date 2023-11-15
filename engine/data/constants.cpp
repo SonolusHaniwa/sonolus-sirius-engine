@@ -34,7 +34,7 @@ const var judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 const var judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 const var judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 const var judgeTextHeight = 0.15;               // 判定文字高度
-const var judgeTextDuration = 0.2;
+const var judgeTextDuration = 0.2;				// 判定文字动画时长
 
 class Vec {
     public:
@@ -61,7 +61,7 @@ class stage {
 	public:
 
 	const var w = IF (LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio < targetAspectRatio) {
-        screen.w
+        screen.w * LevelOption.get(Options.ExtraWidth)
     } ELSE {
         screen.h * targetAspectRatio
     } FI;

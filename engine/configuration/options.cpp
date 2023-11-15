@@ -11,7 +11,7 @@ class Options {
     int SplitLine = 5;        // Supported
     int SyncLine = 6;         // Supported
     int LockAspectRatio = 7;  // Supported
-    
+    int ExtraWidth = 8;
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -44,7 +44,7 @@ auto options = defineOptions<class Options>({
         def: 0,
         min: 0,
         max: 1,
-        step: 0.01,
+        step: 0.05,
         unit: UnitText.Percentage,
     }, {
         name: "Split Random Fall (not implement yet)",
@@ -60,7 +60,7 @@ auto options = defineOptions<class Options>({
         def: 1,
         min: 0,
         max: 1,
-        step: 0.01,
+        step: 0.05,
         unit: UnitText.Percentage,
     }, {
         name: NameText.SimultaneousLineVisibility,
@@ -74,5 +74,15 @@ auto options = defineOptions<class Options>({
         standard: 0,
         type: OptionType.Toggle,
         def: 1,
-    }
+	}, {
+		name: "Stage Width Multiplier",
+		scope: Scope,
+		standard: 0,
+		type: OptionType.Slider,
+		def: 1.0,
+		min: 0.5,
+		max: 3.0,
+		step: 0.05,
+		unit: UnitText.Percentage
+	}
 });
