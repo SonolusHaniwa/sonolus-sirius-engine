@@ -14,6 +14,7 @@ using namespace std;
 #include"items/EngineData.h"
 #include"items/EngineTutorialData.h"
 #include"items/EnginePreviewData.h"
+#include"items/EngineWatchData.h"
 
 int globalCounter = 0, lastGlobalCounter = 0;
 #include"items/FuncNode.h"
@@ -30,9 +31,11 @@ EngineData engineData;
 EngineTutorialData engineTutorialData;
 EngineConfiguration engineConfiguration;
 EnginePreviewData enginePreviewData;
+EngineWatchData engineWatchData;
 function<FuncNode()> tutorialPreprocess;
 function<FuncNode()> tutorialNavigate;
 function<FuncNode()> tutorialUpdate;
+function<FuncNode()> engineWatchData_updateSpawn;
 
 #include"blocks/Archetype.h"
 #include"blocks/Define.h"
@@ -182,7 +185,34 @@ void buildArchetype(T archetype) {
 		 << fixed << setprecision(0)
          << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
 		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
-    #endif
+	#elif watch
+	time_t st = millitime();
+    EngineWatchDataArchetype newArchetype;
+    cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
+    newArchetype.name = archetype.name;
+    newArchetype.hasInput = archetype.hasInput;
+    newArchetype.preprocess.order = archetype.preprocessOrder;
+    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
+    newArchetype.spawnTime.order = archetype.spawnTimeOrder;
+    newArchetype.spawnTime.index = Block(archetype.spawnTime()).getNodeId();
+    newArchetype.despawnTime.order = archetype.despawnTimeOrder;
+    newArchetype.despawnTime.index = Block(archetype.despawnTime()).getNodeId();
+    newArchetype.initialize.order = archetype.initializeOrder;
+    newArchetype.initialize.index = Block(archetype.initialize()).getNodeId();
+    newArchetype.updateSequential.order = archetype.updateSequentialOrder;
+    newArchetype.updateSequential.index = Block(archetype.updateSequential()).getNodeId();
+    newArchetype.updateParallel.order = archetype.updateParallelOrder;
+    newArchetype.updateParallel.index = Block(archetype.updateParallel()).getNodeId();
+    newArchetype.terminate.order = archetype.terminateOrder;
+    newArchetype.terminate.index = Block(archetype.terminate()).getNodeId();
+    newArchetype.data = archetype.data;
+    engineWatchData.archetypes.push_back(newArchetype);
+    time_t d = millitime() - st;
+    cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 
+   		 << fixed << setprecision(0)
+         << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
+  		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
+  	#endif
 }
 
 template<typename T, typename... Args> 
@@ -215,6 +245,10 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     buildArchetype<Args...>(Args()...);
 	enginePreviewData.nodes = container;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
+#elif watch
+    buildArchetype<Args...>(Args()...);
+	engineWatchData.nodes = container;
+    dataBuffer = compress_gzip(json_encode(engineWatchData.toJsonObject()));
 #endif
 }
 
