@@ -11,7 +11,7 @@ namespace watchData {
 	const int updateSpawnId = 7;
 	const int RuntimeEnvironmentId = 1000;
 	const int RuntimeUpdateId = 1001;
-	const int RuntimeSkconst intransformId = 1002;
+	const int RuntimeSkinTransformId = 1002;
 	const int RuntimeParticleTransformId = 1003;
 	const int RuntimeBackgroundId = 1004;
 	const int RuntimeUIId = 1005;
@@ -60,7 +60,7 @@ namespace watchData {
 	bool readMap[10001][8]; 
 	bool writeMap[10001][8];
 	bool initializeReadWriteTable = [](){
-		memset(readMap, 0, sizeof readMap); memset(writeMap, 0 sizeof writeMap);
+		memset(readMap, 0, sizeof readMap); memset(writeMap, 0, sizeof writeMap);
 		writeMap[RuntimeEnvironmentId][preprocessId] = 1; writeMap[RuntimeEnvironmentId][spawnTimeId] = 1; writeMap[RuntimeEnvironmentId][despawnTimeId] = 1; writeMap[RuntimeEnvironmentId][initializeId] = 1; writeMap[RuntimeEnvironmentId][updateSequentialId] = 1; writeMap[RuntimeEnvironmentId][updateParallelId] = 1; writeMap[RuntimeEnvironmentId][terminateId] = 1; writeMap[RuntimeEnvironmentId][updateSpawnId] = 1; 
 		readMap[RuntimeEnvironmentId][preprocessId] = 1; 
 		writeMap[RuntimeUpdateId][preprocessId] = 1; writeMap[RuntimeUpdateId][spawnTimeId] = 1; writeMap[RuntimeUpdateId][despawnTimeId] = 1; writeMap[RuntimeUpdateId][initializeId] = 1; writeMap[RuntimeUpdateId][updateSequentialId] = 1; writeMap[RuntimeUpdateId][updateParallelId] = 1; writeMap[RuntimeUpdateId][terminateId] = 1; writeMap[RuntimeUpdateId][updateSpawnId] = 1; 
@@ -104,4 +104,249 @@ namespace watchData {
 		readMap[TemporaryMemoryId][preprocessId] = 1; readMap[TemporaryMemoryId][spawnTimeId] = 1; readMap[TemporaryMemoryId][despawnTimeId] = 1; readMap[TemporaryMemoryId][initializeId] = 1; readMap[TemporaryMemoryId][updateSequentialId] = 1; readMap[TemporaryMemoryId][updateParallelId] = 1; readMap[TemporaryMemoryId][terminateId] = 1; readMap[TemporaryMemoryId][updateSpawnId] = 1; 
 		return true;
 	}();
+
+	class screen {
+        public:
+
+        FuncNode aspectRatio = RuntimeEnvironment.get(1);
+        FuncNode l = Multiply({-1, aspectRatio});
+        FuncNode b = -1;
+        FuncNode r = aspectRatio;
+        FuncNode t = 1;
+        FuncNode w = Multiply({aspectRatio, 2});
+        FuncNode h = 2;
+    }screen;
+
+    class ui {
+        public:
+
+        class layout {
+            public: 
+
+            FuncNode offset = 0;
+            layout(){};
+            layout(FuncNode offset):offset(offset){};
+
+            FuncNode anchorX = RuntimeUI.get(Add({Multiply({offset, 10}), 0}));
+            FuncNode anchorY = RuntimeUI.get(Add({Multiply({offset, 10}), 1}));
+            FuncNode pivotX = RuntimeUI.get(Add({Multiply({offset, 10}), 2}));
+            FuncNode pivotY = RuntimeUI.get(Add({Multiply({offset, 10}), 3}));
+            FuncNode width = RuntimeUI.get(Add({Multiply({offset, 10}), 4}));
+            FuncNode height = RuntimeUI.get(Add({Multiply({offset, 10}), 5}));
+            FuncNode rotation = RuntimeUI.get(Add({Multiply({offset, 10}), 6}));
+            FuncNode alpha = RuntimeUI.get(Add({Multiply({offset, 10}), 7}));
+            FuncNode horizontalAlign = RuntimeUI.get(Add({Multiply({offset, 10}), 8}));
+            FuncNode background = RuntimeUI.get(Add({Multiply({offset, 10}), 9}));
+
+
+            FuncNode set(FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
+                return Execute({
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 0}), anchorX),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 1}), anchorY),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 2}), pivotX),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 3}), pivotY),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 4}), width),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 5}), height),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 6}), rotation),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 7}), alpha),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 8}), horizontalAlign),
+                    RuntimeUI.set(Add({Multiply({offset, 10}), 9}), background),
+                });
+            }
+        };
+
+        class configuration {
+            public:
+
+            FuncNode offset = 0;
+            configuration(){};
+            configuration(FuncNode offset):offset(offset){};
+
+            FuncNode scale = RuntimeUIConfiguration.get(Add({Multiply({offset, 2}), 0}));
+            FuncNode alpha = RuntimeUIConfiguration.get(Add({Multiply({offset, 2}), 1}));
+        };
+
+        layout menu = layout(0);
+        layout judgment = layout(1);
+        layout comboValue = layout(2);
+        layout comboText = layout(3);
+        layout primaryMetricBar = layout(4);
+        layout primaryMetricValue = layout(5);
+        layout secondaryMetricBar = layout(6);
+        layout secondaryMetricValue = layout(7);
+        layout progress = layout(8);
+
+        configuration menuConfiguration = configuration(0);
+        configuration judgmentConfiguration = configuration(1);
+        configuration comboConfiguration = configuration(2);
+        configuration primaryMetricConfiguration = configuration(3);
+        configuration secondaryMetricConfiguration = configuration(4);
+        configuration progressConfiguration = configuration(5);
+    }ui;
+
+    class life {
+        public:
+
+        FuncNode offset = 0;
+        FuncNode perfect = ArchetypeLife.get(0);
+        FuncNode great = ArchetypeLife.get(1);
+        FuncNode good = ArchetypeLife.get(2);
+        FuncNode miss = ArchetypeLife.get(3);
+
+        life(){};
+        life(FuncNode offset):offset(offset){
+            perfect = ArchetypeLife.get(Add({Multiply({offset, 4}), 0}));
+            great = ArchetypeLife.get(Add({Multiply({offset, 4}), 1}));
+            good = ArchetypeLife.get(Add({Multiply({offset, 4}), 2}));
+            miss = ArchetypeLife.get(Add({Multiply({offset, 4}), 3}));
+        };
+        life operator [] (FuncNode offset) {
+            return life(offset);
+        }
+        FuncNode set(FuncNode perfect, FuncNode great, FuncNode good, FuncNode bad) {
+            return Execute({
+                ArchetypeLife.set(Add({Multiply({offset, 4}), 0}), perfect),
+                ArchetypeLife.set(Add({Multiply({offset, 4}), 1}), great),
+                ArchetypeLife.set(Add({Multiply({offset, 4}), 2}), good),
+                ArchetypeLife.set(Add({Multiply({offset, 4}), 3}), bad),
+            });
+        }
+    }lifes;
+
+    class entityInfo {
+        public:
+
+        FuncNode id = EntityInfo.get(0);
+        FuncNode archetype = EntityInfo.get(1);
+        FuncNode state = EntityInfo.get(2);
+    }entityInfo;
+
+    int allocatorSize[10001] = {0};
+    
+    template<int identifierId>
+    class Variable {
+        public:
+
+        int offset;
+        Variable(){
+            offset = allocatorSize[identifierId]++;
+        }
+
+        FuncNode get() {
+            return Get(identifierId, offset);
+        }
+        FuncNode add(FuncNode value) {
+            return Set(identifierId, offset, Add({Get(identifierId, offset), value}));
+        }
+        FuncNode subtract(FuncNode value) {
+            return Set(identifierId, offset, Subtract({Get(identifierId, offset), value}));
+        }
+        FuncNode multiply(FuncNode value) {
+            return Set(identifierId, offset, Multiply({Get(identifierId, offset), value}));
+        }
+        FuncNode divide(FuncNode value) {
+            return Set(identifierId, offset, Divide({Get(identifierId, offset), value}));
+        }
+        FuncNode mod(FuncNode value) {
+            return Set(identifierId, offset, Mod({Get(identifierId, offset), value}));
+        }
+        FuncNode set(FuncNode value) {
+            return Set(identifierId, offset, value);
+        }
+    };
+
+    Variable<EntityMemoryId> ForPt[MaxForSize];
+
+    template<int identifierId>
+    class Array {
+        public:
+
+        int offset;
+        int capacity;
+        FuncNode size = Get(identifierId, 0);
+        int sizeOffset = 0;
+
+        Array(){}
+        Array(int capacity):capacity(capacity){
+            sizeOffset = allocatorSize[identifierId];
+            size = Get(identifierId, sizeOffset);
+            offset = allocatorSize[identifierId] + 1;
+            allocatorSize[identifierId] += capacity + 1;
+        };
+        FuncNode operator [] (FuncNode id) {
+            return Get(identifierId, Add({id, offset}));
+        }
+        FuncNode add(FuncNode value) {
+            return Execute({
+                Set(identifierId, Add({size, offset}), value),
+                Set(identifierId, sizeOffset, Add({size, 1})),
+            });
+        }
+        FuncNode has(FuncNode value) {
+/*            FuncNode res = false;
+            for (int i = capacity - 1; i >= 0; i--) {
+                res = If(
+                    Equal(Get(identifierId, Add({i, offset})), value),
+                    true,
+                    res
+                );
+            } return res;*/
+			return Block(Execute({
+				FOR (i, 0, capacity, 1) {
+					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
+				} DONE,
+				Break(1, 0)
+			}));
+        }
+        FuncNode indexOf(FuncNode value) {
+/*            FuncNode res = -1;
+            for (int i = capacity - 1; i >= 0; i--) {
+                res = If(
+                    Equal(Get(identifierId, Add({i, offset})), value),
+                    i,
+                    res
+                );
+            } return res;*/
+			return Block(Execute({
+				FOR (i, 0, capacity, 1) {
+					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
+				} DONE,
+				Break(1, -1),
+			}));
+        }
+        FuncNode clear() {
+            vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
+            for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
+            return Execute(res);
+        }
+    };
+
+    Variable<EntityMemoryId> isHighlighted;
+    Variable<EntityMemoryId> playLoopedId;
+    Variable<EntityMemoryId> trackTouchId;
+
+    class HorizontalAlign {
+        public:
+
+        int Left = -1;
+        int Center = 0;
+        int Right = 1;
+    }HorizontalAlign;
+
+    class EntityState {
+        public:
+
+        int Waiting = 0;
+        int Active = 1;
+        int Despawned = 2;    
+    }EntityState;
+
+    class times {
+        public:
+
+        FuncNode now = RuntimeUpdate.get(0);
+        FuncNode delta = RuntimeUpdate.get(1);
+        FuncNode scaled = RuntimeUpdate.get(2);
+        FuncNode skip = RuntimeUpdate.get(3);
+    }times;
 };

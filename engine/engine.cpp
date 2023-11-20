@@ -6,9 +6,9 @@ const string Scope = "sirius";
 #include"configuration/ui.cpp"
 #ifdef play
 using namespace playData;
-#include"data/skins.cpp"
-#include"data/effects.cpp"
-#include"data/particles.cpp"
+#include"skins.cpp"
+#include"effects.cpp"
+#include"particles.cpp"
 #include"data/buckets.cpp"
 #include"data/constants.cpp"
 #include"data/utils.cpp"
@@ -30,9 +30,9 @@ using namespace playData;
 #include"data/archetype/SplitLine.cpp"
 #elif tutorial
 using namespace tutorialData;
-#include"tutorialData/skins.cpp"
-#include"tutorialData/effects.cpp"
-#include"tutorialData/particles.cpp"
+#include"skins.cpp"
+#include"effects.cpp"
+#include"particles.cpp"
 #include"tutorialData/instructionTexts.cpp"
 #include"tutorialData/instructionIcons.cpp"
 #include"tutorialData/constants.cpp"
@@ -47,7 +47,7 @@ using namespace tutorialData;
 #include"tutorialData/update.cpp"
 #elif preview
 using namespace previewData;
-#include"previewData/skins.cpp"
+#include"skins.cpp"
 #include"previewData/constants.cpp"
 #include"previewData/utils.cpp"
 #include"previewData/archetype/Initialization.cpp"
@@ -65,4 +65,12 @@ using namespace previewData;
 #include"previewData/archetype/Sound.cpp"
 #include"previewData/archetype/SyncLine.cpp"
 #include"previewData/archetype/SplitLine.cpp"
+#elif watch
+using namespace watchData;
+#include"skins.cpp"
+#include"effects.cpp"
+#include"particles.cpp"
+#include"watchData/constants.cpp"
+#include"watchData/utils.cpp"
+#include"watchData/archetype/Initialization.cpp"
 #endif

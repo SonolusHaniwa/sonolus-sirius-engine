@@ -275,3 +275,4 @@ int ForPtIterator = 0;
 #include"items/PlayData.h"
 #include"items/TutorialData.h"
 #include"items/PreviewData.h"
+#include"items/WatchData.h"

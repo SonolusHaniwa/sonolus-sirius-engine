@@ -40,6 +40,8 @@ void helpText(int argc, char** argv) {
     cout << "    EngineConfig & EngineTutorialData: " << argv[0] << endl;
     #elif preview
     cout << "    EngineConfig & EnginePreviewData: " << argv[0] << endl;
+    #elif watch
+    cout << "    EngineConfig & EngineWatchData: " << argv[0] << endl;
     #endif
     cout << "Chart Convertor: " << endl;
     cout << "    Sirius TXT -> Sonolus LevelData: " << argv[0] << " txt2data <txt> <chart_info> <data>" << endl;
@@ -144,7 +146,10 @@ int main(int argc, char** argv) {
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #elif watch
 	buffer data, configuration;
-	build<Archetype>(configuration, data);
+	build<
+		// Replace with your archetypes here
+		Initialization
+	>(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
     fout.close(); fout.open((dist + "/EngineWatchData"));

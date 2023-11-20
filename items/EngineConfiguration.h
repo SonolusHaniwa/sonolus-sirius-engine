@@ -109,6 +109,7 @@ class EngineConfigurationUI {
     EngineConfigurationVisibility comboVisibility = {};
     EngineConfigurationVisibility primaryMetricVisibility = {};
     EngineConfigurationVisibility secondaryMetricVisbility = {};
+    EngineConfigurationVisibility progressVisibility = {};
     EngineConfigurationVisibility tutorialNavigationVisibility = {};
     EngineConfigurationVisibility tutorialInstructionVisibility = {};
     EngineConfigurationAnimation judgmentAnimation = {};
@@ -128,6 +129,7 @@ class EngineConfigurationUI {
         res["comboVisibility"] = comboVisibility.toJsonObject();
         res["primaryMetricVisibility"] = primaryMetricVisibility.toJsonObject();
         res["secondaryMetricVisibility"] = secondaryMetricVisbility.toJsonObject();
+        res["progressVisibility"] = progressVisibility.toJsonObject();
         res["tutorialNavigationVisibility"] = tutorialNavigationVisibility.toJsonObject();
         res["tutorialInstructionVisibility"] = tutorialInstructionVisibility.toJsonObject();
         res["judgmentAnimation"] = judgmentAnimation.toJsonObject();
