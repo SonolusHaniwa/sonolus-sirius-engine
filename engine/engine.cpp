@@ -70,7 +70,10 @@ using namespace watchData;
 #include"skins.cpp"
 #include"effects.cpp"
 #include"particles.cpp"
+#include"watchData/updateSpawn.cpp"
 #include"watchData/constants.cpp"
 #include"watchData/utils.cpp"
 #include"watchData/archetype/Initialization.cpp"
+#include"watchData/archetype/Stage.cpp"
+#include"watchData/archetype/NormalNote.cpp"
 #endif

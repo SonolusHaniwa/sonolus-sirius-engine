@@ -191,3 +191,4 @@ class line {
 auto splitLineMemory = Array<EntityMemoryId>(16);
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;
+Variable<EntityMemoryId> despawned;

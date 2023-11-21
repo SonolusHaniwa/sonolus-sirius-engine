@@ -5,6 +5,9 @@ class Initialization: public Archetype {
 	bool input = false;
 	vector<pair<string, int> > data = {};
 
+	var spawnTime() { return -999999; }
+	var despawnTime() { return 999999; }
+
 	var preprocess() {
       	// 界面开关参数
         var menuWidth = 0.15 * ui.menuConfiguration.scale;

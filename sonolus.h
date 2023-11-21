@@ -247,6 +247,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #elif watch
     buildArchetype<Args...>(Args()...);
+	engineWatchData.updateSpawn = Block(engineWatchData_updateSpawn()).getNodeId();
 	engineWatchData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineWatchData.toJsonObject()));
 #endif

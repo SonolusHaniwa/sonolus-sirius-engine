@@ -329,7 +329,7 @@ FuncNode PlayLoopedScheduled(FuncNode id, FuncNode startTime) {
 }
 
 //
-FuncNode PlayScheduled(FuncNode id, FuncNode distance, FuncNode time) {
+FuncNode PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
     return FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance});
 }
 

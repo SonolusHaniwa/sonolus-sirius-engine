@@ -120,21 +120,10 @@ var drawRightArrow(var lane, var enLane, var beat) {
 
 var JudgeNote(var t, var beat) {
     return Execute({
-        EntityInput.set(1, t - beat),
-		EntityInput.set(3, t - beat),
         Switch(JudgeSimple(t, beat, judgment.perfect, judgment.great, judgment.good), {
-            {1, Execute({
-                EntityInput.set(0, 1),
-                Play(Clips.Perfect, minSFXDistance)
-            })}, {2, Execute({
-                EntityInput.set(0, 2),
-                Play(Clips.Perfect, minSFXDistance)
-            })}, {3, Execute({
-                EntityInput.set(0, 3),
-				Play(Clips.Good, minSFXDistance)
-            })}, {0, Execute({
-                EntityInput.set(0, 0),
-            })}
+            {1, Play(Clips.Perfect, minSFXDistance)}, 
+            {2, Play(Clips.Perfect, minSFXDistance)},
+            {3, Play(Clips.Good, minSFXDistance)}
         })
     });
 }

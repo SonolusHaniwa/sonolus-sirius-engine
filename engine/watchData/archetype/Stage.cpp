@@ -1,14 +1,13 @@
 class Stage: public Archetype {
-    public:
+	public:
 
-    string name = "Sirius Stage";
-    bool input = false;
+	string name = "Sirius Stage";
+	bool input = false;
 
-    var spawnOrder() { return 2; }
+	var spawnTime() { return -999999; }
+	var despawnTime() { return 999999; }
 
-    var shouldSpawn() { return 1; }
-
-    var drawJudgeText() {
+	var drawJudgeText() {
         var T = judgeTextHeight / 2.0, B = -1 * T;
         var W = judgeTextHeight * SwitchWithDefault(currentJudge.get(), {
             {Sprites.JudgePerfectPlus, judgePerfectPlusRatio},
@@ -33,33 +32,14 @@ class Stage: public Archetype {
 			IF (LevelOption.get(Options.Hidden) != 0) { drawHiddenLine() } FI, 
 			Draw(Sprites.Judgeline, judgline.lbX, judgline.lbY, judgline.ltX, judgline.ltY, judgline.rtX, judgline.rtY, judgline.rbX, judgline.rbY, 3, 1),
 			drawJudgeText()
-			
 		};
 	}
 
-    int touchOrder = 10000;
-	var playStageParticle(Touch touch) {
-		vector<var> args;
-		for (int i = 1; i <= 12; i++) {
-			args.push_back(Execute({
-				IF (lines.inClickBox(touch, i, i, true)) {
-					spawnLineEffect(i, i)
-				} FI
-			}));
-		}; return Execute(args);
-	}
-
-    var touch() {
+	var updateSequential() {
 		return {
-			IF (LevelOption.get(Options.Autoplay)) { Return(0) } FI,
-			FOR (i, 0, touches.size, 1) {
-			    IF (touches[i].started == false) { CONTINUE } FI,
-			    IF (lines.inClickBox(touches[i], 1, 12) == false) { CONTINUE } FI,
-			    IF (isUsed(touches[i])) { CONTINUE } FI,
-			    markAsUsed(touches[i]),
-			    Play(Clips.Stage, minSFXDistance),
-				playStageParticle(touches[i])
-			} DONE
+			IF (!times.skip) { Return(0) } FI,
+			currentJudge.set(0),
+			currentJudgeStartTime.set(0)
 		};
 	}
 };
