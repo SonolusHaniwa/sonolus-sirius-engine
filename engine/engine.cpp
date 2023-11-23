@@ -76,4 +76,5 @@ using namespace watchData;
 #include"watchData/archetype/Initialization.cpp"
 #include"watchData/archetype/Stage.cpp"
 #include"watchData/archetype/NormalNote.cpp"
+#include"watchData/archetype/CriticalNote.cpp"
 #endif

@@ -1,7 +1,7 @@
-class NormalNote : public Archetype {
+class CriticalNote : public Archetype {
     public:
 
-    string name = "Sirius Normal Note";
+    string name = "Sirius Critical Note";
     vector<pair<string, int> > data = {{"beat", 0}, {"lane", 1}, {"laneLength", 2}};
     bool hasInput = true;
 
@@ -19,13 +19,13 @@ class NormalNote : public Archetype {
 	            EntityData.set(1, 13 - enLane)
 	        } FI,
 	        EntityInput.set(0, beat),
-	        PlayScheduled(Clips.Perfect, beat, minSFXDistance),
+	        PlayScheduled(Clips.CriticalPerfect, beat, minSFXDistance),
 	    };
 	}
 
     var updateParallel() {
 		return {
-	        drawNormalNote(Sprites.NormalNote, lane, enLane, beat)
+	        drawNormalNote(Sprites.CriticalNote, lane, enLane, beat)
 	    };
 	}
 
@@ -42,7 +42,7 @@ class NormalNote : public Archetype {
 	var terminate() {
 		return {
 			IF (times.skip) { Return(0) } FI,
-			spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
+			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
 		};
 	}
 };

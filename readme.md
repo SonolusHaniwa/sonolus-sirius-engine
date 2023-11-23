@@ -1,5 +1,7 @@
 # Sonolus Sirius Engine
 
+## ⚠️ Please close `Settings > Graphics > GPU Particle System` in Sonolus before you play this engine!
+
 A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.3.
 
 适用于 Sonolus 0.7.3 的 World Dai Star: Dream's Stellarium 引擎。
@@ -9,10 +11,11 @@ Use [sonolus.h](https://github.com/SonolusHaniwa/sonolus.h) and [sonolus-server-
 Todo List:
 
 - [x] Finish writing buckets system
-- [ ] Finish writing tutorial mode
+- [x] Finish writing tutorial mode
 - [x] Finish writing preview mode
+- [ ] Finish writing watch mode
 - [ ] Designed particle effect for sirius
-- [x] Update to Sonolus v0.7.3
+- [x] Update to Sonolus v0.7.4
 
 使用 Sonolus Server C++ v1.4.6 进行开发，并在 Ubuntu amd64 环境下编译通过。
 
@@ -32,6 +35,10 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dplay # 编译程序
 ./main # 在 dist 文件夹下生成 EnginePlayData 和 EngineConfiguration
 g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dtutorial # 编译程序
 ./main # 在 dist 文件夹下生成 EngineTutorialData 和 EngineConfiguration
+g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dpreview # 编译程序
+./main # 在 dist 文件夹下生成 EnginePreviewData 和 EngineConfiguration
+g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dwatch # 编译程序
+./main # 在 dist 文件夹下生成 EngineWatchData 和 EngineConfiguration
 ./main txt2data LevelData.txt music_config.txt dist/LevelData # 在 dist 文件夹下生成 LevelData
 
 g++ skin_maker.cpp -os -ljsoncpp -lpng # 编译皮肤生成器

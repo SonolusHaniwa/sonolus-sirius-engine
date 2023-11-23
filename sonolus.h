@@ -214,10 +214,20 @@ void buildArchetype(T archetype) {
   		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
   	#endif
 }
-
 template<typename T, typename... Args> 
 void buildArchetype(T unused, Args... args) {
     buildArchetype<T>(unused); buildArchetype<Args...>(args...);
+}
+
+int allocatedArchetypeCount = 0;
+map<string, int> archetypeId;
+template<typename T>
+void allocateArchetypeId(T unused) {
+	archetypeId[typeid(T).name()] = allocatedArchetypeCount++;
+}
+template<typename T, typename... Args>
+void allocateArchetypeId(T unused, Args... args) {
+	allocateArchetypeId<T>(unused); allocateArchetypeId<Args...>(args...);
 }
 
 template<typename... Args>
@@ -225,6 +235,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     Json::Value configuration = engineConfiguration.toJsonObject();
     configurationBuffer = compress_gzip(json_encode(configuration));
 #ifdef play
+	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
 	engineData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
@@ -242,16 +253,20 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     dataBuffer = compress_gzip(json_encode(engineTutorialData.toJsonObject()));
 #elif preview
+	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
 	enginePreviewData.nodes = container;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #elif watch
+	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
 	engineWatchData.updateSpawn = Block(engineWatchData_updateSpawn()).getNodeId();
 	engineWatchData.nodes = container;
     dataBuffer = compress_gzip(json_encode(engineWatchData.toJsonObject()));
 #endif
 }
+
+#define getArchetypeId(T) archetypeId[typeid(T).name()]
 
 int ForPtIterator = 0;
 #define IF(cond) If(cond, Execute(

@@ -150,7 +150,8 @@ int main(int argc, char** argv) {
 		// Replace with your archetypes here
 		Initialization,
 		Stage,
-		NormalNote
+		NormalNote,
+		CriticalNote
 	>(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
