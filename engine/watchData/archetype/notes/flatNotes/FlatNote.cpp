@@ -1,7 +1,6 @@
-class CriticalNote : public Archetype {
+class SiriusFlatNote : public Archetype {
     public:
 
-    string name = "Sirius Critical Note";
     vector<pair<string, int> > data = {{"beat", 0}, {"lane", 1}, {"laneLength", 2}};
     bool hasInput = true;
 
@@ -13,19 +12,17 @@ class CriticalNote : public Archetype {
     var spawnTime() { return beat - appearTime; }
     var despawnTime() { return beat; }
 
+    virtual var getClip() { return -1; }
+    virtual var getLinearEffect() { return -1; }
+    virtual var getCircularEffect() { return -1; }
+
 	var preprocess() {
 		return {
 	        IF (LevelOption.get(Options.Mirror)) {
 	            EntityData.set(1, 13 - enLane)
 	        } FI,
 	        EntityInput.set(0, beat),
-	        PlayScheduled(Clips.CriticalPerfect, beat, minSFXDistance),
-	    };
-	}
-
-    var updateParallel() {
-		return {
-	        drawNormalNote(Sprites.CriticalNote, lane, enLane, beat)
+	        PlayScheduled(getClip(), beat, minSFXDistance),
 	    };
 	}
 
@@ -33,8 +30,7 @@ class CriticalNote : public Archetype {
 	var updateSequential() {
 		return {
 			IF (times.now >= beat - 0.03) {
-				currentJudge.set(Sprites.JudgeAuto),
-				currentJudgeStartTime.set(Max(currentJudgeStartTime.get(), beat - 0.03)),
+				SpawnJudgeText(beat)
 			} FI
 		};
 	}
@@ -42,7 +38,7 @@ class CriticalNote : public Archetype {
 	var terminate() {
 		return {
 			IF (times.skip) { Return(0) } FI,
-			spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
+			spawnEffect(getLinearEffect(), getCircularEffect(), lane, enLane),
 		};
 	}
 };

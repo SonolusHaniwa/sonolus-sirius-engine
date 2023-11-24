@@ -5,8 +5,8 @@ class Initialization: public Archetype {
 	bool input = false;
 	vector<pair<string, int> > data = {};
 
-	var spawnTime() { return -999999; }
-	var despawnTime() { return 999999; }
+	var spawnTime() { return 0; }
+	var despawnTime() { return 0; }
 
 	var preprocess() {
       	// 界面开关参数

@@ -27,13 +27,6 @@ class FlickNote : public Archetype {
 		return {
 	        drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
 		    drawArrow(lane, enLane, beat),
-	        IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
-	            JudgeFlickNote(beat, beat),
-	            currentJudge.set(Sprites.JudgeAuto),
-	            currentJudgeStartTime.set(times.now),
-				spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane),
-	            EntityDespawn.set(0, 1)
-	        } FI,
 	        IF (times.now > beat + judgment.good) {
                 SpawnSubJudgeText(Sprites.JudgeMiss)
 	        } FI,
@@ -47,7 +40,7 @@ class FlickNote : public Archetype {
 	
 	var touch() {
 		return {
-			IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+			IF (times.now < beat - judgment.good) { Return(0) } FI,
 	        FOR (i, 0, touches.size, 1) {
 	            IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
 		        IF (isUsed(touches[i])) { CONTINUE } FI,
