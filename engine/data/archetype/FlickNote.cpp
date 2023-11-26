@@ -28,9 +28,7 @@ class FlickNote : public Archetype {
 	        drawNormalNote(Sprites.ScratchNote, lane, enLane, beat),
 		    drawArrow(lane, enLane, beat),
 	        IF (times.now > beat + judgment.good) {
-                SpawnSubJudgeText(Sprites.JudgeMiss)
-	        } FI,
-	        IF (times.now > beat + judgment.good) {
+                SpawnSubJudgeText(Sprites.JudgeMiss),
 				IF (trackTouchId.get() != 0) {
 	                SpawnJudgeText(judgeText.great, beat, true),
 				} FI

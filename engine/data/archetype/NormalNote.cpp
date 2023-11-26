@@ -25,13 +25,6 @@ class NormalNote : public Archetype {
     var updateSequential() {
 		return {
 	        drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
-	        IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
-	            currentJudge.set(Sprites.JudgeAuto),
-	            currentJudgeStartTime.set(times.now),
-		        JudgeNote(beat, beat),
-				spawnEffect(Effects.NormalLinear, Effects.NormalCircular, lane, enLane),
-			    EntityDespawn.set(0, 1)
-			} FI,
 			IF (times.now > beat + judgment.good) {
                 SpawnSubJudgeText(Sprites.JudgeMiss)
 			} FI
@@ -40,7 +33,7 @@ class NormalNote : public Archetype {
 
     var touch() {
 		return {
-			IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+			IF (times.now < beat - judgment.good) { Return(0) } FI,
 			FOR (i, 0, touches.size, 1) {
 			    IF (touches[i].started == false) { CONTINUE } FI,
 		        IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,

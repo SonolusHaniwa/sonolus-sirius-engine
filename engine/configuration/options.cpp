@@ -3,25 +3,18 @@ using namespace std;
 class Options {
     public:
     
-    int Autoplay = 0;         // Supported
-    int Mirror = 1;           // Supported
-    int NoteSpeed = 2;        // Supported
-    int Hidden = 3;
-    int SplitRandom = 4;
-    int SplitLine = 5;        // Supported
-    int SyncLine = 6;         // Supported
-    int LockAspectRatio = 7;  // Supported
-    int ExtraWidth = 8;
+    int Mirror = 0;           // Supported
+    int NoteSpeed = 1;        // Supported
+    int Hidden = 2;
+    int SplitRandom = 3;
+    int SplitLine = 4;        // Supported
+    int SyncLine = 5;         // Supported
+    int LockAspectRatio = 6;  // Supported
+    int ExtraWidth = 7;
 }Options;
 
 auto options = defineOptions<class Options>({
-    {
-        name: NameText.AutoPlay,
-        scope: Scope,
-        standard: 1,
-        type: OptionType.Toggle,
-        def: 0,
-    }, {
+	{
         name: NameText.MirrorLevel,
         scope: Scope,
         standard: 0,
