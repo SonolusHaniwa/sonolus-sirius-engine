@@ -26,7 +26,7 @@ class Stage: public Archetype {
         return Draw(currentJudge.get(), L, B, L, T, R, T, R, B, 1e8, a);
     }
 
-    var updateSequential() {
+    var updateParallel() {
 		return {
 	        Draw(Sprites.Stage, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 1, 1),
 		    Draw(Sprites.StageBackground, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 2, 0.6),
@@ -51,7 +51,6 @@ class Stage: public Archetype {
 
     var touch() {
 		return {
-			IF (LevelOption.get(Options.Autoplay)) { Return(0) } FI,
 			FOR (i, 0, touches.size, 1) {
 			    IF (touches[i].started == false) { CONTINUE } FI,
 			    IF (lines.inClickBox(touches[i], 1, 12) == false) { CONTINUE } FI,

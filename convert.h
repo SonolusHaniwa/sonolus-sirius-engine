@@ -5,6 +5,7 @@ enum NoteType {
     Normal = 10,
     Critical = 20,
     Sound = 30,
+    ScratchSound = 31,
     SoundPurple = 40,
     Flick = 50,
     HoldStart = 80,
@@ -191,7 +192,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
-            case Sound: {
+            case Sound: case ScratchSound: {
                 single["archetype"] = "Sirius Sound";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];

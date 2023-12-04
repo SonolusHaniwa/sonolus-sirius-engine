@@ -329,7 +329,7 @@ FuncNode PlayLoopedScheduled(FuncNode id, FuncNode startTime) {
 }
 
 //
-FuncNode PlayScheduled(FuncNode id, FuncNode distance, FuncNode time) {
+FuncNode PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
     return FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance});
 }
 
@@ -479,8 +479,9 @@ FuncNode Smoothstep(FuncNode a, FuncNode b, FuncNode x) {
 }
 */
 
-FuncNode Spawn(FuncNode id, FuncNode data) {
-    return FuncNode(RuntimeFunction.Spawn, {id, data});
+FuncNode Spawn(FuncNode id, vector<FuncNode> data) {
+	data.insert(data.begin(), id);
+    return FuncNode(RuntimeFunction.Spawn, data);
 }
 
 FuncNode SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {

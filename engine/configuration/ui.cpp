@@ -23,6 +23,10 @@ EngineConfigurationUI configurationUI = {
         .scale = 1.0,
         .alpha = 1.0
     },
+    .progressVisibility = {
+    	.scale = 1.0,
+    	.alpha = 1.0	
+    },
     .tutorialNavigationVisibility = {
         .scale = 1.0,
         .alpha = 1.0

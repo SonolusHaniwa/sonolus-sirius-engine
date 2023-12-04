@@ -107,8 +107,10 @@ namespace previewData {
         };
 
         layout menu = layout(0);
+        layout progress = layout(1);
 
         configuration menuConfiguration = configuration(0);
+        configuration progressConfiguration = configuration(1);
     }ui;
 
     int allocatorSize[10001] = {0};

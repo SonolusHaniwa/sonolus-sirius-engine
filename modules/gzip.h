@@ -1,6 +1,6 @@
 #ifndef GZIP_H
 #define GZIP_H
-#include<zlib.h>
+#include"/usr/include/zlib.h"
 
 using std::string;
 using std::stringstream;

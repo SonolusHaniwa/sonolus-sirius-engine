@@ -42,26 +42,18 @@ class SiriusScratchHoldEnd : public Archetype {
                 } FI,
                 IF (times.now > lastBeat) { drawNormalNote(Sprites.ScratchNote, lane, enLane, times.now) } FI,
             } FI,
-            IF (LevelOption.get(Options.Autoplay)) {
-                trackTouchId.set(beat)
-            } FI,
             IF (times.now > beat + judgment.good) {
                 SpawnSubJudgeText(Sprites.JudgeMiss)
             } FI,
             IF ((times.now > beat && trackTouchId.get() != 0) || times.now > beat + judgment.good) {
-                IF (LevelOption.get(Options.Autoplay)) {
-                    currentJudge.set(Sprites.JudgeAuto),
-                    currentJudgeStartTime.set(times.now),
-                } ELSE {
-                    SpawnFlickJudgeText(trackTouchId.get(), beat)
-                } FI,
+                SpawnFlickJudgeText(trackTouchId.get(), beat)
             } FI
         };
     }
 
     var touch() {
         return {
-            IF (LevelOption.get(Options.Autoplay) || times.now < lastBeat) { Return(0) } FI,
+            IF (times.now < lastBeat) { Return(0) } FI,
             hasHold.set(0),
             FOR (i, 0, touches.size, 1) {
                 IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,

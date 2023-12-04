@@ -50,26 +50,18 @@ class SiriusSound : public Archetype {
             IF (times.now > lastBeat && playLoopedId.get() == 0) {
                 playLoopedId.set(PlayLooped(Clips.Hold)),
             } FI,
-            IF (LevelOption.get(Options.Autoplay)) {
-                trackTouchId.set(beat)
-            } FI,
             IF (times.now > beat + judgment.good) {
                 SpawnSubJudgeText(Sprites.JudgeMiss)
             } FI,
             IF (times.now > beat) {
-                IF (LevelOption.get(Options.Autoplay)) {
-                    currentJudge.set(Sprites.JudgeAuto),
-                    currentJudgeStartTime.set(times.now),
-                } ELSE {
-                    SpawnJudgeText(trackTouchId.get(), beat)
-                } FI,
+                SpawnJudgeText(trackTouchId.get(), beat)
             } FI
         };
     }
 
     var touch() {
         return {
-            IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+            IF (times.now < beat - judgment.good) { Return(0) } FI,
             FOR (i, 0, touches.size, 1) {
                 IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,
                 trackTouchId.set(Max(trackTouchId.get(), times.now))

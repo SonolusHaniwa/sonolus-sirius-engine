@@ -225,7 +225,7 @@ var SpawnFlickJudgeText(var t, var beat) {
         } ELSE { IF (t - beat >= -1 * judgeText.perfect && t - beat <= judgeText.perfect) {
             SpawnSubJudgeText(Sprites.JudgePerfect)
         } ELSE { IF (t - beat >= -1 * judgeText.bad && t - beat <= judgeText.bad) {
-            SpawnSubJudgeText(Sprites.JudgeGood)
+            SpawnSubJudgeText(Sprites.JudgeGreat)
         } ELSE {
             SpawnSubJudgeText(Sprites.JudgeMiss)
         } FI } FI } FI

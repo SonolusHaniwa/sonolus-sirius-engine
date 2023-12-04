@@ -27,13 +27,6 @@ class SiriusCriticalScratchHoldStart : public Archetype {
             IF (times.now <= beat) {
                 drawNormalNote(Sprites.CriticalNote, lane, enLane, beat)
             } FI,
-            IF (LevelOption.get(Options.Autoplay) && times.now > beat) {
-                JudgeCriticalNote(beat, beat),
-                currentJudge.set(Sprites.JudgeAuto),
-                currentJudgeStartTime.set(times.now),
-                spawnEffect(Effects.CriticalLinear, Effects.CriticalCircular, lane, enLane),
-                EntityDespawn.set(0, 1)
-            } FI,
             IF (times.now > beat + judgment.good) {
                 SpawnSubJudgeText(Sprites.JudgeMiss)
             } FI
@@ -42,7 +35,7 @@ class SiriusCriticalScratchHoldStart : public Archetype {
 
     var touch() {
         return {
-            IF (LevelOption.get(Options.Autoplay) || times.now < beat - judgment.good) { Return(0) } FI,
+            IF (times.now < beat - judgment.good) { Return(0) } FI,
             FOR (i, 0, touches.size, 1) {
                 IF (touches[i].started == false) { CONTINUE } FI,
                 IF (!lines.inClickBox(touches[i], lane, enLane)) { CONTINUE } FI,

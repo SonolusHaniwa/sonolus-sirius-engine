@@ -1,5 +1,5 @@
 ARCH="x64"
-VERSION=v1.4.6
+VERSION=v1.4.7
 YELLOW="\e[93m"
 RED="\e[91m"
 RESET="\e[0m"
@@ -15,6 +15,7 @@ echo -e $YELLOW"Syncing data into database..."$RESET
 ./sonolus buildcpp play ../sirius
 ./sonolus buildcpp tutorial ../sirius
 ./sonolus buildcpp preview ../sirius
+./sonolus buildcpp watch ../sirius
 # sqlite3 sonolus.db "SELECT * FROM Engine";
 
 # 数据导出
