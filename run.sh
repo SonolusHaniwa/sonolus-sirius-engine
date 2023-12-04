@@ -10,6 +10,7 @@ wget https://github.com/SonolusHaniwa/sonolus-server-cpp/releases/download/$VERS
 cd sonolus-server && unzip -n sonolus.zip
 
 echo -e $YELLOW"Syncing data into database..."$RESET
+sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus serve >/dev/null 2>&1 &
 ./sonolus import ../sirius/sirius.srp
 ./sonolus buildcpp play ../sirius
