@@ -9,8 +9,9 @@ class Stage: public Archetype {
     var shouldSpawn() { return 1; }
 
     var drawJudgeText() {
-        var T = judgeTextHeight / 2.0, B = -1 * T;
-        var W = judgeTextHeight * SwitchWithDefault(currentJudge.get(), {
+		var H = judgeTextHeight * ui.judgmentConfiguration.scale;
+        var T = H / 2.0, B = -1 * T;
+        var W = H * SwitchWithDefault(currentJudge.get(), {
             {Sprites.JudgePerfectPlus, judgePerfectPlusRatio},
             {Sprites.JudgePerfect, judgePerfectRatio},
             {Sprites.JudgeGreat, judgeGreatRatio},
@@ -23,7 +24,7 @@ class Stage: public Archetype {
         var scale = 0.4 + 0.6 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
         var a = 0.4 + 0.6 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
         L *= scale, R *= scale, T *= scale, B *= scale;
-        return Draw(currentJudge.get(), L, B, L, T, R, T, R, B, 1e8, a);
+        return Draw(currentJudge.get(), L, B, L, T, R, T, R, B, 1e8, a * ui.judgmentConfiguration.alpha);
     }
 
     var updateParallel() {
