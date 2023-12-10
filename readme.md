@@ -2,9 +2,9 @@
 
 ## ⚠️ Please close `Settings > Graphics > GPU Particle System` in Sonolus before you play this engine!
 
-A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.3.
+A recreation of World Dai Star: Dream's Stellarium engine in [Sonolus](https://sonolus.com). For Sonolus 0.7.4.
 
-适用于 Sonolus 0.7.3 的 World Dai Star: Dream's Stellarium 引擎。
+适用于 Sonolus 0.7.4 的 World Dai Star: Dream's Stellarium 引擎。
 
 Use [sonolus.h](https://github.com/SonolusHaniwa/sonolus.h) and [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp) to develop.
 
@@ -13,11 +13,11 @@ Todo List:
 - [x] Finish writing buckets system
 - [x] Finish writing tutorial mode
 - [x] Finish writing preview mode
-- [ ] Finish writing watch mode
+- [x] Finish writing watch mode
 - [ ] Designed particle effect for sirius
 - [x] Update to Sonolus v0.7.4
 
-使用 Sonolus Server C++ v1.4.6 进行开发，并在 Ubuntu amd64 环境下编译通过。
+使用 Sonolus Server C++ v1.4.7 进行开发，并在 Ubuntu amd64 环境下编译通过。
 
 ## Links
 
@@ -44,6 +44,50 @@ g++ main.cpp -o main -ljsoncpp -lssl -lcrypto -lz -Dwatch # 编译程序
 g++ skin_maker.cpp -os -ljsoncpp -lpng # 编译皮肤生成器
 ./s # 生成皮肤及相关文件
 ```
+
+## JavaScript Convertor Module
+
+**You need install [emscripten](https://github.com/emscripten-core/emscripten) first.**
+
+Compile Command:
+
+```bash
+sudo chmod 0777 ./emake && ./emake
+```
+
+It will create `libsirius.js` and `libsirius.wasm`. Here's a simple code for your reference:
+
+```javascript
+import factory from './libsirius.js';
+
+async function fromSUS(sus) {
+	var inst = await factory();
+	var ptr = inst.stringToNewUTF8(sus); // 将字符串转为 char* 指针
+	// char* _sus2txt(char*): 将 sus 转为 txt 文件
+	// char* _txt2data(char*): 将 txt 转为未加密的 LevelData
+	var res = inst._txt2data(inst._sus2txt(ptr));
+	var dat = inst.UTF8ToString(res); // 从 char* 转回为字符串
+	return dat;
+}
+
+var txt = fromSUS(sus); // 将 sus 转为 LevelData(未加密)
+```
+
+## Documentation
+
+### `char* sus2txt(char* sus)` / `string fromSUS(string text)`
+
+Convert sus chart to wds txt chart.
+
+- `sus` / `text`: Chart content.
+
+### `char* txt2data(char* txt)` / `string fromSirius(string text, double chartOffset, double bgmOffset = 0)`
+
+Convert wds txt chart to Sonolus LevelData (without gzip encoded).
+
+- `txt` / `text`: Chart content.
+- `chartOffset`: Chart offset.
+- `bgmOffset`: BGM offset (or delay seconds in music_config.txt).
 
 ## Custom Resources
 

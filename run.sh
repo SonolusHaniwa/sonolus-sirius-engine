@@ -10,6 +10,8 @@ wget https://github.com/SonolusHaniwa/sonolus-server-cpp/releases/download/$VERS
 cd sonolus-server && unzip -n sonolus.zip
 
 echo -e $YELLOW"Syncing data into database..."$RESET
+wget "https://raw.githubusercontent.com/SonolusHaniwa/sonolus-server-cpp/main/data.sql" -O data.sql
+sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus serve >/dev/null 2>&1 &
 ./sonolus import ../sirius/sirius.srp
 ./sonolus buildcpp play ../sirius
@@ -20,7 +22,8 @@ echo -e $YELLOW"Syncing data into database..."$RESET
 
 # 数据导出
 echo -e $YELLOW"Exporting database to data.json..."$RESET
-./exportor "http://127.0.0.1:8080" data.json
+./exportor "http://127.0.0.1:8080" data.json 1
+./exportor "http://127.0.0.1:8080" engine.json 2
 sudo pkill sonolus
 
 echo -e $YELLOW"Sync finished"$RESET
