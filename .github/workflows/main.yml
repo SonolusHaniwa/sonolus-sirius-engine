@@ -53,7 +53,8 @@ jobs:
           bash run.sh
 
           for name in `ls ./sonolus-server/data/`; do
-              ./tools/onedriveUploader ./sonolus-server/data/$name 0
+              ./tools/onedriveUploader ./sonolus-server/data/$name
+              echo ""
           done
           cp sonolus-server/data.json wds/
           cp sonolus-server/sonolus.db wds/
@@ -70,14 +71,14 @@ jobs:
           git commit -m "Update Engine"
           git push origin
 
-          cd wbs
+          cd ../wbs
           git config --local user.email "littleyang0531@outlook.com"
           git config --local user.name "LittleYang0531"
           git add .
           git commit -m "Update Engine"
           git push origin
 
-          cd stellarity
+          cd ../stellarity
           git config --local user.email "littleyang0531@outlook.com"
           git config --local user.name "LittleYang0531"
           git add .
