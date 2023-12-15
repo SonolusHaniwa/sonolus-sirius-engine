@@ -1,5 +1,5 @@
 ARCH="x64"
-VERSION=v1.4.7
+VERSION=v1.4.7-patch1
 YELLOW="\e[93m"
 RED="\e[91m"
 RESET="\e[0m"
