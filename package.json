@@ -1,9 +1,21 @@
 {
+  "skin": {
+  	"name": "sirius",
+  	"i18n": [
+  	  {
+  	  	"localization": "default",
+  	  	"title": "Sirius",
+        "subtitle": "World Dai Star: Dream's Stellarium",
+        "author": "LittleYang0531",
+        "description": "Version: 1.1.0"
+  	  }
+  	]
+  },
   "engine": {
     "name": "sirius",
     "i18n": [
       {
-       "localization": "default",
+        "localization": "default",
         "title": "Sirius",
         "subtitle": "World Dai Star: Dream's Stellarium",
         "author": "LittleYang0531",

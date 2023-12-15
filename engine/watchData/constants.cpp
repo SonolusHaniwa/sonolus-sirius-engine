@@ -4,7 +4,7 @@ const double maxSize = 0.5;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
 const var targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 const var highWidth = 0.1;                      // 高位宽度与低位宽度比
-const var defaultAppearTime = 3.0;              // note 默认出现时间
+const var defaultAppearTime = 7.4 / 5.0;        // note 默认出现时间
 const var minSFXDistance = 0.02;                // 最小音效时间
 const var judgelineMarginBottom = 0.25;         // 判定线距离底部距离
 const var judgelineHeight = 85.0 / 640.0;       // 判定线高度
@@ -94,8 +94,8 @@ var ease(var x) {
     return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
 }
 
-const var noteSpeed = stage.h / defaultAppearTime * Power({1.3, LevelOption.get(Options.NoteSpeed) - 5});
-const var appearTime = stage.h / noteSpeed;
+const var appearTime = (7.4 / LevelOption.get(Options.NoteSpeed));
+const var noteSpeed = stage.h / appearTime;
 const var hiddenPercent = ease(LevelOption.get(Options.Hidden));
 
 const var t = If(

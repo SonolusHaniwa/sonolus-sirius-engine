@@ -21,7 +21,7 @@ class SiriusFlatNote : public Archetype {
 	        IF (LevelOption.get(Options.Mirror)) {
 	            EntityData.set(1, 13 - enLane)
 	        } FI,
-	        EntityInput.set(0, beat),
+	        Set(EntityInputId, 0, beat),
 	        PlayScheduled(getClip(), beat, minSFXDistance),
 	    };
 	}
