@@ -68,6 +68,7 @@ class EngineWatchDataArchetype {
     Json::Value toJsonObject() {
         Json::Value res;
         res["name"] = name;
+        res["hasInput"] = hasInput;
         res["preprocess"] = preprocess.toJsonObject();
         res["spawnTime"] = spawnTime.toJsonObject();
         res["despawnTime"] = despawnTime.toJsonObject();

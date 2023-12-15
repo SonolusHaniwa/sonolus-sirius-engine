@@ -292,3 +292,4 @@ int ForPtIterator = 0;
 #include"items/TutorialData.h"
 #include"items/PreviewData.h"
 #include"items/WatchData.h"
+#include"items/SkinData.h"

@@ -5,12 +5,12 @@ class Options {
     
     int Mirror = 0;           // Supported
     int NoteSpeed = 1;        // Supported
-    int Hidden = 2;
+    int Hidden = 2;           // Supported
     int SplitRandom = 3;
     int SplitLine = 4;        // Supported
     int SyncLine = 5;         // Supported
     int LockAspectRatio = 6;  // Supported
-    int ExtraWidth = 7;
+    int ExtraWidth = 7;       // Supoorted
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -27,7 +27,7 @@ auto options = defineOptions<class Options>({
         type: OptionType.Slider,
         def: 5,
         min: 1,
-        max: 20,
+        max: 25,
         step: 0.1,
     }, {
         name: NameText.VerticalStageCover,

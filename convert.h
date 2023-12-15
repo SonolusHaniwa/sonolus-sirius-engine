@@ -309,7 +309,7 @@ string fromSUS(string text) {
     auto lines = explode("\n", text.c_str());
     double ticks_per_beat = 480;
     vector<tuple<string, int, int, string> > mainData;
-    map<int, int> bpmList;
+    map<string, int> bpmList;
     int currentBpm = 120; double currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
     for (int i = 0; i < lines.size(); i++) {
@@ -328,17 +328,20 @@ string fromSUS(string text) {
         }
 
         // 处理谱面数据
-        if (lines[i].find(": ") == string::npos) continue;
-        auto res = explode(": ", lines[i].c_str());
+        vector<string> res;
+        if (lines[i].find(": ") != string::npos) res = explode(": ", lines[i].c_str());
+        else if (lines[i].find(":") != string::npos) res = explode(":", lines[i].c_str());
+        else continue;
         string head = res[0], body = res[1];
         if (head.substr(0, 3) == "BPM") {
-            int id = atoi(head.substr(4).c_str());
+            string id = head.substr(3);
             int bpm = atoi(body.c_str());
             bpmList[id] = bpm;
             continue;
         }
         if (head.substr(0, 3) == "TIL") {
             body = body.substr(1, body.size() - 2);
+            if (body == "") continue;
             auto exp = explode(", ", body.c_str());
             for (auto i = 0; i < exp.size(); i++) {
                 string tmp = exp[i];
@@ -412,7 +415,8 @@ string fromSUS(string text) {
         int beat = atoi(head.substr(0, 3).c_str());
         string prop = head.substr(3);
         if (prop == "08") { // BPM Change
-            int bpm = bpmList[atoi(get<3>(mainData[i]).c_str())];
+            if (get<3>(mainData[i]) == "00") continue;
+            int bpm = bpmList[get<3>(mainData[i])];
             currentBpm = bpm;
         } else if (prop == "SL") { // Split Line
             auto tmp = explode(".", body.c_str());
@@ -420,27 +424,30 @@ string fromSUS(string text) {
             if (currentSplitLine == 0)
                 currentSplitLine = line, currentSplitLineType = type, currentSplitLineTime = currentTime;
             else {
-                txt << currentSplitLineTime - 1 << "," << currentTime + 1 << "," << 0 << "," << -1 << "," << 0 << ","
+                txt << currentSplitLineTime << "," << currentTime << "," << 0 << "," << -1 << "," << 0 << ","
                     << 10 + currentSplitLine << "," << currentSplitLineType << endl; // 调整 Split Line 的时间
                 currentSplitLine = 0; currentSplitLineType = 0; currentSplitLineTime = 0;
             }
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                throw runtime_error("Invalid Tap Type " + head + ": " + body);
+                // throw runtime_error("Invalid Tap Type " + head + ": " + body);
+                continue;
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             if (body[0] == '1' || body[0] == '2') noteList[l][r][currentTime].push_back(mainData[i]);
             else ; // Note Type = 3, 不知道干嘛的
         } else if (prop[0] == '5') { // Flick
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '3' && body[0] != '4') 
-                throw runtime_error("Invalid Flick Type " + head + ": " + body);
+                // throw runtime_error("Invalid Flick Type " + head + ": " + body);
+                continue;
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back(mainData[i]);
         } else if (prop[0] == '3') { // Slide(Hold)
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                throw runtime_error("Invalid Slide Type " + head + ": " + body);
+                // throw runtime_error("Invalid Slide Type " + head + ": " + body);
+                continue;
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back({get<0>(mainData[i]), get<1>(mainData[i]), currentBpm, get<3>(mainData[i])});
         }
@@ -470,6 +477,7 @@ string fromSUS(string text) {
                         bpm = get<2>(x);
                     }
                 }
+                // if (l == 1 && r == 3 && t > 15.3 && t < 15.4) cout << t << " " << isCritical << endl;
 
                 // Note 讨论
                 if (!isSlideStart && !isSlideEnd && !isSlideSound && !isFlick) continue;
@@ -492,10 +500,11 @@ string fromSUS(string text) {
                             }
                         }
                     }
-                    int noteType = (isCritical ? 
+                	// if (l == 1 && r == 3 && t > 18 && t < 19) cout << t << " " << CriticalSlide << endl;
+                    int noteType = (CriticalSlide ? 
                         (ScratchSlide ? ScratchCriticalHoldStart : CriticalHoldStart) :
                         (ScratchSlide ? ScratchHoldStart : HoldStart));
-                    int holdType = (isCritical ? 
+                    int holdType = (CriticalSlide ? 
                         (ScratchSlide ? ScratchCriticalHold : CriticalHold) :
                         (ScratchSlide ? ScratchHold : Hold));
                     if (addStart) txt << startTime << "," << -1 << "," << noteType << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;

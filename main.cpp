@@ -169,4 +169,7 @@ int main(int argc, char** argv) {
     fout.close(); fout.open((dist + "/EngineWatchData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #endif
+
+	// 生成 Skin
+	packSkin(dist + "/SkinTexture", dist + "/SkinData");
 }
