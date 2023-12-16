@@ -83,6 +83,6 @@ void packSkin(string textureDir, string dataDir) {
 	ofstream fout(dataDir);
 	char* ch = new char[dataBuffer.v.size()];
 	for (int i = 0; i < dataBuffer.v.size(); i++) ch[i] = dataBuffer.v[i];
-	fout.write(ch, dataBuffer.v.size());
+	fout.write(ch, dataBuffer.v.size()); delete[] ch;
 	fout.close();
 }

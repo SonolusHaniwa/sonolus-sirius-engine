@@ -1,10 +1,9 @@
 #include<bits/stdc++.h>
-#include<jsoncpp/json/json.h>
 using namespace std;
-#include"modules/buffer.h"
-#include"modules/json.h"
-#include"modules/gzip.h"
-#include"modules/png.h"
+#include"../modules/buffer.h"
+#include"../modules/json.h"
+#include"../modules/gzip.h"
+#include"../modules/png.h"
 
 int main(int argc, char** argv) {
 	if (argc < 3) {
@@ -37,6 +36,6 @@ int main(int argc, char** argv) {
 				img.data[j][k * 4 + 2] = texture.data[j + y][(k + x) * 4 + 2];
 				img.data[j][k * 4 + 3] = texture.data[j + y][(k + x) * 4 + 3];
 			}
-		} writeImage("skin/" + item["name"].asString() + ".png", img);
+		} writeImage("../skin/" + item["name"].asString() + ".png", img);
 	}
 }

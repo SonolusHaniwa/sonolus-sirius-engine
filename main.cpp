@@ -172,4 +172,6 @@ int main(int argc, char** argv) {
 
 	// 生成 Skin
 	packSkin(dist + "/SkinTexture", dist + "/SkinData");
+    // 生成 Effect
+    packEffect(dist + "/EffectAudio", dist + "/EffectData");
 }
