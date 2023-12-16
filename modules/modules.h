@@ -13,3 +13,4 @@ bool fileExists(string path) {
 #include"MaxRects.h"
 #include"MaxRects.cpp"
 #include"png.h"
+#include"zip.h"
