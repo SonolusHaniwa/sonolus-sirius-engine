@@ -87,5 +87,7 @@ var getSplitLine(var id) {
 		{10410, setSplitLine({Sprites.SplitLine_10410})},
 		{10420, setSplitLine({Sprites.SplitLine_10420})},
 		{10430, setSplitLine({Sprites.SplitLine_10430})},
+		{10440, setSplitLine({Sprites.SplitLine_10440})},
+		{10450, setSplitLine({Sprites.SplitLine_10450})},
 	});
 }
