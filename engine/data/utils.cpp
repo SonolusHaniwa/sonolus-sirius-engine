@@ -401,9 +401,9 @@ var drawAppearLine(var t, var split) {
 }
 
 var setSplitLine(vector<var> lines) {
-    vector<var> args = {splitLineMemory.clear()};
+    vector<var> args;
     for (int i = 0; i < 16; i++)
-        args.push_back(splitLineMemory.add(lines[i % lines.size()]));
+        args.push_back(splitLineMemory.set(i, lines[i % lines.size()]));
     return Execute(args);
 }
 

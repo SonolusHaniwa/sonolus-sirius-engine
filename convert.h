@@ -431,23 +431,20 @@ string fromSUS(string text) {
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                // throw runtime_error("Invalid Tap Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Tap Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             if (body[0] == '1' || body[0] == '2') noteList[l][r][currentTime].push_back(mainData[i]);
             else ; // Note Type = 3, 不知道干嘛的
         } else if (prop[0] == '5') { // Flick
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '3' && body[0] != '4') 
-                // throw runtime_error("Invalid Flick Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Flick Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back(mainData[i]);
         } else if (prop[0] == '3') { // Slide(Hold)
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                // throw runtime_error("Invalid Slide Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Slide Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back({get<0>(mainData[i]), get<1>(mainData[i]), currentBpm, get<3>(mainData[i])});
         }

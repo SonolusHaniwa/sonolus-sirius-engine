@@ -47,10 +47,10 @@ class FuncNode {
 	int nodeId = 0;
 	bool writeable = true;
 	void checkWriteable() {
-		if (!writeable) {
-			throwError("You cannot write FuncNode again!");
-			exit(1);
-		} writeable = true;
+		// if (!writeable) {
+		// 	throwError("You cannot write FuncNode again!");
+		// 	exit(1);
+		// } writeable = true;
 	}
 	int allocate(EngineDataNode tmp) {
 		globalCounter++;
@@ -83,12 +83,37 @@ class FuncNode {
 		nodeId = allocate(tmp);
 	}
 	FuncNode(initializer_list<FuncNode> args) {
-		checkWriteable(); 
+		checkWriteable();
 		vector<FuncNode> args2 = args; vector<int> nodes;
-		for (int i = 0; i < args2.size(); i++) nodes.push_back(args2[i].getNodeId());
-		EngineDataNode tmp = EngineDataFunctionNode("Execute", nodes);
-		nodeId = allocate(tmp);
+		if (args2.size() == 1) nodeId = args2[0].getNodeId();
+		else {
+			for (int i = 0; i < args2.size(); i++) nodes.push_back(args2[i].getNodeId());
+			EngineDataNode tmp = EngineDataFunctionNode("Execute", nodes);
+			nodeId = allocate(tmp);
+		}
 	}
+	FuncNode(vector<FuncNode> args) {
+		checkWriteable(); vector<int> nodes;
+		if (args.size() == 1) nodeId = args[0].getNodeId();
+		else {
+			for (int i = 0; i < args.size(); i++) nodes.push_back(args[i].getNodeId());
+			EngineDataNode tmp = EngineDataFunctionNode("Execute", nodes);
+			nodeId = allocate(tmp);
+		}
+	}
+
+	// 供 CustomClass 使用的参数，防止 CustomClass 编译报错，实际 FuncNode 用不到
+	int classSize = 1;
+	vector<function<void(FuncNode)> > deserializiers = {
+		[&](FuncNode var){ (*this) = var; }
+	};
+	vector<function<FuncNode()> > serializiers = {
+		[&](){ return *this; }
+	};
+	vector<FuncNode> serialize() {
+		return { *this };
+	}
+	
 };
 
 #endif

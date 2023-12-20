@@ -230,105 +230,69 @@ namespace playData {
         FuncNode vw = RuntimeTouch.get(Add({Multiply({offset, 15}), 14}));
     }touches;
 
-    int allocatorSize[10001] = {0};
-
-    template<int identifierId>
-    class Variable {
-        public:
-
-        int offset;
-        Variable(){
-            offset = allocatorSize[identifierId]++;
-        }
-
-        FuncNode get() {
-            return Get(identifierId, offset);
-        }
-        FuncNode add(FuncNode value) {
-            return Set(identifierId, offset, Add({Get(identifierId, offset), value}));
-        }
-        FuncNode subtract(FuncNode value) {
-            return Set(identifierId, offset, Subtract({Get(identifierId, offset), value}));
-        }
-        FuncNode multiply(FuncNode value) {
-            return Set(identifierId, offset, Multiply({Get(identifierId, offset), value}));
-        }
-        FuncNode divide(FuncNode value) {
-            return Set(identifierId, offset, Divide({Get(identifierId, offset), value}));
-        }
-        FuncNode mod(FuncNode value) {
-            return Set(identifierId, offset, Mod({Get(identifierId, offset), value}));
-        }
-        FuncNode set(FuncNode value) {
-            return Set(identifierId, offset, value);
-        }
-    };
-
-    Variable<EntityMemoryId> ForPt[MaxForSize];
-
-    template<int identifierId>
-    class Array {
-        public:
-
-        int offset;
-        int capacity;
-        FuncNode size = Get(identifierId, 0);
-        int sizeOffset = 0;
-
-        Array(){}
-        Array(int capacity):capacity(capacity){
-            sizeOffset = allocatorSize[identifierId];
-            size = Get(identifierId, sizeOffset);
-            offset = allocatorSize[identifierId] + 1;
-            allocatorSize[identifierId] += capacity + 1;
-        };
-        FuncNode operator [] (FuncNode id) {
-            return Get(identifierId, Add({id, offset}));
-        }
-        FuncNode add(FuncNode value) {
-            return Execute({
-                Set(identifierId, Add({size, offset}), value),
-                Set(identifierId, sizeOffset, Add({size, 1})),
-            });
-        }
-        FuncNode has(FuncNode value) {
-/*            FuncNode res = false;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    true,
-                    res
-                );
-            } return res;*/
-			return Block(Execute({
-				FOR (i, 0, capacity, 1) {
-					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
-				} DONE,
-				Break(1, 0)
-			}));
-        }
-        FuncNode indexOf(FuncNode value) {
-/*            FuncNode res = -1;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    i,
-                    res
-                );
-            } return res;*/
-			return Block(Execute({
-				FOR (i, 0, capacity, 1) {
-					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
-				} DONE,
-				Break(1, -1),
-			}));
-        }
-        FuncNode clear() {
-            vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
-            for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
-            return Execute(res);
-        }
-    };
+//     template<int identifierId>
+//     class Array {
+//         public:
+// 
+//         int offset;
+//         int capacity;
+//         FuncNode size = Get(identifierId, 0);
+//         int sizeOffset = 0;
+// 
+//         Array(){}
+//         Array(int capacity):capacity(capacity){
+//             sizeOffset = allocatorSize[identifierId];
+//             size = Get(identifierId, sizeOffset);
+//             offset = allocatorSize[identifierId] + 1;
+//             allocatorSize[identifierId] += capacity + 1;
+//         };
+//         FuncNode operator [] (FuncNode id) {
+//             return Get(identifierId, Add({id, offset}));
+//         }
+//         FuncNode add(FuncNode value) {
+//             return Execute({
+//                 Set(identifierId, Add({size, offset}), value),
+//                 Set(identifierId, sizeOffset, Add({size, 1})),
+//             });
+//         }
+//         FuncNode has(FuncNode value) {
+// /*            FuncNode res = false;
+//             for (int i = capacity - 1; i >= 0; i--) {
+//                 res = If(
+//                     Equal(Get(identifierId, Add({i, offset})), value),
+//                     true,
+//                     res
+//                 );
+//             } return res;*/
+// 			return Block(Execute({
+// 				FOR (i, 0, capacity, 1) {
+// 					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
+// 				} DONE,
+// 				Break(1, 0)
+// 			}));
+//         }
+//         FuncNode indexOf(FuncNode value) {
+// /*            FuncNode res = -1;
+//             for (int i = capacity - 1; i >= 0; i--) {
+//                 res = If(
+//                     Equal(Get(identifierId, Add({i, offset})), value),
+//                     i,
+//                     res
+//                 );
+//             } return res;*/
+// 			return Block(Execute({
+// 				FOR (i, 0, capacity, 1) {
+// 					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
+// 				} DONE,
+// 				Break(1, -1),
+// 			}));
+//         }
+//         FuncNode clear() {
+//             vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
+//             for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
+//             return Execute(res);
+//         }
+//     };
 
     Variable<EntityMemoryId> isHighlighted;
     Variable<EntityMemoryId> playLoopedId;

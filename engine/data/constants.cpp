@@ -188,6 +188,6 @@ class line {
     }
 }lines;
 
-auto splitLineMemory = Array<EntityMemoryId>(16);
+auto splitLineMemory = Array<EntityMemoryId, FuncNode>(16);
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;

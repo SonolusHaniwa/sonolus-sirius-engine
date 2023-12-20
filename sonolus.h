@@ -40,6 +40,8 @@ function<FuncNode()> engineWatchData_updateSpawn;
 #include"blocks/Archetype.h"
 #include"blocks/Define.h"
 #include"blocks/Pointer.h"
+#include"blocks/CustomClass.h"
+#include"blocks/Variable.h"
 
 // map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
@@ -269,6 +271,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define getArchetypeId(T) archetypeId[typeid(T).name()]
 
 int ForPtIterator = 0;
+Variable<10000> ForPt[MaxForSize];
 #define IF(cond) If(cond, Execute(
 #define ELSE ), Execute(
 #define FI ))
@@ -288,6 +291,8 @@ int ForPtIterator = 0;
 #define CONTINUE Break(1, 0)
 #define BREAK Break(2, 0)
 
+#include"blocks/Array.h"
+#include"blocks/Map.h"
 #include"items/PlayData.h"
 #include"items/TutorialData.h"
 #include"items/PreviewData.h"

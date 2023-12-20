@@ -1,8 +1,8 @@
 using namespace std;
 
-Array<LevelMemoryId> usedTouchIds = Array<LevelMemoryId>(16);
-auto isUsed = [](Touch touch){return Execute({usedTouchIds.has(touch.id)});};
-auto markAsUsed = [](Touch touch){return Execute({usedTouchIds.add(touch.id)});};
+auto usedTouchIds = Map<LevelMemoryId, FuncNode, FuncNode>(16);
+auto isUsed = [](Touch touch){return Execute({usedTouchIds.indexOf(touch.id) != -1});};
+auto markAsUsed = [](Touch touch){return Execute({usedTouchIds.add(touch.id, 1)});};
     
 class InputManager: public Archetype {
     public:
