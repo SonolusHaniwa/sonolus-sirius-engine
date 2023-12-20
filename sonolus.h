@@ -3,8 +3,6 @@ const int MaxForSize = 16;
 #endif
 
 using namespace std;
-#include<jsoncpp/json/json.h>
-#include<openssl/ssl.h>
 
 #include"modules/modules.h"
 
@@ -298,3 +296,4 @@ Variable<10000> ForPt[MaxForSize];
 #include"items/PreviewData.h"
 #include"items/WatchData.h"
 #include"items/SkinData.h"
+#include"items/EffectData.h"
