@@ -1,9 +1,9 @@
-FuncNode operator + (FuncNode a, FuncNode b) {
-    return Add({a, b});
+FuncNode operator + (FuncNode a, FuncNode b) { 
+	return Add({a, b}); 
 }
 
-FuncNode operator - (FuncNode a, FuncNode b) {
-    return Subtract({a, b});
+FuncNode operator - (FuncNode a, FuncNode b) { 
+	return Subtract({a, b});
 }
 
 FuncNode operator * (FuncNode a, FuncNode b) {

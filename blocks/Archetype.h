@@ -7,43 +7,59 @@ class Archetype {
     bool hasInput = false;
 
     int preprocessOrder = 0;
-	FuncNode preprocess() {
-		return { Return(0) };
-	}
+    SonolusApi preprocess() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
+    }
 
     int spawnOrderOrder = 0;
-	FuncNode spawnOrder() {
-		return { Return(0) };
+	SonolusApi spawnOrder() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int shouldSpawnOrder = 0;
-	FuncNode shouldSpawn() {
-		return { Return(0) };
+	SonolusApi shouldSpawn() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int initializeOrder = 0;
-	FuncNode initialize() {
-		return { Return(0) };
+	SonolusApi initialize() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int updateSequentialOrder = 0;
-	FuncNode updateSequential() {
-		return { Return(0) };
+	SonolusApi updateSequential() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int touchOrder = 0;
-	FuncNode touch() {
-		return { Return(0) };
+	SonolusApi touch() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int updateParallelOrder = 0;
-	FuncNode updateParallel() {
-		return { Return(0) };
+	SonolusApi updateParallel() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int terminateOrder = 0;
-	FuncNode terminate() {
-		return { Return(0) };
+	SonolusApi terminate() {
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     vector<pair<string, int> > data;
@@ -55,12 +71,12 @@ class Archetype {
     string name = "Default Archtype";
 
     int preprocessOrder = 0;
-	FuncNode preprocess() {
+	SonolusApi preprocess() {
 		return { Return(0) };
 	}
 
     int renderOrder = 0;
-	FuncNode render() {
+	SonolusApi render() {
 		return { Return(0) };
 	}
 
@@ -74,37 +90,37 @@ class Archetype {
     bool hasInput = false;
 
     int preprocessOrder = 0;
-	FuncNode preprocess() {
+	SonolusApi preprocess() {
 		return { Return(0) };
 	}
 
     int spawnTimeOrder = 0;
-	FuncNode spawnTime() {
+	SonolusApi spawnTime() {
 		return { Return(0) };
 	}
 
     int despawnTimeOrder = 0;
-	FuncNode despawnTime() {
+	SonolusApi despawnTime() {
 		return { Return(0) };
 	}
 
     int initializeOrder = 0;
-	FuncNode initialize() {
+	SonolusApi initialize() {
 		return { Return(0) };
 	}
 
     int updateSequentialOrder = 0;
-	FuncNode updateSequential() {
+	SonolusApi updateSequential() {
 		return { Return(0) };
 	}
 
     int updateParallelOrder = 0;
-	FuncNode updateParallel() {
+	SonolusApi updateParallel() {
 		return { Return(0) };
 	}
 
     int terminateOrder = 0;
-	FuncNode terminate() {
+	SonolusApi terminate() {
 		return { Return(0) };
 	}
 

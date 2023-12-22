@@ -36,6 +36,20 @@ const var judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 const var judgeTextHeight = 0.15;               // 判定文字高度
 const var judgeTextDuration = 0.2;				// 判定文字动画时长
 
+customClass(Rect) {
+	public:
+	defineVar(var, l, 0);
+	defineVar(var, r, 0);
+	defineVar(var, b, 0);
+	defineVar(var, t, 0);
+
+	Rect(){}
+	Rect(var l, var r, var b, var t): l(l), r(r), b(b), t(t){}
+	var contain(var x, var y) {
+		return l <= x && x <= r && b <= y && y <= t;
+	}
+};
+
 class Vec {
     public:
 

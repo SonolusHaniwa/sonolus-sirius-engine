@@ -1,3 +1,8 @@
+stack<vector<FuncNode> > nodesContainer;
+stack<int> blockCounter;
+void createNodeContainer();
+void R(FuncNode);
+
 template<int identifierId>
 class Variable {
     public:
@@ -5,27 +10,59 @@ class Variable {
     int offset;
     Variable(){
         offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, 0}));
+    }
+    Variable(int val) {
+    	offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
+    }
+    Variable(double val) {
+    	offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
+    }
+    template<int T>
+    Variable(Variable<T> val) {
+    	offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
+    }
+    Variable(FuncNode val) {
+    	offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
 
-    FuncNode get() {
-        return Get(identifierId, offset);
+	FuncNode get() {
+		return FuncNode(RuntimeFunction.Get, {identifierId, offset});
+	}
+    void set(int val) {
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    FuncNode add(FuncNode value) {
-        return Set(identifierId, offset, Add({Get(identifierId, offset), value}));
+    void set(double val) {
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    FuncNode subtract(FuncNode value) {
-        return Set(identifierId, offset, Subtract({Get(identifierId, offset), value}));
+    void set(FuncNode val) {
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    FuncNode multiply(FuncNode value) {
-        return Set(identifierId, offset, Multiply({Get(identifierId, offset), value}));
+    template<int T>
+    void set(Variable<T> val) {
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
-    FuncNode divide(FuncNode value) {
-        return Set(identifierId, offset, Divide({Get(identifierId, offset), value}));
-    }
-    FuncNode mod(FuncNode value) {
-        return Set(identifierId, offset, Mod({Get(identifierId, offset), value}));
-    }
-    FuncNode set(FuncNode value) {
-        return Set(identifierId, offset, value);
+
+    operator FuncNode() {
+    	return get();
     }
 };
+
+void createNodeContainer() {
+	nodesContainer.push(vector<FuncNode>());
+	blockCounter.push(1);
+}
+void R(FuncNode body) {
+	nodesContainer.top().push_back(body);
+}
+FuncNode mergeNodeContainer() {
+	assert(nodesContainer.size());
+	auto c = nodesContainer.top(); nodesContainer.pop();
+	FuncNode res = FuncNode(RuntimeFunction.Block, {
+		FuncNode(RuntimeFunction.Execute, c)
+	}); return res;
+}

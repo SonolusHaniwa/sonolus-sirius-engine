@@ -43,19 +43,18 @@ FuncNode BeatToTime(FuncNode beat) {
     return FuncNode(RuntimeFunction.BeatToTime, {beat});
 }
 
-int blockCounter = 0;
 FuncNode __builtin_Block(FuncNode body) {
     return FuncNode(RuntimeFunction.Block, {body});
 }
 #define Block(body) [&](){ \
-	blockCounter++; \
+	blockCounter.top()++; \
 	auto res = __builtin_Block(body); \
-	blockCounter--; \
+	blockCounter.top()--; \
 	return res; \
 }()
 
-FuncNode Break(FuncNode count, FuncNode value) {
-    return FuncNode(RuntimeFunction.Break, {count, value});
+void Break(FuncNode count, FuncNode value) {
+    R(FuncNode(RuntimeFunction.Break, {count, value}));
 }
 
 FuncNode Ceil(FuncNode value) {
@@ -78,8 +77,8 @@ FuncNode Cosh(FuncNode value) {
     return FuncNode(RuntimeFunction.Cosh, {value});
 }
 
-FuncNode Debuglog(FuncNode value) {
-    return FuncNode(RuntimeFunction.DebugLog, {value});
+void Debuglog(FuncNode value) {
+    R(FuncNode(RuntimeFunction.DebugLog, {value}));
 }
 
 FuncNode DecrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
@@ -210,8 +209,8 @@ FuncNode HasSkinSprite(FuncNode id) {
     return FuncNode(RuntimeFunction.HasSkinSprite, {id});
 }
 
-FuncNode If(FuncNode test, FuncNode consequent, FuncNode alternate) {
-    return FuncNode(RuntimeFunction.If, {test, consequent, alternate});
+void If(FuncNode test, FuncNode consequent, FuncNode alternate) {
+    R(FuncNode(RuntimeFunction.If, {test, consequent, alternate}));
 }
 
 FuncNode IncrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
@@ -621,10 +620,10 @@ FuncNode While(FuncNode test, FuncNode body) {
 
 // 自定义函数
 
-FuncNode Return(FuncNode code) {
-    return Break(blockCounter, code);
+void Return(FuncNode code) {
+    Break(blockCounter.top(), code);
 }
 
-FuncNode If(FuncNode cond, FuncNode block) {
-    return If(cond, block, Execute({}));
+void If(FuncNode cond, FuncNode block) {
+    If(cond, block, 0);
 }

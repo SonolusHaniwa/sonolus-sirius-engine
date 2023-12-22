@@ -40,7 +40,7 @@ ostream& operator << (ostream& out, FuncNode x) {
 }*/
 
 map<EngineDataNode, int> hashMap;
-vector<EngineDataNode> container;
+vector<EngineDataNode> dataContainer;
 
 class FuncNode {
 	private:
@@ -55,7 +55,7 @@ class FuncNode {
 	int allocate(EngineDataNode tmp) {
 		globalCounter++;
 		if (hashMap.find(tmp) != hashMap.end()) return hashMap[tmp];
-		hashMap[tmp] = container.size(); container.push_back(tmp);
+		hashMap[tmp] = dataContainer.size(); dataContainer.push_back(tmp);
 		return hashMap[tmp];
 	}
 
@@ -113,7 +113,5 @@ class FuncNode {
 	vector<FuncNode> serialize() {
 		return { *this };
 	}
-	
 };
-
 #endif

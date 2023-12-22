@@ -1,7 +1,3 @@
-#ifndef MaxForSize
-const int MaxForSize = 16;
-#endif
-
 using namespace std;
 
 #include"modules/modules.h"
@@ -14,32 +10,34 @@ using namespace std;
 #include"items/EnginePreviewData.h"
 #include"items/EngineWatchData.h"
 
-int globalCounter = 0, lastGlobalCounter = 0;
-#include"items/FuncNode.h"
-#include"functions/functions.h"
-#ifndef DISABLE_REDEFINE
-#include"functions/redefine.h"
-#endif
-#ifndef DISABLE_JSPREFER
-typedef FuncNode var;
-typedef FuncNode let;
-#endif
-
 EngineData engineData;
 EngineTutorialData engineTutorialData;
 EngineConfiguration engineConfiguration;
 EnginePreviewData enginePreviewData;
 EngineWatchData engineWatchData;
-function<FuncNode()> tutorialPreprocess;
-function<FuncNode()> tutorialNavigate;
-function<FuncNode()> tutorialUpdate;
-function<FuncNode()> engineWatchData_updateSpawn;
 
-#include"blocks/Archetype.h"
-#include"blocks/Define.h"
-#include"blocks/Pointer.h"
+int globalCounter = 0, lastGlobalCounter = 0;
+#include"blocks/FuncNode.h"
 #include"blocks/CustomClass.h"
 #include"blocks/Variable.h"
+#include"blocks/BlockPointer.h"
+#include"functions/functions.h"
+#include"functions/redefine.h"
+typedef Variable<10000> var;
+typedef Variable<10000> let;
+
+// Sonolus Api Function Definition
+#define SonolusApi FuncNode
+#define FUNCBEGIN createNodeContainer();
+#define VAR mergeNodeContainer();
+#define VOID R(mergeNodeContainer()), 0;
+
+#include"blocks/Archetype.h"
+// function<FuncNode()> tutorialPreprocess;
+// function<FuncNode()> tutorialNavigate;
+// function<FuncNode()> tutorialUpdate;
+// function<FuncNode()> engineWatchData_updateSpawn;
+// #include"blocks/Define.h"
 
 // map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
@@ -136,32 +134,30 @@ time_t millitime() {
     return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
 }
 
+#define compileCallback(name) newArchetype.name.order = archetype.name##Order; \
+	while(nodesContainer.size()) nodesContainer.pop(); \
+	createNodeContainer(); tmpres = archetype.name(); \
+	newArchetype.name.index = nodesContainer.top().size() == 0 ? \
+		tmpres.getNodeId() : nodesContainer.top()[0].getNodeId();
+
 template<typename T>
 void buildArchetype(T archetype) {
 	lastGlobalCounter = globalCounter;
+	FuncNode tmpres;
     #ifdef play
     time_t st = millitime();
     EngineDataArchetype newArchetype;
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
-    newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
-    newArchetype.spawnOrder.order = archetype.spawnOrderOrder;
-    newArchetype.spawnOrder.index = Block(archetype.spawnOrder()).getNodeId();
-    newArchetype.shouldSpawn.order = archetype.shouldSpawnOrder;
-    newArchetype.shouldSpawn.index = Block(archetype.shouldSpawn()).getNodeId();
-    newArchetype.initialize.order = archetype.initializeOrder;
-    newArchetype.initialize.index = Block(archetype.initialize()).getNodeId();
-    newArchetype.updateSequential.order = archetype.updateSequentialOrder;
-    newArchetype.updateSequential.index = Block(archetype.updateSequential()).getNodeId();
-//	archetype.updateSequential();
-    newArchetype.touch.order = archetype.touchOrder;
-    newArchetype.touch.index = Block(archetype.touch()).getNodeId();
-    newArchetype.updateParallel.order = archetype.updateParallelOrder;
-    newArchetype.updateParallel.index = Block(archetype.updateParallel()).getNodeId();
-    newArchetype.terminate.order = archetype.terminateOrder;
-    newArchetype.terminate.index = Block(archetype.terminate()).getNodeId();
+    compileCallback(preprocess);
+    compileCallback(spawnOrder);
+    compileCallback(shouldSpawn);
+    compileCallback(initialize);
+    compileCallback(updateSequential);
+    compileCallback(touch);
+    compileCallback(updateParallel);
+    compileCallback(terminate);
     newArchetype.data = archetype.data;
     engineData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
@@ -237,7 +233,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #ifdef play
 	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
-	engineData.nodes = container;
+	engineData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
     cout << "Solving Archetype \"Sonolus Tutorial Default\"..." << endl;
@@ -245,7 +241,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
     engineTutorialData.preprocess = Block(tutorialPreprocess()).getNodeId();
     engineTutorialData.navigate = Block(tutorialNavigate()).getNodeId();
     engineTutorialData.update = Block(tutorialUpdate()).getNodeId();
-	engineTutorialData.nodes = container;
+	engineTutorialData.nodes = dataContainer;
     time_t d = millitime() - st;
     cout << "Solved Archetype \"Sonolus Tutorial Default\" in " << d << "ms. Speed: " 
 		 << fixed << setprecision(0)
@@ -255,13 +251,13 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #elif preview
 	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
-	enginePreviewData.nodes = container;
+	enginePreviewData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #elif watch
 	allocateArchetypeId<Args...>(Args()...);
     buildArchetype<Args...>(Args()...);
 	engineWatchData.updateSpawn = Block(engineWatchData_updateSpawn()).getNodeId();
-	engineWatchData.nodes = container;
+	engineWatchData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(engineWatchData.toJsonObject()));
 #endif
 }
@@ -269,31 +265,33 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define getArchetypeId(T) archetypeId[typeid(T).name()]
 
 int ForPtIterator = 0;
-Variable<10000> ForPt[MaxForSize];
-#define IF(cond) If(cond, Execute(
-#define ELSE ), Execute(
-#define FI ))
-#define FOR(i, st, en, step) [&](){\
-	FuncNode i = ForPt[++ForPtIterator].get(); \
-	blockCounter += 2; \
-    auto res = __builtin_Block(Execute({\
-        ForPt[ForPtIterator].set(st - step), \
-        While(ForPt[ForPtIterator].get() < en - step, __builtin_Block(Execute({\
-            ForPt[ForPtIterator].set(ForPt[ForPtIterator].get() + step), \
-            Execute(
-#define DONE )}))) \
-    })); \
-	blockCounter -= 2; ForPtIterator--; \
-	return res; \
-}()
+#define IF(cond) If(cond, [&](){ FUNCBEGIN
+#define ELSE return VAR; }(), [&](){ FUNCBEGIN
+#define FI return VAR; }());
+#define FOR(i, st, en, step) [&](){ \
+	FUNCBEGIN var i = st - step; \
+	R(While(i < en - step, [&](){ \
+		FUNCBEGIN i.set(i + step);
+#define DONE return VAR; }())); return VOID; \
+}();
+    // auto res = __builtin_Block(Execute({\
+    //     ForPt[ForPtIterator].set(st - step), \
+    //     While(ForPt[ForPtIterator].get() < en - step, __builtin_Block(Execute({\
+    //         ForPt[ForPtIterator].set(ForPt[ForPtIterator].get() + step), \
+    //         Execute(
+// #define DONE )}))) \
+//     })); \
+// 	blockCounter -= 2; ForPtIterator--; \
+// 	return res; \
+// }()
 #define CONTINUE Break(1, 0)
 #define BREAK Break(2, 0)
 
-#include"blocks/Array.h"
-#include"blocks/Map.h"
-#include"items/PlayData.h"
-#include"items/TutorialData.h"
-#include"items/PreviewData.h"
-#include"items/WatchData.h"
-#include"items/SkinData.h"
-#include"items/EffectData.h"
+// #include"blocks/Array.h"
+// #include"blocks/Map.h"
+// #include"items/PlayData.h"
+// #include"items/TutorialData.h"
+// #include"items/PreviewData.h"
+// #include"items/WatchData.h"
+// #include"items/SkinData.h"
+// #include"items/EffectData.h"

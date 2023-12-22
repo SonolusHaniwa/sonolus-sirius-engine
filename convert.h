@@ -312,6 +312,7 @@ string fromSUS(string text) {
     map<string, int> bpmList;
     int currentBpm = 120; double currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
+    double waveOffset = 0;
     for (int i = 0; i < lines.size(); i++) {
         while (lines[i].back() == '\n' || lines[i].back() == '\r') lines[i].pop_back();
         if (lines[i].size() && lines[i][0] == '\r') lines[i] = lines[i].substr(1);
@@ -325,6 +326,11 @@ string fromSUS(string text) {
             if (res[0] == "ticks_per_beat") ticks_per_beat = atof(res[1].c_str());
             if (res[0] == "lane_slided") ; // 不知道干啥的
             continue;
+        }
+        if (lines[i].substr(0, 10) == "WAVEOFFSET") {
+        	string t = lines[i].substr(11);
+			currentTime = atof(t.c_str());
+			continue;
         }
 
         // 处理谱面数据

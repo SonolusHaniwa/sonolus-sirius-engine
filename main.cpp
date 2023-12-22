@@ -3,7 +3,7 @@
 using namespace std;
 
 const string dist = "./dist";
-#include"engine/engine.cpp"
+// #include"engine/engine.cpp"
 
 vector<string> explode(const char* seperator, const char* source) {
 	string src = source; vector<string> res;
@@ -87,91 +87,126 @@ int main(int argc, char** argv) {
         } else helpText(argc, argv);
     }
 
-    engineConfiguration.ui = configurationUI;
+//     engineConfiguration.ui = configurationUI;
 #ifdef play
-    buffer data, configuration;
-    build<
-        // Replace with your archetypes here
-        Initialization,
-        InputManager,
-        Stage,
-        NormalNote,
-        CriticalNote,
-        FlickNote,
-		SiriusHoldStart,
-		SiriusCriticalHoldStart,
-		SiriusScratchHoldStart,
-		SiriusCriticalScratchHoldStart,
-		SiriusHoldEighth,
-        SiriusSound,
-		SiriusHoldEnd,
-		SiriusScratchHoldEnd,
-        SyncLine,
-        SplitLine
-    >(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif tutorial
-    buffer data, configuration;
-    build(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineTutorialData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif preview
-    buffer data, configuration;
-    build<
-        // Replace with your archetypes here
-        Initialization,
-		Stage,
-		SiriusNormalNote,
-		SiriusCriticalNote,
-		SiriusFlickNote,
-		SiriusHoldStart,
-		SiriusHoldEighth,
-		SiriusCriticalHoldStart,
-		SiriusScratchHoldStart,
-		SiriusCriticalScratchHoldStart,
-		SiriusHoldEnd,
-		SiriusScratchHoldEnd,
-		SiriusSound,
-		SiriusSyncLine,
-        SplitLine
-    >(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EnginePreviewData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif watch
-	buffer data, configuration;
-	build<
-		// Replace with your archetypes here
-		Initialization,
-		Stage,
-		SiriusNormalNote,
-		SiriusCriticalNote,
-		SiriusFlickNote,
-		SiriusHoldStart,
-		SiriusCriticalHoldStart,
-		SiriusScratchHoldStart,
-		SiriusCriticalScratchHoldStart,
-		SiriusHoldEighth,
-		SiriusSound,
-		SiriusHoldEnd,
-		SiriusScratchHoldEnd,
-		SiriusSyncLine,
-		SiriusSplitLine
-	>(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineWatchData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#endif
+	class SiriusStage: public Archetype {
+		public:
 
-	// 生成 Skin
-	packSkin(dist + "/SkinTexture", dist + "/SkinData");
-    // 生成 Effect
-    packEffect(dist + "/EffectAudio", dist + "/EffectData");
+		string name = "Sirius Stage";
+		SonolusApi preprocess() {
+			FUNCBEGIN
+			var x = 4;
+			return VOID;
+		}
+
+		SonolusApi spawnOrder() {
+			FUNCBEGIN
+			var res = 1;
+			Return(res);
+			return VAR;
+		}
+
+		SonolusApi shouldSpawn() { return 1; }
+
+		SonolusApi testFunc(var i) {
+			FUNCBEGIN
+			IF (i % 2 == 1) Return(i);
+			ELSE Return(-1 * i); FI
+			return VAR;
+		}
+
+		SonolusApi touch() {
+			FUNCBEGIN
+			var st = 1, en = 10, step = 1;
+			FOR (i, st, en, step) Debuglog(testFunc(i)); DONE
+			return VOID;
+		}
+	};
+    buffer data, configuration;
+    build<
+    	SiriusStage
+//         // Replace with your archetypes here
+//         Initialization,
+//         InputManager,
+//         Stage,
+//         NormalNote,
+//         CriticalNote,
+//         FlickNote,
+// 		SiriusHoldStart,
+// 		SiriusCriticalHoldStart,
+// 		SiriusScratchHoldStart,
+// 		SiriusCriticalScratchHoldStart,
+// 		SiriusHoldEighth,
+//         SiriusSound,
+// 		SiriusHoldEnd,
+// 		SiriusScratchHoldEnd,
+//         SyncLine,
+//         SplitLine
+    >(configuration, data);
+    // ofstream fout((dist + "/EngineConfiguration"));
+    // for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+    // fout.close(); fout.open((dist + "/EngineData"));
+    ofstream fout((dist + "/EngineData"));
+    for (int i = 0; i < data.size(); i++) fout << data.v[i];
+// #elif tutorial
+//     buffer data, configuration;
+//     build(configuration, data);
+//     ofstream fout((dist + "/EngineConfiguration"));
+//     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+//     fout.close(); fout.open((dist + "/EngineTutorialData"));
+//     for (int i = 0; i < data.size(); i++) fout << data.v[i];
+// #elif preview
+//     buffer data, configuration;
+//     build<
+//         // Replace with your archetypes here
+//         Initialization,
+// 		Stage,
+// 		SiriusNormalNote,
+// 		SiriusCriticalNote,
+// 		SiriusFlickNote,
+// 		SiriusHoldStart,
+// 		SiriusHoldEighth,
+// 		SiriusCriticalHoldStart,
+// 		SiriusScratchHoldStart,
+// 		SiriusCriticalScratchHoldStart,
+// 		SiriusHoldEnd,
+// 		SiriusScratchHoldEnd,
+// 		SiriusSound,
+// 		SiriusSyncLine,
+//         SplitLine
+//     >(configuration, data);
+//     ofstream fout((dist + "/EngineConfiguration"));
+//     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+//     fout.close(); fout.open((dist + "/EnginePreviewData"));
+//     for (int i = 0; i < data.size(); i++) fout << data.v[i];
+// #elif watch
+// 	buffer data, configuration;
+// 	build<
+// 		// Replace with your archetypes here
+// 		Initialization,
+// 		Stage,
+// 		SiriusNormalNote,
+// 		SiriusCriticalNote,
+// 		SiriusFlickNote,
+// 		SiriusHoldStart,
+// 		SiriusCriticalHoldStart,
+// 		SiriusScratchHoldStart,
+// 		SiriusCriticalScratchHoldStart,
+// 		SiriusHoldEighth,
+// 		SiriusSound,
+// 		SiriusHoldEnd,
+// 		SiriusScratchHoldEnd,
+// 		SiriusSyncLine,
+// 		SiriusSplitLine
+// 	>(configuration, data);
+//     ofstream fout((dist + "/EngineConfiguration"));
+//     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+//     fout.close(); fout.open((dist + "/EngineWatchData"));
+//     for (int i = 0; i < data.size(); i++) fout << data.v[i];
+#endif
+// 
+// 	// 生成 Skin
+// 	packSkin(dist + "/SkinTexture", dist + "/SkinData");
+//     // 生成 Effect
+//     packEffect(dist + "/EffectAudio", dist + "/EffectData");
 }
