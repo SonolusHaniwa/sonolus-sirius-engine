@@ -29,15 +29,16 @@ typedef Variable<10000> let;
 // Sonolus Api Function Definition
 #define SonolusApi FuncNode
 #define FUNCBEGIN createNodeContainer();
+#define NONFUNCBEGIN createNodeContainer(false);
 #define VAR mergeNodeContainer();
 #define VOID R(mergeNodeContainer()), 0;
 
 #include"blocks/Archetype.h"
-// function<FuncNode()> tutorialPreprocess;
-// function<FuncNode()> tutorialNavigate;
-// function<FuncNode()> tutorialUpdate;
-// function<FuncNode()> engineWatchData_updateSpawn;
-// #include"blocks/Define.h"
+function<FuncNode()> tutorialPreprocess;
+function<FuncNode()> tutorialNavigate;
+function<FuncNode()> tutorialUpdate;
+function<FuncNode()> engineWatchData_updateSpawn;
+#include"blocks/Define.h"
 
 // map<EngineDataNode, int> hashMap;
 // 双哈希 + 手动哈希表 O(n)
@@ -265,13 +266,13 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define getArchetypeId(T) archetypeId[typeid(T).name()]
 
 int ForPtIterator = 0;
-#define IF(cond) If(cond, [&](){ FUNCBEGIN
-#define ELSE return VAR; }(), [&](){ FUNCBEGIN
+#define IF(cond) If(cond, [&](){ NONFUNCBEGIN
+#define ELSE return VAR; }(), [&](){ NONFUNCBEGIN
 #define FI return VAR; }());
 #define FOR(i, st, en, step) [&](){ \
-	FUNCBEGIN var i = st - step; \
+	NONFUNCBEGIN var i = st - step; \
 	R(While(i < en - step, [&](){ \
-		FUNCBEGIN i.set(i + step);
+		NONFUNCBEGIN i.set(i + step);
 #define DONE return VAR; }())); return VOID; \
 }();
     // auto res = __builtin_Block(Execute({\
@@ -287,9 +288,9 @@ int ForPtIterator = 0;
 #define CONTINUE Break(1, 0)
 #define BREAK Break(2, 0)
 
-// #include"blocks/Array.h"
-// #include"blocks/Map.h"
-// #include"items/PlayData.h"
+#include"blocks/Array.h"
+#include"blocks/Map.h"
+#include"items/PlayData.h"
 // #include"items/TutorialData.h"
 // #include"items/PreviewData.h"
 // #include"items/WatchData.h"

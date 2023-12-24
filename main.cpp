@@ -3,7 +3,7 @@
 using namespace std;
 
 const string dist = "./dist";
-// #include"engine/engine.cpp"
+#include"engine/engine.cpp"
 
 vector<string> explode(const char* seperator, const char* source) {
 	string src = source; vector<string> res;
@@ -49,7 +49,7 @@ void helpText(int argc, char** argv) {
     cout << "    Ched SUS -> Sonolus LevelData: " << argv[0] << " sus2data <sus> <music_config> <data>" << endl;
     exit(1);
 }
-
+		
 int main(int argc, char** argv) {
     // 谱面转换测试
     if (argc >= 2) {
@@ -87,44 +87,11 @@ int main(int argc, char** argv) {
         } else helpText(argc, argv);
     }
 
-//     engineConfiguration.ui = configurationUI;
+    engineConfiguration.ui = configurationUI;
 #ifdef play
-	class SiriusStage: public Archetype {
-		public:
-
-		string name = "Sirius Stage";
-		SonolusApi preprocess() {
-			FUNCBEGIN
-			var x = 4;
-			return VOID;
-		}
-
-		SonolusApi spawnOrder() {
-			FUNCBEGIN
-			var res = 1;
-			Return(res);
-			return VAR;
-		}
-
-		SonolusApi shouldSpawn() { return 1; }
-
-		SonolusApi testFunc(var i) {
-			FUNCBEGIN
-			IF (i % 2 == 1) Return(i);
-			ELSE Return(-1 * i); FI
-			return VAR;
-		}
-
-		SonolusApi touch() {
-			FUNCBEGIN
-			var st = 1, en = 10, step = 1;
-			FOR (i, st, en, step) Debuglog(testFunc(i)); DONE
-			return VOID;
-		}
-	};
     buffer data, configuration;
     build<
-    	SiriusStage
+    	SiriusInitialization
 //         // Replace with your archetypes here
 //         Initialization,
 //         InputManager,
@@ -143,10 +110,10 @@ int main(int argc, char** argv) {
 //         SyncLine,
 //         SplitLine
     >(configuration, data);
-    // ofstream fout((dist + "/EngineConfiguration"));
-    // for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    // fout.close(); fout.open((dist + "/EngineData"));
-    ofstream fout((dist + "/EngineData"));
+    ofstream fout((dist + "/EngineConfiguration"));
+    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+    fout.close(); fout.open((dist + "/EngineData"));
+    // ofstream fout((dist + "/EngineData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 // #elif tutorial
 //     buffer data, configuration;

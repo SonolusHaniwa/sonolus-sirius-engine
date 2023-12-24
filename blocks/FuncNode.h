@@ -113,5 +113,8 @@ class FuncNode {
 	vector<FuncNode> serialize() {
 		return { *this };
 	}
+	void deserialize(FuncNode val) {
+		(*this) = val;
+	}
 };
 #endif

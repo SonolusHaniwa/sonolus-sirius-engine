@@ -1,28 +1,25 @@
 #pragma once
 
-class CustomClass {
-	public:
-	
-	int classSize = 0;
-	vector<function<void(FuncNode)> > deserializiers;
-	vector<function<FuncNode()> > serializiers;
-
-	FuncNode operator == (CustomClass a) {
-		vector<FuncNode> args;
-		for (int i = 0; i < classSize; i++) args.push_back(FuncNode(
-			RuntimeFunction.Equal, {serializiers[i](), a.serializiers[i]()}
-		)); return FuncNode(RuntimeFunction.And, args);
-	}
-
-	vector<FuncNode> serialize() {
-		vector<FuncNode> res;
-		for (int i = 0; i < classSize; i++) res.push_back(serializiers[i]());
-		return res;
-	}
-
-	void deserialize(vector<FuncNode> args) {
-		assert(args.size() == classSize);
-		for (int i = 0; i < classSize; i++) deserializiers[i](args[i]); 
+// class CustomClass {
+	#define CLASSBEGIN public: \
+	int classSize = 0; \
+	vector<function<void(FuncNode)> > deserializiers; \
+	vector<function<FuncNode()> > serializiers; \
+	template<typename T> FuncNode operator == (T a) { \
+		if (a.classSize != classSize) return false; \
+		vector<FuncNode> args; \
+		for (int i = 0; i < a.classSize; i++) args.push_back(FuncNode( \
+			RuntimeFunction.Equal, {a.serializiers[i](), serializiers[i]()} \
+		)); return FuncNode(RuntimeFunction.And, args); \
+	} \
+	vector<FuncNode> serialize() { \
+		vector<FuncNode> res; \
+		for (int i = 0; i < classSize; i++) res.push_back(serializiers[i]()); \
+		return res; \
+	} \
+	void deserialize(vector<FuncNode> args) { \
+		assert(args.size() == classSize); \
+		for (int i = 0; i < classSize; i++) deserializiers[i](args[i]); \
 	}
 
 	#define defineVar(T, valName, value) T valName = value; \
@@ -33,11 +30,11 @@ class CustomClass {
     		classSize += valName.classSize; \
 	    	return true; \
 	    }();
-};
+// };
+// 
+// #define customClass(name) class name: public CustomClass
 
-#define customClass(name) class name: public CustomClass
-
-int allocatorSize[10001] = {0};
+int allocatorSize[10001] = {0};	
 
 // vector<FuncNode> getFixedMemory(FuncNode containerId, FuncNode offset, int len) {
 // 	vector<FuncNode> args;

@@ -1,39 +1,35 @@
-template<int containerId, typename T1, typename T2> 
+template<int identifierId, typename T1, typename T2> 
 class Map {
 	public:
 
-	int capacity = 0, offset = 0, classSize_key = 0, classSize_val = 0;
-	vector<T1> key; vector<T2> val;
-	FuncNode size = 0;
+	int capacity = 0, offset = 0;
+	Variable<identifierId> size;
+	Array<identifierId, T1> key; 
+	Array<identifierId, T2> val;
 
-	// Map(){}
+	Map(){}
 	Map(int siz) {
-		capacity = siz; classSize_key = T1().classSize, classSize_val = T2().classSize;
-		size = Get(containerId, allocatorSize[containerId]);
-		offset = allocatorSize[containerId] + 1;
-		for (int i = 0; i < siz; i++) key.push_back(T1()), val.push_back(T2());
-		allocatorSize[containerId] += (classSize_key + classSize_val) * capacity + 1;
+		capacity = siz;
+		key = Array<identifierId, T1>(siz); 
+		val = Array<identifierId, T2>(siz);
 	}
-	FuncNode add(T1 key, T2 value) {
-		return {
-			setFixedMemory(containerId, offset + size * (classSize_key + classSize_val), classSize_key, key.serialize()),
-			setFixedMemory(containerId, offset + size * (classSize_key + classSize_val) + classSize_key, classSize_val, value.serialize()),
-			Set(containerId, offset - 1, size + 1),
-		};
+	SonolusApi add(T1 key, T2 value) {
+		FUNCBEGIN
+		this->key.set(size, key);
+		this->val.set(size, value);
+		size = size + 1;
+		return VOID;
 	}
 	T1 getKeyById(FuncNode index) {
-		return T1(getFixedMemory(containerId, offset + index * (classSize_key + classSize_val), classSize_key));
+		return key[index];
 	}
 	T2 getValById(FuncNode index) {
-		return T2(getFixedMemory(containerId, offset + index * (classSize_key + classSize_val) + classSize_key, classSize_val));
+		return val[index];
 	}
-	FuncNode indexOf(T1 key) { // 时间复杂度 O(size * classSize_key)
-		return Block(Execute({
-			FOR (i, 0, size, 1) {
-				IF (key == getKeyById(i)) { Break(3, i) } FI
-			} DONE,
-			Break(1, -1)
-		}));
+	SonolusApi indexOf(T1 key) { // 时间复杂度 O(size * classSize_key)
+		FUNCBEGIN
+		Return(this->key.indexOf(key, size));
+		return VAR;
 	}
 	T2 get(T1 key) { // 不安全的函数，使用前请用 indexOf() != -1 判断 key 的存在性
 		return getValById(indexOf(key));
@@ -41,13 +37,17 @@ class Map {
 	T2 operator [] (T1 key) { // 问题同上
 		return get(key);
 	}
-	FuncNode set(T1 key, T2 value) {
-		return {
-			IF (indexOf(key) == -1) { add(key, value) }
-			ELSE { setFixedMemory(containerId, offset + indexOf(key) * (classSize_key + classSize_val) + classSize_key, classSize_val, value.serialize()) } FI
-		};
+	SonolusApi set(T1 key, T2 value) {
+		FUNCBEGIN
+		var id = indexOf(key);
+		IF (id == -1) add(key, value); 
+		ELSE val.set(id, value); FI
+		return VOID;
 	}
-	FuncNode clear() {
-		return { Set(containerId, offset - 1, 0) };
+	SonolusApi clear() {
+		FUNCBEGIN
+		size = 0;
+		key.clear(); val.clear();
+		return VOID;
 	}
 };

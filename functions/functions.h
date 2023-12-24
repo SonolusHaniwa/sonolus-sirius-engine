@@ -213,6 +213,10 @@ void If(FuncNode test, FuncNode consequent, FuncNode alternate) {
     R(FuncNode(RuntimeFunction.If, {test, consequent, alternate}));
 }
 
+FuncNode IfVal(FuncNode test, FuncNode consequent, FuncNode alternate) {
+    return FuncNode(RuntimeFunction.If, {test, consequent, alternate});
+}
+
 FuncNode IncrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
     return FuncNode(RuntimeFunction.IncrementPostPointed, {id, index, offset});
 }
@@ -364,8 +368,10 @@ FuncNode Round(FuncNode value) {
     return FuncNode(RuntimeFunction.Round, {value});
 }
 
-FuncNode Set(FuncNode id, FuncNode index, FuncNode value) {
-    return FuncNode(RuntimeFunction.Set, {id, index, value});
+void Set(FuncNode id, FuncNode index, FuncNode value) {
+	// cout << dataContainer[index.getNodeId()].value.value;
+	// abort();
+    R(FuncNode(RuntimeFunction.Set, {id, index, value}));
 }
 
 FuncNode SetShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {

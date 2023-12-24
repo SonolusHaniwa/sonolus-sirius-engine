@@ -1,32 +1,51 @@
-template<int containerId, typename T>
+template<int identifierId, typename T>
 class Array {
 	public:
 
 	int capacity = 0, offset = 0, classSize = 0;
-	vector<T> val;
 
-	// Array(){}
+	Array(){}
 	Array(int siz) {
+		offset = allocatorSize[identifierId];
 		capacity = siz; classSize = T().classSize;
-		offset = allocatorSize[containerId];
-		for (int i = 0; i < siz; i++) val.push_back(T());
-		allocatorSize[containerId] += classSize * capacity;
+		allocatorSize[identifierId] = offset;
+		allocatorSize[identifierId] += capacity * classSize;
 	}
-	FuncNode set(FuncNode index, T obj) {
-		return setFixedMemory(containerId, offset + index * classSize, classSize, obj.serialize());
+	SonolusApi set(FuncNode index, T obj) {
+		FUNCBEGIN
+		auto c = obj.serialize();
+		for (int i = 0; i < classSize; i++)
+			Set(identifierId, offset + index * classSize + i, c[i]);
+		return VOID;
 	}
 	T get(FuncNode index) {
-		return T(getFixedMemory(containerId, offset + index * classSize, classSize));
+		vector<FuncNode> vals;
+		for (int i = 0; i < classSize; i++)
+			vals.push_back(Get(identifierId, offset + index * classSize + i));
+		T res = T(); res.deserialize(vals);
+		return res;
 	}
 	T operator [] (FuncNode id) {
 		return get(id);
 	}
-	FuncNode indexOf(T obj) { // 时间复杂度 O(capacity * classSize)
-		return Block(Execute({
-			FOR (i, 0, capacity, 1) {
-				IF (obj == get(i)) { Break(3, i) } FI
-			} DONE,
-			Break(1, -1)
-		}));
+	SonolusApi indexOf(T obj, var en) { // 时间复杂度 O(capacity * classSize)
+		FUNCBEGIN
+		FOR (i, 0, Min(capacity, en), 1) {
+			IF (get(i) == obj) Return(i); FI
+		} DONE
+		Return(-1);
+		return VAR;
+	}
+	SonolusApi indexOf(T obj) { // 时间复杂度 O(capacity * classSize)
+		FUNCBEGIN
+		Return(indexOf(obj, capacity));
+		return VAR;
+	}
+	SonolusApi clear() {
+		FUNCBEGIN
+		FOR (i, offset, offset + capacity * classSize + 1, 1) {
+			Set(identifierId, i, 0);
+		} DONE
+		return VOID;
 	}
 };

@@ -1,41 +1,4 @@
-// double interfaceGap = 0.05;                  // 组件间距
-// double targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
-// double highWidth = 0.1;                      // 高位宽度与低位宽度比
-// double defaultAppearTime = 7.4 / 5.0;        // note 默认出现时间
-// double minSFXDistance = 0.02;                // 最小音效时间
-// double judgelineMarginBottom = 0.25;         // 判定线距离底部距离
-// double judgelineHeight = 85.0 / 640.0;       // 判定线高度
-// double noteHeight = 85.0 / 640.0;            // note 高度
-// double judglineMoveLength = 0.01;            // judgline 微调距离
-// double noteMoveLength = 0.02;                // note 微调距离
-// double splitLineLength = 0.01;               // 分裂线宽度
-// double arrowWidth = 80.0 / 640.0;            // 箭头宽度
-// double arrowHeight = 240.0 / 640.0;          // 箭头高度
-// double arrowPercent = 1.6;                   // 箭头所占比例
-// double arrowSpeed = 20;                      // 箭头速率常数
-// double tickWidth = 168.0 / 640.0;            // tick 宽度
-// double tickHeight = 112.0 / 640.0;           // tick 高度
-// double syncLineHeight = 5.0 / 640.0;         // 同步线高度
-// double splitLineAnimationStart = 0.75;       // 分裂线起始动画长度, basic: 0.7595
-// double splitLineAnimationEnd = 0.20;         // 分裂线结束动画长度, basic: 0.7595
-// double effectLinearHeight = 280.0 / 640.0;   // 特效高度
-// double effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
-// double effectDurationTime = 0.5;             // 特效持续时间
-// double effectDistance = 20.0 / 640.0;        // 特效微调距离
-// double hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
-// double judgePerfectPlusRatio = 332.0 / 76.0; // 判定文字 Perfect+ 比例
-// double judgePerfectRatio = 307.0 / 76.0;     // 判定文字 Perfect 比例
-// double judgeGreatRatio = 247.0 / 76.0;       // 判定文字 Great 比例
-// double judgeGoodRatio = 237.0 / 76.0;        // 判定文字 Good 比例
-// double judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
-// double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
-// double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
-// double judgeTextHeight = 0.15;               // 判定文字高度
-// double judgeTextDuration = 0.2;			     // 判定文字动画时长
-// 
-// Array<TemporaryMemoryId, var> splitLineMemory = Array<TemporaryMemoryId, var>(16);
-
-#define var FuncNode
+using namespace std;
 
 const double maxSize = 0.5;                     // 判定大小
 const var interfaceGap = 0.05;                  // 组件间距
@@ -73,11 +36,24 @@ const var judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 const var judgeTextHeight = 0.15;               // 判定文字高度
 const var judgeTextDuration = 0.2;				// 判定文字动画时长
 
+customClass(Rect) {
+	public:
+	defineVar(var, l, 0);
+	defineVar(var, r, 0);
+	defineVar(var, b, 0);
+	defineVar(var, t, 0);
+
+	Rect(){}
+	Rect(var l, var r, var b, var t): l(l), r(r), b(b), t(t){}
+	var contain(var x, var y) {
+		return l <= x && x <= r && b <= y && y <= t;
+	}
+};
+
 class Vec {
-    CLASSBEGIN
-    
-    defineVar(var, x, 0);
-    defineVar(var, y, 0);
+    public:
+
+    var x, y;
     Vec(){}
     Vec(var x, var y): x(x), y(y){}
 
@@ -95,28 +71,19 @@ class Vec {
     }
 };
 
-class Rect {
-	CLASSBEGIN
-
-	defineVar(var, l, 0);
-	defineVar(var, r, 0);
-	defineVar(var, b, 0);
-	defineVar(var, t, 0);
-
-	var contain(var x, var y) {
-		return l <= x && x <= r && b <= y && y <= t;
-	}
-};
-
 class stage {
 	public:
 
-	const var w = IfVal(LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio < targetAspectRatio,
-        screen.w * LevelOption.get(Options.ExtraWidth),
-        screen.h * targetAspectRatio);
-    const var h = IfVal(LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio > targetAspectRatio,
-        screen.h,
-        screen.w / targetAspectRatio);
+	const var w = IF (LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio < targetAspectRatio) {
+        screen.w * LevelOption.get(Options.ExtraWidth)
+    } ELSE {
+        screen.h * targetAspectRatio
+    } FI;
+    const var h = IF (LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio > targetAspectRatio) {
+        screen.h
+    } ELSE {
+        screen.w / targetAspectRatio
+    } FI;
     const var l = -1 * w / 2;
     const var r = w / 2;
     const var t = h / 2;
@@ -145,7 +112,7 @@ const var appearTime = (7.4 / LevelOption.get(Options.NoteSpeed));
 const var noteSpeed = stage.h / appearTime;
 const var hiddenPercent = ease(LevelOption.get(Options.Hidden));
 
-const var t = IfVal(
+const var t = If(
 	LevelOption.get(Options.LockAspectRatio) && screen.aspectRatio < targetAspectRatio,
 	screen.w / targetAspectRatio * 0.5,
 	screen.t
@@ -200,16 +167,16 @@ class line {
         return line(offset);
     };
 
-    // var inClickBox(Touch x, var L, var R, bool strict = false) {
-    //     Vec P = Vec(x.x, x.y);
-    //     Vec lb = line(L).lb, lt = line(L).lt, rb = line(R).rb, rt = line(R).rt;
-    //     var judgOffset = maxSize / 2 * (judgline.rbX - judgline.lbX) / 12;
-    //     if (!strict) lb.x -= judgOffset, lt.x -= judgOffset, rb.x += judgOffset, rt.x += judgOffset;
-    //     return ((P - lb) ^ (lt - lb)) >= 0 && ((P - lt) ^ (rt - lt)) >= 0 && ((P - rt) ^ (rb - rt)) >= 0 && ((P - rb) ^ (lb - rb)) >= 0;
-    // }
+    var inClickBox(Touch x, var L, var R, bool strict = false) {
+        Vec P = Vec(x.x, x.y);
+        Vec lb = line(L).lb, lt = line(L).lt, rb = line(R).rb, rt = line(R).rt;
+        var judgOffset = maxSize / 2 * (judgline.rbX - judgline.lbX) / 12;
+        if (!strict) lb.x -= judgOffset, lt.x -= judgOffset, rb.x += judgOffset, rt.x += judgOffset;
+        return ((P - lb) ^ (lt - lb)) >= 0 && ((P - lt) ^ (rt - lt)) >= 0 && ((P - rt) ^ (rb - rt)) >= 0 && ((P - rb) ^ (lb - rb)) >= 0;
+    }
 
     Vec getPosition(var percent) {
-        var RealPercent = IfVal(percent <= hiddenPercent, hiddenPercent, percent);
+        var RealPercent = IF (percent <= hiddenPercent) { hiddenPercent } ELSE { percent } FI;
         return Vec(
             Lerp((lt.x + rt.x) / 2, (lb.x + rb.x) / 2, RealPercent * (1 - judgelineMarginBottom)),
             Lerp(lt.y, lb.y, RealPercent * (1 - judgelineMarginBottom))
@@ -217,7 +184,7 @@ class line {
     }
 
     var getWidth(var percent) {
-        var RealPercent = IfVal(percent <= hiddenPercent, hiddenPercent, percent);
+        var RealPercent = IF (percent <= hiddenPercent) { hiddenPercent } ELSE { percent } FI;
         return Lerp((rt.x - lt.x), (rb.x - lb.x), RealPercent * (1 - judgelineMarginBottom));
     }
 
@@ -238,4 +205,3 @@ class line {
 auto splitLineMemory = Array<EntityMemoryId, FuncNode>(16);
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;
-#undef var

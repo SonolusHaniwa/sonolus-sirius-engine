@@ -1,6 +1,7 @@
 stack<vector<FuncNode> > nodesContainer;
 stack<int> blockCounter;
-void createNodeContainer();
+stack<bool> addBlockCounter;
+void createNodeContainer(bool);
 void R(FuncNode);
 
 template<int identifierId>
@@ -9,8 +10,7 @@ class Variable {
 
     int offset;
     Variable(){
-        offset = allocatorSize[identifierId]++;
-		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, 0}));
+    	offset = allocatorSize[identifierId]++;
     }
     Variable(int val) {
     	offset = allocatorSize[identifierId]++;
@@ -20,14 +20,16 @@ class Variable {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    template<int T>
-    Variable(Variable<T> val) {
+    template<int T> Variable(Variable<T> val) {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
     Variable(FuncNode val) {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
+    }
+    Variable(int offset, bool unused) {
+    	offset = offset;
     }
 
 	FuncNode get() {
@@ -42,19 +44,38 @@ class Variable {
     void set(FuncNode val) {
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    template<int T>
-    void set(Variable<T> val) {
+    template<int T> void set(Variable<T> val) {
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
+
+	template<typename T>
+    Variable operator = (T val) { set(val); return (*this); };
 
     operator FuncNode() {
     	return get();
     }
+
+    int classSize = 1;
+   	vector<function<void(FuncNode)> > deserializiers = {
+   		[&](FuncNode var){ set(var); }
+   	};
+   	vector<function<FuncNode()> > serializiers = {
+   		[&](){ return get(); }
+   	};
+   	vector<FuncNode> serialize() {
+   		return { get() };
+   	}
+   	void deserialize(vector<FuncNode> val) {
+   		assert(val.size() == classSize);
+   		set(val[0]);
+   	}
 };
 
-void createNodeContainer() {
+void createNodeContainer(bool add = true) {
 	nodesContainer.push(vector<FuncNode>());
-	blockCounter.push(1);
+	if (add) blockCounter.push(1);
+	else blockCounter.top() += 1;
+	addBlockCounter.push(add);
 }
 void R(FuncNode body) {
 	nodesContainer.top().push_back(body);
@@ -62,6 +83,9 @@ void R(FuncNode body) {
 FuncNode mergeNodeContainer() {
 	assert(nodesContainer.size());
 	auto c = nodesContainer.top(); nodesContainer.pop();
+	if (addBlockCounter.top()) blockCounter.pop();
+	else blockCounter.top() -= 1;
+	addBlockCounter.pop();
 	FuncNode res = FuncNode(RuntimeFunction.Block, {
 		FuncNode(RuntimeFunction.Execute, c)
 	}); return res;

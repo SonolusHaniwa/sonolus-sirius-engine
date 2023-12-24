@@ -9,7 +9,7 @@ class BlockPointer {
 //        if (size != -1 && i.isValue == true &&
 //            (i.value >= size || i.value < 0)) throwWarning("");
         return FuncNode(RuntimeFunction.Get, {
-        	identifierId, 
+        	identifierId,
         	FuncNode(RuntimeFunction.Add, {i, offset})
         });
     }
