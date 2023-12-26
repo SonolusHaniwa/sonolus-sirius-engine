@@ -1,3 +1,4 @@
+
 FuncNode Abs(FuncNode value) {
     return FuncNode(RuntimeFunction.Abs, {value});
 }
@@ -125,8 +126,8 @@ FuncNode DoWhile(FuncNode body, FuncNode test) {
     return FuncNode(RuntimeFunction.DoWhile, {body, test});
 }
 
-FuncNode Draw(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a) {
-    return FuncNode(RuntimeFunction.Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a});
+void Draw(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a) {
+    R(FuncNode(RuntimeFunction.Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a}));
 }
 
 FuncNode DrawCurvedB(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
@@ -209,11 +210,7 @@ FuncNode HasSkinSprite(FuncNode id) {
     return FuncNode(RuntimeFunction.HasSkinSprite, {id});
 }
 
-void If(FuncNode test, FuncNode consequent, FuncNode alternate) {
-    R(FuncNode(RuntimeFunction.If, {test, consequent, alternate}));
-}
-
-FuncNode IfVal(FuncNode test, FuncNode consequent, FuncNode alternate) {
+FuncNode If(FuncNode test, FuncNode consequent, FuncNode alternate) {
     return FuncNode(RuntimeFunction.If, {test, consequent, alternate});
 }
 
@@ -369,8 +366,6 @@ FuncNode Round(FuncNode value) {
 }
 
 void Set(FuncNode id, FuncNode index, FuncNode value) {
-	// cout << dataContainer[index.getNodeId()].value.value;
-	// abort();
     R(FuncNode(RuntimeFunction.Set, {id, index, value}));
 }
 
@@ -620,8 +615,8 @@ FuncNode UnlerpClamped(FuncNode a, FuncNode b, FuncNode x) {
     return FuncNode(RuntimeFunction.UnlerpClamped, {a, b, x});
 }
 
-FuncNode While(FuncNode test, FuncNode body) {
-    return FuncNode(RuntimeFunction.While, {test, body});
+void While(FuncNode test, FuncNode body) {
+    R(FuncNode(RuntimeFunction.While, {test, body}));
 }
 
 // 自定义函数
@@ -630,6 +625,12 @@ void Return(FuncNode code) {
     Break(blockCounter.top(), code);
 }
 
-void If(FuncNode cond, FuncNode block) {
-    If(cond, block, 0);
+void Exit(FuncNode code) {
+	stack<int> tmp = blockCounter; int blockCount = 0;
+	while (tmp.size()) blockCount += tmp.top(), tmp.pop();
+	Break(blockCount - 1, code);
+}
+
+FuncNode If(FuncNode cond, FuncNode block) {
+    return If(cond, block, 0);
 }

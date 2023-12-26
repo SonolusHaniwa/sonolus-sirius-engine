@@ -34,8 +34,19 @@
 // 
 // #define customClass(name) class name: public CustomClass
 
-int allocatorSize[10001] = {0};	
+int allocatorSize[10001];
+int allocatorSizeBackup[11][10001];
+int allocatorSizeBackupCounter = 0;
 
+void createAllocatorBackup() {
+	memcpy(allocatorSize, allocatorSizeBackup[allocatorSizeBackupCounter++], sizeof allocatorSize);
+}
+void restoreAllocatorBackup() {
+	memcpy(allocatorSizeBackup[allocatorSizeBackupCounter], allocatorSize, sizeof allocatorSize);
+}
+void deleteAllocatorBackup() {
+	allocatorSizeBackupCounter--;
+}
 // vector<FuncNode> getFixedMemory(FuncNode containerId, FuncNode offset, int len) {
 // 	vector<FuncNode> args;
 // 	for (int i = 0; i < len; i++) args.push_back(FuncNode(RuntimeFunction.Get, {containerId, offset + i});

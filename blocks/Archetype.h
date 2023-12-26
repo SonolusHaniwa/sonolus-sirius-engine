@@ -3,7 +3,7 @@ using namespace std;
 class Archetype {
     public:
 
-    string name = "Default Archtype";
+	static constexpr const char* name = "Default Archetype";
     bool hasInput = false;
 
     int preprocessOrder = 0;
@@ -127,3 +127,6 @@ class Archetype {
     vector<pair<string, int> > data;
 };
 #endif
+
+#define defineEntityData(name) Variable<EntityDataId> name = Variable<EntityDataId>(data.size(), true); \
+	bool unused_##name##_unused = [&](){ data.push_back({ #name, data.size() }); return true; }();

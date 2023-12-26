@@ -78,6 +78,7 @@ void createNodeContainer(bool add = true) {
 	addBlockCounter.push(add);
 }
 void R(FuncNode body) {
+	if (nodesContainer.size() == 0) throwError("You shouldn't execute anything outside Archetypes!");
 	nodesContainer.top().push_back(body);
 }
 FuncNode mergeNodeContainer() {

@@ -1,4 +1,8 @@
+#pragma GCC system_header
+
 using namespace std;
+string currentArchetype = "[Program Initialization]";
+string currentCallback = "[Anonymous Callback]";
 
 #include"modules/modules.h"
 
@@ -24,7 +28,7 @@ int globalCounter = 0, lastGlobalCounter = 0;
 #include"functions/functions.h"
 #include"functions/redefine.h"
 typedef Variable<10000> var;
-typedef Variable<10000> let;
+typedef FuncNode let;
 
 // Sonolus Api Function Definition
 #define SonolusApi FuncNode
@@ -135,16 +139,22 @@ time_t millitime() {
     return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
 }
 
-#define compileCallback(name) newArchetype.name.order = archetype.name##Order; \
-	while(nodesContainer.size()) nodesContainer.pop(); \
-	createNodeContainer(); tmpres = archetype.name(); \
-	newArchetype.name.index = nodesContainer.top().size() == 0 ? \
-		tmpres.getNodeId() : nodesContainer.top()[0].getNodeId();
+vector<FuncNode> preloadElement;
 
-template<typename T>
-void buildArchetype(T archetype) {
+#define compileCallback(name) newArchetype.name.order = archetype.name##Order; \
+	restoreAllocatorBackup(); currentCallback = #name; \
+	createNodeContainer(); tmpres = archetype.name(); \
+	if (nodesContainer.top().size() == 0) Return(tmpres); \
+	newArchetype.name.index = mergeNodeContainer().getNodeId();
+
+template<typename T, typename... Args> 
+void buildArchetype() {
 	lastGlobalCounter = globalCounter;
-	FuncNode tmpres;
+	FuncNode tmpres; 
+	restoreAllocatorBackup();
+	currentArchetype = T::name; currentCallback = "[Anonymous Callback]";
+	T archetype = T();
+	createAllocatorBackup();
     #ifdef play
     time_t st = millitime();
     EngineDataArchetype newArchetype;
@@ -210,30 +220,26 @@ void buildArchetype(T archetype) {
          << 1.0 * (globalCounter - lastGlobalCounter) / (1.0 * d / 1000) << " nodes/s. Total: " 
   		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
   	#endif
-}
-template<typename T, typename... Args> 
-void buildArchetype(T unused, Args... args) {
-    buildArchetype<T>(unused); buildArchetype<Args...>(args...);
+  	deleteAllocatorBackup();
+    if constexpr (sizeof...(Args)) buildArchetype<Args...>();
 }
 
 int allocatedArchetypeCount = 0;
 map<string, int> archetypeId;
-template<typename T>
-void allocateArchetypeId(T unused) {
-	archetypeId[typeid(T).name()] = allocatedArchetypeCount++;
-}
 template<typename T, typename... Args>
-void allocateArchetypeId(T unused, Args... args) {
-	allocateArchetypeId<T>(unused); allocateArchetypeId<Args...>(args...);
+void allocateArchetypeId() {
+	archetypeId[typeid(T).name()] = allocatedArchetypeCount++;
+	if constexpr (sizeof...(Args)) allocateArchetypeId<Args...>();
 }
 
 template<typename... Args>
 void build(buffer& configurationBuffer, buffer& dataBuffer) {
+	createAllocatorBackup();
     Json::Value configuration = engineConfiguration.toJsonObject();
     configurationBuffer = compress_gzip(json_encode(configuration));
 #ifdef play
-	allocateArchetypeId<Args...>(Args()...);
-    buildArchetype<Args...>(Args()...);
+	allocateArchetypeId<Args...>();
+    buildArchetype<Args...>();
 	engineData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(engineData.toJsonObject()));
 #elif tutorial
@@ -265,15 +271,19 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 
 #define getArchetypeId(T) archetypeId[typeid(T).name()]
 
-int ForPtIterator = 0;
-#define IF(cond) If(cond, [&](){ NONFUNCBEGIN
+// int ForPtIterator = 0;
+#define IF(cond) R(If(cond, [&](){ NONFUNCBEGIN
 #define ELSE return VAR; }(), [&](){ NONFUNCBEGIN
-#define FI return VAR; }());
+#define FI return VAR; }()));
 #define FOR(i, st, en, step) [&](){ \
 	NONFUNCBEGIN var i = st - step; \
-	R(While(i < en - step, [&](){ \
+	While(i < en - step, [&](){ \
 		NONFUNCBEGIN i.set(i + step);
-#define DONE return VAR; }())); return VOID; \
+#define WHILE(cond) [&](){ \
+	NONFUNCBEGIN \
+	While(cond, [&](){ \
+		NONFUNCBEGIN
+#define DONE return VAR; }()); return VOID; \
 }();
     // auto res = __builtin_Block(Execute({\
     //     ForPt[ForPtIterator].set(st - step), \

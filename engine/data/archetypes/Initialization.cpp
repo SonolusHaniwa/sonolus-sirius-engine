@@ -1,7 +1,7 @@
-class SiriusInitialization: public Archetype {
+class Initialization: public Archetype {
     public:
 
-    string name = "Sirius Initialization";
+    static constexpr const char* name = "Sirius Initialization";
     bool input = false;
     vector<pair<string, int> > data = {};
 
@@ -13,6 +13,7 @@ class SiriusInitialization: public Archetype {
         var menuX = screen.r - interfaceGap;
         var menuY = screen.t - interfaceGap;
         ui.menu.set(menuX, menuY, 1, 1, menuWidth, menuHeight, 0, ui.menuConfiguration.alpha, HorizontalAlign.Center, true);
+        
         // 首要指标参数
         var primaryMetricBarWidth = 0.75 * ui.primaryMetricConfiguration.scale;
         var primaryMetricBarHeight = 0.15 * ui.primaryMetricConfiguration.scale;
@@ -24,6 +25,7 @@ class SiriusInitialization: public Archetype {
         var primaryMetricValueY = primaryMetricBarY - 0.035 * ui.primaryMetricConfiguration.scale;
         ui.primaryMetricBar.set(primaryMetricBarX, primaryMetricBarY, 0, 1, primaryMetricBarWidth, primaryMetricBarHeight, 0, ui.primaryMetricConfiguration.alpha, HorizontalAlign.Left, true);
         ui.primaryMetricValue.set(primaryMetricValueX, primaryMetricValueY, 1, 1, primaryMetricValueWidth, primaryMetricValueHeight, 0, ui.primaryMetricConfiguration.alpha, HorizontalAlign.Right, false);
+        
         // 次要指标参数
         var secondaryMetricBarWidth = 0.55 * ui.secondaryMetricConfiguration.scale;
         var secondaryMetricBarHeight = 0.15 * ui.secondaryMetricConfiguration.scale;
@@ -35,6 +37,7 @@ class SiriusInitialization: public Archetype {
         var secondaryMetricValueY = secondaryMetricBarY - 0.035 * ui.secondaryMetricConfiguration.scale;
         ui.secondaryMetricBar.set(secondaryMetricBarX, secondaryMetricBarY, 1, 1, secondaryMetricBarWidth, secondaryMetricBarHeight, 0, ui.secondaryMetricConfiguration.alpha, HorizontalAlign.Left, true);
         ui.secondaryMetricValue.set(secondaryMetricValueX, secondaryMetricValueY, 1, 1, secondaryMetricValueWidth, secondaryMetricValueHeight, 0, ui.secondaryMetricConfiguration.alpha, HorizontalAlign.Right, false);
+        
         // 连击指标参数
         var comboValueWidth = 0 * ui.comboConfiguration.scale;
         var comboValueHeight = screen.h * 0.08 * ui.comboConfiguration.scale;
@@ -46,6 +49,7 @@ class SiriusInitialization: public Archetype {
         var comboTextY = Lerp(t, b, 0.425);
         ui.comboValue.set(comboValueX, comboValueY, 0.5, 0.5, comboValueWidth, comboValueHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
         ui.comboText.set(comboTextX, comboTextY, 0.5, 2.75, comboTextWidth, comboTextHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
+        
         // 判定指标参数
         var judgmentX = 0, judgmentY = -0.115 * stage.h;
         var judgmentWidth = 0;
@@ -84,7 +88,7 @@ class SiriusInitialization: public Archetype {
         return VOID;
     }
 
-    var spawnOrder() { return 0; }
+    SonolusApi spawnOrder() { return 0; }
 
-    var shouldSpawn() { return 1; }
+    SonolusApi shouldSpawn() { return 1; }
 };

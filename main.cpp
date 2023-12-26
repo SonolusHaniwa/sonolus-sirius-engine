@@ -49,7 +49,7 @@ void helpText(int argc, char** argv) {
     cout << "    Ched SUS -> Sonolus LevelData: " << argv[0] << " sus2data <sus> <music_config> <data>" << endl;
     exit(1);
 }
-		
+    
 int main(int argc, char** argv) {
     // 谱面转换测试
     if (argc >= 2) {
@@ -91,9 +91,11 @@ int main(int argc, char** argv) {
 #ifdef play
     buffer data, configuration;
     build<
-    	SiriusInitialization
-//         // Replace with your archetypes here
-//         Initialization,
+        // Replace with your archetypes here
+        Initialization,
+        InputManager,
+        Stage,
+        NormalNote
 //         InputManager,
 //         Stage,
 //         NormalNote,
