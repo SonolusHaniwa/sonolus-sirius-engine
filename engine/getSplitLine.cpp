@@ -87,5 +87,15 @@ var getSplitLine(var id) {
 		{10410, setSplitLine({Sprites.SplitLine_10410})},
 		{10420, setSplitLine({Sprites.SplitLine_10420})},
 		{10430, setSplitLine({Sprites.SplitLine_10430})},
+		{10440, setSplitLine({Sprites.SplitLine_10440})},
+		{10450, setSplitLine({Sprites.SplitLine_10450})},
+		{10460, setSplitLine({Sprites.SplitLine_10460})},
+		{10461, setSplitLine({Sprites.SplitLine_10461})},
+		{10470, setSplitLine({Sprites.SplitLine_10470})},
+		{10540, setSplitLine({Sprites.SplitLine_10540})},
+		{10550, setSplitLine({Sprites.SplitLine_10550})},
+		{10560, setSplitLine({Sprites.SplitLine_10560})},
+		{10570, setSplitLine({Sprites.SplitLine_10570})},
+		{10580, setSplitLine({Sprites.SplitLine_10580})},
 	});
 }
