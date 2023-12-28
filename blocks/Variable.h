@@ -88,6 +88,6 @@ FuncNode mergeNodeContainer() {
 	else blockCounter.top() -= 1;
 	addBlockCounter.pop();
 	FuncNode res = FuncNode(RuntimeFunction.Block, {
-		FuncNode(RuntimeFunction.Execute, c)
+		c.size() == 1 ? c[0] : FuncNode(RuntimeFunction.Execute, c)
 	}); return res;
 }

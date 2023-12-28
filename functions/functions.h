@@ -1,10 +1,31 @@
-
 FuncNode Abs(FuncNode value) {
     return FuncNode(RuntimeFunction.Abs, {value});
 }
 
+vector<FuncNode> Unpack(vector<FuncNode> value, string search) {
+	vector<FuncNode> res;
+	for (int i = 0; i < value.size(); i++) {
+		auto tmp = dataContainer[value[i].getNodeId()];
+		if (tmp.type != "value" && tmp.func.func == search) {
+			cout << search << endl;
+			vector<FuncNode> args; FuncNode x;
+			for (int j = 0; j < tmp.func.args.size(); j++)
+				x.nodeId = tmp.func.args[j], args.push_back(x);
+			args = Unpack(args, search);
+			for (int j = 0; j < args.size(); j++) res.push_back(args[j]);
+		} else res.push_back(value[i]);
+	} return res;
+}
+
 FuncNode Add(vector<FuncNode> value) {
-    return FuncNode(RuntimeFunction.Add, value);
+	value = Unpack(value, RuntimeFunction.Add);
+	double addValue = 0; vector<FuncNode> args;
+	for (int i = 0; i < value.size(); i++) {
+		auto tmp = dataContainer[value[i].getNodeId()];
+		if (tmp.type == "value") addValue += tmp.value.value;
+		else args.push_back(value[i]);
+	} if (abs(addValue) > 1e-10) args.push_back(addValue);
+    return FuncNode(RuntimeFunction.Add, args);
 }
 
 FuncNode And(vector<FuncNode> value) {
@@ -163,6 +184,7 @@ FuncNode Equal(FuncNode lhs, FuncNode rhs) {
 }
 
 FuncNode Execute(vector<FuncNode> value) {
+	if (value.size() == 1) return value[0];
     return FuncNode(RuntimeFunction.Execute, value);
 }
 

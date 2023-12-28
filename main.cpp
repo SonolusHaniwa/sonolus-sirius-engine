@@ -95,7 +95,8 @@ int main(int argc, char** argv) {
         Initialization,
         InputManager,
         Stage,
-        NormalNote
+        NormalNote,
+        CriticalNote
 //         InputManager,
 //         Stage,
 //         NormalNote,

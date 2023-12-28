@@ -57,7 +57,7 @@ class line {
 
 }lines;
 
-Rect getHitbox(var l, var r) {
+Rect getHitbox(let l, let r) {
 	let L = lines[l].getPosition(1).first;
 	let R = lines[r].getPosition(1).first;
 	let width = lines[l].getWidth(1);
@@ -69,7 +69,7 @@ Rect getHitbox(var l, var r) {
 	};
 }
 
-Rect getFullHitbox(var l, var r) {
+Rect getFullHitbox(let l, let r) {
 	let L = lines[l].getPosition(1).first;
 	let R = lines[r].getPosition(1).first;
 	let width = lines[l].getWidth(1) * (1 + maxSize);
@@ -79,4 +79,22 @@ Rect getFullHitbox(var l, var r) {
 		b: -1,
 		t: 1
 	};
+}
+
+SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
+	FUNCBEGIN
+    auto w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
+    auto multiplier = w / lines[lane].getWidth(1);
+    auto c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
+    auto c2 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
+    auto c3 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
+    auto c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
+    auto w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
+    auto w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
+    auto lb = pair<let, let>{ c2.first + -1 * w2 / 2 + noteMoveLength * w1 / lines[lane].getWidth(1), c2.second };
+    auto lt = pair<let, let>{ c1.first + -1 * w1 / 2 + noteMoveLength * w2 / lines[lane].getWidth(1), c1.second };
+    auto rb = pair<let, let>{ c4.first + 1 * w2 / 2 - noteMoveLength * w1 / lines[lane].getWidth(1), c4.second };
+    auto rt = pair<let, let>{ c3.first + w1 / 2 - noteMoveLength * w2 / lines[lane].getWidth(1), c3.second };
+    Draw(sprite, lb.first, lb.second, lt.first, lt.second, rt.first, rt.second, rb.first, rb.second, 1000 - beat, 1);
+    return VOID;
 }

@@ -1,8 +1,6 @@
-class NormalNote : public Archetype {
+class FlatNote : public Archetype {
     public:
 
-    static constexpr const char* name = "Sirius Normal Note";
-    vector<pair<string, int> > data = {{"beat", 0}, {"lane", 1}, {"laneLength", 2}};
     bool hasInput = true;
 
 	defineEntityData(beat);
@@ -11,6 +9,7 @@ class NormalNote : public Archetype {
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
+    virtual let getSprite() { return -1; }
 
     SonolusApi spawnOrder() { return 1000 + beat; }
     SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
@@ -20,6 +19,7 @@ class NormalNote : public Archetype {
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.good;
 		inputTimeMax = beat + judgment.good;
+		touchIndex = -1;
         IF (LevelOption.get(Options.Mirror)) lane.set(13 - enLane); FI
         return VOID;
 		// beat.set(Buckets.NormalNote),
@@ -27,8 +27,8 @@ class NormalNote : public Archetype {
 
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (times.now < inputTimeMin) Exit(0); FI
-		// claimStart(EntityInfo.get(0), beat, getHitbox(lane, enLane), getFullHitbox(lane, enLane));
+		IF (times.now < inputTimeMin) Return(0); FI
+		IF (times.now > inputTimeMax) EntityDespawn.set(0, 1); FI
 		return VOID;
 	}
 
@@ -41,13 +41,12 @@ class NormalNote : public Archetype {
 	// 	};
 	// }
 
-    SonolusApi touch() {
-    	FUNCBEGIN
-		IF (times.now < inputTimeMin) Exit(0); FI
-		var index = getClaimedStart(EntityInfo.get(0));
-		IF (index == -1) Exit(0); FI
-		EntityDespawn.set(0, 1);
-    	return VOID;
+	SonolusApi updateParallel() {
+		FUNCBEGIN
+		drawNormalNote(getSprite(), lane, enLane, beat);
+		// let index = getTouch(lane, enLane);
+		// touchIndex = index;
+		return VOID;
 	}
 
  //    var updateParallel() {

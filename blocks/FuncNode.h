@@ -43,8 +43,10 @@ map<EngineDataNode, int> hashMap;
 vector<EngineDataNode> dataContainer;
 
 class FuncNode {
-	private:
+	public:
 	int nodeId = 0;
+	
+	private:
 	bool writeable = true;
 	void checkWriteable() {
 		// if (!writeable) {

@@ -276,10 +276,12 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define ELSE return VAR; }(), [&](){ NONFUNCBEGIN
 #define FI return VAR; }()));
 #define FOR(i, st, en, step) [&](){ \
+	int ForBlockCount = blockCounter.top(); \
 	NONFUNCBEGIN var i = st - step; \
 	While(i < en - step, [&](){ \
 		NONFUNCBEGIN i.set(i + step);
 #define WHILE(cond) [&](){ \
+	int ForBlockCount = blockCounter.top(); \
 	NONFUNCBEGIN \
 	While(cond, [&](){ \
 		NONFUNCBEGIN
@@ -295,8 +297,8 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 // 	blockCounter -= 2; ForPtIterator--; \
 // 	return res; \
 // }()
-#define CONTINUE Break(1, 0)
-#define BREAK Break(2, 0)
+#define CONTINUE Break(blockCounter.top() - ForBlockCount - 1, 0)
+#define BREAK Break(blockCounter.top() - ForBlockCount, 0)
 
 #include"blocks/Array.h"
 #include"blocks/Map.h"

@@ -1,8 +1,8 @@
 class Vec {
     CLASSBEGIN
     
-    defineVar(var, x, var());
-    defineVar(var, y, var());
+    defineVar(let, x, 0);
+    defineVar(let, y, 0);
     Vec(){}
     Vec(var x, var y): x(x), y(y){}
 
@@ -23,12 +23,12 @@ class Vec {
 class Rect {
 	CLASSBEGIN
 
-	defineVar(var, l, var());
-	defineVar(var, r, var());
-	defineVar(var, b, var());
-	defineVar(var, t, var());
+	defineVar(let, l, 0);
+	defineVar(let, r, 0);
+	defineVar(let, b, 0);
+	defineVar(let, t, 0);
 
-	var contain(var x, var y) {
+	let contain(let x, let y) {
 		return l <= x && x <= r && b <= y && y <= t;
 	}
 };
