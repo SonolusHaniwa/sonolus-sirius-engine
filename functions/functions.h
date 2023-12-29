@@ -7,7 +7,6 @@ vector<FuncNode> Unpack(vector<FuncNode> value, string search) {
 	for (int i = 0; i < value.size(); i++) {
 		auto tmp = dataContainer[value[i].getNodeId()];
 		if (tmp.type != "value" && tmp.func.func == search) {
-			cout << search << endl;
 			vector<FuncNode> args; FuncNode x;
 			for (int j = 0; j < tmp.func.args.size(); j++)
 				x.nodeId = tmp.func.args[j], args.push_back(x);

@@ -37,7 +37,7 @@ class Stage: public Archetype {
 		return VOID;
     }
 
-    int touchOrder = 10000;
+    // int touchOrder = 10000;
 	// var playStageParticle(Touch touch) {
 	// 	vector<var> args;
 	// 	for (int i = 1; i <= 12; i++) {

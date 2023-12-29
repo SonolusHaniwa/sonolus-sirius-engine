@@ -39,10 +39,10 @@ int allocatorSizeBackup[11][10001];
 int allocatorSizeBackupCounter = 0;
 
 void createAllocatorBackup() {
-	memcpy(allocatorSize, allocatorSizeBackup[allocatorSizeBackupCounter++], sizeof allocatorSize);
+	memcpy(allocatorSizeBackup[allocatorSizeBackupCounter++], allocatorSize, sizeof allocatorSize);
 }
 void restoreAllocatorBackup() {
-	memcpy(allocatorSizeBackup[allocatorSizeBackupCounter], allocatorSize, sizeof allocatorSize);
+	memcpy(allocatorSize, allocatorSizeBackup[allocatorSizeBackupCounter - 1], sizeof allocatorSize);
 }
 void deleteAllocatorBackup() {
 	allocatorSizeBackupCounter--;

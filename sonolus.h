@@ -21,10 +21,12 @@ EnginePreviewData enginePreviewData;
 EngineWatchData engineWatchData;
 
 int globalCounter = 0, lastGlobalCounter = 0;
+#define R e1e1d3d40573127e9ee0480caf1283d6
 #include"blocks/FuncNode.h"
 #include"blocks/CustomClass.h"
 #include"blocks/Variable.h"
 #include"blocks/BlockPointer.h"
+#include"blocks/BlockArray.h"
 #include"functions/functions.h"
 #include"functions/redefine.h"
 typedef Variable<10000> var;
@@ -35,7 +37,7 @@ typedef FuncNode let;
 #define FUNCBEGIN createNodeContainer();
 #define NONFUNCBEGIN createNodeContainer(false);
 #define VAR mergeNodeContainer();
-#define VOID R(mergeNodeContainer()), 0;
+#define VOID e1e1d3d40573127e9ee0480caf1283d6(mergeNodeContainer()), 0;
 
 #include"blocks/Archetype.h"
 function<FuncNode()> tutorialPreprocess;
@@ -147,6 +149,12 @@ vector<FuncNode> preloadElement;
 	if (nodesContainer.top().size() == 0) Return(tmpres); \
 	newArchetype.name.index = mergeNodeContainer().getNodeId();
 
+#define compileCallbackHead(name) newArchetype.name.order = archetype.name##Order; \
+	restoreAllocatorBackup(); currentCallback = #name; \
+	createNodeContainer(); nodesContainer.top() = preloadElement; tmpres = archetype.name(); \
+	if (nodesContainer.top().size() == preloadElement.size()) Return(tmpres); \
+	newArchetype.name.index = mergeNodeContainer().getNodeId();
+
 template<typename T, typename... Args> 
 void buildArchetype() {
 	lastGlobalCounter = globalCounter;
@@ -161,7 +169,7 @@ void buildArchetype() {
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
-    compileCallback(preprocess);
+    compileCallbackHead(preprocess);
     compileCallback(spawnOrder);
     compileCallback(shouldSpawn);
     compileCallback(initialize);
@@ -234,6 +242,7 @@ void allocateArchetypeId() {
 
 template<typename... Args>
 void build(buffer& configurationBuffer, buffer& dataBuffer) {
+	preloadElement = nodesContainer.top(); mergeNodeContainer();
 	createAllocatorBackup();
     Json::Value configuration = engineConfiguration.toJsonObject();
     configurationBuffer = compress_gzip(json_encode(configuration));
@@ -272,7 +281,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define getArchetypeId(T) archetypeId[typeid(T).name()]
 
 // int ForPtIterator = 0;
-#define IF(cond) R(If(cond, [&](){ NONFUNCBEGIN
+#define IF(cond) e1e1d3d40573127e9ee0480caf1283d6(If(cond, [&](){ NONFUNCBEGIN
 #define ELSE return VAR; }(), [&](){ NONFUNCBEGIN
 #define FI return VAR; }()));
 #define FOR(i, st, en, step) [&](){ \
@@ -308,3 +317,5 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 // #include"items/WatchData.h"
 // #include"items/SkinData.h"
 // #include"items/EffectData.h"
+
+#undef R

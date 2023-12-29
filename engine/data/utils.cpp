@@ -1,8 +1,8 @@
-SonolusApi setSplitLine(vector<int> lines) {
-	FUNCBEGIN
-	for (int i = 0; i < 16; i++) splitLineMemory.set(i, lines[i % lines.size()]);
-	return VOID;
-}
+// SonolusApi setSplitLine(vector<int> lines) {
+// 	FUNCBEGIN
+// 	for (int i = 0; i < 16; i++) splitLineMemory.set(i, lines[i % lines.size()]);
+// 	return VOID;
+// }
 
 let ease(let x) {
 	return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
@@ -29,37 +29,35 @@ class line {
         return line(offset);
     };
 
-    pair<let, let> getPosition(let percent) {
-        let RealPercent = If(percent <= hiddenPercent, hiddenPercent, percent);
-        return {
-            Lerp((ltx + rtx) / 2, (lbx + rbx) / 2, RealPercent * (1 - judgelineMarginBottom)),
-            Lerp(lty, lby, RealPercent * (1 - judgelineMarginBottom))
-        };
+    Vec getPosition(let percent) {
+    	percent = If(percent <= hiddenPercent, hiddenPercent, percent);
+        return Vec(
+            Lerp((ltx + rtx) / 2, (lbx + rbx) / 2, percent * (1 - judgelineMarginBottom)),
+            Lerp(lty, lby, percent * (1 - judgelineMarginBottom))
+        );
     }
 
     let getWidth(let percent) {
-        let RealPercent = If(percent <= hiddenPercent, hiddenPercent, percent);
-        return Lerp((rtx - ltx), (rbx - lbx), RealPercent * (1 - judgelineMarginBottom));
+    	percent = If(percent <= hiddenPercent, hiddenPercent, percent);
+        return Lerp((rtx - ltx), (rbx - lbx), percent * (1 - judgelineMarginBottom));
     }
 
-    pair<let, let> getFullPosition(let percent) {
-        let RealPercent = percent;
-        return {
-            Lerp((ltx + rtx) / 2, (lbx + rbx) / 2, RealPercent),
-            Lerp(lty, lby, RealPercent)
-        };
+    Vec getFullPosition(let percent) {
+        return Vec(
+            Lerp((ltx + rtx) / 2, (lbx + rbx) / 2, percent),
+            Lerp(lty, lby, percent)
+        );
     }
 
     let getFullWidth(let percent) {
-        let RealPercent = percent;
-        return Lerp((rtx - ltx), (rbx - lbx), RealPercent);
+        return Lerp((rtx - ltx), (rbx - lbx), percent);
     }
 
 }lines;
 
 Rect getHitbox(let l, let r) {
-	let L = lines[l].getPosition(1).first;
-	let R = lines[r].getPosition(1).first;
+	let L = lines[l].getPosition(1).x;
+	let R = lines[r].getPosition(1).x;
 	let width = lines[l].getWidth(1);
 	return {
 		l: L - width / 2,
@@ -70,9 +68,9 @@ Rect getHitbox(let l, let r) {
 }
 
 Rect getFullHitbox(let l, let r) {
-	let L = lines[l].getPosition(1).first;
-	let R = lines[r].getPosition(1).first;
-	let width = lines[l].getWidth(1) * (1 + maxSize);
+	let L = lines[l].getPosition(1).x;
+	let R = lines[r].getPosition(1).x;
+	let width = lines[l].getWidth(1) * maxSize / (r - l + 1);
 	return {
 		l: L - width / 2,
 		r: R + width / 2,
@@ -83,18 +81,55 @@ Rect getFullHitbox(let l, let r) {
 
 SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
 	FUNCBEGIN
-    auto w = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1));
-    auto multiplier = w / lines[lane].getWidth(1);
-    auto c1 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
-    auto c2 = lines[lane].getPosition(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
-    auto c3 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
-    auto c4 = lines[enLane].getPosition(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
-    auto w1 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) - noteHeight / 2 / stage.h * multiplier);
-    auto w2 = lines[lane].getWidth(ease((times.now - beat) / appearTime + 1) + noteHeight / 2 / stage.h * multiplier);
-    auto lb = pair<let, let>{ c2.first + -1 * w2 / 2 + noteMoveLength * w1 / lines[lane].getWidth(1), c2.second };
-    auto lt = pair<let, let>{ c1.first + -1 * w1 / 2 + noteMoveLength * w2 / lines[lane].getWidth(1), c1.second };
-    auto rb = pair<let, let>{ c4.first + 1 * w2 / 2 - noteMoveLength * w1 / lines[lane].getWidth(1), c4.second };
-    auto rt = pair<let, let>{ c3.first + w1 / 2 - noteMoveLength * w2 / lines[lane].getWidth(1), c3.second };
-    Draw(sprite, lb.first, lb.second, lt.first, lt.second, rt.first, rt.second, rb.first, rb.second, 1000 - beat, 1);
+	var p = ease((times.now - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    var multiplier = noteHeight / 2 / stage.h * w / line1.getWidth(1);
+    auto c1 = line1.getPosition(p - multiplier);
+    auto c2 = line1.getPosition(p + multiplier);
+    auto c3 = line2.getPosition(p - multiplier);
+    auto c4 = line2.getPosition(p + multiplier);
+    auto w1 = line1.getWidth(p - multiplier);
+    auto w2 = line1.getWidth(p + multiplier);
+    // Debuglog(w2 / 2 + noteMoveLength * w1 / line1.getWidth(1)); Debuglog(c2.x);
+    auto lb = c2 - Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
+    	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
+    	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
+    return VOID;
+}
+
+SonolusApi drawArrow(let lane, let enLane, let beat) {
+	FUNCBEGIN
+	var p = ease((times.now - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    let multiplier = w / line1.getWidth(1);
+    auto c1 = line1.getPosition(p);
+    auto c2 = line2.getPosition(p);
+    let W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    let L = c1.x - w / 2, R = c2.x + w / 2;
+    let num = w * (enLane - lane + 1) / 2 * arrowPercent / W;
+    IF (p > hiddenPercent) {
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, 
+            	L + (i - 1) * W / 2, c1.y, 
+            	L + (i - 1) * W / 2, c1.y + H / 2, 
+                L + (i + 1) * W / 2, c1.y + H / 2, 
+                L + (i + 1) * W / 2, c1.y, 
+                1001 - beat, 
+                1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
+        } DONE
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, 
+            	R - (i - 1) * W / 2, c2.y, 
+            	R - (i - 1) * W / 2, c2.y + H / 2, 
+                R - (i + 1) * W / 2, c2.y + H / 2, 
+                R - (i + 1) * W / 2, c2.y, 
+                1001 - beat, 
+                1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
+        } DONE
+    } FI
     return VOID;
 }

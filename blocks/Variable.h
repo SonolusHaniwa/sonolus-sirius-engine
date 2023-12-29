@@ -29,7 +29,7 @@ class Variable {
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
     Variable(int offset, bool unused) {
-    	offset = offset;
+    	this->offset = offset;
     }
 
 	FuncNode get() {
@@ -45,11 +45,13 @@ class Variable {
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
     template<int T> void set(Variable<T> val) {
+    	// cout << T << " " << val.offset << endl; DumpTraceback();
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
 
-	template<typename T>
-    Variable operator = (T val) { set(val); return (*this); };
+	Variable<identifierId> operator = (Variable<identifierId> val) { set(val); return *this; }
+	// template<typename T>
+ //    Variable<identifierId> operator = (T val) { set(val); return *this; };
 
     operator FuncNode() {
     	return get();
@@ -66,7 +68,8 @@ class Variable {
    		return { get() };
    	}
    	void deserialize(vector<FuncNode> val) {
-   		assert(val.size() == classSize);
+   		if (val.size() != classSize) throwError("Failed to deserialize data! Expect len = " +
+   			to_string(classSize) + " but read len = " + to_string(val.size()));
    		set(val[0]);
    	}
 };
@@ -91,3 +94,5 @@ FuncNode mergeNodeContainer() {
 		c.size() == 1 ? c[0] : FuncNode(RuntimeFunction.Execute, c)
 	}); return res;
 }
+
+bool unused_nodesContainer_unused = [](){ createNodeContainer(); return true; }();

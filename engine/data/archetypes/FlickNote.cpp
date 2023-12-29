@@ -1,6 +1,7 @@
-class FlatNote : public Archetype {
+class FlickNote : public Archetype {
     public:
 
+	static constexpr const char* name = "Sirius Flick Note";
     bool hasInput = true;
 
 	defineEntityData(beat);
@@ -10,7 +11,7 @@ class FlatNote : public Archetype {
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
     Variable<EntityMemoryId> mapId;
-    virtual let getSprite() { return -1; }
+    Variable<EntityMemoryId> activate;
 
     SonolusApi spawnOrder() { return 1000 + beat; }
     SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
@@ -21,6 +22,7 @@ class FlatNote : public Archetype {
 		inputTimeMin = beat - judgment.good;
 		inputTimeMax = beat + judgment.good;
 		mapId = -1;
+		activate = 0;
         IF (LevelOption.get(Options.Mirror)) lane.set(13 - enLane); FI
         return VOID;
 		// beat.set(Buckets.NormalNote),
@@ -30,9 +32,15 @@ class FlatNote : public Archetype {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
 		IF (times.now > inputTimeMax) EntityDespawn.set(0, 1); FI
-		IF (mapId != -1 && inputList_old.getValById(mapId) != -1) {
-			// Debuglog(inputList_old.getValById(mapId));
-			EntityDespawn.set(0, 1);
+		IF (activate == 0) {
+			IF (mapId != -1 && inputList_old.getValById(mapId) != -1) {
+				activate = 1;
+			} FI
+		} FI
+		IF (activate == 1) {
+			IF (findFlickTouch(lane, enLane) != -1) {
+				EntityDespawn.set(0, 1);
+			} FI
 		} FI
 		mapId = inputList.size;
 		inputList.add(EntityInfo.get(0), -1);
@@ -50,7 +58,8 @@ class FlatNote : public Archetype {
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawNormalNote(getSprite(), lane, enLane, beat);
+		drawNormalNote(Sprites.ScratchNote, lane, enLane, beat);
+		drawArrow(lane, enLane, beat);
 		// let index = getTouch(lane, enLane);
 		// touchIndex = index;
 		return VOID;

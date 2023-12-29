@@ -112,14 +112,14 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             if (x.type == Hold || x.type == CriticalHold) {
                 single["archetype"] = "Sirius Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 total++;
             } else {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
@@ -195,17 +195,15 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             case Sound: case ScratchSound: {
                 single["archetype"] = "Sirius Sound";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
-                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
-                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 total++;
             } break;
             case SoundPurple: {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            	single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = 0;
@@ -217,11 +215,9 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 if (lastTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
                 single["archetype"] = "Sirius Hold Eighth";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
-                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
-                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 total++;
             } break;
             case None: {
@@ -242,20 +238,20 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         if (x.type == Hold || x.type == CriticalHold) {
             single["archetype"] = "Sirius Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             total++;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
             total++;
         } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
-        lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
+        addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
 
     cout << "[INFO] Total Note Number: " << total << endl;
@@ -274,6 +270,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
     cout << "[INFO] Sync Line Solved." << endl;
 
 	Json::Value data;
+	data["formatVersion"] = 3;
 	data["bgmOffset"] = bgmOffset;
 	data["entities"] = res;
 	return json_encode(data);

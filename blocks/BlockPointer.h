@@ -1,10 +1,11 @@
 template<int identifierId>
 class BlockPointer {
     public:
-    
-    FuncNode offset = 0;
-    int size = -1;
 
+	FuncNode offset = 0;
+	BlockPointer(){}
+	BlockPointer(FuncNode offset): offset(offset){}
+	
     FuncNode get(FuncNode i) {
 //        if (size != -1 && i.isValue == true &&
 //            (i.value >= size || i.value < 0)) throwWarning("");

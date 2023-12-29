@@ -4,7 +4,7 @@ class Vec {
     defineVar(let, x, 0);
     defineVar(let, y, 0);
     Vec(){}
-    Vec(var x, var y): x(x), y(y){}
+    Vec(let x, let y): x(x), y(y){}
 
     Vec operator + (Vec v) {
         return Vec(x + v.x, y + v.y);

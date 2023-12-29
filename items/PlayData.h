@@ -44,11 +44,11 @@ namespace playData {
     BlockPointer<LevelLifeId> LevelLife;
     BlockPointer<EngineRomId> EngineRom;
     BlockPointer<EntityMemoryId> EntityMemory;
-    BlockPointer<EntityDataArrayId> EntityDataArray;
+    BlockArray<EntityDataArrayId> EntityDataArray(32);
     BlockPointer<EntityDataId> EntityData;
-    BlockPointer<EntitySharedMemoryArrayId> EntitySharedMemoryArray;
+    BlockArray<EntitySharedMemoryArrayId> EntitySharedMemoryArray(32);
     BlockPointer<EntitySharedMemoryId> EntitySharedMemory;
-    BlockPointer<EntityInfoArrayId> EntityInfoArray;
+    BlockArray<EntityInfoArrayId> EntityInfoArray(3);
     BlockPointer<EntityInfoId> EntityInfo;
     BlockPointer<EntityDespawnId> EntityDespawn;
     BlockPointer<EntityInputId> EntityInput;
