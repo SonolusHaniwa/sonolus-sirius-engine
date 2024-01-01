@@ -50,8 +50,9 @@ class Variable {
     }
 
 	Variable<identifierId> operator = (Variable<identifierId> val) { set(val); return *this; }
-	// template<typename T>
- //    Variable<identifierId> operator = (T val) { set(val); return *this; };
+	// Variable<identifierId> operator = (FuncNode val) { set(val); return *this; }
+	template<typename T>
+    Variable<identifierId> operator = (T val) { set(val); return *this; };
 
     operator FuncNode() {
     	return get();

@@ -70,7 +70,7 @@ Rect getHitbox(let l, let r) {
 Rect getFullHitbox(let l, let r) {
 	let L = lines[l].getPosition(1).x;
 	let R = lines[r].getPosition(1).x;
-	let width = lines[l].getWidth(1) * maxSize / (r - l + 1);
+	let width = lines[l].getWidth(1) * (r + l - 1 + maxSize) / (r + l - 1);
 	return {
 		l: L - width / 2,
 		r: R + width / 2,
@@ -130,6 +130,43 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
                 1001 - beat, 
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
+    } FI
+    return VOID;
+}
+
+SonolusApi spawnLineEffect(let lane, let enLane) {
+	FUNCBEGIN
+	let wt = lines[lane].getFullWidth(0), wb = lines[lane].getFullWidth(1);
+	auto lb = lines[lane].getFullPosition(1) + Vec(-1 * wb / 2.0, 0), 
+		 rb = lines[enLane].getFullPosition(1) + Vec(wb / 2.0, 0);
+	auto lt = lines[lane].getFullPosition(0) + Vec(-1 * wt / 2.0, 0), 
+		 rt = lines[enLane].getFullPosition(0) + Vec(wt / 2.0, 0);
+	SpawnParticleEffect(Effects.Lane, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0);
+	return VOID;
+}
+
+SonolusApi spawnEffect(let linear, let circular, let lane, let enLane) {
+	FUNCBEGIN
+	let w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto lb = c1 + Vec(-1 * w / 2, 0), lt = c1 + Vec(-1 * w / 2, effectLinearHeight);
+	auto rb = c2 + Vec(w / 2, 0), rt = c2 + Vec(w / 2, effectLinearHeight);
+	auto lb2 = c1 + Vec(-1 * w / 2, 0), lt2 = c1 + Vec(-1 * w / 2, effectCircularHeight);
+	auto rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
+	SpawnParticleEffect(linear, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, effectDurationTime, 0);
+	SpawnParticleEffect(circular, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 0);
+	spawnLineEffect(lane, enLane);
+	return VOID;
+}
+
+SonolusApi SpawnSubJudgeText(let sprite) {
+	FUNCBEGIN
+    IF (currentJudgeStartTime.get() == times.now) {
+        currentJudge.set(Max(currentJudge.get(), sprite));
+    } ELSE {
+        currentJudge.set(sprite);
+        currentJudgeStartTime.set(times.now);
     } FI
     return VOID;
 }

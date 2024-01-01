@@ -1,4 +1,4 @@
-double maxSize = 0.5;                     	 // 判定大小
+double maxSize = 2;                     	 // 额外判定大小
 double interfaceGap = 0.05;                  // 组件间距
 double targetAspectRatio = 1115.0 / 640.0;   // 目标屏幕宽高比
 double highWidth = 0.1;                      // 高位宽度与低位宽度比

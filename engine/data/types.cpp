@@ -32,3 +32,26 @@ class Rect {
 		return l <= x && x <= r && b <= y && y <= t;
 	}
 };
+
+class JudgmentArray {
+	CLASSBEGIN
+
+	defineVar(let, perfect, 0);
+	defineVar(let, great, 0);
+	defineVar(let, good, 0);
+};
+
+class ClipsArray {
+	CLASSBEGIN
+
+	defineVar(let, perfect, 0);
+	defineVar(let, great, 0);
+	defineVar(let, good, 0);
+};
+
+class EffectsArray {
+	CLASSBEGIN
+
+	defineVar(let, linear, 0);
+	defineVar(let, circular, 0);
+};

@@ -336,9 +336,8 @@ FuncNode Or(vector<FuncNode> value) {
 FuncNode Paint(FuncNode id, FuncNode x, FuncNode y, FuncNode size, FuncNode rotation, FuncNode z, FuncNode a) {
     return FuncNode(RuntimeFunction.Paint, {id, x, y, size, rotation, z, a});
 }
-
-FuncNode Play(FuncNode id, FuncNode distance) {
-    return FuncNode(RuntimeFunction.Play, {id, distance});
+void Play(FuncNode id, FuncNode distance) {
+    R(FuncNode(RuntimeFunction.Play, {id, distance}));
 }
 
 FuncNode PlayLooped(FuncNode id) {
@@ -505,8 +504,8 @@ FuncNode Spawn(FuncNode id, vector<FuncNode> data) {
     return FuncNode(RuntimeFunction.Spawn, data);
 }
 
-FuncNode SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {
-    return FuncNode(RuntimeFunction.SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, duration, isLooped});
+void SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {
+    R(FuncNode(RuntimeFunction.SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, duration, isLooped}));
 }
 
 FuncNode StackEnter(FuncNode size) {
