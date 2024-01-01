@@ -27,7 +27,7 @@ using namespace playData;
 #include"data/archetypes/flatNotes/CriticalScratchHoldStart.cpp"
 // #include"data/archetype/Sound.cpp"
 // #include"data/archetype/HoldEighth.cpp"
-// #include"data/archetype/HoldEnd.cpp"
+#include"data/archetypes/HoldEnd.cpp"
 // #include"data/archetype/ScratchHoldEnd.cpp"
 // #include"data/archetype/SyncLine.cpp"
 // #include"data/archetype/SplitLine.cpp"

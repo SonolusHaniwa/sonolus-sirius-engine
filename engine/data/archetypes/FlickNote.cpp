@@ -31,16 +31,16 @@ class FlickNote : public Archetype {
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
 		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.good) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
+		IF (Abs(t - beat) <= judgment.bad) res = 3, res2 = 2; FI
+		IF (Abs(t - beat) <= judgment.perfect) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
-		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
-		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
+		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
+		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FIl
+		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
@@ -48,16 +48,17 @@ class FlickNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) EntityDespawn.set(0, 1); FI
+		IF (times.now > inputTimeMax) {
+			IF (activate == 1) complete(inputTimeMax);
+			ELSE complete(-1); FI
+		} FI
 		IF (activate == 0) {
 			IF (mapId != -1 && inputList_old.getValById(mapId) != -1) {
 				activate = 1;
 			} FI
 		} FI
 		IF (activate == 1) {
-			IF (findFlickTouch(lane, enLane) != -1) {
-				EntityDespawn.set(0, 1);
-			} FI
+			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
 		} FI
 		mapId = inputList.size;
 		inputList.add(EntityInfo.get(0), -1);

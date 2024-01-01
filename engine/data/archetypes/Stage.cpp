@@ -39,7 +39,27 @@ class Stage: public Archetype {
 		return VOID;
     }
 
-    // int touchOrder = 10000;
+    int updateSequentialOrder = 10000;
+	SonolusApi xToL(let x) {
+		let L = getHitbox(1, 12).l, R = getHitbox(1, 12).r;
+		return Floor((x - L) / (R - L) * 12 + 1);
+	}
+	SonolusApi updateSequential() {
+		FUNCBEGIN
+		Rect hitbox = getHitbox(1, 12);
+		FOR (i, 0, touches.size, 1) {
+			IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI 
+			IF (usedTouchId.indexOf(touches[i].id) != -1) CONTINUE; FI
+			IF (touches[i].started == 1) spawnLineEffect(xToL(touches[i].x), xToL(touches[i].x));
+			ELSE {
+				let lastL = xToL(touches[i].x - touches[i].dx);
+				let L = xToL(touches[i].x);
+				Debuglog(L), Debuglog(lastL);
+				IF (L != lastL) spawnLineEffect(L, L); FI
+			} FI
+		} DONE
+		return VOID;
+	}
 	// var playStageParticle(Touch touch) {
 	// 	vector<var> args;
 	// 	for (int i = 1; i <= 12; i++) {
@@ -49,7 +69,7 @@ class Stage: public Archetype {
 	// 			} FI
 	// 		}));
 	// 	}; return Execute(args);
-	// }
+	// }W
 
  //    var touch() {
 	// 	return {

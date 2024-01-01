@@ -139,12 +139,26 @@
 // }
 
 double minFlickVR = 0.5;
+Map<LevelMemoryId, var, var> usedTouchId(16);
 SonolusApi findFlickTouch(let lane, let enLane) {
 	FUNCBEGIN
 	Rect hitbox = getFullHitbox(lane, enLane);
 	FOR (i, 0, touches.size, 1) {
 		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
 		IF (touches[i].vr < minFlickVR) CONTINUE; FI
+		usedTouchId.set(touches[i].id, 1);
+		Return(touches[i].id);
+	} DONE
+	Return(-1);
+	return VAR;
+}
+
+SonolusApi findHoldTouch(let lane, let enLane) {
+	FUNCBEGIN 
+	Rect hitbox = getFullHitbox(lane, enLane);
+	FOR (i, 0, touches.size, 1) {
+		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+		usedTouchId.set(touches[i].id, 1);
 		Return(touches[i].id);
 	} DONE
 	Return(-1);
@@ -163,6 +177,15 @@ class InputManager: public Archetype {
 	int updateSequentialOrder = 1;
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		inputList_old.size = 0;
+		FOR (i, 0, touches.size, 1) {
+			IF (usedTouchId.indexOf(touches[i].id) != -1) {
+				inputList_old.set(touches[i].id, 1);
+			} FI
+		} DONE
+		usedTouchId.size = 0;
+		FOR (i, 0, inputList_old.size, 1) usedTouchId.add(inputList_old.getKeyById(i), 1); DONE
+
 		inputList_old.size = 0;
 		FOR (i, 0, inputList.size, 1) {
 			inputList_old.add(inputList.getKeyById(i), inputList.getValById(i));
@@ -210,7 +233,10 @@ class InputManager: public Archetype {
 				// cout << best.offset << endl;
 				bestTime = time; bestId = j;
 			} DONE
-			IF (best != -1) inputList_old.val.set(bestId, touches[i].id); FI
+			IF (best != -1) {
+				inputList_old.val.set(bestId, touches[i].id);
+				usedTouchId.set(touches[i].id, 1);
+			} FI
 			// Debuglog(touches[i].id); Debuglog(best);
 		} DONE
 		return VOID;

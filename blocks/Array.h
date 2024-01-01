@@ -28,7 +28,7 @@ class Array {
 	T operator [] (FuncNode id) {
 		return get(id);
 	}
-	SonolusApi indexOf(T obj, var en) { // 时间复杂度 O(capacity * classSize)
+	SonolusApi indexOf(T obj, let en) { // 时间复杂度 O(capacity * classSize)
 		FUNCBEGIN
 		FOR (i, 0, Min(capacity, en), 1) {
 			IF (get(i) == obj) Return(i); FI

@@ -56,7 +56,7 @@ class FlatNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(); FI
+		IF (times.now > inputTimeMax) complete(-1); FI
 		IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
 		mapId = inputList.size;
 		inputList.add(EntityInfo.get(0), -1);

@@ -91,7 +91,6 @@ SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
     auto c4 = line2.getPosition(p + multiplier);
     auto w1 = line1.getWidth(p - multiplier);
     auto w2 = line1.getWidth(p + multiplier);
-    // Debuglog(w2 / 2 + noteMoveLength * w1 / line1.getWidth(1)); Debuglog(c2.x);
     auto lb = c2 - Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
     	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
     auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
@@ -105,12 +104,12 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
 	var p = ease((times.now - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
-    let multiplier = w / line1.getWidth(1);
+    auto multiplier = w / line1.getWidth(1);
     auto c1 = line1.getPosition(p);
     auto c2 = line2.getPosition(p);
-    let W = arrowWidth * multiplier, H = arrowHeight * multiplier;
-    let L = c1.x - w / 2, R = c2.x + w / 2;
-    let num = w * (enLane - lane + 1) / 2 * arrowPercent / W;
+    auto W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    auto L = c1.x - w / 2, R = c2.x + w / 2;
+    auto num = w * (enLane - lane + 1) / 2 * arrowPercent / W;
     IF (p > hiddenPercent) {
         FOR (i, 1, num, 1) {
             Draw(Sprites.ScratchArrow, 
@@ -131,6 +130,30 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
     } FI
+    return VOID;
+}
+
+SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBeat, let isHolding) {
+    FUNCBEGIN
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(1);
+    var p1 = ease(Min(1, Min(1, times.now - stBeat) / appearTime + 1)),
+        p2 = ease(Min(1, Min(1, times.now - enBeat) / appearTime + 1));
+	auto c1 = line1.getPosition(p1);
+	auto c2 = line1.getPosition(p2);
+	auto c3 = line2.getPosition(p1);
+	auto c4 = line2.getPosition(p2);
+	auto w1 = line1.getWidth(p1);
+	auto w2 = line1.getWidth(p2);
+	auto lb = c1 - Vec(w1 / 2 - noteMoveLength * w1 / w, 0), 
+         lt = c2 - Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
+	auto rb = c3 + Vec(w1 / 2 - noteMoveLength * w1 / w, 0), 
+         rt = c4 + Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
+	IF (isHolding) {
+        let val = Floor(times.now / 0.1) % 2 == 1;
+        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.85);
+        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
+    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
     return VOID;
 }
 

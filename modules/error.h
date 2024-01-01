@@ -1,8 +1,8 @@
-#include<cpptrace/cpptrace.hpp>
+// #include<cpptrace/cpptrace.hpp>
 using namespace std;
 
 void DumpTraceback() {
-	cpptrace::generate_trace().print();
+	// cpptrace::generate_trace().print();
 }
 
 void throwWarning(string text) {
