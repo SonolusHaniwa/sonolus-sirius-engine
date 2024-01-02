@@ -50,12 +50,16 @@ class Stage: public Archetype {
 		FOR (i, 0, touches.size, 1) {
 			IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI 
 			IF (usedTouchId.indexOf(touches[i].id) != -1) CONTINUE; FI
-			IF (touches[i].started == 1) spawnLineEffect(xToL(touches[i].x), xToL(touches[i].x));
-			ELSE {
+			IF (touches[i].started == 1) {
+				Play(Clips.Stage,minSFXDistance);
+				spawnLineEffect(xToL(touches[i].x), xToL(touches[i].x));
+			} ELSE {
 				let lastL = xToL(touches[i].x - touches[i].dx);
 				let L = xToL(touches[i].x);
-				Debuglog(L), Debuglog(lastL);
-				IF (L != lastL) spawnLineEffect(L, L); FI
+				IF (L != lastL) {
+					spawnLineEffect(L, L); 
+					Play(Clips.Stage,minSFXDistance);
+				} FI
 			} FI
 		} DONE
 		return VOID;

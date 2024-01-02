@@ -70,7 +70,7 @@ Rect getHitbox(let l, let r) {
 Rect getFullHitbox(let l, let r) {
 	let L = lines[l].getPosition(1).x;
 	let R = lines[r].getPosition(1).x;
-	let width = lines[l].getWidth(1) * (r + l - 1 + maxSize) / (r + l - 1);
+	let width = lines[l].getWidth(1) * (maxSize + 1);
 	return {
 		l: L - width / 2,
 		r: R + width / 2,
@@ -133,6 +133,56 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
     return VOID;
 }
 
+SonolusApi drawLeftArrow(let lane, let enLane, let beat) {
+	FUNCBEGIN
+	var p = ease((times.now - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    auto multiplier = w / line1.getWidth(1);
+    auto c1 = line1.getPosition(p);
+    auto c2 = line2.getPosition(p);
+    auto W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    auto L = c1.x - w / 2, R = c2.x + w / 2;
+    auto num = w * (enLane - lane + 1) * arrowPercent / W;
+    IF (p > hiddenPercent) {
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, 
+            	L + (i - 1) * W / 2, c1.y, 
+            	L + (i - 1) * W / 2, c1.y + H / 2, 
+                L + (i + 1) * W / 2, c1.y + H / 2, 
+                L + (i + 1) * W / 2, c1.y, 
+                1001 - beat, 
+                1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
+        } DONE
+    } FI
+    return VOID;
+}
+
+SonolusApi drawRightArrow(let lane, let enLane, let beat) {
+	FUNCBEGIN
+	var p = ease((times.now - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    auto multiplier = w / line1.getWidth(1);
+    auto c1 = line1.getPosition(p);
+    auto c2 = line2.getPosition(p);
+    auto W = arrowWidth * multiplier, H = arrowHeight * multiplier;
+    auto L = c1.x - w / 2, R = c2.x + w / 2;
+    auto num = w * (enLane - lane + 1) * arrowPercent / W;
+    IF (p > hiddenPercent) {
+        FOR (i, 1, num, 1) {
+            Draw(Sprites.ScratchArrow, 
+            	R - (i - 1) * W / 2, c2.y, 
+            	R - (i - 1) * W / 2, c2.y + H / 2, 
+                R - (i + 1) * W / 2, c2.y + H / 2, 
+                R - (i + 1) * W / 2, c2.y, 
+                1001 - beat, 
+                1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
+        } DONE
+    } FI
+    return VOID;
+}
+
 SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBeat, let isHolding) {
     FUNCBEGIN
 	auto line1 = lines[lane], line2 = lines[enLane];
@@ -181,6 +231,17 @@ SonolusApi spawnEffect(let linear, let circular, let lane, let enLane) {
 	SpawnParticleEffect(circular, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 0);
 	spawnLineEffect(lane, enLane);
 	return VOID;
+}
+
+SonolusApi spawnHoldEffect(let effect, let lane, let enLane) {
+	FUNCBEGIN
+	let w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto lb2 = c1 + Vec(-1 * w / 2, 0), lt2 = c1 + Vec(-1 * w / 2, effectCircularHeight);
+	auto rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
+	SpawnParticleEffect(effect, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y, effectDurationTime, 1);
+	return VAR;
 }
 
 SonolusApi SpawnSubJudgeText(let sprite) {

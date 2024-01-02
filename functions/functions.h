@@ -134,8 +134,8 @@ FuncNode Degree(FuncNode value) {
     return FuncNode(RuntimeFunction.Degree, {value});
 }
 
-FuncNode DestroyParticleEffect(FuncNode particleId) {
-    return FuncNode(RuntimeFunction.DestroyParticleEffect, {particleId});
+void DestroyParticleEffect(FuncNode particleId) {
+    R(FuncNode(RuntimeFunction.DestroyParticleEffect, {particleId}));
 }
 
 FuncNode Divide(vector<FuncNode> value) {
@@ -564,12 +564,12 @@ FuncNode StackSet(FuncNode offset, FuncNode value) {
     return FuncNode(RuntimeFunction.StackSet, {offset, value});
 }
 
-FuncNode StopLooped(FuncNode loopId) {
-    return FuncNode(RuntimeFunction.StopLooped, {loopId});
+void StopLooped(FuncNode loopId) {
+    R(FuncNode(RuntimeFunction.StopLooped, {loopId}));
 }
 
-FuncNode StopLoopedScheduled(FuncNode loopId, FuncNode endTime) {
-    return FuncNode(RuntimeFunction.StopLoopedScheduled, {loopId, endTime});
+void StopLoopedScheduled(FuncNode loopId, FuncNode endTime) {
+    R(FuncNode(RuntimeFunction.StopLoopedScheduled, {loopId, endTime}));
 }
 
 FuncNode Subtract(vector<FuncNode> value) {

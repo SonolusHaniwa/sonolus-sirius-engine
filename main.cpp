@@ -102,10 +102,10 @@ int main(int argc, char** argv) {
 		SiriusCriticalHoldStart,
 		SiriusScratchHoldStart,
 		SiriusCriticalScratchHoldStart,
-// 		SiriusHoldEighth,
+		SiriusHoldEighth,
 //         SiriusSound,
-		SiriusHoldEnd
-// 		SiriusScratchHoldEnd,
+		SiriusHoldEnd,
+		SiriusScratchHoldEnd
 //         SyncLine,
 //         SplitLine
     >(configuration, data);
