@@ -22,8 +22,8 @@ class FlatNote : public Archetype {
 		FUNCBEGIN
         IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
-		inputTimeMin = beat - judgment.good;
-		inputTimeMax = beat + judgment.good;
+		inputTimeMin = beat - judgment.bad;
+		inputTimeMax = beat + judgment.bad;
 		mapId = -1;
         return VOID;
 		// beat.set(Buckets.NormalNote),

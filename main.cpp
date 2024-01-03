@@ -103,10 +103,10 @@ int main(int argc, char** argv) {
 		SiriusScratchHoldStart,
 		SiriusCriticalScratchHoldStart,
 		SiriusHoldEighth,
-//         SiriusSound,
+        SiriusSound,
 		SiriusHoldEnd,
-		SiriusScratchHoldEnd
-//         SyncLine,
+		SiriusScratchHoldEnd,
+        SyncLine
 //         SplitLine
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));

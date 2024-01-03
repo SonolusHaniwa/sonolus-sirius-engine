@@ -23,8 +23,8 @@ class SiriusScratchHoldEnd: public Archetype {
    		FUNCBEGIN
         IF (LevelOption.get(Options.Mirror)) lane.set(13 - enLane); FI
 		enLane = lane + laneLength - 1;
-		inputTimeMin = beat - judgment.good;
-		inputTimeMax = beat + judgment.good;
+		inputTimeMin = beat - judgment.bad;
+		inputTimeMax = beat + judgment.bad;
 		isHolding = false;
 		lastHoldTime = -1;
 		playId = 0;

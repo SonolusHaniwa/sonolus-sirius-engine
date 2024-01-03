@@ -126,8 +126,8 @@ FuncNode DecrementPre(FuncNode id, FuncNode index) {
     return FuncNode(RuntimeFunction.DecrementPre, {id, index});
 }
 
-FuncNode DebugPause() {
-    return FuncNode(RuntimeFunction.DebugPause, {});
+void DebugPause() {
+    R(FuncNode(RuntimeFunction.DebugPause, {}));
 }
 
 FuncNode Degree(FuncNode value) {

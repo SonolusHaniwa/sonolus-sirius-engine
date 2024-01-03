@@ -1,20 +1,18 @@
-class SiriusHoldEnd: public Archetype {
+class SiriusSound: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Hold End";
+	static constexpr const char* name = "Sirius Sound";
 	bool hasInput = true;
 	
 	defineEntityData(beat);
-	defineEntityData(stBeat);
 	defineEntityData(lane);
 	defineEntityData(laneLength);
+	defineEntityData(holdType);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
 	Variable<EntityMemoryId> isHolding;
 	Variable<EntityMemoryId> lastHoldTime;
-	Variable<EntityMemoryId> playId;
-	Variable<EntityMemoryId> effectId;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -24,19 +22,14 @@ class SiriusHoldEnd: public Archetype {
 		inputTimeMax = beat + judgment.bad;
 		isHolding = false;
 		lastHoldTime = -1;
-		playId = 0;
         return VOID;
     }
     
-    SonolusApi spawnOrder() { return 1000 + stBeat; }
-    SonolusApi shouldSpawn() { return times.now > stBeat - appearTime; }
+    SonolusApi spawnOrder() { return 1000 + beat; }
+    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
 
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
-		IF (playId != 0) {
-			StopLooped(playId); playId = 0;
-			DestroyParticleEffect(effectId); effectId = 0;
-		} FI
 		var res = 0, res2 = 0;
 		IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
 		IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
@@ -46,10 +39,7 @@ class SiriusHoldEnd: public Archetype {
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
-		IF (res2 == 1) Play(Clips.Perfect, minSFXDistance); FI
-		IF (res2 == 2) Play(Clips.Perfect, minSFXDistance); FI
-		IF (res2 == 3) Play(Clips.Good, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
+		IF (res != 0) Play(Clips.Sound, minSFXDistance); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
@@ -61,16 +51,8 @@ class SiriusHoldEnd: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (times.now < stBeat) Return(0); FI
+		IF (times.now < beat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
-		IF (isHolding && playId == 0) {
-			playId = PlayLooped(Clips.Hold);
-			effectId = spawnHoldEffect(Effects.Hold, lane, enLane);
-		} FI
-		IF (!isHolding && playId != 0) {
-			StopLooped(playId); playId = 0;
-			DestroyParticleEffect(effectId); effectId = 0;
-		} FI
 
 		// 判定主代码
 		IF (times.now < inputTimeMin) Return(0); FI
@@ -80,11 +62,10 @@ class SiriusHoldEnd: public Archetype {
 		return VOID;
 	}
 
-    SonolusApi updateParallel() {
+	SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawHoldEighth(Sprites.Hold, lane, enLane, stBeat, beat, isHolding);
-		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.HoldNote, lane, enLane, times.now); FI
-		IF (times.now > beat - appearTime) drawNormalNote(Sprites.HoldNote, lane, enLane, beat); FI
+		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, beat, lane, enLane); FI
+		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, beat, lane, enLane); FI
 		return VOID;
 	}
 };

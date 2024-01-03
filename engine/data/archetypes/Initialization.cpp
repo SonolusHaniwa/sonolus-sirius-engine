@@ -55,6 +55,15 @@ class Initialization: public Archetype {
         var judgmentWidth = 0;
     	var judgmentHeight = stage.h * 0.0475 * ui.judgmentConfiguration.scale;
         ui.judgment.set(judgmentX, judgmentY, 0.5, 0.5, judgmentWidth, judgmentHeight, 0, ui.judgmentConfiguration.alpha, HorizontalAlign.Center, false);
+
+        
+        LevelScore.set(0, score.perfect);
+        LevelScore.set(1, score.great);
+        LevelScore.set(2, score.good);
+
+        for (int i = 3; i <= 9; i++) lifes[i].set(0, 0, 0, -80);
+        for (int i = 10; i <= 11; i++) lifes[i].set(0, 0, 0, -40);
+        for (int i = 12; i <= 13; i++) lifes[i].set(0, 0, 0, -80);
         EntityDespawn.set(0, 1);
         // return Execute({
         //     LevelScore.set(0, score.perfect);
