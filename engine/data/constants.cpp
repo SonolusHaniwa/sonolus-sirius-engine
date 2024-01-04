@@ -103,3 +103,4 @@ class score {
 
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;
+Array<LevelMemoryId, var> splitLineMemory(16);

@@ -1,6 +1,6 @@
 using namespace std;
 
-var getSplitLine(var id) {
+let getSplitLine(let id) {
 	return Switch(id, {
 		{1, setSplitLine({Sprites.SplitLine_1})},
 		{2, setSplitLine({Sprites.SplitLine_2})},

@@ -85,6 +85,10 @@ void R(FuncNode body) {
 	if (nodesContainer.size() == 0) throwError("You shouldn't execute anything outside Archetypes!");
 	nodesContainer.top().push_back(body);
 }
+void Run(FuncNode body) {
+	if (nodesContainer.size() == 0) throwError("You shouldn't execute anything outside Archetypes!");
+	nodesContainer.top().push_back(body);
+}
 FuncNode mergeNodeContainer() {
 	assert(nodesContainer.size());
 	auto c = nodesContainer.top(); nodesContainer.pop();

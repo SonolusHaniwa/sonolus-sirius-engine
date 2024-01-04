@@ -264,7 +264,7 @@ class InputManager: public Archetype {
 				inputList_old.val.set(bestId, touches[i].id);
 				usedTouchId.set(touches[i].id, 1);
 			} FI
-			IF (best == -1) Debuglog(touches[i].id); Debuglog(best); FI
+			// IF (best == -1) Debuglog(touches[i].id); Debuglog(best); FI
 		} DONE
 		return VOID;
 	}

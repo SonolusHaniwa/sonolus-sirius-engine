@@ -293,3 +293,137 @@ SonolusApi SpawnSubJudgeText(let sprite) {
     } FI
     return VOID;
 }
+
+// 上面为 0，下面为 1
+SonolusApi drawLine(let id, let st, let en, let a, let sprite) {
+	FUNCBEGIN
+    let w = lines[id + 1].getWidth(1);
+    Vec c1 = lines[id + 1].getFullPosition(ease(st));
+    Vec c2 = lines[id + 1].getFullPosition(ease(en));
+	let w1 = lines[id + 1].getFullWidth(ease(st));
+	let w2 = lines[id + 1].getFullWidth(ease(en));
+    let move = splitLineLength / 2;
+	Vec c3 = c1 + Vec(-1 * w1 / 2, 0);
+	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
+	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
+	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	return VAR;
+}
+
+SonolusApi drawEndLine(let st, let en, let a, let sprite) {
+	FUNCBEGIN
+    let w = lines[12].getWidth(1);
+    Vec c1 = lines[12].getFullPosition(ease(st));
+    Vec c2 = lines[12].getFullPosition(ease(en));
+	let w1 = lines[12].getFullWidth(ease(st));
+	let w2 = lines[12].getFullWidth(ease(en));
+    let move = splitLineLength / 2;
+	Vec c3 = c1 + Vec(1 * w1 / 2, 0);
+	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
+	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
+	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	return VOID;
+}
+
+SonolusApi drawSplitLine(let split) {
+	FUNCBEGIN
+    Run(drawLine(0, 0, 1, 1, splitLineMemory[0]));
+    drawEndLine(0, 1, 1, splitLineMemory[split]);
+    Run(Switch(split, {
+        {1, {}},
+        {2, drawLine(6, 0, 1, 1, splitLineMemory[1])},
+        {3, {
+            drawLine(4, 0, 1, 1, splitLineMemory[1]), 
+            drawLine(8, 0, 1, 1, splitLineMemory[2])
+        }}, {4, {
+            drawLine(3, 0, 1, 1, splitLineMemory[1]), 
+            drawLine(6, 0, 1, 1, splitLineMemory[2]), 
+            drawLine(9, 0, 1, 1, splitLineMemory[3])
+        }}, {5, {
+            drawLine(3, 0, 1, 1, splitLineMemory[1]), 
+            drawLine(5, 0, 1, 1, splitLineMemory[2]), 
+            drawLine(7, 0, 1, 1, splitLineMemory[3]), 
+            drawLine(9, 0, 1, 1, splitLineMemory[4])
+        }}, {6, {
+            drawLine(2, 0, 1, 1, splitLineMemory[1]), 
+            drawLine(4, 0, 1, 1, splitLineMemory[2]), 
+            drawLine(6, 0, 1, 1, splitLineMemory[3]), 
+            drawLine(8, 0, 1, 1, splitLineMemory[4]), 
+            drawLine(10, 0, 1, 1, splitLineMemory[5])
+        }}
+    }));
+    return VOID;
+}
+
+SonolusApi drawDisappearLine(let t, let split) {
+	FUNCBEGIN
+    let p = 1;
+    let a = 1 - t / splitLineAnimationEnd;
+    Run(drawLine(0, 0, p, a, splitLineMemory[0]));
+    drawEndLine(0, p, a, splitLineMemory[split]);
+    Run(Switch(split, {
+        {1, {}},
+        {2, drawLine(6, 0, p, a, splitLineMemory[1])},
+        {3, {
+            drawLine(4, 0, p, a, splitLineMemory[1]), 
+            drawLine(8, 0, p, a, splitLineMemory[2])
+        }}, {4, {
+            drawLine(3, 0, p, a, splitLineMemory[1]), 
+            drawLine(6, 0, p, a, splitLineMemory[2]), 
+            drawLine(9, 0, p, a, splitLineMemory[3])
+        }}, {5, {
+            drawLine(3, 0, p, a, splitLineMemory[1]), 
+            drawLine(5, 0, p, a, splitLineMemory[2]), 
+            drawLine(7, 0, p, a, splitLineMemory[3]), 
+            drawLine(9, 0, p, a, splitLineMemory[4])
+        }}, {6, {
+            drawLine(2, 0, p, a, splitLineMemory[1]), 
+            drawLine(4, 0, p, a, splitLineMemory[2]), 
+            drawLine(6, 0, p, a, splitLineMemory[3]), 
+            drawLine(8, 0, p, a, splitLineMemory[4]), 
+            drawLine(10, 0, p, a, splitLineMemory[5])
+        }}
+    }));
+    return VOID;
+}
+
+SonolusApi drawAppearLine(let t, let split) {
+	FUNCBEGIN
+    let p = 1 - t / splitLineAnimationStart;
+    let a = 1;
+    Run(drawLine(0, p, 1, a, splitLineMemory[0]));
+    drawEndLine(p, 1, a, splitLineMemory[split]);
+    Run(Switch(split, {
+        {1, {}},
+        {2, drawLine(6, p, 1, a, splitLineMemory[1])},
+        {3, {
+            drawLine(4, p, 1, a, splitLineMemory[1]), 
+            drawLine(8, p, 1, a, splitLineMemory[2])
+        }}, {4, {
+            drawLine(3, p, 1, a, splitLineMemory[1]), 
+            drawLine(6, p, 1, a, splitLineMemory[2]), 
+            drawLine(9, p, 1, a, splitLineMemory[3])
+        }}, {5, {
+            drawLine(3, p, 1, a, splitLineMemory[1]), 
+            drawLine(5, p, 1, a, splitLineMemory[2]), 
+            drawLine(7, p, 1, a, splitLineMemory[3]), 
+            drawLine(9, p, 1, a, splitLineMemory[4])
+        }}, {6, {
+            drawLine(2, p, 1, a, splitLineMemory[1]), 
+            drawLine(4, p, 1, a, splitLineMemory[2]), 
+            drawLine(6, p, 1, a, splitLineMemory[3]), 
+            drawLine(8, p, 1, a, splitLineMemory[4]), 
+            drawLine(10, p, 1, a, splitLineMemory[5])
+        }}
+    }));
+    return VOID;
+}
+
+SonolusApi setSplitLine(vector<let> lines) {
+	FUNCBEGIN
+    for (int i = 0; i < 16; i++)
+        splitLineMemory.set(i, lines[i % lines.size()]);
+    return VOID;
+}

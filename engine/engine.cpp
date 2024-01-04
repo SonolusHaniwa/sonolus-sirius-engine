@@ -13,7 +13,7 @@ using namespace playData;
 #include"data/constants.cpp"
 #include"data/types.cpp"
 #include"data/utils.cpp"
-// #include"getSplitLine.cpp"
+#include"getSplitLine.cpp"
 #include"data/archetypes/Initialization.cpp"
 #include"data/archetypes/InputManager.cpp"
 #include"data/archetypes/Stage.cpp"
@@ -30,7 +30,7 @@ using namespace playData;
 #include"data/archetypes/holdNotes/HoldEnd.cpp"
 #include"data/archetypes/holdNotes/ScratchHoldEnd.cpp"
 #include"data/archetypes/SyncLine.cpp"
-// #include"data/archetypes/SplitLine.cpp"
+#include"data/archetypes/SplitLine.cpp"
 #elif tutorial
 using namespace tutorialData;
 #include"skins.cpp"
