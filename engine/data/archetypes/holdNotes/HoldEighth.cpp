@@ -17,8 +17,8 @@ class SiriusHoldEighth: public Archetype {
    		FUNCBEGIN
         IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
-		inputTimeMin = beat - judgment.bad;
-		inputTimeMax = beat + judgment.bad;
+		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
+		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		isHolding = false;
 		lastHoldTime = -1;
         return VOID;
