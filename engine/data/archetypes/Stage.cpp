@@ -49,7 +49,7 @@ class Stage: public Archetype {
 		Rect hitbox = getHitbox(1, 12);
 		FOR (i, 0, touches.size, 1) {
 			IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI 
-			IF (usedTouchId.indexOf(touches[i].id) != -1) CONTINUE; FI
+			IF (disallowEmptiesNow.indexOf(touches[i].id) != -1) CONTINUE; FI
 			IF (touches[i].started == 1) {
 				Play(Clips.Stage,minSFXDistance);
 				spawnLineEffect(xToL(touches[i].x), xToL(touches[i].x));

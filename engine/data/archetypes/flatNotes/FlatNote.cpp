@@ -9,7 +9,7 @@ class FlatNote : public Archetype {
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
-    Variable<EntityMemoryId> mapId;
+    Variable<EntityMemoryId> touchTime;
     virtual let getSprite() { return -1; }
     virtual let getBucket() { return -1; }
     virtual ClipsArray getClips() { return {}; }
@@ -24,7 +24,7 @@ class FlatNote : public Archetype {
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad;
 		inputTimeMax = beat + judgment.bad;
-		mapId = -1;
+		touchTime = -1;
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -44,7 +44,7 @@ class FlatNote : public Archetype {
 		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
 		IF (res2 == 3) Play(getClips().good, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(getEffects().linear, getEffects().circular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
+		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); Debuglog(t); Debuglog(touchTime); DebugPause(); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
@@ -56,10 +56,12 @@ class FlatNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(-1); FI
-		IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
-		mapId = inputList.size;
-		inputList.add(EntityInfo.get(0), -1);
+		IF (times.now > inputTimeMax) complete(-2); FI
+		IF (touchTime != -1) complete(touchTime); FI
+		claimStart(EntityInfo.get(0));
+		// IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
+		// mapId = inputList.size;
+		// inputList.add(EntityInfo.get(0), -1);
 		return VOID;
 	}
 
@@ -71,6 +73,16 @@ class FlatNote : public Archetype {
 	// 		} FI
 	// 	};
 	// }
+	SonolusApi touch() {
+		FUNCBEGIN
+		IF (times.now < inputTimeMin) Return(0); FI
+		IF (touchTime != -1) Return(0); FI
+		let index = getClaimedStart(EntityInfo.get(0));
+		IF (index == -1) Return(0); FI
+		disallowEmptiesNow.set(index, 1);
+		touchTime = times.now;
+		return VOID;
+	}
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN

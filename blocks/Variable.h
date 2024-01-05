@@ -20,7 +20,11 @@ class Variable {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-    template<int T> Variable(Variable<T> val) {
+	Variable(const Variable<identifierId>& val) {
+		offset = allocatorSize[identifierId]++;
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
+	}
+	template<int T> Variable(Variable<T> val) {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
@@ -32,7 +36,7 @@ class Variable {
     	this->offset = offset;
     }
 
-	FuncNode get() {
+	FuncNode get() const {
 		return FuncNode(RuntimeFunction.Get, {identifierId, offset});
 	}
     void set(int val) {

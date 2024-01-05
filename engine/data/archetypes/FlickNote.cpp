@@ -10,7 +10,7 @@ class FlickNote : public Archetype {
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
-    Variable<EntityMemoryId> mapId;
+    Variable<EntityMemoryId> touchTime;
     Variable<EntityMemoryId> activate;
 
     SonolusApi spawnOrder() { return 1000 + beat; }
@@ -22,7 +22,7 @@ class FlickNote : public Archetype {
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad;
 		inputTimeMax = beat + judgment.bad;
-		mapId = -1;
+		touchTime = -1;
 		activate = 0;
         return VOID;
 		// beat.set(Buckets.NormalNote),
@@ -52,16 +52,11 @@ class FlickNote : public Archetype {
 			IF (activate == 1) complete(inputTimeMax);
 			ELSE complete(-1); FI
 		} FI
-		IF (activate == 0) {
-			IF (mapId != -1 && inputList_old.getValById(mapId) != -1) {
-				activate = 1;
-			} FI
-		} FI
+		IF (activate == 0 && touchTime != -1) activate = 1; FI
+		IF (activate == 0) claimStart(EntityInfo.get(0)); FI
 		IF (activate == 1) {
 			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
 		} FI
-		mapId = inputList.size;
-		inputList.add(EntityInfo.get(0), -1);
 		return VOID;
 	}
 
@@ -73,6 +68,17 @@ class FlickNote : public Archetype {
 	// 		} FI
 	// 	};
 	// }
+
+	SonolusApi touch() {
+		FUNCBEGIN
+		IF (times.now < inputTimeMin) Return(0); FI
+		IF (touchTime != -1) Return(0); FI
+		let index = getClaimedStart(EntityInfo.get(0));
+		IF (index == -1) Return(0); FI
+		disallowEmptiesNow.set(index, 1);
+		touchTime = times.now;
+		return VOID;
+	}
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
