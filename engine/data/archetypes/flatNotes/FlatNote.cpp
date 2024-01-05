@@ -44,7 +44,7 @@ class FlatNote : public Archetype {
 		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
 		IF (res2 == 3) Play(getClips().good, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(getEffects().linear, getEffects().circular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); Debuglog(t); Debuglog(touchTime); DebugPause(); FI
+		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
@@ -55,9 +55,9 @@ class FlatNote : public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (touchTime != -1) complete(touchTime); FI
 		IF (times.now < inputTimeMin) Return(0); FI
 		IF (times.now > inputTimeMax) complete(-2); FI
-		IF (touchTime != -1) complete(touchTime); FI
 		claimStart(EntityInfo.get(0));
 		// IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
 		// mapId = inputList.size;

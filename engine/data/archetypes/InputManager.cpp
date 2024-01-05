@@ -63,12 +63,12 @@ class ClaimManager {
 		var currentId = index;
 		ClaimInfo info = getInfo(currentId);
 		WHILE (true) {
-			let touchIndex = findBestTouchIndex(currentId);
+			var touchIndex = findBestTouchIndex(currentId);
 			IF (touchIndex == -1) BREAK; FI
 			
 			let claimIndex = claimed.indexOf(touchIndex);
-			Debuglog(info.fullHitbox.l); Debuglog(info.fullHitbox.r);
-			Debuglog(touchIndex); Debuglog(info.index); Debuglog(info.time); Debuglog(claimIndex);
+			// Debuglog(info.fullHitbox.l); Debuglog(info.fullHitbox.r);
+			// Debuglog(touchIndex); Debuglog(info.index); Debuglog(info.time); Debuglog(claimIndex);
 			IF (claimIndex == -1) {
 				claimed.set(touchIndex, currentId); 
 				// Debuglog(claimed.indexOf(touchIndex));
@@ -76,12 +76,13 @@ class ClaimManager {
 				BREAK;
 			} FI
 
-			// ClaimInfo replaced = getInfo(claimIndex);
+			// ClaimInfo replaced = getInfo(cldaimIndex);
 			var tmp = currentId;
 			currentId = claimed.getValById(claimIndex);
+			// Debuglog(touchIndex);
 			claimed.set(touchIndex, tmp);
-			Debuglog(claimed.getValById(claimIndex));
-			Debuglog(claimed.size);
+			// Debuglog(claimed.getValById(claimIndex));
+			// Debuglog(claimed.size);
 		} DONE
 		return VOID;
 	}
@@ -191,11 +192,11 @@ class InputManager: public Archetype {
 		} DONE
 		disallowEmptiesNow.clear();
 		FOR (i, 0, touches.size, 1) {
-			IF (touches[i].started) {
-				Debuglog(touches[i].id);
-				Debuglog(touches[i].x);
-				Debuglog(touches[i].y);
-			} FI
+			// IF (touches[i].started) {
+			// 	Debuglog(touches[i].id);
+			// 	Debuglog(touches[i].x);
+			// 	Debuglog(touches[i].y);
+			// } FI
 			IF (disallowEmptiesOld.indexOf(touches[i].id) != -1)
 				disallowEmptiesNow.add(touches[i].id, 1); 
 			FI

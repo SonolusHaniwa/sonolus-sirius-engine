@@ -1,2 +1,0 @@
-CueSheetName,CueName,DelaySeconds,CueSheetDirectory
-Music,79,3.0458,Game

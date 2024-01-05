@@ -40,7 +40,7 @@ class Map {
 	SonolusApi set(T1 key, T2 value) {
 		FUNCBEGIN
 		let id = indexOf(key);
-		Debuglog(id);
+		// Debuglog(id);
 		IF (id == -1) add(key, value); 
 		ELSE val.set(id, value); FI
 		return VOID;

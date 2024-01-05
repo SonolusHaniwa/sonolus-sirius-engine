@@ -48,11 +48,11 @@ class FlickNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
+		IF (activate == 0 && touchTime != -1) activate = 1; FI
 		IF (times.now > inputTimeMax) {
 			IF (activate == 1) complete(inputTimeMax);
 			ELSE complete(-1); FI
 		} FI
-		IF (activate == 0 && touchTime != -1) activate = 1; FI
 		IF (activate == 0) claimStart(EntityInfo.get(0)); FI
 		IF (activate == 1) {
 			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
