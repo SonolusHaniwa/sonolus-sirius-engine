@@ -1,6 +1,10 @@
 #ifndef GZIP_H
 #define GZIP_H
+#ifdef __EMSCRIPTEN__
 #include"/usr/include/zlib.h"
+#else 
+#include<zlib.h>
+#endif
 
 using std::string;
 using std::stringstream;
