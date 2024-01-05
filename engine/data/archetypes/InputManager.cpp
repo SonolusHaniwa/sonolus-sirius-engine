@@ -1,3 +1,6 @@
+Map<LevelMemoryId, let, let> disallowEmptiesNow(16);
+Map<LevelMemoryId, let, let> disallowEmptiesOld(16);
+
 class ClaimManager {
 	public:
 	
@@ -65,6 +68,7 @@ class ClaimManager {
 		WHILE (true) {
 			var touchIndex = findBestTouchIndex(currentId);
 			IF (touchIndex == -1) BREAK; FI
+			disallowEmptiesNow.set(touchIndex, 1);
 			
 			let claimIndex = claimed.indexOf(touchIndex);
 			// Debuglog(info.fullHitbox.l); Debuglog(info.fullHitbox.r);
@@ -80,7 +84,8 @@ class ClaimManager {
 			var tmp = currentId;
 			currentId = claimed.getValById(claimIndex);
 			// Debuglog(touchIndex);
-			claimed.set(touchIndex, tmp);
+			// claimed.set(touchIndex, tmp);
+			claimed.val.set(claimIndex, tmp);
 			// Debuglog(claimed.getValById(claimIndex));
 			// Debuglog(claimed.size);
 		} DONE
@@ -105,8 +110,6 @@ class ClaimManager {
 	}
 };
 
-Map<LevelMemoryId, let, let> disallowEmptiesNow(16);
-Map<LevelMemoryId, let, let> disallowEmptiesOld(16);
 ClaimManager claimStartManager = ClaimManager();
 SonolusApi claimStart(let index) {
 	FUNCBEGIN
@@ -152,7 +155,7 @@ SonolusApi findFlickTouch(let lane, let enLane) {
 	FOR (i, 0, touches.size, 1) {
 		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
 		IF (touches[i].vr < minFlickVR) CONTINUE; FI
-		// usedTouchId.set(touches[i].id, 1);
+		disallowEmptiesNow.set(touches[i].id, 1);
 		Return(touches[i].id);
 	} DONE
 	Return(-1);
@@ -164,7 +167,7 @@ SonolusApi findHoldTouch(let lane, let enLane) {
 	Rect hitbox = getFullHitbox(lane, enLane);
 	FOR (i, 0, touches.size, 1) {
 		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
-		// usedTouchId.set(touches[i].id, 1);
+		disallowEmptiesNow.set(touches[i].id, 1);
 		Return(touches[i].id);
 	} DONE
 	Return(-1);
