@@ -104,6 +104,20 @@ class FuncNode {
 		}
 	}
 
+	string toString(int tabLength = 0) {
+		stringstream ss; string pre = "";
+		for (int i = 0; i < tabLength; i++) pre += "  ";
+		EngineDataNode node = dataContainer[nodeId];
+		if (node.type == "value") return ss << pre << node.value.value << ", ", ss.str();
+		ss << pre << node.func.func << "(" << endl;
+		for (int i = 0; i < node.func.args.size(); i++) {
+			FuncNode newNode = 0;
+			newNode.nodeId = node.func.args[i];
+			ss << newNode.toString(tabLength + 1) << endl;
+		} ss << pre << "),";
+		return ss.str();
+	}
+
 	// 供 CustomClass 使用的参数，防止 CustomClass 编译报错，实际 FuncNode 用不到
 	int classSize = 1;
 	vector<function<void(FuncNode)> > deserializiers = {
@@ -119,4 +133,8 @@ class FuncNode {
 		(*this) = val;
 	}
 };
+
+ostream& operator << (ostream& fout, FuncNode node) {
+	return fout << node.toString();
+}
 #endif

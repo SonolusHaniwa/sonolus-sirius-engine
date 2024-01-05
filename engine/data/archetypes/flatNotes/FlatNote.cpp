@@ -79,7 +79,6 @@ class FlatNote : public Archetype {
 		IF (touchTime != -1) Return(0); FI
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
-		disallowEmptiesNow.set(index, 1);
 		touchTime = times.now;
 		return VOID;
 	}
