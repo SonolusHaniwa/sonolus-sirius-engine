@@ -87,6 +87,9 @@ class FlatNote : public Archetype {
 	SonolusApi updateParallel() {
 		FUNCBEGIN
 		drawNormalNote(getSprite(), lane, enLane, beat);
+		Rect hitbox = getFullHitbox(lane, enLane);
+		hitbox.b = -0.2, hitbox.t = 0.2;
+		// Draw(Sprites.SyncLine, hitbox.l, hitbox.b, hitbox.l, hitbox.t, hitbox.r, hitbox.t, hitbox.r, hitbox.b, 100000, 1);
 		// let index = getTouch(lane, enLane);
 		// touchIndex = index;
 		return VOID;

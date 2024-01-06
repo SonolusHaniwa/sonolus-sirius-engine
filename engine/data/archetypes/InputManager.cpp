@@ -18,7 +18,7 @@ class ClaimManager {
 	ClaimInfo getInfo(let id) {
 		let time = EntityDataArray[id].get(0);
 		let lane = EntityDataArray[id].get(1);
-		let enLane = EntityDataArray[id].get(2) + lane;
+		let enLane = EntityDataArray[id].get(2) + lane - 1;
 		return {
 			index: id,
 			time: time,
@@ -36,6 +36,10 @@ class ClaimManager {
 			IF (touches[i].started == 0) CONTINUE; FI
 			// Debuglog(origin.fullHitbox.l); Debuglog(origin.fullHitbox.r);
 			IF (origin.fullHitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+			// IF (EntityDataArray[index].get(1) == 4 && EntityDataArray[index].get(2) == 3) 
+			// Debuglog(origin.fullHitbox.l);
+			// Debuglog(origin.fullHitbox.r);
+			// DebugPause(); FI
 
 			let dis = Abs(touches[i].x - x);
 			IF (res != -1 && minDis <= dis) CONTINUE; FI
@@ -270,5 +274,16 @@ class InputManager: public Archetype {
 		// 	// IF (best == -1) Debuglog(touches[i].id); Debuglog(best); FI
 		// } DONE
 		// return VOID;
+	}
+
+	SonolusApi touch() {
+		FUNCBEGIN
+		Rect hitbox = getFullHitbox(4, 6);
+		FOR (i, 0, touches.size, 1) {
+			IF (touches[i].started == 0) CONTINUE; FI
+			Debuglog(hitbox.l); Debuglog(hitbox.r);
+			Debuglog(touches[i].x); Debuglog(hitbox.contain(touches[i].x, touches[i].y));
+		} DONE
+		return VOID;
 	}
 };
