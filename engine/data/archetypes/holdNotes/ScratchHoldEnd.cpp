@@ -50,7 +50,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		EntityInput.set(3, t - beat);
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
+		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI

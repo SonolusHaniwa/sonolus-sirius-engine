@@ -52,7 +52,7 @@ class ClaimManager {
 				res = touches[i].id; minDis = dis;
 				CONTINUE;
 			} FI
-
+         
 			IF (claim.hitbox.contain(touches[i].x, touches[i].y) == 1) CONTINUE; FI
 			IF (origin.hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
 			res = touches[i].id; minDis = dis;
@@ -68,6 +68,7 @@ class ClaimManager {
 		WHILE (true) {
 			var touchIndex = findBestTouchIndex(currentId);
 			IF (touchIndex == -1) BREAK; FI
+			// Debuglog(touchIndex);
 			disallowEmptiesNow.set(touchIndex, 1);
 			
 			let claimIndex = claimed.indexOf(touchIndex);
@@ -80,13 +81,18 @@ class ClaimManager {
 				BREAK;
 			} FI
 
-			// ClaimInfo replaced = getInfo(cldaimIndex);
+			// ClaimInfo replaced = getInfo(cldaimIndex)
+			// Debuglog(claimed.indexOf(touchIndex));
 			var tmp = currentId;
 			currentId = claimed.getValById(claimIndex);
+			// Debuglog(tmp);
+			// Debuglog(claimed.indexOf(touchIndex));
+			claimed.set(touchIndex, tmp);
+			// DebugPause();
+			// claimed.val.set(claimIndex, tmp);
 			// Debuglog(touchIndex);
-			// claimed.set(touchIndex, tmp);
-			claimed.val.set(claimIndex, tmp);
 			// Debuglog(claimed.getValById(claimIndex));
+			// IF (claimed.getValById(claimIndex) != tmp) DebugPause(); FI
 			// Debuglog(claimed.size);
 		} DONE
 		return VOID;

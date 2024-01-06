@@ -21,6 +21,7 @@ class FlatNote : public Archetype {
 	SonolusApi preprocess() {
 		FUNCBEGIN
         IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
+		// cout << lane.offset << endl;
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
@@ -55,9 +56,8 @@ class FlatNote : public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (touchTime != -1) complete(touchTime); FI
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(-2); FI
+		IF (times.now > inputTimeMax) complete(-1); FI
 		claimStart(EntityInfo.get(0));
 		// IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
 		// mapId = inputList.size;
@@ -76,10 +76,11 @@ class FlatNote : public Archetype {
 	SonolusApi touch() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (touchTime != -1) Return(0); FI
+		// IF (touchTime != -1) Return(0); FI
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
-		touchTime = times.now;
+		// Debuglog(index);
+		complete(times.now);
 		return VOID;
 	}
 
