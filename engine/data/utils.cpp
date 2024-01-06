@@ -220,7 +220,7 @@ SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
     auto m1 = line1.getWidth(p - tickHeight / 2 / stage.h * multiplier) / lines[lane].getWidth(1);
     auto m2 = line1.getWidth(p + tickHeight / 2 / stage.h * multiplier) / lines[lane].getWidth(1);
 	auto cb = Vec((c2.x + c4.x) / 2, (c2.y + c4.y) / 2), ct = Vec((c1.x + c3.x) / 2, (c1.y + c3.y) / 2);
-	auto lb = cb + Vec(-1 * m2 * tickWidth / 2, 0), lt = ct + Vec(-1 * m1 * tickWidth / 2, 0);
+	auto lb = cb - Vec(m2 * tickWidth / 2, 0), lt = ct - Vec(m1 * tickWidth / 2, 0);
 	auto rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
 	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 0.5);
 	return VOID;
@@ -243,6 +243,27 @@ SonolusApi drawSyncLine(let beat, let lane, let enLane) {
     auto rb = c4 + Vec(w2 / 2 - noteMoveLength * multiplier, 0), 
     	 rt = c3 + Vec(w1 / 2 - noteMoveLength * multiplier, 0);
     Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 5, 0.8);
+    return VOID;
+}
+
+SonolusApi drawHiddenLine() {
+	FUNCBEGIN
+    let sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - LevelOption.get(Options.Hidden)) * appearTime;
+    var p = ease((times.now - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    auto multiplier = w / lines[lane].getWidth(1);
+    auto c1 = line1.getPosition(p - hiddenLineHeight / 2 / stage.h * multiplier);
+    auto c2 = line1.getPosition(p + hiddenLineHeight / 2 / stage.h * multiplier);
+    auto c3 = line2.getPosition(p - hiddenLineHeight / 2 / stage.h * multiplier);
+    auto c4 = line2.getPosition(p + hiddenLineHeight / 2 / stage.h * multiplier);
+    auto w1 = line1.getWidth(p - hiddenLineHeight / 2 / stage.h * multiplier);
+    auto w2 = line1.getWidth(p + hiddenLineHeight / 2 / stage.h * multiplier);
+    auto lb = c2 - Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0), 
+    	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0), 
+    	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10, 0.6);
     return VOID;
 }
 
