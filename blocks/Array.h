@@ -28,12 +28,12 @@ class Array {
 	T operator [] (FuncNode id) {
 		return get(id);
 	}
-	bool outputed = false;
+	// bool outputed = false;
 	SonolusApi indexOf(T obj, let en) { // 时间复杂度 O(capacity * classSize)
 		FUNCBEGIN
-		// FOR (i, 0, Min(capacity, en), 1) { // 暂时禁用 en 选项
-		FOR (i, 0, capacity, 1) {
-			if (!outputed) cout << get(i) << endl << obj << endl, outputed = true;
+		FOR (i, 0, Min(capacity, en), 1) { 
+		// FOR (i, 0, capacity, 1) { // 暂时禁用 en 选项
+			// if (!outputed) cout << get(i) << endl << obj << endl, outputed = true;
 			IF (get(i) == obj) Return(i); FI
 		} DONE
 		Return(-1);

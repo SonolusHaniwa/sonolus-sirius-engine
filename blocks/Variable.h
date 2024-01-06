@@ -53,10 +53,12 @@ class Variable {
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
 
-	Variable<identifierId> operator = (Variable<identifierId> val) { set(val); return *this; }
-	// Variable<identifierId> operator = (FuncNode val) { set(val); return *this; }
-	template<typename T>
-    Variable<identifierId> operator = (T val) { set(val); return *this; };
+	// template<int T>
+	// Variable<identifierId> operator = (Variable<T> val) { set(val); return *this; }
+	Variable<identifierId> operator = (double val) { set(val); return Variable<identifierId>(offset, true); }
+	Variable<identifierId> operator = (FuncNode val) { set(val); return Variable<identifierId>(offset, true); }
+	// template<typename T>
+    // Variable<identifierId> operator = (T val) { set(val); return *this; };
 
     operator FuncNode() {
     	return get();
