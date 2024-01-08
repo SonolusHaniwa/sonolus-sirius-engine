@@ -189,10 +189,8 @@ void buildArchetype() {
     EnginePreviewDataArchetype newArchetype;
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
-    newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
-    newArchetype.render.order = archetype.renderOrder;
-    newArchetype.render.index = Block(archetype.render()).getNodeId();
+    compileCallbackHead(preprocess);
+    compileCallback(render);
     newArchetype.data = archetype.data;
     enginePreviewData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
@@ -206,20 +204,13 @@ void buildArchetype() {
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
-    newArchetype.preprocess.order = archetype.preprocessOrder;
-    newArchetype.preprocess.index = Block(archetype.preprocess()).getNodeId();
-    newArchetype.spawnTime.order = archetype.spawnTimeOrder;
-    newArchetype.spawnTime.index = Block(archetype.spawnTime()).getNodeId();
-    newArchetype.despawnTime.order = archetype.despawnTimeOrder;
-    newArchetype.despawnTime.index = Block(archetype.despawnTime()).getNodeId();
-    newArchetype.initialize.order = archetype.initializeOrder;
-    newArchetype.initialize.index = Block(archetype.initialize()).getNodeId();
-    newArchetype.updateSequential.order = archetype.updateSequentialOrder;
-    newArchetype.updateSequential.index = Block(archetype.updateSequential()).getNodeId();
-    newArchetype.updateParallel.order = archetype.updateParallelOrder;
-    newArchetype.updateParallel.index = Block(archetype.updateParallel()).getNodeId();
-    newArchetype.terminate.order = archetype.terminateOrder;
-    newArchetype.terminate.index = Block(archetype.terminate()).getNodeId();
+    compileCallbackHead(preprocess);
+    compileCallback(spawnTime);
+    compileCallback(despawnTime);
+    compileCallback(initialize);
+    compileCallback(updateSequential);
+    compileCallback(updateParallel);
+    compileCallback(terminate);
     newArchetype.data = archetype.data;
     engineWatchData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
@@ -265,14 +256,16 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 		 << (globalCounter - lastGlobalCounter) << " nodes." << endl;
     dataBuffer = compress_gzip(json_encode(engineTutorialData.toJsonObject()));
 #elif preview
-	allocateArchetypeId<Args...>(Args()...);
-    buildArchetype<Args...>(Args()...);
+	allocateArchetypeId<Args...>();
+    buildArchetype<Args...>();
 	enginePreviewData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(enginePreviewData.toJsonObject()));
 #elif watch
-	allocateArchetypeId<Args...>(Args()...);
-    buildArchetype<Args...>(Args()...);
-	engineWatchData.updateSpawn = Block(engineWatchData_updateSpawn()).getNodeId();
+	allocateArchetypeId<Args...>();
+    buildArchetype<Args...>();
+    createNodeContainer(); auto tmpres = engineWatchData_updateSpawn();
+	if (nodesContainer.top().size() == 0) Return(tmpres);
+	engineWatchData.updateSpawn = mergeNodeContainer().getNodeId();
 	engineWatchData.nodes = dataContainer;
     dataBuffer = compress_gzip(json_encode(engineWatchData.toJsonObject()));
 #endif
@@ -314,8 +307,8 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #include"items/PlayData.h"
 // #include"items/TutorialData.h"
 // #include"items/PreviewData.h"
-// #include"items/WatchData.h"
-// #include"items/SkinData.h"
-// #include"items/EffectData.h"
+#include"items/WatchData.h"
+#include"items/SkinData.h"
+#include"items/EffectData.h"
 
 #undef R

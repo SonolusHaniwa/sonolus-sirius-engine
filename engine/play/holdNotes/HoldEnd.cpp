@@ -18,7 +18,7 @@ class SiriusHoldEnd: public Archetype {
 
     SonolusApi preprocess() {
    		FUNCBEGIN
-        IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);

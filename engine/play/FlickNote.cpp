@@ -1,6 +1,7 @@
-class FlatNote : public Archetype {
+class FlickNote : public Archetype {
     public:
 
+	static constexpr const char* name = "Sirius Flick Note";
     bool hasInput = true;
 
 	defineEntityData(beat);
@@ -9,23 +10,18 @@ class FlatNote : public Archetype {
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
-    Variable<EntityMemoryId> touchTime;
-    virtual let getSprite() { return -1; }
-    virtual let getBucket() { return -1; }
-    virtual ClipsArray getClips() { return {}; }
-    virtual EffectsArray getEffects() { return {}; }
+    Variable<EntityMemoryId> activate;
 
     SonolusApi spawnOrder() { return 1000 + beat; }
     SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
 
 	SonolusApi preprocess() {
 		FUNCBEGIN
-        IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
-		// cout << lane.offset << endl;
+        IF (mirror) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
-		touchTime = -1;
+		activate = 0;
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -33,35 +29,31 @@ class FlatNote : public Archetype {
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
 		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.great) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
-		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
+		IF (Abs(t - beat) <= judgment.bad) res = 3, res2 = 2; FI
+		IF (Abs(t - beat) <= judgment.perfect) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
-		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
-		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
-		IF (res2 == 3) Play(getClips().good, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(getEffects().linear, getEffects().circular, lane, enLane); FI
+		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
+		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
+		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
-		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
-		IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood); FI
-		IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(-1); FI
-		claimStart(EntityInfo.get(0));
-		// IF (mapId != -1 && inputList_old.getValById(mapId) != -1) complete(); FI
-		// mapId = inputList.size;
-		// inputList.add(EntityInfo.get(0), -1);
+		IF (times.now > inputTimeMax) {
+			IF (activate == 1) complete(inputTimeMax);
+			ELSE complete(-1); FI
+		} FI
+		IF (activate == 0) claimStart(EntityInfo.get(0)); FI
+		IF (activate == 1) {
+			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
+		} FI
 		return VOID;
 	}
 
@@ -73,25 +65,33 @@ class FlatNote : public Archetype {
 	// 		} FI
 	// 	};
 	// }
+
 	SonolusApi touch() {
 		FUNCBEGIN
 		IF (times.now < inputTimeMin) Return(0); FI
 		// IF (touchTime != -1) Return(0); FI
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
-		// Debuglog(index);
-		complete(times.now);
+		activate = 1;
 		return VOID;
 	}
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawNormalNote(getSprite(), lane, enLane, beat);
-		Rect hitbox = getFullHitbox(lane, enLane);
-		hitbox.b = -0.2, hitbox.t = 0.2;
-		// Draw(Sprites.SyncLine, hitbox.l, hitbox.b, hitbox.l, hitbox.t, hitbox.r, hitbox.t, hitbox.r, hitbox.b, 100000, 1);
+		drawNormalNote(Sprites.ScratchNote, lane, enLane, beat);
+		drawArrow(lane, enLane, beat);
 		// let index = getTouch(lane, enLane);
 		// touchIndex = index;
 		return VOID;
-	}	
+	}
+
+ //    var updateParallel() {
+	// 	return {
+	//         IF (times.now > beat + judgment.good) {
+	//             EntityInput.set(0, 0),
+	//             EntityInput.set(1, 0),
+	//             EntityDespawn.set(0, 1),
+	//         } FI
+	//     };	
+	// }
 };

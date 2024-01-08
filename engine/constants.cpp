@@ -32,15 +32,35 @@ double judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 double judgeTextHeight = 0.15;               // 判定文字高度
-double judgeTextDuration = 0.2;			  // 判定文字动画时长
+double judgeTextDuration = 0.2;			     // 判定文字动画时长
+
+#ifdef play
+let mirror = LevelOption.get(Options.Mirror);
+let speed = LevelOption.get(Options.NoteSpeed);
+let hidden = LevelOption.get(Options.Hidden);
+let splitRandom = LevelOption.get(Options.SplitRandom);
+let splitLine = LevelOption.get(Options.SplitLine);
+let syncLine = LevelOption.get(Options.SyncLine);
+let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
+let extraWidth = LevelOption.get(Options.ExtraWidth);
+#elif watch
+let mirror = LevelOption.get(Options.Mirror);
+let speed = LevelOption.get(Options.NoteSpeed);
+let hidden = LevelOption.get(Options.Hidden);
+let splitRandom = LevelOption.get(Options.SplitRandom);
+let splitLine = LevelOption.get(Options.SplitLine);
+let syncLine = LevelOption.get(Options.SyncLine);
+let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
+let extraWidth = LevelOption.get(Options.ExtraWidth);
+#endif
 
 class stage {
 	public:
 
-	Variable<EntityMemoryId> w = If(LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio < targetAspectRatio,
-        screen.w * LevelOption.get(Options.ExtraWidth),
+	Variable<EntityMemoryId> w = If(lockAspectRatio == 0 || screen.aspectRatio < targetAspectRatio,
+        screen.w * extraWidth,
         screen.h * targetAspectRatio);
-    Variable<EntityMemoryId> h = If(LevelOption.get(Options.LockAspectRatio) == 0 || screen.aspectRatio > targetAspectRatio,
+    Variable<EntityMemoryId> h = If(lockAspectRatio == 0 || screen.aspectRatio > targetAspectRatio,
         screen.h,
         screen.w / targetAspectRatio);
     Variable<EntityMemoryId> l = -1 * w / 2;
@@ -63,11 +83,11 @@ class judgline {
     let rtY = ltY;
 }judgline;
 
-let appearTime = (7.4 / LevelOption.get(Options.NoteSpeed));
+let appearTime = (7.4 / speed);
 let noteSpeed = stage.h / appearTime;
 
 let t = If(
-	LevelOption.get(Options.LockAspectRatio) && screen.aspectRatio < targetAspectRatio,
+	lockAspectRatio && screen.aspectRatio < targetAspectRatio,
 	screen.w / targetAspectRatio * 0.5,
 	screen.t
 );

@@ -8,7 +8,7 @@ let ease(let x) {
 	return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
 }
 
-let hiddenPercent = ease(LevelOption.get(Options.Hidden));
+let hiddenPercent = ease(hidden);
 class line {
     public:
 
@@ -248,7 +248,7 @@ SonolusApi drawSyncLine(let beat, let lane, let enLane) {
 
 SonolusApi drawHiddenLine() {
 	FUNCBEGIN
-    let sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - LevelOption.get(Options.Hidden)) * appearTime;
+    let sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - hidden) * appearTime;
     var p = ease((times.now - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
@@ -328,7 +328,7 @@ SonolusApi drawLine(let id, let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
 	return VAR;
 }
 
@@ -344,7 +344,7 @@ SonolusApi drawEndLine(let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
 	return VOID;
 }
 
