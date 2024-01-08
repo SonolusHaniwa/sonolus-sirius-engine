@@ -46,7 +46,7 @@ class Array {
 	}
 	SonolusApi clear() {
 		FUNCBEGIN
-		FOR (i, offset, offset + capacity * classSize + 1, 1) {
+		FOR (i, offset, offset + capacity * classSize, 1) {
 			Set(identifierId, i, 0);
 		} DONE
 		return VOID;

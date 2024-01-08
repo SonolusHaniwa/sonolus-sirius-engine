@@ -198,18 +198,25 @@ class InputManager: public Archetype {
 		claimStartManager.clear();
 		disallowEmptiesOld.clear();
 		FOR (i, 0, disallowEmptiesNow.size, 1) {
-			disallowEmptiesOld.add(
+			// Debuglog(disallowEmptiesNow.getKeyById(i));
+			disallowEmptiesOld.set(
 				disallowEmptiesNow.getKeyById(i), 
 				disallowEmptiesNow.getValById(i)
 			);
 		} DONE
+		// cout << disallowEmptiesNow.size.offset << endl;
+		// Debuglog(disallowEmptiesOld.size);
+		// cout << disallowEmptiesOld.size.offset << endl;
 		disallowEmptiesNow.clear();
+		// Debuglog(disallowEmptiesOld.size);
 		FOR (i, 0, touches.size, 1) {
 			// IF (touches[i].started) {
 			// 	Debuglog(touches[i].id);
 			// 	Debuglog(touches[i].x);
 			// 	Debuglog(touches[i].y);
 			// } FI
+			// Debuglog(disallowEmptiesOld.key[0]);
+			// Debuglog(touches[i].id);
 			IF (disallowEmptiesOld.indexOf(touches[i].id) != -1)
 				disallowEmptiesNow.add(touches[i].id, 1); 
 			FI
@@ -276,14 +283,14 @@ class InputManager: public Archetype {
 		// return VOID;
 	}
 
-	SonolusApi touch() {
-		FUNCBEGIN
-		Rect hitbox = getFullHitbox(4, 6);
-		FOR (i, 0, touches.size, 1) {
-			IF (touches[i].started == 0) CONTINUE; FI
-			Debuglog(hitbox.l); Debuglog(hitbox.r);
-			Debuglog(touches[i].x); Debuglog(hitbox.contain(touches[i].x, touches[i].y));
-		} DONE
-		return VOID;
-	}
+	// SonolusApi touch() {
+	// 	FUNCBEGIN
+	// 	Rect hitbox = getFullHitbox(4, 6);
+		// FOR (i, 0, touches.size, 1) {
+		// 	IF (touches[i].started == 0) CONTINUE; FI
+		// 	Debuglog(hitbox.l); Debuglog(hitbox.r);
+		// 	Debuglog(touches[i].x); Debuglog(hitbox.contain(touches[i].x, touches[i].y));
+		// } DONE
+		// return VOID;
+	// }
 };
