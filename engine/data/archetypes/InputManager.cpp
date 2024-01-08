@@ -198,17 +198,17 @@ class InputManager: public Archetype {
 		claimStartManager.clear();
 		disallowEmptiesOld.clear();
 		FOR (i, 0, disallowEmptiesNow.size, 1) {
-			Debuglog(disallowEmptiesNow.getKeyById(i));
+			// Debuglog(disallowEmptiesNow.getKeyById(i));
 			disallowEmptiesOld.set(
 				disallowEmptiesNow.getKeyById(i), 
 				disallowEmptiesNow.getValById(i)
 			);
 		} DONE
 		// cout << disallowEmptiesNow.size.offset << endl;
-		Debuglog(disallowEmptiesOld.size);
+		// Debuglog(disallowEmptiesOld.size);
 		// cout << disallowEmptiesOld.size.offset << endl;
 		disallowEmptiesNow.clear();
-		Debuglog(disallowEmptiesOld.size);
+		// Debuglog(disallowEmptiesOld.size);
 		FOR (i, 0, touches.size, 1) {
 			// IF (touches[i].started) {
 			// 	Debuglog(touches[i].id);
