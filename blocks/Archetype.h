@@ -3,6 +3,7 @@ using namespace std;
 class Archetype {
     public:
 
+	static const bool disableGlobalPreprocess = false;
 	static constexpr const char* name = "Default Archetype";
     bool hasInput = false;
 
@@ -86,6 +87,7 @@ class Archetype {
 class Archetype {
     public:
 
+	static const bool disableGlobalPreprocess = false;
     static constexpr const char* name = "Default Archtype";
     bool hasInput = false;
 

@@ -2,29 +2,29 @@ FuncNode Abs(FuncNode value) {
     return FuncNode(RuntimeFunction.Abs, {value});
 }
 
-vector<FuncNode> Unpack(vector<FuncNode> value, string search) {
-	vector<FuncNode> res;
-	for (int i = 0; i < value.size(); i++) {
-		auto tmp = dataContainer[value[i].getNodeId()];
-		if (tmp.type != "value" && tmp.func.func == search) {
-			vector<FuncNode> args; FuncNode x;
-			for (int j = 0; j < tmp.func.args.size(); j++)
-				x.nodeId = tmp.func.args[j], args.push_back(x);
-			args = Unpack(args, search);
-			for (int j = 0; j < args.size(); j++) res.push_back(args[j]);
-		} else res.push_back(value[i]);
-	} return res;
-}
+// vector<FuncNode> Unpack(vector<FuncNode> value, string search) {
+// 	vector<FuncNode> res;
+// 	for (int i = 0; i < value.size(); i++) {
+// 		auto tmp = dataContainer[value[i].getNodeId()];
+// 		if (tmp.type != "value" && tmp.func.func == search) {
+// 			vector<FuncNode> args; FuncNode x;
+// 			for (int j = 0; j < tmp.func.args.size(); j++)
+// 				x.nodeId = tmp.func.args[j], args.push_back(x);
+// 			args = Unpack(args, search);
+// 			for (int j = 0; j < args.size(); j++) res.push_back(args[j]);
+// 		} else res.push_back(value[i]);
+// 	} return res;
+// }
 
 FuncNode Add(vector<FuncNode> value) {
-	value = Unpack(value, RuntimeFunction.Add);
-	double addValue = 0; vector<FuncNode> args;
-	for (int i = 0; i < value.size(); i++) {
-		auto tmp = dataContainer[value[i].getNodeId()];
-		if (tmp.type == "value") addValue += tmp.value.value;
-		else args.push_back(value[i]);
-	} if (abs(addValue) > 1e-10) args.push_back(addValue);
-    return FuncNode(RuntimeFunction.Add, args);
+	// value = Unpack(value, RuntimeFunction.Add);
+	// double addValue = 0; vector<FuncNode> args;
+	// for (int i = 0; i < value.size(); i++) {
+	// 	auto tmp = dataContainer[value[i].getNodeId()];
+	// 	if (tmp.type == "value") addValue += tmp.value.value;
+	// 	else args.push_back(value[i]);
+	// } if (abs(addValue) > 1e-10) args.push_back(addValue);
+    return FuncNode(RuntimeFunction.Add, value);
 }
 
 FuncNode And(vector<FuncNode> value) {
@@ -349,8 +349,8 @@ FuncNode PlayLoopedScheduled(FuncNode id, FuncNode startTime) {
 }
 
 //
-FuncNode PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
-    return FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance});
+void PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
+    R(FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance}));
 }
 
 FuncNode Power(vector<FuncNode> value) {
@@ -499,9 +499,9 @@ FuncNode Smoothstep(FuncNode a, FuncNode b, FuncNode x) {
 }
 */
 
-FuncNode Spawn(FuncNode id, vector<FuncNode> data) {
+void Spawn(FuncNode id, vector<FuncNode> data) {
 	data.insert(data.begin(), id);
-    return FuncNode(RuntimeFunction.Spawn, data);
+    R(FuncNode(RuntimeFunction.Spawn, data));
 }
 
 void SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {

@@ -150,8 +150,9 @@ int main(int argc, char** argv) {
 	build<
 		// Replace with your archetypes here
 		Initialization,
-		Stage
-		// SiriusNormalNote,
+		Stage,
+		UpdateJudgment,
+		NormalNote
 		// SiriusCriticalNote,
 		// SiriusFlickNote,
 		// SiriusHoldStart,

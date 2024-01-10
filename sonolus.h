@@ -143,23 +143,24 @@ time_t millitime() {
 
 vector<FuncNode> preloadElement;
 
-#define compileCallback(name) newArchetype.name.order = archetype.name##Order; \
+#define compileCallback(name) { newArchetype.name.order = archetype.name##Order; \
 	restoreAllocatorBackup(); currentCallback = #name; \
 	createNodeContainer(); tmpres = archetype.name(); \
 	if (nodesContainer.top().size() == 0) Return(tmpres); \
-	newArchetype.name.index = mergeNodeContainer().getNodeId();
+	newArchetype.name.index = mergeNodeContainer().getNodeId(); }
 
-#define compileCallbackHead(name) newArchetype.name.order = archetype.name##Order; \
+#define compileCallbackHead(name) { newArchetype.name.order = archetype.name##Order; \
 	restoreAllocatorBackup(); currentCallback = #name; \
 	createNodeContainer(); nodesContainer.top() = preloadElement; tmpres = archetype.name(); \
 	if (nodesContainer.top().size() == preloadElement.size()) Return(tmpres); \
-	newArchetype.name.index = mergeNodeContainer().getNodeId();
+	newArchetype.name.index = mergeNodeContainer().getNodeId(); }
 
 template<typename T, typename... Args> 
 void buildArchetype() {
 	lastGlobalCounter = globalCounter;
 	FuncNode tmpres; 
-	restoreAllocatorBackup();
+	if (!T::disableGlobalPreprocess) restoreAllocatorBackup();
+	else memset(allocatorSize, 0, sizeof allocatorSize);
 	currentArchetype = T::name; currentCallback = "[Anonymous Callback]";
 	T archetype = T();
 	createAllocatorBackup();
@@ -169,7 +170,8 @@ void buildArchetype() {
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
-    compileCallbackHead(preprocess);
+	if (!T::disableGlobalPreprocess) { compileCallbackHead(preprocess); }
+	else { compileCallback(preprocess); }
     compileCallback(spawnOrder);
     compileCallback(shouldSpawn);
     compileCallback(initialize);
@@ -204,7 +206,8 @@ void buildArchetype() {
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
     newArchetype.hasInput = archetype.hasInput;
-    compileCallbackHead(preprocess);
+	if (!T::disableGlobalPreprocess) { compileCallbackHead(preprocess); }
+	else { compileCallback(preprocess); }
     compileCallback(spawnTime);
     compileCallback(despawnTime);
     compileCallback(initialize);
