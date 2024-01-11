@@ -19,7 +19,7 @@
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
-        IF (mirror) lane = 14 - lane - laneLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
         enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
