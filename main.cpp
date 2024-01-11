@@ -154,17 +154,17 @@ int main(int argc, char** argv) {
 		UpdateJudgment,
 		NormalNote,
 		CriticalNote,
-		// SiriusFlickNote,
+		FlickNote,
 		SiriusHoldStart,
 		SiriusCriticalHoldStart,
 		SiriusScratchHoldStart,
-		SiriusCriticalScratchHoldStart
-		// SiriusHoldEighth,
-		// SiriusSound,
-		// SiriusHoldEnd,
-		// SiriusScratchHoldEnd,
-		// SiriusSyncLine,
-		// SiriusSplitLine
+		SiriusCriticalScratchHoldStart,
+		SiriusHoldEighth,
+		SiriusSound,
+		SiriusHoldEnd,
+		SiriusScratchHoldEnd,
+		SyncLine,
+		SplitLine
 	>(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

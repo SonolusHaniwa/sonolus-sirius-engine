@@ -304,6 +304,17 @@ SonolusApi spawnHoldEffect(let effect, let lane, let enLane) {
 	return VAR;
 }
 
+SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
+	FUNCBEGIN
+	let w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto lb2 = c1 + Vec(-1 * w / 2, 0), lt2 = c1 + Vec(-1 * w / 2, effectCircularHeight);
+	auto rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
+	MoveParticleEffect(effectInstanceId, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y);
+	return VOID;
+}
+
 SonolusApi SpawnSubJudgeText(let sprite) {
 	FUNCBEGIN
     IF (currentJudgeStartTime.get() == times.now) {
@@ -446,5 +457,5 @@ SonolusApi setSplitLine(vector<let> lines) {
 	FUNCBEGIN
     for (int i = 0; i < 16; i++)
         splitLineMemory.set(i, lines[i % lines.size()]);
-    return VOID;
+    return VAR;
 }

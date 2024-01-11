@@ -309,8 +309,8 @@ FuncNode Mod(vector<FuncNode> value) {
     return FuncNode(RuntimeFunction.Mod, value);
 }
 
-FuncNode MoveParticleEffect(FuncNode particleId, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
-    return FuncNode(RuntimeFunction.MoveParticleEffect, {particleId, x1, y1, x2, y2, x3, y3, x4, y4});
+void MoveParticleEffect(FuncNode particleId, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
+    R(FuncNode(RuntimeFunction.MoveParticleEffect, {particleId, x1, y1, x2, y2, x3, y3, x4, y4}));
 }
 
 FuncNode Multiply(vector<FuncNode> value) {
