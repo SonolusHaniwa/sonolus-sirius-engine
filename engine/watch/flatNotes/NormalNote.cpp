@@ -5,4 +5,10 @@ class NormalNote: public FlatNote {
 
 	let getSprite() { return Sprites.NormalNote; }
 	let getClip() { return Clips.Perfect; }
+	EffectsArray getEffects() {
+		return {
+			linear: Effects.NormalLinear,
+			circular: Effects.NormalCircular
+		};
+	}
 };
