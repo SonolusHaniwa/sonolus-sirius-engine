@@ -2,4 +2,4 @@ emcc emscripten.cpp -o libsirius.js -s MODULARIZE -sALLOW_MEMORY_GROWTH -s EXPOR
 	-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$stringToNewUTF8','$UTF8ToString']\
 	-sEXPORTED_RUNTIME_METHODS=['stringToNewUTF8','UTF8ToString']\
 	-fwasm-exceptions -sASSERTIONS\
-	-L./lib -ljsoncpp -O3
+	-L./lib -ljsoncpp -g -O3

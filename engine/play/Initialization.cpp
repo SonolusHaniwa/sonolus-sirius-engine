@@ -8,54 +8,53 @@ class Initialization: public Archetype {
     SonolusApi preprocess() {
     	FUNCBEGIN
         // 界面开关参数
-        var menuWidth = 0.15 * ui.menuConfiguration.scale;
-        var menuHeight = 0.15 * ui.menuConfiguration.scale;
-        var menuX = screen.r - interfaceGap;
-        var menuY = screen.t - interfaceGap;
+        let menuWidth = 0.15 * ui.menuConfiguration.scale;
+        let menuHeight = 0.15 * ui.menuConfiguration.scale;
+        let menuX = screen.r - interfaceGap;
+        let menuY = screen.t - interfaceGap;
         ui.menu.set(menuX, menuY, 1, 1, menuWidth, menuHeight, 0, ui.menuConfiguration.alpha, HorizontalAlign.Center, true);
         
         // 首要指标参数
-        var primaryMetricBarWidth = 0.75 * ui.primaryMetricConfiguration.scale;
-        var primaryMetricBarHeight = 0.15 * ui.primaryMetricConfiguration.scale;
-        var primaryMetricBarX = screen.l + interfaceGap;
-        var primaryMetricBarY = screen.t - interfaceGap;
-        var primaryMetricValueWidth = 0 * ui.primaryMetricConfiguration.scale;
-        var primaryMetricValueHeight = 0.08 * ui.primaryMetricConfiguration.scale;
-        var primaryMetricValueX = primaryMetricBarX + 0.715 * ui.primaryMetricConfiguration.scale;
-        var primaryMetricValueY = primaryMetricBarY - 0.035 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricBarWidth = 0.75 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricBarHeight = 0.15 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricBarX = screen.l + interfaceGap;
+        let primaryMetricBarY = screen.t - interfaceGap;
+        let primaryMetricValueWidth = 0 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricValueHeight = 0.08 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricValueX = primaryMetricBarX + 0.715 * ui.primaryMetricConfiguration.scale;
+        let primaryMetricValueY = primaryMetricBarY - 0.035 * ui.primaryMetricConfiguration.scale;
         ui.primaryMetricBar.set(primaryMetricBarX, primaryMetricBarY, 0, 1, primaryMetricBarWidth, primaryMetricBarHeight, 0, ui.primaryMetricConfiguration.alpha, HorizontalAlign.Left, true);
         ui.primaryMetricValue.set(primaryMetricValueX, primaryMetricValueY, 1, 1, primaryMetricValueWidth, primaryMetricValueHeight, 0, ui.primaryMetricConfiguration.alpha, HorizontalAlign.Right, false);
         
         // 次要指标参数
-        var secondaryMetricBarWidth = 0.55 * ui.secondaryMetricConfiguration.scale;
-        var secondaryMetricBarHeight = 0.15 * ui.secondaryMetricConfiguration.scale;
-        var secondaryMetricBarX = screen.r - interfaceGap - menuWidth - interfaceGap;
-        var secondaryMetricBarY = screen.t - interfaceGap;
-        var secondaryMetricValueWidth = 0 * ui.secondaryMetricConfiguration.scale;
-        var secondaryMetricValueHeight = 0.08 * ui.secondaryMetricConfiguration.scale;
-        var secondaryMetricValueX = secondaryMetricBarX - 0.035 * ui.secondaryMetricConfiguration.scale;
-        var secondaryMetricValueY = secondaryMetricBarY - 0.035 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricBarWidth = 0.55 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricBarHeight = 0.15 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricBarX = screen.r - interfaceGap - menuWidth - interfaceGap;
+        let secondaryMetricBarY = screen.t - interfaceGap;
+        let secondaryMetricValueWidth = 0 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricValueHeight = 0.08 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricValueX = secondaryMetricBarX - 0.035 * ui.secondaryMetricConfiguration.scale;
+        let secondaryMetricValueY = secondaryMetricBarY - 0.035 * ui.secondaryMetricConfiguration.scale;
         ui.secondaryMetricBar.set(secondaryMetricBarX, secondaryMetricBarY, 1, 1, secondaryMetricBarWidth, secondaryMetricBarHeight, 0, ui.secondaryMetricConfiguration.alpha, HorizontalAlign.Left, true);
         ui.secondaryMetricValue.set(secondaryMetricValueX, secondaryMetricValueY, 1, 1, secondaryMetricValueWidth, secondaryMetricValueHeight, 0, ui.secondaryMetricConfiguration.alpha, HorizontalAlign.Right, false);
         
         // 连击指标参数
-        var comboValueWidth = 0 * ui.comboConfiguration.scale;
-        var comboValueHeight = screen.h * 0.08 * ui.comboConfiguration.scale;
-        var comboValueX = screen.w * 0.4;
-        var comboValueY = Lerp(t, b, 0.425);
-        var comboTextWidth = 0 * ui.comboConfiguration.scale;
-        var comboTextHeight = screen.h * 0.033 * ui.comboConfiguration.scale;
-        var comboTextX = screen.w * 0.4;
-        var comboTextY = Lerp(t, b, 0.425);
+        let comboValueWidth = 0 * ui.comboConfiguration.scale;
+        let comboValueHeight = screen.h * 0.08 * ui.comboConfiguration.scale;
+        let comboValueX = screen.w * 0.4;
+        let comboValueY = Lerp(t, b, 0.425);
+        let comboTextWidth = 0 * ui.comboConfiguration.scale;
+        let comboTextHeight = screen.h * 0.033 * ui.comboConfiguration.scale;
+        let comboTextX = screen.w * 0.4;
+        let comboTextY = Lerp(t, b, 0.425);
         ui.comboValue.set(comboValueX, comboValueY, 0.5, 0.5, comboValueWidth, comboValueHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
         ui.comboText.set(comboTextX, comboTextY, 0.5, 2.75, comboTextWidth, comboTextHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
         
         // 判定指标参数
-        var judgmentX = 0, judgmentY = -0.115 * stage.h;
-        var judgmentWidth = 0;
-    	var judgmentHeight = stage.h * 0.0475 * ui.judgmentConfiguration.scale;
+        let judgmentX = 0, judgmentY = -0.115 * stage.h;
+        let judgmentWidth = 0;
+    	let judgmentHeight = stage.h * 0.0475 * ui.judgmentConfiguration.scale;
         ui.judgment.set(judgmentX, judgmentY, 0.5, 0.5, judgmentWidth, judgmentHeight, 0, ui.judgmentConfiguration.alpha, HorizontalAlign.Center, false);
-
         
         LevelScore.set(0, score.perfect);
         LevelScore.set(1, score.great);
@@ -98,6 +97,5 @@ class Initialization: public Archetype {
     }
 
     SonolusApi spawnOrder() { return 0; }
-
     SonolusApi shouldSpawn() { return 1; }
 };

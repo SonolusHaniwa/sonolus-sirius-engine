@@ -8,7 +8,7 @@ let ease(let x) {
 	return Remap(Power({1.06, -45}), 1.06, 0, 1.06, Power({1.06, 45 * (x - 1)}));
 }
 
-let hiddenPercent = ease(LevelOption.get(Options.Hidden));
+let hiddenPercent = ease(hidden);
 class line {
     public:
 
@@ -248,7 +248,7 @@ SonolusApi drawSyncLine(let beat, let lane, let enLane) {
 
 SonolusApi drawHiddenLine() {
 	FUNCBEGIN
-    let sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - LevelOption.get(Options.Hidden)) * appearTime;
+    let sprite = Sprites.HiddenLine, lane = 1, enLane = 12, beat = times.now + (1 - hidden) * appearTime;
     var p = ease((times.now - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
@@ -304,6 +304,17 @@ SonolusApi spawnHoldEffect(let effect, let lane, let enLane) {
 	return VAR;
 }
 
+SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
+	FUNCBEGIN
+	let w = lines[lane].getWidth(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c1 = lines[lane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto c2 = lines[enLane].getPosition(1 + (effectCircularHeight + effectDistance) / 2 / stage.h);
+	auto lb2 = c1 + Vec(-1 * w / 2, 0), lt2 = c1 + Vec(-1 * w / 2, effectCircularHeight);
+	auto rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
+	MoveParticleEffect(effectInstanceId, lb2.x, lb2.y, lt2.x, lt2.y, rt2.x, rt2.y, rb2.x, rb2.y);
+	return VOID;
+}
+
 SonolusApi SpawnSubJudgeText(let sprite) {
 	FUNCBEGIN
     IF (currentJudgeStartTime.get() == times.now) {
@@ -328,7 +339,7 @@ SonolusApi drawLine(let id, let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
 	return VAR;
 }
 
@@ -344,7 +355,7 @@ SonolusApi drawEndLine(let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * LevelOption.get(Options.SplitLine));
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
 	return VOID;
 }
 
@@ -446,5 +457,5 @@ SonolusApi setSplitLine(vector<let> lines) {
 	FUNCBEGIN
     for (int i = 0; i < 16; i++)
         splitLineMemory.set(i, lines[i % lines.size()]);
-    return VOID;
+    return VAR;
 }

@@ -33,29 +33,29 @@ namespace watchData {
 	const int ArchetypeLifeId = 5000;
 	const int TemporaryMemoryId = 10000;
 	
-	Pointer<RuntimeEnvironmentId> RuntimeEnvironment;
-	Pointer<RuntimeUpdateId> RuntimeUpdate;
-	Pointer<RuntimeSkinTransformId> RuntimeSkinTransform;
-	Pointer<RuntimeParticleTransformId> RuntimeParticleTransform;
-	Pointer<RuntimeBackgroundId> RuntimeBackground;
-	Pointer<RuntimeUIId> RuntimeUI;
-	Pointer<RuntimeUIConfigurationId> RuntimeUIConfiguration;
-	Pointer<LevelMemoryId> LevelMemory;
-	Pointer<LevelDataId> LevelData;
-	Pointer<LevelOptionId> LevelOption;
-	Pointer<LevelScoreId> LevelScore;
-	Pointer<LevelLifeId> LevelLife;
-	Pointer<EngineRomId> EngineRom;
-	Pointer<EntityMemoryId> EntityMemory;
-	Pointer<EntityDataId> EntityData;
-	Pointer<EntitySharedMemoryId> EntitySharedMemory;
-	Pointer<EntityInfoId> EntityInfo;
-	Pointer<EntityInputId> EntityInput;
-	Pointer<EntityDataArrayId> EntityDataArray;
-	Pointer<EntitySharedMemoryArrayId> EntitySharedMemoryArray;
-	Pointer<EntityInfoArrayId> EntityInfoArray;
-	Pointer<ArchetypeLifeId> ArchetypeLife;
-	Pointer<TemporaryMemoryId> TemporaryMemory;
+	BlockPointer<RuntimeEnvironmentId> RuntimeEnvironment;
+	BlockPointer<RuntimeUpdateId> RuntimeUpdate;
+	BlockPointer<RuntimeSkinTransformId> RuntimeSkinTransform;
+	BlockPointer<RuntimeParticleTransformId> RuntimeParticleTransform;
+	BlockPointer<RuntimeBackgroundId> RuntimeBackground;
+	BlockPointer<RuntimeUIId> RuntimeUI;
+	BlockPointer<RuntimeUIConfigurationId> RuntimeUIConfiguration;
+	BlockPointer<LevelMemoryId> LevelMemory;
+	BlockPointer<LevelDataId> LevelData;
+	BlockPointer<LevelOptionId> LevelOption;
+	BlockPointer<LevelScoreId> LevelScore;
+	BlockPointer<LevelLifeId> LevelLife;
+	BlockPointer<EngineRomId> EngineRom;
+	BlockPointer<EntityMemoryId> EntityMemory;
+	BlockPointer<EntityDataId> EntityData;
+	BlockPointer<EntitySharedMemoryId> EntitySharedMemory;
+	BlockPointer<EntityInfoId> EntityInfo;
+	BlockPointer<EntityInputId> EntityInput;
+	BlockArray<EntityDataArrayId> EntityDataArray(32);
+	BlockArray<EntitySharedMemoryArrayId> EntitySharedMemoryArray(32);
+	BlockArray<EntityInfoArrayId> EntityInfoArray(3);
+	BlockPointer<ArchetypeLifeId> ArchetypeLife;
+	BlockPointer<TemporaryMemoryId> TemporaryMemory;
 	
 	bool readMap[10001][8]; 
 	bool writeMap[10001][8];
@@ -140,18 +140,18 @@ namespace watchData {
 
 
             FuncNode set(FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
-                return Execute({
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 0}), anchorX),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 1}), anchorY),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 2}), pivotX),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 3}), pivotY),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 4}), width),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 5}), height),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 6}), rotation),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 7}), alpha),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 8}), horizontalAlign),
-                    RuntimeUI.set(Add({Multiply({offset, 10}), 9}), background),
-                });
+            	FUNCBEGIN
+                RuntimeUI.set(Add({Multiply({offset, 10}), 0}), anchorX);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 1}), anchorY);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 2}), pivotX);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 3}), pivotY);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 4}), width);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 5}), height);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 6}), rotation);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 7}), alpha);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 8}), horizontalAlign);
+                RuntimeUI.set(Add({Multiply({offset, 10}), 9}), background);
+                return VOID;
             }
         };
 
@@ -204,12 +204,12 @@ namespace watchData {
             return life(offset);
         }
         FuncNode set(FuncNode perfect, FuncNode great, FuncNode good, FuncNode bad) {
-            return Execute({
-                ArchetypeLife.set(Add({Multiply({offset, 4}), 0}), perfect),
-                ArchetypeLife.set(Add({Multiply({offset, 4}), 1}), great),
-                ArchetypeLife.set(Add({Multiply({offset, 4}), 2}), good),
-                ArchetypeLife.set(Add({Multiply({offset, 4}), 3}), bad),
-            });
+        	FUNCBEGIN
+            ArchetypeLife.set(Add({Multiply({offset, 4}), 0}), perfect);
+            ArchetypeLife.set(Add({Multiply({offset, 4}), 1}), great);
+            ArchetypeLife.set(Add({Multiply({offset, 4}), 2}), good);
+            ArchetypeLife.set(Add({Multiply({offset, 4}), 3}), bad);
+            return VOID;
         }
     }lifes;
 
@@ -221,109 +221,109 @@ namespace watchData {
         FuncNode state = EntityInfo.get(2);
     }entityInfo;
 
-    int allocatorSize[10001] = {0};
-    
-    template<int identifierId>
-    class Variable {
-        public:
-
-        int offset;
-        Variable(){
-            offset = allocatorSize[identifierId]++;
-        }
-
-        FuncNode get() {
-            return Get(identifierId, offset);
-        }
-        FuncNode add(FuncNode value) {
-            return Set(identifierId, offset, Add({Get(identifierId, offset), value}));
-        }
-        FuncNode subtract(FuncNode value) {
-            return Set(identifierId, offset, Subtract({Get(identifierId, offset), value}));
-        }
-        FuncNode multiply(FuncNode value) {
-            return Set(identifierId, offset, Multiply({Get(identifierId, offset), value}));
-        }
-        FuncNode divide(FuncNode value) {
-            return Set(identifierId, offset, Divide({Get(identifierId, offset), value}));
-        }
-        FuncNode mod(FuncNode value) {
-            return Set(identifierId, offset, Mod({Get(identifierId, offset), value}));
-        }
-        FuncNode set(FuncNode value) {
-            return Set(identifierId, offset, value);
-        }
-    };
-
-    Variable<EntityMemoryId> ForPt[MaxForSize];
-
-    template<int identifierId>
-    class Array {
-        public:
-
-        int offset;
-        int capacity;
-        FuncNode size = Get(identifierId, 0);
-        int sizeOffset = 0;
-
-        Array(){}
-        Array(int capacity):capacity(capacity){
-            sizeOffset = allocatorSize[identifierId];
-            size = Get(identifierId, sizeOffset);
-            offset = allocatorSize[identifierId] + 1;
-            allocatorSize[identifierId] += capacity + 1;
-        };
-        FuncNode operator [] (FuncNode id) {
-            return Get(identifierId, Add({id, offset}));
-        }
-        FuncNode add(FuncNode value) {
-            return Execute({
-                Set(identifierId, Add({size, offset}), value),
-                Set(identifierId, sizeOffset, Add({size, 1})),
-            });
-        }
-        FuncNode has(FuncNode value) {
-/*            FuncNode res = false;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    true,
-                    res
-                );
-            } return res;*/
-			return Block(Execute({
-				FOR (i, 0, capacity, 1) {
-					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
-				} DONE,
-				Break(1, 0)
-			}));
-        }
-        FuncNode indexOf(FuncNode value) {
-/*            FuncNode res = -1;
-            for (int i = capacity - 1; i >= 0; i--) {
-                res = If(
-                    Equal(Get(identifierId, Add({i, offset})), value),
-                    i,
-                    res
-                );
-            } return res;*/
-			return Block(Execute({
-				FOR (i, 0, capacity, 1) {
-					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
-				} DONE,
-				Break(1, -1),
-			}));
-        }
-        FuncNode clear() {
-            vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
-            for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
-            return Execute(res);
-        }
-    };
-
-    Variable<EntityMemoryId> isHighlighted;
-    Variable<EntityMemoryId> playLoopedId;
-    Variable<EntityMemoryId> trackTouchId;
+//     int allocatorSize[10001] = {0};
+//     
+//     template<int identifierId>
+//     class Variable {
+//         public:
+// 
+//         int offset;
+//         Variable(){
+//             offset = allocatorSize[identifierId]++;
+//         }
+// 
+//         FuncNode get() {
+//             return Get(identifierId, offset);
+//         }
+//         FuncNode add(FuncNode value) {
+//             return Set(identifierId, offset, Add({Get(identifierId, offset), value}));
+//         }
+//         FuncNode subtract(FuncNode value) {
+//             return Set(identifierId, offset, Subtract({Get(identifierId, offset), value}));
+//         }
+//         FuncNode multiply(FuncNode value) {
+//             return Set(identifierId, offset, Multiply({Get(identifierId, offset), value}));
+//         }
+//         FuncNode divide(FuncNode value) {
+//             return Set(identifierId, offset, Divide({Get(identifierId, offset), value}));
+//         }
+//         FuncNode mod(FuncNode value) {
+//             return Set(identifierId, offset, Mod({Get(identifierId, offset), value}));
+//         }
+//         FuncNode set(FuncNode value) {
+//             return Set(identifierId, offset, value);
+//         }
+//     };
+// 
+//     Variable<EntityMemoryId> ForPt[MaxForSize];
+// 
+//     template<int identifierId>
+//     class Array {
+//         public:
+// 
+//         int offset;
+//         int capacity;
+//         FuncNode size = Get(identifierId, 0);
+//         int sizeOffset = 0;
+// 
+//         Array(){}
+//         Array(int capacity):capacity(capacity){
+//             sizeOffset = allocatorSize[identifierId];
+//             size = Get(identifierId, sizeOffset);
+//             offset = allocatorSize[identifierId] + 1;
+//             allocatorSize[identifierId] += capacity + 1;
+//         };
+//         FuncNode operator [] (FuncNode id) {
+//             return Get(identifierId, Add({id, offset}));
+//         }
+//         FuncNode add(FuncNode value) {
+//             return Execute({
+//                 Set(identifierId, Add({size, offset}), value),
+//                 Set(identifierId, sizeOffset, Add({size, 1})),
+//             });
+//         }
+//         FuncNode has(FuncNode value) {
+// /*            FuncNode res = false;
+//             for (int i = capacity - 1; i >= 0; i--) {
+//                 res = If(
+//                     Equal(Get(identifierId, Add({i, offset})), value),
+//                     true,
+//                     res
+//                 );
+//             } return res;*/
+// 			return Block(Execute({
+// 				FOR (i, 0, capacity, 1) {
+// 					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, 1) } FI
+// 				} DONE,
+// 				Break(1, 0)
+// 			}));
+//         }
+//         FuncNode indexOf(FuncNode value) {
+// /*            FuncNode res = -1;
+//             for (int i = capacity - 1; i >= 0; i--) {
+//                 res = If(
+//                     Equal(Get(identifierId, Add({i, offset})), value),
+//                     i,
+//                     res
+//                 );
+//             } return res;*/
+// 			return Block(Execute({
+// 				FOR (i, 0, capacity, 1) {
+// 					IF (Equal(Get(identifierId, Add({i, offset})), value)) { Break(3, i) } FI
+// 				} DONE,
+// 				Break(1, -1),
+// 			}));
+//         }
+//         FuncNode clear() {
+//             vector<FuncNode> res = {Set(identifierId, sizeOffset, 0)};
+//             for (int i = 0; i < capacity; i++) res.push_back(Set(identifierId, Add({i, offset}), 0));
+//             return Execute(res);
+//         }
+//     };
+// 
+//     Variable<EntityMemoryId> isHighlighted;
+//     Variable<EntityMemoryId> playLoopedId;
+//     Variable<EntityMemoryId> trackTouchId;
 
     class HorizontalAlign {
         public:

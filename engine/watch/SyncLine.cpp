@@ -8,8 +8,8 @@ class SyncLine: public Archetype {
     defineEntityData(left);
     defineEntityData(right);
 
-    SonolusApi spawnOrder() { return 1000 + beat; }
-    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
+    SonolusApi spawnTime() { return beat - appearTime; }
+    SonolusApi despawnTime() { return beat; }
 
     SonolusApi preprocess() {
     	FUNCBEGIN
@@ -25,14 +25,6 @@ class SyncLine: public Archetype {
     	FUNCBEGIN
         IF (LevelOption.get(Options.SyncLine) == 1) {
             drawSyncLine(beat, left, right);
-        } FI
-        return VOID;
-    }
-
-    SonolusApi updateSequential() {
-        FUNCBEGIN
-        IF (times.now > beat) {
-            EntityDespawn.set(0, 1);
         } FI
         return VOID;
     }

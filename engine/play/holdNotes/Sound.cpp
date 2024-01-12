@@ -1,12 +1,13 @@
-class SiriusHoldEighth: public Archetype {
+class SiriusSound: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Hold Eighth";
+	static constexpr const char* name = "Sirius Sound";
 	bool hasInput = true;
 	
 	defineEntityData(beat);
 	defineEntityData(lane);
 	defineEntityData(laneLength);
+	defineEntityData(holdType);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -15,7 +16,7 @@ class SiriusHoldEighth: public Archetype {
 
     SonolusApi preprocess() {
    		FUNCBEGIN
-        IF (LevelOption.get(Options.Mirror)) lane = 14 - lane - laneLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
@@ -38,6 +39,7 @@ class SiriusHoldEighth: public Archetype {
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
+		IF (res != 0) Play(Clips.Sound, minSFXDistance); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
@@ -57,6 +59,13 @@ class SiriusHoldEighth: public Archetype {
 		IF (times.now > inputTimeMax) complete(-1); FI
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now); FI
 		IF (times.now >= beat && lastHoldTime != -1) complete(lastHoldTime); FI
+		return VOID;
+	}
+
+	SonolusApi updateParallel() {
+		FUNCBEGIN
+		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, beat, lane, enLane); FI
+		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, beat, lane, enLane); FI
 		return VOID;
 	}
 };

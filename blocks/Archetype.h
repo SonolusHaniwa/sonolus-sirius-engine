@@ -3,6 +3,7 @@ using namespace std;
 class Archetype {
     public:
 
+	static const bool disableGlobalPreprocess = false;
 	static constexpr const char* name = "Default Archetype";
     bool hasInput = false;
 
@@ -86,42 +87,57 @@ class Archetype {
 class Archetype {
     public:
 
-    string name = "Default Archtype";
+	static const bool disableGlobalPreprocess = false;
+    static constexpr const char* name = "Default Archtype";
     bool hasInput = false;
 
     int preprocessOrder = 0;
 	SonolusApi preprocess() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int spawnTimeOrder = 0;
 	SonolusApi spawnTime() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int despawnTimeOrder = 0;
 	SonolusApi despawnTime() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int initializeOrder = 0;
 	SonolusApi initialize() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int updateSequentialOrder = 0;
 	SonolusApi updateSequential() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int updateParallelOrder = 0;
 	SonolusApi updateParallel() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int terminateOrder = 0;
 	SonolusApi terminate() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     vector<pair<string, int> > data;
