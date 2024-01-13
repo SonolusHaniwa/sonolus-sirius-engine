@@ -357,8 +357,8 @@ FuncNode Power(vector<FuncNode> value) {
     return FuncNode(RuntimeFunction.Power, value);
 }
 
-FuncNode Print(FuncNode value, FuncNode format, FuncNode decimalPlaces, FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode color, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
-    return FuncNode(RuntimeFunction.Print, {value, format, decimalPlaces, anchorX, anchorY, pivotX, pivotY, width, height, rotation, color, alpha, horizontalAlign, background});
+void Print(FuncNode value, FuncNode format, FuncNode decimalPlaces, FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode color, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
+    R(FuncNode(RuntimeFunction.Print, {value, format, decimalPlaces, anchorX, anchorY, pivotX, pivotY, width, height, rotation, color, alpha, horizontalAlign, background}));
 }
 
 FuncNode Radian(FuncNode value) {

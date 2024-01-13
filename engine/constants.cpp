@@ -6,17 +6,11 @@ double defaultAppearTime = 7.4 / 5.0;        // note 默认出现时间
 double minSFXDistance = 0.02;                // 最小音效时间
 double judgelineMarginBottom = 0.25;         // 判定线距离底部距离
 double judgelineHeight = 85.0 / 640.0;       // 判定线高度
-double noteHeight = 85.0 / 640.0;            // note 高度
 double judglineMoveLength = 0.01;            // judgline 微调距离
 double noteMoveLength = 0.02;                // note 微调距离
 double splitLineLength = 0.01;               // 分裂线宽度
-double arrowWidth = 80.0 / 640.0;            // 箭头宽度
-double arrowHeight = 240.0 / 640.0;          // 箭头高度
 double arrowPercent = 1.6;                   // 箭头所占比例
 double arrowSpeed = 20;                      // 箭头速率常数
-double tickWidth = 168.0 / 640.0;            // tick 宽度
-double tickHeight = 112.0 / 640.0;           // tick 高度
-double syncLineHeight = 5.0 / 640.0;         // 同步线高度
 double splitLineAnimationStart = 0.75;       // 分裂线起始动画长度, basic: 0.7595
 double splitLineAnimationEnd = 0.20;         // 分裂线结束动画长度, basic: 0.7595
 double effectLinearHeight = 280.0 / 640.0;   // 特效高度
@@ -33,27 +27,43 @@ double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 double judgeTextHeight = 0.15;               // 判定文字高度
 double judgeTextDuration = 0.2;			     // 判定文字动画时长
-
-#ifdef play
-let mirror = LevelOption.get(Options.Mirror);
-let speed = LevelOption.get(Options.NoteSpeed);
-let hidden = LevelOption.get(Options.Hidden);
-let splitRandom = LevelOption.get(Options.SplitRandom);
-let splitLine = LevelOption.get(Options.SplitLine);
-let syncLine = LevelOption.get(Options.SyncLine);
-let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
-let extraWidth = LevelOption.get(Options.ExtraWidth);
-#elif watch
-let mirror = LevelOption.get(Options.Mirror);
-let speed = LevelOption.get(Options.NoteSpeed);
-let hidden = LevelOption.get(Options.Hidden);
-let splitRandom = LevelOption.get(Options.SplitRandom);
-let splitLine = LevelOption.get(Options.SplitLine);
-let syncLine = LevelOption.get(Options.SyncLine);
-let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
-let extraWidth = LevelOption.get(Options.ExtraWidth);
+double stageWidth = 0.7;                         // 单个舞台宽度
+double stageHeight = 2.0;                        // 单个舞台高度
+double stageFullWidth = stageWidth + 0.3;        // 单个舞台占有宽度
+double stageTimelineWidth = stageWidth + 0.2;    // 时间线宽度
+double stageTimeLength = 2.0;                    // 单个舞台容纳时间
+double adjustDistance = 0.002;                   // 按键微调距离
+double noteCountDistance = 10;                   // 按键计数长度
+#if play || watch
+double noteHeight = 85.0 / 640.0;            // note 高度
+double tickWidth = 168.0 / 640.0;            // tick 宽度
+double tickHeight = 112.0 / 640.0;           // tick 高度
+double arrowWidth = 80.0 / 640.0;            // 箭头宽度
+double arrowHeight = 240.0 / 640.0;          // 箭头高度
+double syncLineHeight = 5.0 / 640.0;         // 同步线高度
+#elif preview
+double noteHeight = 0.04;                        // 按键高度
+double tickWidth = 0.03;                         // tick 宽度
+double tickHeight = 0.045;						// tick 高度
+double arrowWidth = 0.03;						// 箭头宽度
+double arrowHeight = 0.06;						// 箭头高度
+double syncLineHeight = 0.003; 					// 同步线高度
 #endif
 
+#if play || watch
+let mirror = LevelOption.get(Options.Mirror);
+let speed = LevelOption.get(Options.NoteSpeed);
+let hidden = LevelOption.get(Options.Hidden);
+let splitRandom = LevelOption.get(Options.SplitRandom);
+let splitLine = LevelOption.get(Options.SplitLine);
+let syncLine = LevelOption.get(Options.SyncLine);
+let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
+let extraWidth = LevelOption.get(Options.ExtraWidth);
+#elif preview
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth;
+#endif
+
+#if play || watch
 class stage {
 	public:
 
@@ -68,6 +78,13 @@ class stage {
     Variable<EntityMemoryId> t = h / 2;
     Variable<EntityMemoryId> b = -1 * h / 2;
 }stage;
+#elif preview
+class stage {
+	public:
+
+	let w, h, l, r, t, b;
+}stage;
+#endif
 
 class judgline {
     public:
@@ -121,6 +138,15 @@ class score {
 	let good = 0.5;
 }score;
 
+#if play || watch
 Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeStartTime;
-Array<LevelMemoryId, var> splitLineMemory(16);
+Array<LevelMemoryId, let> splitLineMemory(16);
+let duration, noteCount, noteId;
+#elif preview
+Variable<PreviewDataId> duration;                   // 谱面时长
+Variable<PreviewDataId> noteCount;                  // note 数量
+Variable<EntitySharedMemoryId> noteId;              // note 编号
+Array<TemporaryMemoryId, let> splitLineMemory(16);
+let currentJudge, currentJudgeStartTime;
+#endif

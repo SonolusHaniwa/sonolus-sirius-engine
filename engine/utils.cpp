@@ -79,6 +79,48 @@ Rect getFullHitbox(let l, let r) {
 	};
 }
 
+pair<let, let> getPos(let t) {
+	let id = Floor(t / stageTimeLength);
+	let less = t % stageTimeLength;
+	let x = screen.l + id * stageFullWidth + stageFullWidth / 2.0;
+	let y = Lerp(-1.0 + noteHeight / 2.0, 1.0 - noteHeight / 2, less / stageTimeLength);
+	return {x, y};
+}
+
+SonolusApi printNumber(let x, let y, let value, let format, let decimalPlaces, let color, int center = 0) {
+	FUNCBEGIN
+	let pivotX = 0, pivotY = 0.5, ha = playData::HorizontalAlign.Left;
+	if (center > 0) pivotX = 1, ha = playData::HorizontalAlign.Right;
+	else if (center == 0) pivotX = 0.5, ha = playData::HorizontalAlign.Center;
+	Print(value, format, decimalPlaces, x, y, pivotX, pivotY, screen.h / 10, screen.h / 20, 0, color, 1, ha, 0);
+	return VOID;
+}
+
+SonolusApi drawStage(let id) {
+	FUNCBEGIN
+	let l = screen.l + id * stageFullWidth + (stageFullWidth - stageWidth) / 2;
+	let r = screen.l + (id + 1) * stageFullWidth - (stageFullWidth - stageWidth) / 2;
+	let t = stageHeight / 2;
+	let b = -1 * stageHeight / 2;
+	Draw(Sprites.Stage, l, b, l, t, r, t, r, b, 1, 1);
+	Draw(Sprites.StageBackground, l, b, l, t, r, t, r, b, 0, 0.3);
+	return VOID;
+}
+
+SonolusApi drawTime(let t) {
+	FUNCBEGIN
+	let x = getPos(t).first, y = getPos(t).second;
+	printNumber(x - stageWidth / 2.0, y, t, PrintFormat.Time, -1, PrintColor.Neutral, 1);
+	return VOID;
+}
+
+SonolusApi drawNoteCount(let t, let value) {
+	FUNCBEGIN
+	let x = getPos(t).first, y = getPos(t).second;
+	printNumber(x + stageWidth / 2.0, y, value, PrintFormat.Number, -1, PrintColor.Neutral, -1);
+	return VOID;
+}
+
 SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
 	FUNCBEGIN
 	var p = ease((times.now - beat) / appearTime + 1);
@@ -97,6 +139,16 @@ SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
     	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
     Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
     return VOID;
+}
+
+SonolusApi drawPreviewNormalNote(let sprite, let time, let st, let en) {
+	FUNCBEGIN
+	let x = getPos(time).first, y = getPos(time).second;
+	let len = stageWidth / 12.0;
+	let l = x + (st - 7) * len + adjustDistance, r = x + (en - 6) * len - adjustDistance;
+	let t = y + noteHeight / 2.0, b = y - noteHeight / 2.0;
+	Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
+	return VOID;
 }
 
 SonolusApi drawArrow(let lane, let enLane, let beat) {
@@ -133,6 +185,19 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
     return VOID;
 }
 
+SonolusApi drawPreviewArrow(let time, let st, let en) {
+	FUNCBEGIN
+	let cx = getPos(time).first, b = getPos(time).second;
+	let len = stageWidth / 12.0, w = arrowWidth;
+	let l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	let t = b + arrowHeight, num = (r - l) / 2 * arrowPercent / arrowWidth;
+	FOR (i, 1, num, 1) {
+		Draw(Sprites.ScratchArrow, l + (i - 1) * w / 2, b, l + (i - 1) * w / 2, t, l + (i + 1) * w / 2, t, l + (i + 1) * w / 2, b, 1000, 1);
+		Draw(Sprites.ScratchArrow, r - (i - 1) * w / 2, b, r - (i - 1) * w / 2, t, r - (i + 1) * w / 2, t, r - (i + 1) * w / 2, b, 1000, 1);
+	} DONE
+	return VOID;
+}
+
 SonolusApi drawLeftArrow(let lane, let enLane, let beat) {
 	FUNCBEGIN
 	var p = ease((times.now - beat) / appearTime + 1);
@@ -156,6 +221,18 @@ SonolusApi drawLeftArrow(let lane, let enLane, let beat) {
         } DONE
     } FI
     return VOID;
+}
+
+SonolusApi drawPreviewLeftArrow(let time, let st, let en) {
+	FUNCBEGIN
+	let cx = getPos(time).first, b = getPos(time).second;
+	let len = stageWidth / 12.0, w = arrowWidth;
+	let l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	let t = b + arrowHeight, num = (r - l) * arrowPercent / arrowWidth;
+	FOR (i, 1, num, 1) {
+		Draw(Sprites.ScratchArrow, l + (i - 1) * w / 2, b, l + (i - 1) * w / 2, t, l + (i + 1) * w / 2, t, l + (i + 1) * w / 2, b, 1000, 1);
+	} DONE
+	return VOID;
 }
 
 SonolusApi drawRightArrow(let lane, let enLane, let beat) {
@@ -183,6 +260,18 @@ SonolusApi drawRightArrow(let lane, let enLane, let beat) {
     return VOID;
 }
 
+SonolusApi drawPreviewRightArrow(let time, let st, let en) {
+	FUNCBEGIN
+	let cx = getPos(time).first, b = getPos(time).second;
+	let len = stageWidth / 12.0, w = arrowWidth;
+	let l = cx - (7 - st) * len + adjustDistance, r = cx - (6 - en) * len - adjustDistance;
+	let t = b + arrowHeight, num = (r - l) * arrowPercent / arrowWidth;
+	FOR (i, 1, num, 1) {
+		Draw(Sprites.ScratchArrow, r - (i - 1) * w / 2, b, r - (i - 1) * w / 2, t, r - (i + 1) * w / 2, t, r - (i + 1) * w / 2, b, 1000, 1);
+	} DONE
+	return VOID;
+}
+
 SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBeat, let isHolding) {
     FUNCBEGIN
 	auto line1 = lines[lane], line2 = lines[enLane];
@@ -207,6 +296,19 @@ SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBe
     return VOID;
 }
 
+SonolusApi drawPreviewHoldEighth(let sprite, let stt, let ent, let st, let en) {
+	FUNCBEGIN
+	let id1 = Floor(stt / stageTimeLength), id2 = Floor(ent / stageTimeLength);
+	FOR (i, id1, id2 + 1, 1) {
+		let b = If(stt > i * stageTimeLength, getPos(stt).second, -1 * stageHeight / 2.0),
+			t = If(ent < (i + 1) * stageTimeLength, getPos(ent).second, stageHeight / 2.0);
+		let c = getPos(i * stageTimeLength).first, len = stageWidth / 12.0;
+		let l = c + (st - 7) * len + adjustDistance, r = c + (en - 6) * len - adjustDistance;
+		Draw(sprite, l, b, l, t, r, t, r, b, 2, 1);
+	} DONE
+	return VOID;
+}
+
 SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	FUNCBEGIN
 	var p = ease((times.now - beat) / appearTime + 1);
@@ -223,6 +325,17 @@ SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	auto lb = cb - Vec(m2 * tickWidth / 2, 0), lt = ct - Vec(m1 * tickWidth / 2, 0);
 	auto rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
 	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 0.5);
+	return VOID;
+}
+
+SonolusApi drawPreviewTick(let sprite, let time, let st, let en) {
+	FUNCBEGIN
+	let x = getPos(time).first, cy = getPos(time).second;
+	let len = stageWidth / 12.0;
+	let cx = x - (6.5 - (st + en) / 2.0) * len;
+	let l = cx - tickWidth / 2.0, r = cx + tickWidth / 2.0;
+	let t = cy + tickHeight / 2.0, b = cy - tickHeight / 2.0;
+	Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
 	return VOID;
 }
 
@@ -244,6 +357,16 @@ SonolusApi drawSyncLine(let beat, let lane, let enLane) {
     	 rt = c3 + Vec(w1 / 2 - noteMoveLength * multiplier, 0);
     Draw(Sprites.SyncLine, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 5, 0.8);
     return VOID;
+}
+
+SonolusApi drawPreviewSyncLine(let time, let st, let en) {
+	FUNCBEGIN
+	let cx = getPos(time).first, y = getPos(time).second;
+	let len = stageWidth / 12.0;
+	let l = cx - (6.5 - st) * len, r = cx - (6.5 - en) * len;
+	let t = y + syncLineHeight / 2.0, b = y - syncLineHeight / 2.0;
+	Draw(Sprites.SyncLine, l, b, l, t, r, t, r, b, 3, 1);
+	return VOID;
 }
 
 SonolusApi drawHiddenLine() {
@@ -317,11 +440,11 @@ SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
 
 SonolusApi SpawnSubJudgeText(let sprite) {
 	FUNCBEGIN
-    IF (currentJudgeStartTime.get() == times.now) {
-        currentJudge.set(Max(currentJudge.get(), sprite));
+    IF (currentJudgeStartTime == times.now) {
+        currentJudge = Max(currentJudge, sprite);
     } ELSE {
-        currentJudge.set(sprite);
-        currentJudgeStartTime.set(times.now);
+        currentJudge = sprite;
+        currentJudgeStartTime = times.now;
     } FI
     return VOID;
 }
@@ -340,6 +463,20 @@ SonolusApi drawLine(let id, let st, let en, let a, let sprite) {
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
 	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
+	return VAR;
+}
+
+SonolusApi drawPreviewLine(let id, let st, let en, let sprite) {
+	FUNCBEGIN
+	let id1 = Floor(st / stageTimeLength), id2 = Floor(en / stageTimeLength);
+	FOR (i, id1, id2 + 1, 1) {
+		let width = adjustDistance * 2;
+		let b = If(st > i * stageTimeLength, getPos(st).second, -1 * stageHeight / 2.0), 
+			t = If(en < (i + 1) * stageTimeLength, getPos(en).second, stageHeight / 2.0);
+		let c = getPos(i * stageTimeLength).first - (6 - id) * stageWidth / 12.0;
+		let l = c - width, r = c + width;
+		Draw(sprite, l, b, l, t, r, t, r, b, 1000, 1);
+	} DONE
 	return VAR;
 }
 
@@ -385,6 +522,36 @@ SonolusApi drawSplitLine(let split) {
             drawLine(8, 0, 1, 1, splitLineMemory[4]), 
             drawLine(10, 0, 1, 1, splitLineMemory[5])
         }}
+    }));
+    return VOID;
+}
+
+SonolusApi drawPreviewSplitLine(let st, let en, let extra, let split) {
+	FUNCBEGIN
+    drawPreviewLine(0, st, en, splitLineMemory[0] + extra),
+    drawPreviewLine(12, st, en, splitLineMemory[split] + extra),
+    Run(Switch(split, {
+        {1, {}},
+        {2, drawPreviewLine(6, st, en, splitLineMemory[1] + extra)},
+        {3, {
+            drawPreviewLine(4, st, en, splitLineMemory[1] + extra), 
+            drawPreviewLine(8, st, en, splitLineMemory[2] + extra)
+        }}, {4, {
+            drawPreviewLine(3, st, en, splitLineMemory[1] + extra), 
+            drawPreviewLine(6, st, en, splitLineMemory[2] + extra), 
+            drawPreviewLine(9, st, en, splitLineMemory[3] + extra)
+        }}, {5, {
+            drawPreviewLine(3, st, en, splitLineMemory[1] + extra), 
+            drawPreviewLine(5, st, en, splitLineMemory[2] + extra), 
+            drawPreviewLine(7, st, en, splitLineMemory[3] + extra), 
+            drawPreviewLine(9, st, en, splitLineMemory[4] + extra)
+        }}, {6, {
+            drawPreviewLine(2, st, en, splitLineMemory[1] + extra), 
+            drawPreviewLine(4, st, en, splitLineMemory[2] + extra), 
+            drawPreviewLine(6, st, en, splitLineMemory[3] + extra), 
+            drawPreviewLine(8, st, en, splitLineMemory[4] + extra), 
+            drawPreviewLine(10, st, en, splitLineMemory[5] + extra)
+		}}
     }));
     return VOID;
 }

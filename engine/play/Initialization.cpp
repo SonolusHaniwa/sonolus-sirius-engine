@@ -3,7 +3,6 @@ class Initialization: public Archetype {
 
     static constexpr const char* name = "Sirius Initialization";
     bool input = false;
-    vector<pair<string, int> > data = {};
 
     SonolusApi preprocess() {
     	FUNCBEGIN
