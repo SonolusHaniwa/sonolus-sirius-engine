@@ -16,8 +16,8 @@ sqlite3 sonolus.db ".read ./data.sql"
 # ./sonolus import ../sirius/sirius.srp
 ./sonolus buildcpp play ../sirius
 # ./sonolus buildcpp tutorial ../sirius
-# ./sonolus buildcpp preview ../sirius
-# ./sonolus buildcpp watch ../sirius
+./sonolus buildcpp preview ../sirius
+./sonolus buildcpp watch ../sirius
 # sqlite3 sonolus.db "SELECT * FROM Engine";
 
 # 数据导出
