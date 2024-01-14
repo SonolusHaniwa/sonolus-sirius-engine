@@ -103,6 +103,7 @@ FuncNode mergeNodeContainer() {
 	if (addBlockCounter.top()) blockCounter.pop();
 	else blockCounter.top() -= 1;
 	addBlockCounter.pop();
+	if (c.size() == 0) throwError("Your Sonolus will boom if I accept your empty function.");
 	FuncNode res = FuncNode(RuntimeFunction.Block, {
 		c.size() == 1 ? c[0] : FuncNode(RuntimeFunction.Execute, c)
 	}); return res;

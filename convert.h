@@ -358,12 +358,15 @@ string fromSUS(string text) {
                 auto tmp3 = explode(".", type.c_str());
                 if (tmp3.size() != 2)
                     throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                switch(tmp2[1].size()) {
-                    case 0: tmp2[1] = "0000"; break;
-                    case 1: tmp2[1] = "000" + tmp2[1]; break;
-                    case 2: tmp2[1] = "00" + tmp2[1]; break;
-                    case 3: tmp2[1] = "0" + tmp2[1]; break;
-                } exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
+                // switch(tmp2[1].size()) {
+                //     case 0: tmp2[1] = "0000"; break;
+                //     case 1: tmp2[1] = "000" + tmp2[1]; break;
+                //     case 2: tmp2[1] = "00" + tmp2[1]; break;
+                //     case 3: tmp2[1] = "0" + tmp2[1]; break;
+                // } 
+                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
+                while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
+                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
             }
             sort(exp.begin(), exp.end());
             for (auto i = 0; i < exp.size(); i++) {

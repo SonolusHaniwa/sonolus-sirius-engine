@@ -69,16 +69,21 @@ class Archetype {
 class Archetype {
     public:
 
-    string name = "Default Archtype";
+	static const bool disableGlobalPreprocess = false;
+    static constexpr const char* name = "Default Archtype";
 
     int preprocessOrder = 0;
 	SonolusApi preprocess() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     int renderOrder = 0;
 	SonolusApi render() {
-		return { Return(0) };
+    	FUNCBEGIN
+    	Return(0);
+    	return VOID;
 	}
 
     vector<pair<string, int> > data;

@@ -1,8 +1,12 @@
-// #include<cpptrace/cpptrace.hpp>
+#if !DISABLE_TRACE
+#include<cpptrace/cpptrace.hpp>
+#endif
 using namespace std;
 
 void DumpTraceback() {
-	// cpptrace::generate_trace().print();
+#if !DISABLE_TRACE
+	cpptrace::generate_trace().print();
+#endif
 }
 
 void throwWarning(string text) {

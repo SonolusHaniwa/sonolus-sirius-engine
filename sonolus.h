@@ -191,7 +191,8 @@ void buildArchetype() {
     EnginePreviewDataArchetype newArchetype;
     cout << "Solving Archetype \"" << archetype.name << "\"..." << endl;
     newArchetype.name = archetype.name;
-    compileCallbackHead(preprocess);
+	if (!T::disableGlobalPreprocess) { compileCallbackHead(preprocess); }
+	else { compileCallback(preprocess); }
     compileCallback(render);
     newArchetype.data = archetype.data;
     enginePreviewData.archetypes.push_back(newArchetype);
@@ -236,6 +237,7 @@ void allocateArchetypeId() {
 
 template<typename... Args>
 void build(buffer& configurationBuffer, buffer& dataBuffer) {
+	Run(1 + 1 == 2); // 防止空函数爆炸
 	preloadElement = nodesContainer.top(); mergeNodeContainer();
 	createAllocatorBackup();
     Json::Value configuration = engineConfiguration.toJsonObject();
@@ -309,7 +311,7 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #include"blocks/Map.h"
 #include"items/PlayData.h"
 // #include"items/TutorialData.h"
-// #include"items/PreviewData.h"
+#include"items/PreviewData.h"
 #include"items/WatchData.h"
 #include"items/SkinData.h"
 #include"items/EffectData.h"
