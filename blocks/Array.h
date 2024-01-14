@@ -14,6 +14,7 @@ class Array {
 	SonolusApi set(FuncNode index, T obj) {
 		FUNCBEGIN
 		auto c = obj.serialize();
+		// IF (Get(4003, 0) != 1) Debuglog(c[0]); FI
 		for (int i = 0; i < classSize; i++)
 			Set(identifierId, offset + index * classSize + i, c[i]);
 		return VOID;

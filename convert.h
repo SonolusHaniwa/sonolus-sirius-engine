@@ -365,18 +365,23 @@ string fromSUS(string text) {
                 //     case 3: tmp2[1] = "0" + tmp2[1]; break;
                 // } 
                 while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
+                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
                 while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
                 exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
             }
-            sort(exp.begin(), exp.end());
+            sort(exp.begin(), exp.end(), [](string a, string b){
+            	return a.size() == b.size() ? a < b : a.size() < b.size();
+            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2023/01/14
             for (auto i = 0; i < exp.size(); i++) {
                 string tmp = exp[i];
+                // cout << tmp << endl;
                 auto tmp1 = explode(":", tmp.c_str());
                 string beat = tmp1[0], type = tmp1[1];
                 auto tmp2 = explode("'", beat.c_str());
                 auto tmp3 = explode(".", type.c_str());
                 int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
                 if (currentSplitLine != 0) { // 分割线终点
+                	// cout << currentSplitLine << " " << currentSplitLineType << endl;
                     if (currentSplitLine * 10 != lines || currentSplitLineType != types)
                         throw runtime_error("Overlapped Split Line: " + exp[i]);
                     currentSplitLine = 0; currentSplitLineType = 0;

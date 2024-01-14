@@ -41,6 +41,7 @@ class FlatNote : public Archetype {
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
+		// IF (res2 == 0) DebugPause(); FI
 		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
 		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
 		IF (res2 == 3) Play(getClips().good, minSFXDistance); FI
@@ -80,6 +81,8 @@ class FlatNote : public Archetype {
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
 		// Debuglog(index);
+		// Debuglog(getHitbox(lane, enLane).l);
+		// Debuglog(getHitbox(lane, enLane).r);
 		complete(times.now);
 		return VOID;
 	}

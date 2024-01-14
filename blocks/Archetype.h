@@ -151,5 +151,5 @@ class Archetype {
 
 #define defineEntityData(name) Variable<EntityDataId> name = Variable<EntityDataId>(0, true); \
 	bool unused_##name##_unused = [&](){ \
-		name.offset = data.size(); \
+		name.offset = data.size(); allocatorSize[EntityDataId]++; \
 		data.push_back({ #name, data.size() }); return true; }(); 

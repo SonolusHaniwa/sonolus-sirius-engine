@@ -72,7 +72,6 @@ class ClaimManager {
 		WHILE (true) {
 			var touchIndex = findBestTouchIndex(currentId);
 			IF (touchIndex == -1) BREAK; FI
-			// Debuglog(touchIndex);
 			disallowEmptiesNow.set(touchIndex, 1);
 			
 			let claimIndex = claimed.indexOf(touchIndex);
@@ -89,7 +88,6 @@ class ClaimManager {
 			// Debuglog(claimed.indexOf(touchIndex));
 			var tmp = currentId;
 			currentId = claimed.getValById(claimIndex);
-			// Debuglog(tmp);
 			// Debuglog(claimed.indexOf(touchIndex));
 			claimed.set(touchIndex, tmp);
 			// DebugPause();

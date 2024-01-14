@@ -20,13 +20,14 @@ class Variable {
     	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val}));
     }
-	// Variable(const Variable<identifierId>& val) {
-	// 	offset = allocatorSize[identifierId]++;
-	// 	cout << identifierId << " " << offset << endl;
-	// 	R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
-	// }
+	Variable(const Variable<identifierId>& val) {
+		offset = allocatorSize[identifierId]++;
+		// cout << "Copy Constructor: " << identifierId << " " << val.offset << endl;
+		// DumpTraceback();
+		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
+	}
 	template<int T> Variable(Variable<T> val) {
-		// cout << T << " " << val.offset << " " << allocatorSize[T] << endl;
+		// cout << "Constructor: " << identifierId << " " << T << " " << val.offset << endl;
      	offset = allocatorSize[identifierId]++;
 		R(FuncNode(RuntimeFunction.Set, {identifierId, offset, val.get()}));
     }
