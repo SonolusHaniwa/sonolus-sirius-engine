@@ -19,7 +19,7 @@
         enLane = lane + laneLength - 1;
         Set(EntityInputId, 0, beat);
         PlayScheduled(Clips.Sound, beat, minSFXDistance);
-		Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgePerfectPlus});
+		Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
  	    return VOID;
  	}
 

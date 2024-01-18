@@ -24,7 +24,7 @@
 			PlayLoopedScheduled(Clips.Hold, stBeat),
 			beat
 		);
-		Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgePerfectPlus});
+		Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
  	    return VOID;
  	}
 

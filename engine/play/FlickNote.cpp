@@ -29,8 +29,8 @@ class FlickNote : public Archetype {
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
 		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.bad) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfect) res = 1, res2 = 1; FI
+		IF (t == inputTimeMax) res = 3, res2 = 2; FI
+		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);

@@ -43,8 +43,8 @@ class SiriusScratchHoldEnd: public Archetype {
 			DestroyParticleEffect(effectId); effectId = 0;
 		} FI
 		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.bad) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfect) res = 1, res2 = 1; FI
+		IF (t == inputTimeMin) res = 3, res2 = 2; FI
+		IF (t > inputTimeMin) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
 		EntityInput.set(3, t - beat);
@@ -72,11 +72,11 @@ class SiriusScratchHoldEnd: public Archetype {
 
 		// 判定主代码
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(-1); FI
-		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, beat - judgment.bad + 0.001); FI
+		IF (times.now > inputTimeMax) complete(lastHoldTime); FI
+		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, inputTimeMin); FI
 		isHolding = findFlickTouch(lane, enLane) != -1;
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now); FI
-		IF (times.now >= beat && lastHoldTime != -1) complete(lastHoldTime); FI
+		IF (times.now >= beat && lastHoldTime > inputTimeMin) complete(lastHoldTime); FI
 		return VOID;
 	}
 
