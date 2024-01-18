@@ -33,7 +33,7 @@ auto options = defineOptions<class Options>({
     }, {
         name: NameText.LevelSpeed,
         scope: Scope,
-        standard: 0,
+        standard: 1,
         type: OptionType.Slider,
         def: 1,
         min: 0.5,
