@@ -462,7 +462,7 @@ SonolusApi drawLine(let id, let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(-1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000 + EntityData.get(0), a * splitLine);
 	return VAR;
 }
 
@@ -475,7 +475,7 @@ SonolusApi drawPreviewLine(let id, let st, let en, let sprite) {
 			t = If(en < (i + 1) * stageTimeLength, getPos(en).second, stageHeight / 2.0);
 		let c = getPos(i * stageTimeLength).first - (6 - id) * stageWidth / 12.0;
 		let l = c - width, r = c + width;
-		Draw(sprite, l, b, l, t, r, t, r, b, 1000, 1);
+		Draw(sprite, l, b, l, t, r, t, r, b, 10000 + EntityData.get(0), 1);
 	} DONE
 	return VAR;
 }
@@ -492,7 +492,7 @@ SonolusApi drawEndLine(let st, let en, let a, let sprite) {
 	Vec c4 = c2 + Vec(1 * w2 / 2, 0);
 	Vec lb = c4 + Vec(-1 * move * w2 / w, 0), lt = c3 + Vec(-1 * move * w1 / w, 0);
 	Vec rb = c4 + Vec(move * w2 / w, 0), rt = c3 + Vec(move * w1 / w, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000, a * splitLine);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 10000 + EntityData.get(0), a * splitLine);
 	return VOID;
 }
 
