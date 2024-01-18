@@ -16,6 +16,7 @@ class SiriusSound: public Archetype {
 
     SonolusApi preprocess() {
    		FUNCBEGIN
+   		beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);

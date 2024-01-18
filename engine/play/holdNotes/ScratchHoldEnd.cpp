@@ -21,6 +21,8 @@ class SiriusScratchHoldEnd: public Archetype {
 
     SonolusApi preprocess() {
    		FUNCBEGIN
+   		beat = beat / levelSpeed;
+   		stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);

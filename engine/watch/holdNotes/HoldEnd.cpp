@@ -16,6 +16,8 @@
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
+ 	 	beat = beat / levelSpeed;
+ 	 	stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
         Set(EntityInputId, 0, beat);

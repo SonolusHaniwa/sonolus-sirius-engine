@@ -59,8 +59,9 @@ let splitLine = LevelOption.get(Options.SplitLine);
 let syncLine = LevelOption.get(Options.SyncLine);
 let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
 let extraWidth = LevelOption.get(Options.ExtraWidth);
+let levelSpeed = LevelOption.get(Options.Speed);
 #elif preview
-let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth;
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed;
 #endif
 
 #if play || watch
@@ -100,7 +101,7 @@ class judgline {
     let rtY = ltY;
 }judgline;
 
-let appearTime = (7.4 / speed);
+let appearTime = 7.4 / speed;
 let noteSpeed = stage.h / appearTime;
 
 let t = If(

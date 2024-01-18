@@ -13,6 +13,7 @@ class SyncLine: public Archetype {
 
     SonolusApi preprocess() {
     	FUNCBEGIN
+ 	 	beat = beat / levelSpeed;
         IF (LevelOption.get(Options.Mirror)) {
             var tmp = left;
             left = 13 - right;

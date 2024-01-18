@@ -20,6 +20,7 @@ class FlatNote : public Archetype {
 
 	SonolusApi preprocess() {
 		FUNCBEGIN
+		beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
 		// cout << lane.offset << endl;
 		enLane = lane + laneLength - 1;

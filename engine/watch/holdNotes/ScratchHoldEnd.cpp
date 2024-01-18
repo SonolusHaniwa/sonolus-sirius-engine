@@ -19,6 +19,8 @@
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
+ 	 	beat = beat / levelSpeed;
+ 	 	stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
         enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);

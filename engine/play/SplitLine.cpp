@@ -11,6 +11,13 @@ class SplitLine: public Archetype {
 
     SonolusApi spawnOrder() { return 1000 + beat - splitLineAnimationStart + appearTime; }
     SonolusApi shouldSpawn() { return times.now > beat - splitLineAnimationStart; }
+
+    SonolusApi preprocess() {
+    	FUNCBEGIN
+		beat = beat / levelSpeed;
+		endBeat = endBeat / levelSpeed;
+    	return VOID;
+    }
    
     SonolusApi updateSequential() {
     	FUNCBEGIN

@@ -13,14 +13,11 @@ class SyncLine: public Archetype {
 
     SonolusApi preprocess() {
     	FUNCBEGIN
+		beat = beat / levelSpeed;
         IF (mirror) {
-            // for (auto x : nodesContainer.top()) cout << x << endl;
-            // cout << allocatorSize[EntityDataId] << endl;
             var tmp = left;
-            // cout << left.offset << " " << right.offset << endl;
             left = 13 - right;
             right = 13 - tmp;
-            // for (auto x : nodesContainer.top()) cout << x << endl;
         } FI
         return VOID;
     }
