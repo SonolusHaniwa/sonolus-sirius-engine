@@ -1,7 +1,8 @@
 using namespace std;
 
-let getSplitLine(let id) {
-	return Switch(id, {
+SonolusApi getSplitLine(let id) {
+	FUNCBEGIN
+	Run(Switch(id, {
 		{1, setSplitLine({Sprites.SplitLine_1})},
 		{2, setSplitLine({Sprites.SplitLine_2})},
 		{3, setSplitLine({Sprites.SplitLine_3})},
@@ -113,5 +114,6 @@ let getSplitLine(let id) {
 		{10560, setSplitLine({Sprites.SplitLine_10560})},
 		{10570, setSplitLine({Sprites.SplitLine_10570})},
 		{10580, setSplitLine({Sprites.SplitLine_10580})},
-	});
+	}));
+	return VOID;
 }
