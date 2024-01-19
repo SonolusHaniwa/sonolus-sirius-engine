@@ -41,6 +41,7 @@ class FlatNote : public Archetype {
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
+		EntityInput.set(2, getBucket());
 		EntityInput.set(3, t - beat);
 		// IF (res2 == 0) DebugPause(); FI
 		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI

@@ -3,6 +3,7 @@ class SiriusCriticalHoldStart: public FlatNote {
 	static constexpr const char* name = "Sirius Critical Hold Start";
 
 	let getSprite() { return Sprites.CriticalNote; }
+	let getBucket() { return Buckets.CriticalHoldStart; }
 	ClipsArray getClips() { return {
 		perfect: Clips.CriticalPerfect,
 		great: Clips.CriticalPerfect,

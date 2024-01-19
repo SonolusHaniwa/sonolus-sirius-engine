@@ -3,6 +3,7 @@ class CriticalNote: public FlatNote {
 	static constexpr const char* name = "Sirius Critical Note";
 
 	let getSprite() { return Sprites.CriticalNote; }
+	let getBucket() { return Buckets.CriticalNote; }
 	ClipsArray getClips() { return {
 		perfect: Clips.CriticalPerfect,
 		great: Clips.CriticalPerfect,

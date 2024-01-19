@@ -3,6 +3,7 @@ class SiriusScratchHoldStart: public FlatNote {
 	static constexpr const char* name = "Sirius Scratch Hold Start";
 
 	let getSprite() { return Sprites.ScratchNote; }
+	let getBucket() { return Buckets.ScratchHoldStart; }
     ClipsArray getClips() { return {
     	perfect: Clips.Perfect,
     	great: Clips.Perfect,

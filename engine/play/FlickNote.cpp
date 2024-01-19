@@ -34,6 +34,7 @@ class FlickNote : public Archetype {
 		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
+		EntityInput.set(2, Buckets.FlickNote);
 		EntityInput.set(3, t - beat);
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI

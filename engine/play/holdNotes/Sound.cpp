@@ -39,6 +39,7 @@ class SiriusSound: public Archetype {
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		EntityInput.set(1, t - beat);
+		EntityInput.set(2, If(holdType == 100 || holdType == 101, Buckets.Sound, Buckets.ScratchSound));
 		EntityInput.set(3, t - beat);
 		IF (res != 0) Play(Clips.Sound, minSFXDistance); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI

@@ -62,7 +62,6 @@ class Initialization: public Archetype {
         for (int i = 3; i <= 9; i++) lifes[i].set(0, 0, 0, -80);
         for (int i = 10; i <= 11; i++) lifes[i].set(0, 0, 0, -40);
         for (int i = 12; i <= 13; i++) lifes[i].set(0, 0, 0, -80);
-        EntityDespawn.set(0, 1);
         // return Execute({
         //     LevelScore.set(0, score.perfect);
         //     LevelScore.set(1, score.great);
@@ -78,20 +77,21 @@ class Initialization: public Archetype {
         //     lifes[11].set(0, 0, 0, -40);
         //     lifes[12].set(0, 0, 0, -80);
         //     lifes[13].set(0, 0, 0, -80);
-        //     buckets[0].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[1].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[2].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.good, judgment.good, -1 * judgment.good, judgment.good);
-        //     buckets[3].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[4].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[5].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[6].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[7].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[8].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[9].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[10].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[11].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        //     buckets[12].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[0].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[1].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[2].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.good, judgment.good, -1 * judgment.good, judgment.good);
+        buckets[3].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[4].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[5].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[6].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[7].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[8].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[9].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[10].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[11].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[12].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
         // });
+        EntityDespawn.set(0, 1);
         return VOID;
     }
 

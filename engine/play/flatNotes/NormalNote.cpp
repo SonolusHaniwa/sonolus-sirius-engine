@@ -3,6 +3,7 @@ class NormalNote: public FlatNote {
 	static constexpr const char* name = "Sirius Normal Note";
 
 	let getSprite() { return Sprites.NormalNote; }
+	let getBucket() { return Buckets.NormalNote; }
     ClipsArray getClips() { return {
     	perfect: Clips.Perfect,
     	great: Clips.Perfect,
