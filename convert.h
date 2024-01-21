@@ -503,7 +503,9 @@ string fromSUS(string text) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
                             if (prop[0] == '5') {
-                                ScratchSlide = true, ScratchType = (i == l ? 0 : (i < l ? i - r - 1 : i - l + 1));
+                                ScratchSlide = true, ScratchType = (i == l ? (
+                                    (body[0] == '3' ? -(r - l + 1) : (body[0] == '4' ? (r - l + 1) : 0))
+                                ) : (i < l ? i - r - 1 : i - l + 1));
                                 x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
                             }
                         }

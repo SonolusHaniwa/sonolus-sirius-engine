@@ -155,7 +155,7 @@ SonolusApi getClaimedStart(let index) {
 // 	return VOID;
 // }
 
-double minFlickVR = 0.5;
+double minFlickVR = 0.1;
 // Map<LevelMemoryId, var, var> usedTouchId(16);
 SonolusApi findFlickTouch(let lane, let enLane) {
 	FUNCBEGIN

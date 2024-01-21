@@ -26,7 +26,7 @@ class SiriusScratchHoldEnd: public Archetype {
     SonolusApi render() {
    		FUNCBEGIN
    		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-   		drawPreviewNormalNote(Sprites.ScratchNote, beat, lane, enLane);
+   		drawPreviewNormalNote(Sprites.ScratchNote, beat, scratchLane, scratchEnLane);
 		drawPreviewHoldEighth(Sprites.Scratch, stBeat, beat, lane, enLane);
 		IF (scratchLength > 0) { drawPreviewRightArrow(beat, scratchLane, scratchEnLane); }
 		ELSE {
