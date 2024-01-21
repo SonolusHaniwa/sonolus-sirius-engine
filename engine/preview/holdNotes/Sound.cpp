@@ -14,6 +14,7 @@ class SiriusSound: public Archetype {
 		duration = Max(duration.get(), beat);
 		noteCount = noteCount + 1;
 		noteId = noteCount.get();
+		enLane = lane + laneLength - 1;
         return VOID;
     }
 
