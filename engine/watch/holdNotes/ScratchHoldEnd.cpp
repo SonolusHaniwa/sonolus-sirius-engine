@@ -4,11 +4,11 @@
      static constexpr const char* name = "Sirius Scratch Hold End";
 	 bool hasInput = true;
 	 
-	 defineEntityData(beat);
-	 defineEntityData(stBeat);
-	 defineEntityData(lane);
-	 defineEntityData(laneLength);
-	 defineEntityData(scratchLength);
+	 defineImports(beat);
+	 defineImports(stBeat);
+	 defineImports(lane);
+	 defineImports(laneLength);
+	 defineImports(scratchLength);
 	 Variable<EntityMemoryId> enLane;
      Variable<EntityMemoryId> effectInstanceId;
 	 Variable<EntityMemoryId> scratchLane;

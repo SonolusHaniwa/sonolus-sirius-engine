@@ -4,10 +4,12 @@ class SiriusSound: public Archetype {
 	static constexpr const char* name = "Sirius Sound";
 	bool hasInput = true;
 	
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
-	defineEntityData(holdType);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineImports(holdType);
+	defineExports(judgeResult);
+	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -38,9 +40,14 @@ class SiriusSound: public Archetype {
 		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, If(holdType == 100 || holdType == 101, Buckets.Sound, Buckets.ScratchSound));
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, If(holdType == 100 || holdType == 101, Buckets.Sound, Buckets.ScratchSound));
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		IF (res != 0) Play(Clips.Sound, minSFXDistance); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI

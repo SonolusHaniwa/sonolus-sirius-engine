@@ -97,11 +97,11 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         if (SyncLineRight.find(beat) == SyncLineRight.end()) SyncLineRight[beat] = leftLane + laneLength - 1;
         else SyncLineRight[beat] = max(SyncLineRight[beat], leftLane + laneLength - 1);
     };
-	single["archetype"] = "Sirius Initialization";
+	single["archetype"] = "Sirius Initialization"; single["data"].resize(0);
 	res.append(single);
-	single["archetype"] = "Sirius Input Manager";
+	single["archetype"] = "Sirius Input Manager"; single["data"].resize(0);
 	res.append(single);
-	single["archetype"] = "Sirius Stage";
+	single["archetype"] = "Sirius Stage"; single["data"].resize(0);
 	res.append(single);
     double lastTime[13][13]; int lastType[13][13], total = 0;
     for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastType[i][j] = 0;
@@ -449,7 +449,7 @@ string fromSUS(string text) {
         } else if (prop[0] == '5') { // Flick
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '3' && body[0] != '4') 
-                throw runtime_error("Invalid Flick Type " + head + ": " + body);
+                throw runtime_error("Invalid Flick Type " + head + ": " +  body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back(mainData[i]);
         } else if (prop[0] == '3') { // Slide(Hold)

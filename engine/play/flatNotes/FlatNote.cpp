@@ -3,9 +3,11 @@ class FlatNote : public Archetype {
 
     bool hasInput = true;
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineExports(judgeResult);
+	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -40,9 +42,14 @@ class FlatNote : public Archetype {
 		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, getBucket());
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, getBucket());
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		// IF (res2 == 0) DebugPause(); FI
 		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
 		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI

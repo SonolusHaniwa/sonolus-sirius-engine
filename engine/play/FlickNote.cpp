@@ -4,9 +4,12 @@ class FlickNote : public Archetype {
 	static constexpr const char* name = "Sirius Flick Note";
     bool hasInput = true;
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineExports(judgeResult);
+	defineExports(activation);
+	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -33,9 +36,14 @@ class FlickNote : public Archetype {
 		IF (t == inputTimeMax) res = 3, res2 = 2; FI
 		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, Buckets.FlickNote);
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, Buckets.FlickNote);
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
@@ -74,7 +82,7 @@ class FlickNote : public Archetype {
 		// IF (touchTime != -1) Return(0); FI
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
-		activate = 1;
+		activate = 1; ExportValue(activation, times.now - beat);
 		return VOID;
 	}
 

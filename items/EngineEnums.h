@@ -418,6 +418,7 @@ class RuntimeFunction {
     string TimeToStartingTime = "TimeToStartingTime";
     string TimeToTimeScale = "TimeToTimeScale";
     string Print = "Print";
+    string ExportValue = "ExportValue";
 }RuntimeFunction;
 
 class SkinSpriteName {

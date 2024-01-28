@@ -179,7 +179,8 @@ void buildArchetype() {
     compileCallback(touch);
     compileCallback(updateParallel);
     compileCallback(terminate);
-    newArchetype.data = archetype.data;
+    newArchetype.imports = archetype.imports;
+    newArchetype.exports = archetype.exports;
     engineData.archetypes.push_back(newArchetype);
     time_t d = millitime() - st;
     cout << "Solved Archetype \"" << archetype.name << "\" in " << d << "ms. Speed: " 

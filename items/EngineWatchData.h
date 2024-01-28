@@ -37,10 +37,10 @@ class EngineWatchDataArchetype {
     EngineWatchDataArchetypeCallback updateParallel;
     EngineWatchDataArchetypeCallback terminate;
     EngineWatchDataArchetypeCallback updateSpawn;    
-    vector<pair<string, int> > data;
+    vector<pair<string, int> > imports;
 
     EngineWatchDataArchetype(){}
-    EngineWatchDataArchetype(string name, vector<pair<string, int> > data, bool hasInput,
+    EngineWatchDataArchetype(string name, vector<pair<string, int> > imports, bool hasInput,
         EngineWatchDataArchetypeCallback preprocess = EngineWatchDataArchetypeCallback(),
         EngineWatchDataArchetypeCallback spawnTime = EngineWatchDataArchetypeCallback(),
         EngineWatchDataArchetypeCallback despawnTime = EngineWatchDataArchetypeCallback(),
@@ -49,7 +49,7 @@ class EngineWatchDataArchetype {
         EngineWatchDataArchetypeCallback updateParallel = EngineWatchDataArchetypeCallback(),
         EngineWatchDataArchetypeCallback terminate = EngineWatchDataArchetypeCallback(),
         EngineWatchDataArchetypeCallback updateSpawn = EngineWatchDataArchetypeCallback()):
-        name(name), data(data), hasInput(hasInput), preprocess(preprocess), spawnTime(spawnTime), despawnTime(despawnTime),
+        name(name), imports(imports), hasInput(hasInput), preprocess(preprocess), spawnTime(spawnTime), despawnTime(despawnTime),
         initialize(initialize), updateSequential(updateSequential), updateParallel(updateParallel),
         terminate(terminate), updateSpawn(updateSpawn){};
     EngineWatchDataArchetype(Json::Value arr) {
@@ -62,7 +62,7 @@ class EngineWatchDataArchetype {
         updateParallel = EngineWatchDataArchetypeCallback(arr["updateParallel"]);
         terminate = EngineWatchDataArchetypeCallback(arr["terminate"]);
         updateSpawn = EngineWatchDataArchetypeCallback(arr["updateSpawn"]);
-        for (int i = 0; i < arr["data"].size(); i++) data.push_back(make_pair(arr["data"][i]["name"].asString(), arr["data"][i]["index"].asInt()));
+        for (int i = 0; i < arr["imports"].size(); i++) imports.push_back(make_pair(arr["imports"][i]["name"].asString(), arr["imports"][i]["index"].asInt()));
     }
 
     Json::Value toJsonObject() {
@@ -77,10 +77,10 @@ class EngineWatchDataArchetype {
         res["updateParallel"] = updateParallel.toJsonObject();
         res["terminate"] = terminate.toJsonObject();
         res["updateSpawn"] = updateSpawn.toJsonObject();
-        res["data"].resize(0);
-        for (int i = 0; i < data.size(); i++) {
-            res["data"][i]["name"] = data[i].first;
-            res["data"][i]["index"] = data[i].second;
+        res["imports"].resize(0);
+        for (int i = 0; i < imports.size(); i++) {
+            res["imports"][i]["name"] = imports[i].first;
+            res["imports"][i]["index"] = imports[i].second;
         }
         return res;
     }

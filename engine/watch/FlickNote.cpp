@@ -4,9 +4,9 @@
      static constexpr const char* name = "Sirius Flick Note";
      bool hasInput = true;
 
-     defineEntityData(beat);
-     defineEntityData(lane);
-     defineEntityData(laneLength);
+     defineImports(beat);
+     defineImports(lane);
+     defineImports(laneLength);
      Variable<EntityMemoryId> enLane;
  
      SonolusApi spawnTime() { return beat - appearTime; }

@@ -4,11 +4,38 @@ class SiriusScratchHoldEnd: public Archetype {
 	static constexpr const char* name = "Sirius Scratch Hold End";
 	bool hasInput = true;
 	
-	defineEntityData(beat);
-	defineEntityData(stBeat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
-	defineEntityData(scratchLength);
+	defineImports(beat);
+	defineImports(stBeat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineImports(scratchLength);
+	defineExports(judgeResult);
+	defineExports(accuracy);
+	defineExports(time1);
+	defineExports(time2);
+	defineExports(time3);
+	defineExports(time4);
+	defineExports(time5);
+	defineExports(time6);
+	defineExports(time7);
+	defineExports(time8);
+	defineExports(time9);
+	defineExports(time10);
+	defineExports(time11);
+	defineExports(time12);
+	defineExports(time13);
+	defineExports(time14);
+	defineExports(time15);
+	defineExports(time16);
+	defineExports(time17);
+	defineExports(time18);
+	defineExports(time19);
+	defineExports(time20);
+	defineExports(time21);
+	defineExports(time22);
+	defineExports(time23);
+	defineExports(time24);
+	defineExports(time25);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -18,6 +45,7 @@ class SiriusScratchHoldEnd: public Archetype {
 	Variable<EntityMemoryId> effectId;
 	Variable<EntityMemoryId> scratchLane;
 	Variable<EntityMemoryId> scratchEnLane;
+	Variable<EntityMemoryId> exportId;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -32,6 +60,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		playId = 0;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
+		exportId = time1;
         return VOID;
     }
     
@@ -48,9 +77,14 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (t == inputTimeMin) res = 3, res2 = 2; FI
 		IF (t > inputTimeMin) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, Buckets.ScratchHoldEnd);
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, Buckets.ScratchHoldEnd);
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
@@ -67,10 +101,18 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (isHolding && playId == 0) {
 			playId = PlayLooped(Clips.Hold);
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
+			IF (exportId <= time25) {
+				ExportValue(exportId, times.now - stBeat);
+				exportId = exportId + 1;
+			} FI
 		} FI
 		IF (!isHolding && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
+			IF (exportId <= time25) {
+				ExportValue(exportId, times.now - stBeat);
+				exportId = exportId + 1;
+			} FI
 		} FI
 
 		// 判定主代码

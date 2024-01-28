@@ -3,9 +3,9 @@ class FlickNote : public Archetype {
 
 	static constexpr const char* name = "Sirius Flick Note";
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
 	Variable<EntitySharedMemoryId> enLane;
 
 	SonolusApi preprocess() {

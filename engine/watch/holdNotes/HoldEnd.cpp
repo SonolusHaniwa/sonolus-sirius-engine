@@ -4,10 +4,10 @@
      static constexpr const char* name = "Sirius Hold End";
 	 bool hasInput = true;
 	 
-	 defineEntityData(beat);
-	 defineEntityData(stBeat);
-	 defineEntityData(lane);
-	 defineEntityData(laneLength);
+	 defineImports(beat);
+	 defineImports(stBeat);
+	 defineImports(lane);
+	 defineImports(laneLength);
 	 Variable<EntityMemoryId> enLane;
      Variable<EntityMemoryId> effectInstanceId;
  

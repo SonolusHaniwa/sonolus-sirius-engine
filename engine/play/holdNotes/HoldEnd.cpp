@@ -4,10 +4,38 @@ class SiriusHoldEnd: public Archetype {
 	static constexpr const char* name = "Sirius Hold End";
 	bool hasInput = true;
 	
-	defineEntityData(beat);
-	defineEntityData(stBeat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(stBeat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineExports(judgeResult);
+	defineExports(accuracy);
+	defineExports(time1);
+	defineExports(time2);
+	defineExports(time3);
+	defineExports(time4);
+	defineExports(time5);
+	defineExports(time6);
+	defineExports(time7);
+	defineExports(time8);
+	defineExports(time9);
+	defineExports(time10);
+	defineExports(time11);
+	defineExports(time12);
+	defineExports(time13);
+	defineExports(time14);
+	defineExports(time15);
+	defineExports(time16);
+	defineExports(time17);
+	defineExports(time18);
+	defineExports(time19);
+	defineExports(time20);
+	defineExports(time21);
+	defineExports(time22);
+	defineExports(time23);
+	defineExports(time24);
+	defineExports(time25);
+	defineExports(time26);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -15,6 +43,7 @@ class SiriusHoldEnd: public Archetype {
 	Variable<EntityMemoryId> lastHoldTime;
 	Variable<EntityMemoryId> playId;
 	Variable<EntityMemoryId> effectId;
+	Variable<EntityMemoryId> exportId;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -27,6 +56,7 @@ class SiriusHoldEnd: public Archetype {
 		isHolding = false;
 		lastHoldTime = -1;
 		playId = 0;
+		exportId = time1;
         return VOID;
     }
     
@@ -46,9 +76,14 @@ class SiriusHoldEnd: public Archetype {
 		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, Buckets.HoldEnd);
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, Buckets.HoldEnd);
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		IF (res2 == 1) Play(Clips.Perfect, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.Perfect, minSFXDistance); FI
 		IF (res2 == 3) Play(Clips.Good, minSFXDistance); FI
@@ -69,10 +104,18 @@ class SiriusHoldEnd: public Archetype {
 		IF (isHolding && playId == 0) {
 			playId = PlayLooped(Clips.Hold);
 			effectId = spawnHoldEffect(Effects.Hold, lane, enLane);
+			IF (exportId <= time26) {
+				ExportValue(exportId, times.now - stBeat);
+				exportId = exportId + 1;
+			} FI
 		} FI
 		IF (!isHolding && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
+			IF (exportId <= time26) {
+				ExportValue(exportId, times.now - stBeat);
+				exportId = exportId + 1;
+			} FI
 		} FI
 
 		// 判定主代码

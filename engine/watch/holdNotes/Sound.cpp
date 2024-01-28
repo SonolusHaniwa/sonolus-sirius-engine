@@ -4,10 +4,10 @@
      static constexpr const char* name = "Sirius Sound";
 	 bool hasInput = true;
 	 
-	 defineEntityData(beat);
- 	 defineEntityData(lane);
- 	 defineEntityData(laneLength);
-	 defineEntityData(holdType);
+	 defineImports(beat);
+ 	 defineImports(lane);
+ 	 defineImports(laneLength);
+	 defineImports(holdType);
      Variable<EntityMemoryId> enLane;
  
      SonolusApi spawnTime() { return beat - appearTime; }
