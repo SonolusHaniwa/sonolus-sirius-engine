@@ -44,6 +44,7 @@ namespace watchData {
 	BlockPointer<LevelMemoryId> LevelMemory;
 	BlockPointer<LevelDataId> LevelData;
 	BlockPointer<LevelOptionId> LevelOption;
+	BlockPointer<LevelBucketId> LevelBucket;
 	BlockPointer<LevelScoreId> LevelScore;
 	BlockPointer<LevelLifeId> LevelLife;
 	BlockPointer<EngineRomId> EngineRom;

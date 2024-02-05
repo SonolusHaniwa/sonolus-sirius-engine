@@ -276,14 +276,14 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	return json_encode(data);
 }
 
-void addTime( double &current, double bpm, 
+void addTime( double &current, double bpm, double beat,
     tuple<string, int, int, string> a, 
     tuple<string, int, int, string> b) {
     int a1 = atoi(get<0>(a).substr(0, 3).c_str());
     int b1 = atoi(get<0>(b).substr(0, 3).c_str());
     int a2 = get<1>(a), b2 = get<1>(b);
     int a3 = get<2>(a), b3 = get<2>(b);
-    double timesPerBeat = 60.0 * 4 / bpm;
+    double timesPerBeat = 60.0 * beat / bpm;
     // cout << current << " " << (1.0 * b2 / b3 - 1.0 * a2 / a3) * timesPerBeat << endl; exit(1);
     if (a1 == b1) current += (1.0 * b2 / b3 - 1.0 * a2 / a3) * timesPerBeat;
     else current += ((b1 - a1 - 1) + 1.0 - 1.0 * a2 / a3 + 1.0 * b2 / b3) * timesPerBeat; 
@@ -307,7 +307,7 @@ string fromSUS(string text) {
     double ticks_per_beat = 480;
     vector<tuple<string, int, int, string> > mainData;
     map<string, int> bpmList;
-    int currentBpm = 120; double currentTime = 0;
+    int currentBpm = 120; double currentBeat = 2, currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
     double waveOffset = 0;
     for (int i = 0; i < lines.size(); i++) {
@@ -399,6 +399,10 @@ string fromSUS(string text) {
             }
             continue;
         }
+        if (head.substr(3, 2) == "02") { // 处理变拍事件
+            mainData.push_back({head, 0, 1, body});
+            continue;
+        }
         for (int j = 0; j < body.size(); j += 2) 
             mainData.push_back({head, j / 2, max(1, int(body.size()) / 2), body.substr(j, 2)});
     }
@@ -420,8 +424,8 @@ string fromSUS(string text) {
     // 处理主数据
     stringstream txt; map<double, vector<tuple<string, int, int, string> > > noteList[13][13];
     for (int i = 0; i < mainData.size(); i++) {
-        if (i == 0) addTime(currentTime, currentBpm, {"00000", 0, 1, "00"}, mainData[i]);
-        else addTime(currentTime, currentBpm, mainData[i - 1], mainData[i]);
+        if (i == 0) addTime(currentTime, currentBpm, currentBeat, {"00000", 0, 1, "00"}, mainData[i]);
+        else addTime(currentTime, currentBpm, currentBeat, mainData[i - 1], mainData[i]);
         string head = get<0>(mainData[i]), body = get<3>(mainData[i]);
         int beat = atoi(head.substr(0, 3).c_str());
         string prop = head.substr(3);
@@ -429,6 +433,9 @@ string fromSUS(string text) {
             if (get<3>(mainData[i]) == "00") continue;
             int bpm = bpmList[get<3>(mainData[i])];
             currentBpm = bpm;
+        } else if (prop == "02") { // Beat Change 
+            double beat = atof(get<3>(mainData[i]).c_str());
+            currentBeat = beat;
         } else if (prop == "SL") { // Split Line
             auto tmp = explode(".", body.c_str());
             int line = atoi(tmp[0].c_str()), type = atoi(tmp[1].c_str());
@@ -441,10 +448,10 @@ string fromSUS(string text) {
             }
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
-            if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
+            if (body[0] != '1' && body[0] != '2' && body[0] != '3' && body[0] != '4') 
                 throw runtime_error("Invalid Tap Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
-            if (body[0] == '1' || body[0] == '2') noteList[l][r][currentTime].push_back(mainData[i]);
+            if (body[0] == '1' || body[0] == '2' || body[0] == '4') noteList[l][r][currentTime].push_back(mainData[i]); // upd: 新增 Damage 功能
             else ; // Note Type = 3, 不知道干嘛的
         } else if (prop[0] == '5') { // Flick
             if (body == "00") continue;
@@ -470,13 +477,14 @@ string fromSUS(string text) {
             double startTime = 0;
             for (auto v : noteList[l][r]) {
                 double t = v.first; auto info = v.second;
-                bool isCritical = false, isFlick = false, 
+                bool isCritical = false, isFlick = false, isDamage = false,
                      isSlideStart = false, isSlideEnd = false, isSlideSound = false;
                 int bpm = 120;
                 for (auto x : info) {
                     string head = get<0>(x), body = get<3>(x);
                     string prop = head.substr(3);
                     if (prop[0] == '1') isCritical |= (body[0] == '2');
+                    if (prop[0] == '1') isDamage |= (body[0] == '4');
                     if (prop[0] == '5') isFlick |= 1;
                     if (prop[0] == '3') {
                         isSlideStart |= (body[0] == '1');
@@ -540,12 +548,22 @@ string fromSUS(string text) {
                 }
                 if (isSlideStart) {
                     if (inSlide) throw runtime_error("Overlapped Slide in [" + to_string(l) + ", " + to_string(r) + "]");
-                    inSlide = true; CriticalSlide = isCritical;
-                    if (isCritical) {
+                    inSlide = true; CriticalSlide = isCritical; addStart = !isDamage;
+                    if (isCritical) { // 如果是 CriticalHold 或 CriticalScratchHold
                         for (auto &x : noteList[l][r][t]) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
                             if (prop[0] == '1' && body[0] == '2') {
+                                x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                                break;
+                            }
+                        }
+                    }
+                    if (isDamage) { // 如果没有头
+                        for (auto &x : noteList[l][r][t]) {
+                            string head = get<0>(x), body = get<3>(x);
+                            string prop = head.substr(3);
+                            if (prop[0] == '1' && body[0] == '4') {
                                 x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
                                 break;
                             }
