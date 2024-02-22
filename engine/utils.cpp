@@ -288,11 +288,12 @@ SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBe
          lt = c2 - Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
 	auto rb = c3 + Vec(w1 / 2 - noteMoveLength * w1 / w, 0), 
          rt = c4 + Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
+    let val = EntityInfo.get(0) * 1e-5;
 	IF (isHolding) {
         let val = Floor(times.now / 0.1) % 2 == 1;
-        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.85);
-        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
-    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
+        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.85);
+        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
+    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
     return VOID;
 }
 

@@ -92,6 +92,7 @@ class EngineWatchData {
     vector<pair<string, int> > skin_sprites = {};
     vector<pair<string, int> > effect_clips = {};
     vector<pair<string, int> > particle_effects = {};
+    vector<EngineDataBucket> buckets = {};
     vector<EngineWatchDataArchetype> archetypes = {};
     int updateSpawn = 0;
     vector<EngineDataNode> nodes = {};
@@ -101,7 +102,7 @@ class EngineWatchData {
         res["skin"]["sprites"].resize(0);
         res["effect"]["clips"].resize(0);
         res["particle"]["effects"].resize(0);
-        res["archetypes"].resize(0); res["nodes"].resize(0);
+        res["archetypes"].resize(0); res["nodes"].resize(0); res["buckets"].resize(0);
         for (int i = 0; i < skin_sprites.size(); i++) {
             res["skin"]["sprites"][i]["name"] = skin_sprites[i].first;
             res["skin"]["sprites"][i]["id"] = skin_sprites[i].second;
@@ -113,7 +114,8 @@ class EngineWatchData {
         for (int i = 0; i < particle_effects.size(); i++) {
             res["particle"]["effects"][i]["name"] = particle_effects[i].first;
             res["particle"]["effects"][i]["id"] = particle_effects[i].second;
-         }
+        }
+        for (int i = 0; i < buckets.size(); i++) res["buckets"].append(buckets[i].toJsonObject());
         for (int i = 0; i < archetypes.size(); i++) res["archetypes"].append(archetypes[i].toJsonObject());
         res["updateSpawn"] = updateSpawn;
         for (int i = 0; i < nodes.size(); i++) res["nodes"].append(nodes[i].toJsonObject());
