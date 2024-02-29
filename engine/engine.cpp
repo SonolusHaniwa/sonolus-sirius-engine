@@ -7,14 +7,15 @@ const string Scope = "sirius";
 
 #ifdef play
 using namespace playData;
-#elif tutorial
-using namespace tutorialData;
+// #elif tutorial
+// using namespace tutorialData;
 #elif preview
 using namespace previewData;
 #elif watch
 using namespace watchData;
 #endif
 
+#if play || preview || watch
 #include"skins.cpp"
 #include"effects.cpp"
 #include"particles.cpp"
@@ -23,6 +24,7 @@ using namespace watchData;
 #include"types.cpp"
 #include"utils.cpp"
 #include"getSplitLine.cpp"
+#endif
 
 #ifdef play
 #include"play/Initialization.cpp"
@@ -42,23 +44,23 @@ using namespace watchData;
 #include"play/holdNotes/ScratchHoldEnd.cpp"
 #include"play/SyncLine.cpp"
 #include"play/SplitLine.cpp"
-#elif tutorial
-#include"skins.cpp"
-#include"effects.cpp"
-#include"particles.cpp"
-#include"tutorial/instructionTexts.cpp"
-#include"tutorial/instructionIcons.cpp"
-#include"tutorial/constants.cpp"
-#include"tutorial/utils.cpp"
-#include"getSplitLine.cpp"
-#include"tutorial/components/Note.cpp"
-#include"tutorial/components/Flick.cpp"
-#include"tutorial/components/Hold.cpp"
-#include"tutorial/components/Scratch.cpp"
-#include"tutorial/components/JumpScratch.cpp"
-#include"tutorial/preprocess.cpp"
-#include"tutorial/navigate.cpp"
-#include"tutorial/update.cpp"
+// #elif tutorial
+// #include"skins.cpp"
+// #include"effects.cpp"
+// #include"particles.cpp"
+// #include"tutorial/instructionTexts.cpp"
+// #include"tutorial/instructionIcons.cpp"
+// #include"tutorial/constants.cpp"
+// #include"tutorial/utils.cpp"
+// #include"getSplitLine.cpp"
+// #include"tutorial/components/Note.cpp"
+// #include"tutorial/components/Flick.cpp"
+// #include"tutorial/components/Hold.cpp"
+// #include"tutorial/components/Scratch.cpp"
+// #include"tutorial/components/JumpScratch.cpp"
+// #include"tutorial/preprocess.cpp"
+// #include"tutorial/navigate.cpp"
+// #include"tutorial/update.cpp"
 #elif preview
 #include"preview/Initialization.cpp"
 #include"preview/Stage.cpp"

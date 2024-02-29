@@ -7,6 +7,7 @@
      defineImports(beat);
      defineImports(lane);
      defineImports(laneLength);
+     defineImports(scratchLength);
      defineImports(judgeResult);
      defineImports(activation);
      defineImports(accuracy);
@@ -54,7 +55,11 @@
  	SonolusApi updateParallel() {
  		FUNCBEGIN
 		drawNormalNote(Sprites.ScratchNote, lane, enLane, beat);
-		drawArrow(lane, enLane, beat);
+		IF (scratchLength == 0) drawArrow(lane, enLane, beat);
+		ELSE {
+			IF (scratchLength > 0) drawRightArrow(lane, enLane, beat);
+			ELSE drawLeftArrow(lane, enLane, beat); FI
+		} FI
  		return VOID;
  	}
 };

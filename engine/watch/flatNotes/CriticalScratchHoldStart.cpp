@@ -10,7 +10,7 @@ class SiriusCriticalScratchHoldStart: public FlatNote {
     	good: Clips.Good
     }; }
     EffectsArray getEffects() { return {
-    	linear: Effects.HoldLinear,
-    	circular: Effects.HoldCircular,
+    	linear: Effects.CriticalLinear,
+    	circular: Effects.CriticalCircular,
     }; }
 };

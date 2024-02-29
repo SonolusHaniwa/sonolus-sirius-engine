@@ -153,6 +153,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+                single["data"][3]["name"] = "scratchLength"; single["data"][3]["value"] = x.scratchLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
