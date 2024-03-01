@@ -372,7 +372,7 @@ string fromSUS(string text) {
             }
             sort(exp.begin(), exp.end(), [](string a, string b){
             	return a.size() == b.size() ? a < b : a.size() < b.size();
-            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2023/01/14
+            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2024/01/14
             for (auto i = 0; i < exp.size(); i++) {
                 string tmp = exp[i];
                 // cout << tmp << endl;
@@ -494,7 +494,6 @@ string fromSUS(string text) {
                         bpm = get<2>(x);
                     }
                 }
-                // if (l == 1 && r == 3 && t > 15.3 && t < 15.4) cout << t << " " << isCritical << endl;
 
                 // Note 讨论
                 if (!isSlideStart && !isSlideEnd && !isSlideSound && !isFlick) continue;
@@ -519,7 +518,6 @@ string fromSUS(string text) {
                             }
                         }
                     }
-                	// if (l == 1 && r == 3 && t > 18 && t < 19) cout << t << " " << CriticalSlide << endl;
                     int noteType = (CriticalSlide ? 
                         (ScratchSlide ? ScratchCriticalHoldStart : CriticalHoldStart) :
                         (ScratchSlide ? ScratchHoldStart : HoldStart));
