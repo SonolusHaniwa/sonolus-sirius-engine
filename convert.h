@@ -112,20 +112,21 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             if (x.type == Hold || x.type == CriticalHold) {
                 single["archetype"] = "Sirius Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 total++;
             } else {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
                 total++;
-            } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
-			lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
+            }
+            res.append(single);
+			addSyncLine(x.endTime, x.leftLane, x.laneLength);
         }
         // 处理当前 Note
         Note x = notes[i]; Json::Value single;
@@ -195,21 +196,18 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             case Sound: case ScratchSound: {
                 single["archetype"] = "Sirius Sound";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
-                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
-                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 total++;
             } break;
             case SoundPurple: {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            	single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = 0;
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
@@ -217,11 +215,9 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 if (lastTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
                 single["archetype"] = "Sirius Hold Eighth";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
-                single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
-                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
-                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-				single["data"][4]["name"] = "holdType"; single["data"][4]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
+                single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
                 total++;
             } break;
             case None: {
@@ -242,20 +238,20 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         if (x.type == Hold || x.type == CriticalHold) {
             single["archetype"] = "Sirius Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             total++;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "lastBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
             total++;
         } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
-        lastType[x.leftLane][x.leftLane + x.laneLength - 1] = 0; addSyncLine(x.endTime, x.leftLane, x.laneLength);
+        addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
 
     cout << "[INFO] Total Note Number: " << total << endl;
@@ -274,6 +270,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
     cout << "[INFO] Sync Line Solved." << endl;
 
 	Json::Value data;
+	data["formatVersion"] = 4;
 	data["bgmOffset"] = bgmOffset;
 	data["entities"] = res;
 	return json_encode(data);
@@ -312,6 +309,7 @@ string fromSUS(string text) {
     map<string, int> bpmList;
     int currentBpm = 120; double currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
+    double waveOffset = 0;
     for (int i = 0; i < lines.size(); i++) {
         while (lines[i].back() == '\n' || lines[i].back() == '\r') lines[i].pop_back();
         if (lines[i].size() && lines[i][0] == '\r') lines[i] = lines[i].substr(1);
@@ -325,6 +323,11 @@ string fromSUS(string text) {
             if (res[0] == "ticks_per_beat") ticks_per_beat = atof(res[1].c_str());
             if (res[0] == "lane_slided") ; // 不知道干啥的
             continue;
+        }
+        if (lines[i].substr(0, 10) == "WAVEOFFSET") {
+        	string t = lines[i].substr(11);
+			currentTime = atof(t.c_str());
+			continue;
         }
 
         // 处理谱面数据
@@ -355,22 +358,30 @@ string fromSUS(string text) {
                 auto tmp3 = explode(".", type.c_str());
                 if (tmp3.size() != 2)
                     throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                switch(tmp2[1].size()) {
-                    case 0: tmp2[1] = "0000"; break;
-                    case 1: tmp2[1] = "000" + tmp2[1]; break;
-                    case 2: tmp2[1] = "00" + tmp2[1]; break;
-                    case 3: tmp2[1] = "0" + tmp2[1]; break;
-                } exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
+                // switch(tmp2[1].size()) {
+                //     case 0: tmp2[1] = "0000"; break;
+                //     case 1: tmp2[1] = "000" + tmp2[1]; break;
+                //     case 2: tmp2[1] = "00" + tmp2[1]; break;
+                //     case 3: tmp2[1] = "0" + tmp2[1]; break;
+                // } 
+                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
+                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
+                while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
+                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
             }
-            sort(exp.begin(), exp.end());
+            sort(exp.begin(), exp.end(), [](string a, string b){
+            	return a.size() == b.size() ? a < b : a.size() < b.size();
+            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2023/01/14
             for (auto i = 0; i < exp.size(); i++) {
                 string tmp = exp[i];
+                // cout << tmp << endl;
                 auto tmp1 = explode(":", tmp.c_str());
                 string beat = tmp1[0], type = tmp1[1];
                 auto tmp2 = explode("'", beat.c_str());
                 auto tmp3 = explode(".", type.c_str());
                 int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
                 if (currentSplitLine != 0) { // 分割线终点
+                	// cout << currentSplitLine << " " << currentSplitLineType << endl;
                     if (currentSplitLine * 10 != lines || currentSplitLineType != types)
                         throw runtime_error("Overlapped Split Line: " + exp[i]);
                     currentSplitLine = 0; currentSplitLineType = 0;
@@ -431,23 +442,20 @@ string fromSUS(string text) {
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                // throw runtime_error("Invalid Tap Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Tap Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             if (body[0] == '1' || body[0] == '2') noteList[l][r][currentTime].push_back(mainData[i]);
             else ; // Note Type = 3, 不知道干嘛的
         } else if (prop[0] == '5') { // Flick
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '3' && body[0] != '4') 
-                // throw runtime_error("Invalid Flick Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Flick Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back(mainData[i]);
         } else if (prop[0] == '3') { // Slide(Hold)
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3') 
-                // throw runtime_error("Invalid Slide Type " + head + ": " + body);
-                continue;
+                throw runtime_error("Invalid Slide Type " + head + ": " + body);
             int l = getLine(prop[1]), r = getLine(prop[1], body[1], -1);
             noteList[l][r][currentTime].push_back({get<0>(mainData[i]), get<1>(mainData[i]), currentBpm, get<3>(mainData[i])});
         }
@@ -495,7 +503,9 @@ string fromSUS(string text) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
                             if (prop[0] == '5') {
-                                ScratchSlide = true, ScratchType = (i == l ? 0 : (i < l ? i - r - 1 : i - l + 1));
+                                ScratchSlide = true, ScratchType = (i == l ? (
+                                    (body[0] == '3' ? -(r - l + 1) : (body[0] == '4' ? (r - l + 1) : 0))
+                                ) : (i < l ? i - r - 1 : i - l + 1));
                                 x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
                             }
                         }

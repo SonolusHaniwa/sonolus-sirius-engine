@@ -2,7 +2,28 @@ FuncNode Abs(FuncNode value) {
     return FuncNode(RuntimeFunction.Abs, {value});
 }
 
+// vector<FuncNode> Unpack(vector<FuncNode> value, string search) {
+// 	vector<FuncNode> res;
+// 	for (int i = 0; i < value.size(); i++) {
+// 		auto tmp = dataContainer[value[i].getNodeId()];
+// 		if (tmp.type != "value" && tmp.func.func == search) {
+// 			vector<FuncNode> args; FuncNode x;
+// 			for (int j = 0; j < tmp.func.args.size(); j++)
+// 				x.nodeId = tmp.func.args[j], args.push_back(x);
+// 			args = Unpack(args, search);
+// 			for (int j = 0; j < args.size(); j++) res.push_back(args[j]);
+// 		} else res.push_back(value[i]);
+// 	} return res;
+// }
+
 FuncNode Add(vector<FuncNode> value) {
+	// value = Unpack(value, RuntimeFunction.Add);
+	// double addValue = 0; vector<FuncNode> args;
+	// for (int i = 0; i < value.size(); i++) {
+	// 	auto tmp = dataContainer[value[i].getNodeId()];
+	// 	if (tmp.type == "value") addValue += tmp.value.value;
+	// 	else args.push_back(value[i]);
+	// } if (abs(addValue) > 1e-10) args.push_back(addValue);
     return FuncNode(RuntimeFunction.Add, value);
 }
 
@@ -43,19 +64,18 @@ FuncNode BeatToTime(FuncNode beat) {
     return FuncNode(RuntimeFunction.BeatToTime, {beat});
 }
 
-int blockCounter = 0;
 FuncNode __builtin_Block(FuncNode body) {
     return FuncNode(RuntimeFunction.Block, {body});
 }
 #define Block(body) [&](){ \
-	blockCounter++; \
+	blockCounter.top()++; \
 	auto res = __builtin_Block(body); \
-	blockCounter--; \
+	blockCounter.top()--; \
 	return res; \
 }()
 
-FuncNode Break(FuncNode count, FuncNode value) {
-    return FuncNode(RuntimeFunction.Break, {count, value});
+void Break(FuncNode count, FuncNode value) {
+    R(FuncNode(RuntimeFunction.Break, {count, value}));
 }
 
 FuncNode Ceil(FuncNode value) {
@@ -78,8 +98,8 @@ FuncNode Cosh(FuncNode value) {
     return FuncNode(RuntimeFunction.Cosh, {value});
 }
 
-FuncNode Debuglog(FuncNode value) {
-    return FuncNode(RuntimeFunction.DebugLog, {value});
+void Debuglog(FuncNode value) {
+    R(FuncNode(RuntimeFunction.DebugLog, {value}));
 }
 
 FuncNode DecrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
@@ -106,16 +126,16 @@ FuncNode DecrementPre(FuncNode id, FuncNode index) {
     return FuncNode(RuntimeFunction.DecrementPre, {id, index});
 }
 
-FuncNode DebugPause() {
-    return FuncNode(RuntimeFunction.DebugPause, {});
+void DebugPause() {
+    R(FuncNode(RuntimeFunction.DebugPause, {}));
 }
 
 FuncNode Degree(FuncNode value) {
     return FuncNode(RuntimeFunction.Degree, {value});
 }
 
-FuncNode DestroyParticleEffect(FuncNode particleId) {
-    return FuncNode(RuntimeFunction.DestroyParticleEffect, {particleId});
+void DestroyParticleEffect(FuncNode particleId) {
+    R(FuncNode(RuntimeFunction.DestroyParticleEffect, {particleId}));
 }
 
 FuncNode Divide(vector<FuncNode> value) {
@@ -126,8 +146,8 @@ FuncNode DoWhile(FuncNode body, FuncNode test) {
     return FuncNode(RuntimeFunction.DoWhile, {body, test});
 }
 
-FuncNode Draw(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a) {
-    return FuncNode(RuntimeFunction.Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a});
+void Draw(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a) {
+    R(FuncNode(RuntimeFunction.Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a}));
 }
 
 FuncNode DrawCurvedB(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
@@ -163,6 +183,7 @@ FuncNode Equal(FuncNode lhs, FuncNode rhs) {
 }
 
 FuncNode Execute(vector<FuncNode> value) {
+	if (value.size() == 1) return value[0];
     return FuncNode(RuntimeFunction.Execute, value);
 }
 
@@ -288,8 +309,8 @@ FuncNode Mod(vector<FuncNode> value) {
     return FuncNode(RuntimeFunction.Mod, value);
 }
 
-FuncNode MoveParticleEffect(FuncNode particleId, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
-    return FuncNode(RuntimeFunction.MoveParticleEffect, {particleId, x1, y1, x2, y2, x3, y3, x4, y4});
+void MoveParticleEffect(FuncNode particleId, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
+    R(FuncNode(RuntimeFunction.MoveParticleEffect, {particleId, x1, y1, x2, y2, x3, y3, x4, y4}));
 }
 
 FuncNode Multiply(vector<FuncNode> value) {
@@ -315,9 +336,8 @@ FuncNode Or(vector<FuncNode> value) {
 FuncNode Paint(FuncNode id, FuncNode x, FuncNode y, FuncNode size, FuncNode rotation, FuncNode z, FuncNode a) {
     return FuncNode(RuntimeFunction.Paint, {id, x, y, size, rotation, z, a});
 }
-
-FuncNode Play(FuncNode id, FuncNode distance) {
-    return FuncNode(RuntimeFunction.Play, {id, distance});
+void Play(FuncNode id, FuncNode distance) {
+    R(FuncNode(RuntimeFunction.Play, {id, distance}));
 }
 
 FuncNode PlayLooped(FuncNode id) {
@@ -329,16 +349,16 @@ FuncNode PlayLoopedScheduled(FuncNode id, FuncNode startTime) {
 }
 
 //
-FuncNode PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
-    return FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance});
+void PlayScheduled(FuncNode id, FuncNode time, FuncNode distance) {
+    R(FuncNode(RuntimeFunction.PlayScheduled, {id, time, distance}));
 }
 
 FuncNode Power(vector<FuncNode> value) {
     return FuncNode(RuntimeFunction.Power, value);
 }
 
-FuncNode Print(FuncNode value, FuncNode format, FuncNode decimalPlaces, FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode color, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
-    return FuncNode(RuntimeFunction.Print, {value, format, decimalPlaces, anchorX, anchorY, pivotX, pivotY, width, height, rotation, color, alpha, horizontalAlign, background});
+void Print(FuncNode value, FuncNode format, FuncNode decimalPlaces, FuncNode anchorX, FuncNode anchorY, FuncNode pivotX, FuncNode pivotY, FuncNode width, FuncNode height, FuncNode rotation, FuncNode color, FuncNode alpha, FuncNode horizontalAlign, FuncNode background) {
+    R(FuncNode(RuntimeFunction.Print, {value, format, decimalPlaces, anchorX, anchorY, pivotX, pivotY, width, height, rotation, color, alpha, horizontalAlign, background}));
 }
 
 FuncNode Radian(FuncNode value) {
@@ -365,8 +385,8 @@ FuncNode Round(FuncNode value) {
     return FuncNode(RuntimeFunction.Round, {value});
 }
 
-FuncNode Set(FuncNode id, FuncNode index, FuncNode value) {
-    return FuncNode(RuntimeFunction.Set, {id, index, value});
+void Set(FuncNode id, FuncNode index, FuncNode value) {
+    R(FuncNode(RuntimeFunction.Set, {id, index, value}));
 }
 
 FuncNode SetShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
@@ -479,13 +499,13 @@ FuncNode Smoothstep(FuncNode a, FuncNode b, FuncNode x) {
 }
 */
 
-FuncNode Spawn(FuncNode id, vector<FuncNode> data) {
+void Spawn(FuncNode id, vector<FuncNode> data) {
 	data.insert(data.begin(), id);
-    return FuncNode(RuntimeFunction.Spawn, data);
+    R(FuncNode(RuntimeFunction.Spawn, data));
 }
 
-FuncNode SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {
-    return FuncNode(RuntimeFunction.SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, duration, isLooped});
+void SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {
+    R(FuncNode(RuntimeFunction.SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, duration, isLooped}));
 }
 
 FuncNode StackEnter(FuncNode size) {
@@ -544,12 +564,12 @@ FuncNode StackSet(FuncNode offset, FuncNode value) {
     return FuncNode(RuntimeFunction.StackSet, {offset, value});
 }
 
-FuncNode StopLooped(FuncNode loopId) {
-    return FuncNode(RuntimeFunction.StopLooped, {loopId});
+void StopLooped(FuncNode loopId) {
+    R(FuncNode(RuntimeFunction.StopLooped, {loopId}));
 }
 
-FuncNode StopLoopedScheduled(FuncNode loopId, FuncNode endTime) {
-    return FuncNode(RuntimeFunction.StopLoopedScheduled, {loopId, endTime});
+void StopLoopedScheduled(FuncNode loopId, FuncNode endTime) {
+    R(FuncNode(RuntimeFunction.StopLoopedScheduled, {loopId, endTime}));
 }
 
 FuncNode Subtract(vector<FuncNode> value) {
@@ -615,16 +635,22 @@ FuncNode UnlerpClamped(FuncNode a, FuncNode b, FuncNode x) {
     return FuncNode(RuntimeFunction.UnlerpClamped, {a, b, x});
 }
 
-FuncNode While(FuncNode test, FuncNode body) {
-    return FuncNode(RuntimeFunction.While, {test, body});
+void While(FuncNode test, FuncNode body) {
+    R(FuncNode(RuntimeFunction.While, {test, body}));
 }
 
 // 自定义函数
 
-FuncNode Return(FuncNode code) {
-    return Break(blockCounter, code);
+void Return(FuncNode code) {
+    Break(blockCounter.top(), code);
+}
+
+void Exit(FuncNode code) {
+	stack<int> tmp = blockCounter; int blockCount = 0;
+	while (tmp.size()) blockCount += tmp.top(), tmp.pop();
+	Break(blockCount - 1, code);
 }
 
 FuncNode If(FuncNode cond, FuncNode block) {
-    return If(cond, block, Execute({}));
+    return If(cond, block, 0);
 }

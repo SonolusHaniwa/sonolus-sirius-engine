@@ -49,7 +49,7 @@ void helpText(int argc, char** argv) {
     cout << "    Ched SUS -> Sonolus LevelData: " << argv[0] << " sus2data <sus> <music_config> <data>" << endl;
     exit(1);
 }
-
+    
 int main(int argc, char** argv) {
     // 谱面转换测试
     if (argc >= 2) {
@@ -112,23 +112,24 @@ int main(int argc, char** argv) {
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
     fout.close(); fout.open((dist + "/EngineData"));
+    // ofstream fout((dist + "/EngineData"));
     for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif tutorial
-    buffer data, configuration;
-    build(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineTutorialData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
+// #elif tutorial
+//     buffer data, configuration;
+//     build(configuration, data);
+//     ofstream fout((dist + "/EngineConfiguration"));
+//     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+//     fout.close(); fout.open((dist + "/EngineTutorialData"));
+//     for (int i = 0; i < data.size(); i++) fout << data.v[i];
 #elif preview
     buffer data, configuration;
     build<
         // Replace with your archetypes here
         Initialization,
 		Stage,
-		SiriusNormalNote,
-		SiriusCriticalNote,
-		SiriusFlickNote,
+		NormalNote,
+		CriticalNote,
+		FlickNote,
 		SiriusHoldStart,
 		SiriusHoldEighth,
 		SiriusCriticalHoldStart,
@@ -137,7 +138,7 @@ int main(int argc, char** argv) {
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
 		SiriusSound,
-		SiriusSyncLine,
+		SyncLine,
         SplitLine
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
@@ -150,9 +151,10 @@ int main(int argc, char** argv) {
 		// Replace with your archetypes here
 		Initialization,
 		Stage,
-		SiriusNormalNote,
-		SiriusCriticalNote,
-		SiriusFlickNote,
+		UpdateJudgment,
+		NormalNote,
+		CriticalNote,
+		FlickNote,
 		SiriusHoldStart,
 		SiriusCriticalHoldStart,
 		SiriusScratchHoldStart,
@@ -161,8 +163,8 @@ int main(int argc, char** argv) {
 		SiriusSound,
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
-		SiriusSyncLine,
-		SiriusSplitLine
+		SyncLine,
+		SplitLine
 	>(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
