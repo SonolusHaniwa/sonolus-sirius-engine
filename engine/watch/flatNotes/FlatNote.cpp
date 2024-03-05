@@ -22,8 +22,10 @@
  	 	beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
-        Set(EntityInputId, 0, beat);
 		IF (isReplay == 1) {
+        	Set(EntityInputId, 0, beat + accuracy);
+        	Set(EntityInputId, 1, getBucket());
+        	Set(EntityInputId, 2, accuracy);
 			IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(getClips().great, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 4 || judgeResult == 5) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
@@ -34,6 +36,9 @@
 			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood}); FI
 			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad}); FI
 		} ELSE {
+        	Set(EntityInputId, 0, beat);
+        	Set(EntityInputId, 1, getBucket());
+        	Set(EntityInputId, 2, 0);
 			PlayScheduled(getClips().perfect, beat, minSFXDistance);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
 		} FI;

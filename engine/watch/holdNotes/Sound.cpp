@@ -22,6 +22,10 @@
         enLane = lane + laneLength - 1;
         Set(EntityInputId, 0, beat);
         IF (isReplay) {
+        	Set(EntityInputId, 0, beat + accuracy);
+			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
+			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
+        	Set(EntityInputId, 2, accuracy);
         	IF (judgeResult != 0) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
         	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeMiss}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgePerfectPlus}); FI
@@ -30,6 +34,10 @@
 			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeGood}); FI
 			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeBad}); FI
         } ELSE {
+        	Set(EntityInputId, 0, beat);
+			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
+			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
+        	Set(EntityInputId, 2, 0);
 	        PlayScheduled(Clips.Sound, beat, minSFXDistance);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
 		} FI

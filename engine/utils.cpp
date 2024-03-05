@@ -325,7 +325,7 @@ SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	auto cb = Vec((c2.x + c4.x) / 2, (c2.y + c4.y) / 2), ct = Vec((c1.x + c3.x) / 2, (c1.y + c3.y) / 2);
 	auto lb = cb - Vec(m2 * tickWidth / 2, 0), lt = ct - Vec(m1 * tickWidth / 2, 0);
 	auto rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 0.5);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 2000 - beat, 0.5);
 	return VOID;
 }
 
@@ -529,8 +529,8 @@ SonolusApi drawSplitLine(let split) {
 
 SonolusApi drawPreviewSplitLine(let st, let en, let extra, let split) {
 	FUNCBEGIN
-    drawPreviewLine(0, st, en, splitLineMemory[0] + extra),
-    drawPreviewLine(12, st, en, splitLineMemory[split] + extra),
+    Run(drawPreviewLine(0, st, en, splitLineMemory[0] + extra)),
+    Run(drawPreviewLine(12, st, en, splitLineMemory[split] + extra)),
     Run(Switch(split, {
         {1, {}},
         {2, drawPreviewLine(6, st, en, splitLineMemory[1] + extra)},

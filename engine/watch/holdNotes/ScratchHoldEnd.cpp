@@ -52,8 +52,10 @@
         enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
-        Set(EntityInputId, 0, beat);
         IF (isReplay == 1) {
+        	Set(EntityInputId, 0, beat + accuracy);
+        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
+        	Set(EntityInputId, 2, accuracy);
 	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
         	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.CriticalGood, beat + accuracy, minSFXDistance); FI
@@ -69,6 +71,9 @@
 				} FI
 			} DONE
         } ELSE {
+        	Set(EntityInputId, 0, beat);
+        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
+        	Set(EntityInputId, 2, 0);
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});

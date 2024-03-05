@@ -48,8 +48,10 @@
  	 	stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
-        Set(EntityInputId, 0, beat);
         IF (isReplay) {
+        	Set(EntityInputId, 0, beat + accuracy);
+        	Set(EntityInputId, 1, Buckets.HoldEnd);
+        	Set(EntityInputId, 2, accuracy);
 	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
         	IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance); FI
@@ -69,6 +71,9 @@
 				} FI
 			} DONE
         } ELSE {
+        	Set(EntityInputId, 0, beat);
+        	Set(EntityInputId, 1, Buckets.HoldEnd);
+        	Set(EntityInputId, 2, 0);
 	        PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});

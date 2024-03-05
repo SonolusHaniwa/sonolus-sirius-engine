@@ -26,7 +26,7 @@ double judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 double judgeTextHeight = 0.15;               // 判定文字高度
-double judgeTextDuration = 0.2;			     // 判定文字动画时长
+double judgeTextDuration = 0.1;			     // 判定文字动画时长
 double stageWidth = 0.7;                         // 单个舞台宽度
 double stageHeight = 2.0;                        // 单个舞台高度
 double stageFullWidth = stageWidth + 0.3;        // 单个舞台占有宽度
@@ -60,8 +60,9 @@ let syncLine = LevelOption.get(Options.SyncLine);
 let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
 let extraWidth = LevelOption.get(Options.ExtraWidth);
 let levelSpeed = LevelOption.get(Options.Speed);
+let opacity = LevelOption.get(Options.StageOpacity);
 #elif preview
-let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed;
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity;
 #endif
 
 #if play || watch
