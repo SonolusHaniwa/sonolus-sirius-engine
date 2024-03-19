@@ -28,7 +28,7 @@ class SiriusHoldEighth: public Archetype {
     }
     
     SonolusApi spawnOrder() { return 1000 + beat; }
-    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
+    SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN

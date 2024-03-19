@@ -39,8 +39,8 @@
 	 Variable<EntityMemoryId> enLane;
      Variable<EntityMemoryId> effectInstanceId;
  
-     SonolusApi spawnTime() { return stBeat - appearTime; }
-     SonolusApi despawnTime() { return beat + accuracy; }
+     SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
@@ -143,12 +143,12 @@
 				IF (EntityData.get(i) == 0) BREAK; FI
 				active = active || (startTime <= times.now && times.now <= endTime);
 			} DONE
-			drawHoldEighth(Sprites.Hold, lane, enLane, stBeat, beat, active);
+			drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), active);
  		} ELSE {
-			drawHoldEighth(Sprites.Hold, lane, enLane, stBeat, beat, times.now > stBeat && times.now < beat);
+			drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), times.now > stBeat && times.now < beat);
 		} FI
-		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.HoldNote, lane, enLane, times.now); FI
-		IF (times.now > beat - appearTime) drawNormalNote(Sprites.HoldNote, lane, enLane, beat); FI
+		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.HoldNote, lane, enLane, times.scaled); FI
+		IF (times.now > beat - appearTime) drawNormalNote(Sprites.HoldNote, lane, enLane, TimeToScaledTime(beat)); FI
  		return VOID;
  	}
 };

@@ -41,6 +41,7 @@ double tickHeight = 112.0 / 640.0;           // tick 高度
 double arrowWidth = 80.0 / 640.0;            // 箭头宽度
 double arrowHeight = 240.0 / 640.0;          // 箭头高度
 double syncLineHeight = 5.0 / 640.0;         // 同步线高度
+double lineHeight = 114514;                  // 时间线高度(没用)
 #elif preview
 double noteHeight = 0.04;                        // 按键高度
 double tickWidth = 0.03;                         // tick 宽度
@@ -48,6 +49,7 @@ double tickHeight = 0.045;						// tick 高度
 double arrowWidth = 0.03;						// 箭头宽度
 double arrowHeight = 0.06;						// 箭头高度
 double syncLineHeight = 0.003; 					// 同步线高度
+double lineHeight = 0.008;                      // 时间线高度
 #endif
 
 #if play || watch

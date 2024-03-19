@@ -12,8 +12,8 @@
 	 defineImports(accuracy);
      Variable<EntityMemoryId> enLane;
  
-     SonolusApi spawnTime() { return beat - appearTime; }
-     SonolusApi despawnTime() { return beat; }
+     SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat); }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
@@ -46,8 +46,8 @@
 
  	SonolusApi updateParallel() {
 		FUNCBEGIN
-		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, beat, lane, enLane); FI
-		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, beat, lane, enLane); FI
+		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
 		return VOID;
 	}
 };

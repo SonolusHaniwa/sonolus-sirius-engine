@@ -13,8 +13,8 @@
      defineImports(accuracy);
      Variable<EntityMemoryId> enLane;
  
-     SonolusApi spawnTime() { return beat - appearTime; }
-     SonolusApi despawnTime() { return beat + accuracy; }
+     SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
@@ -59,11 +59,11 @@
 
  	SonolusApi updateParallel() {
  		FUNCBEGIN
-		drawNormalNote(Sprites.ScratchNote, lane, enLane, beat);
-		IF (scratchLength == 0) drawArrow(lane, enLane, beat);
+		drawNormalNote(Sprites.ScratchNote, lane, enLane, TimeToScaledTime(beat));
+		IF (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
 		ELSE {
-			IF (scratchLength > 0) drawRightArrow(lane, enLane, beat);
-			ELSE drawLeftArrow(lane, enLane, beat); FI
+			IF (scratchLength > 0) drawRightArrow(lane, enLane, TimeToScaledTime(beat));
+			ELSE drawLeftArrow(lane, enLane, TimeToScaledTime(beat)); FI
 		} FI
  		return VOID;
  	}

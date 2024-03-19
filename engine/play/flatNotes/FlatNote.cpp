@@ -18,7 +18,7 @@ class FlatNote : public Archetype {
     virtual EffectsArray getEffects() { return {}; }
 
     SonolusApi spawnOrder() { return 1000 + beat; }
-    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
+    SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi preprocess() {
 		FUNCBEGIN
@@ -98,7 +98,7 @@ class FlatNote : public Archetype {
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawNormalNote(getSprite(), lane, enLane, beat);
+		drawNormalNote(getSprite(), lane, enLane, TimeToScaledTime(beat));
 		Rect hitbox = getFullHitbox(lane, enLane);
 		hitbox.b = -0.2, hitbox.t = 0.2;
 		// Draw(Sprites.SyncLine, hitbox.l, hitbox.b, hitbox.l, hitbox.t, hitbox.r, hitbox.t, hitbox.r, hitbox.b, 100000, 1);

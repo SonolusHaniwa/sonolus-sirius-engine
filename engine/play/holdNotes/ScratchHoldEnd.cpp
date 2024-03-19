@@ -65,7 +65,7 @@ class SiriusScratchHoldEnd: public Archetype {
     }
     
     SonolusApi spawnOrder() { return 1000 + stBeat; }
-    SonolusApi shouldSpawn() { return times.now > stBeat - appearTime; }
+    SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(stBeat) - appearTime; }
 
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
@@ -127,13 +127,13 @@ class SiriusScratchHoldEnd: public Archetype {
 
     SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawHoldEighth(Sprites.Scratch, lane, enLane, stBeat, beat, isHolding);
-		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.ScratchNote, lane, enLane, times.now); FI
-		IF (times.now > beat - appearTime) drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, beat); FI
+		drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
+		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.ScratchNote, lane, enLane, times.scaled); FI
+		IF (times.now > beat - appearTime) drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 		IF (times.now > beat - appearTime) {
-			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, beat); FI
-			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, beat); FI
-			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, beat); FI
+			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 		} FI
 		return VOID;
 	}

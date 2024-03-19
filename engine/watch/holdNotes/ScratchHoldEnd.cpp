@@ -41,8 +41,8 @@
 	 Variable<EntityMemoryId> scratchLane;
 	 Variable<EntityMemoryId> scratchEnLane;
  
-     SonolusApi spawnTime() { return stBeat - appearTime; }
-     SonolusApi despawnTime() { return beat + accuracy; }
+     SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
@@ -143,16 +143,16 @@
 				IF (EntityData.get(i) == 0) BREAK; FI
 				active = active || (startTime <= times.now && times.now <= endTime);
 			} DONE
-			drawHoldEighth(Sprites.Scratch, lane, enLane, stBeat, beat, active);
+			drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), active);
  		} ELSE {
-			drawHoldEighth(Sprites.Scratch, lane, enLane, stBeat, beat, stBeat <= times.now && times.now <= beat);
+			drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), stBeat <= times.now && times.now <= beat);
 		} FI
-		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.ScratchNote, lane, enLane, times.now); FI
-		IF (times.now > beat - appearTime) drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, beat); FI
+		IF (times.now > stBeat && times.now < beat) drawNormalNote(Sprites.ScratchNote, lane, enLane, times.scaled); FI
+		IF (times.now > beat - appearTime) drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 		IF (times.now > beat - appearTime) {
-			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, beat); FI
-			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, beat); FI
-			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, beat); FI
+			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 		} FI
  		return VOID;
  	}

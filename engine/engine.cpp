@@ -44,6 +44,7 @@ using namespace watchData;
 #include"play/holdNotes/ScratchHoldEnd.cpp"
 #include"play/SyncLine.cpp"
 #include"play/SplitLine.cpp"
+#include"play/HiSpeed.cpp"
 // #elif tutorial
 // #include"skins.cpp"
 // #include"effects.cpp"
@@ -78,6 +79,7 @@ using namespace watchData;
 #include"preview/holdNotes/Sound.cpp"
 #include"preview/SyncLine.cpp"
 #include"preview/SplitLine.cpp"
+#include"preview/HiSpeed.cpp"
 #elif watch
 #include"watch/updateSpawn.cpp"
 #include"watch/Initialization.cpp"

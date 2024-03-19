@@ -14,8 +14,8 @@
      virtual ClipsArray getClips() { return {}; }
      virtual EffectsArray getEffects() { return {}; }
  
-     SonolusApi spawnTime() { return beat - appearTime; }
-     SonolusApi despawnTime() { return beat + accuracy; }
+     SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
@@ -64,7 +64,7 @@
 
  	SonolusApi updateParallel() {
  		FUNCBEGIN
- 		drawNormalNote(getSprite(), lane, enLane, beat);
+ 		drawNormalNote(getSprite(), lane, enLane, TimeToScaledTime(beat));
  		return VOID;
  	}
 };

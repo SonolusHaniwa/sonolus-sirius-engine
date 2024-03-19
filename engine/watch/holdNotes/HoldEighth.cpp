@@ -11,8 +11,8 @@
  	 defineImports(accuracy);
      Variable<EntityMemoryId> enLane;
  
-     SonolusApi spawnTime() { return beat - appearTime; }
-     SonolusApi despawnTime() { return beat; }
+     SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
+     SonolusApi despawnTime() { return TimeToScaledTime(beat); }
  
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN

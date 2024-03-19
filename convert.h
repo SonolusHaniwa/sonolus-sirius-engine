@@ -1,6 +1,7 @@
 const int magicNumber = 0x114514;
 
 enum NoteType {
+    HiSpeed = -1,
     None = 0,
     Normal = 10,
     Critical = 20,
@@ -55,10 +56,16 @@ double fromMusicInfo(string text) {
     } return atof(res[2].c_str());
 }
 
+string getRef(int len = 32) {
+	string res = "", key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	for (int i = 0; i < len; i++) res += key[rand() % key.size()];
+	return res;
+}
+
 string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
     // 谱面读取
     auto lines = explode("\n", text.c_str());
-    vector<Note> notes;
+    vector<Note> notes; double speed = 1;
     for (int i = 0; i < lines.size(); i++) {
         char unused = 0;
         Note x; string xx = lines[i];
@@ -102,7 +109,11 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	single["archetype"] = "Sirius Input Manager"; single["data"].resize(0);
 	res.append(single);
 	single["archetype"] = "Sirius Stage"; single["data"].resize(0);
-	res.append(single);
+	res.append(single); 
+	single["archetype"] = "#BPM_CHANGE";
+	single["data"][0]["name"] = "#BEAT"; single["data"][0]["value"] = 0;
+	single["data"][1]["name"] = "#BPM"; single["data"][1]["value"] = 60;
+	res.append(single); 
     double lastTime[13][13]; int lastType[13][13], total = 0;
     for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastType[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
@@ -228,6 +239,11 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 single["data"][2]["name"] = "split"; single["data"][2]["value"] = x.gimmickType - 10;
                 single["data"][3]["name"] = "color"; single["data"][3]["value"] = x.scratchLength;
             } break;
+            case HiSpeed: {
+                single["archetype"] = "#TIMESCALE_CHANGE";
+                single["data"][0]["name"] = "#BEAT"; single["data"][0]["value"] = x.startTime;
+                single["data"][1]["name"] = "#TIMESCALE"; single["data"][1]["value"] = x.endTime - chartOffset;
+            }
         } if (single["archetype"] != "") res.append(single);
         if (single["archetype"] == Json::Value::null) cout << single << endl;
         if ((10 * (i + 1) / notes.size()) != (10 * i / notes.size())) cout << "[INFO] " << 100 * (i + 1) / notes.size() << "% Notes Solved." << endl;
@@ -271,7 +287,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
     cout << "[INFO] Sync Line Solved." << endl;
 
 	Json::Value data;
-	data["formatVersion"] = 4;
+	data["formatVersion"] = 5;
 	data["bgmOffset"] = bgmOffset;
 	data["entities"] = res;
 	return json_encode(data);
@@ -344,61 +360,84 @@ string fromSUS(string text) {
             continue;
         }
         if (head.substr(0, 3) == "TIL") {
-            body = body.substr(1, body.size() - 2);
-            if (body == "") continue;
-            auto exp = explode(", ", body.c_str());
-            for (auto i = 0; i < exp.size(); i++) {
-                string tmp = exp[i];
-                auto tmp1 = explode(":", tmp.c_str());
-                if (tmp1.size() != 2)
-                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                string beat = tmp1[0], type = tmp1[1];
-                auto tmp2 = explode("'", beat.c_str());
-                if (tmp2.size() != 2)
-                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                auto tmp3 = explode(".", type.c_str());
-                if (tmp3.size() != 2)
-                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                // switch(tmp2[1].size()) {
-                //     case 0: tmp2[1] = "0000"; break;
-                //     case 1: tmp2[1] = "000" + tmp2[1]; break;
-                //     case 2: tmp2[1] = "00" + tmp2[1]; break;
-                //     case 3: tmp2[1] = "0" + tmp2[1]; break;
-                // } 
-                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
-                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
-                while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
-                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
-            }
-            sort(exp.begin(), exp.end(), [](string a, string b){
-            	return a.size() == b.size() ? a < b : a.size() < b.size();
-            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2024/01/14
-            for (auto i = 0; i < exp.size(); i++) {
-                string tmp = exp[i];
-                // cout << tmp << endl;
-                auto tmp1 = explode(":", tmp.c_str());
-                string beat = tmp1[0], type = tmp1[1];
-                auto tmp2 = explode("'", beat.c_str());
-                auto tmp3 = explode(".", type.c_str());
-                int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
-                if (currentSplitLine != 0) { // 分割线终点
-                	// cout << currentSplitLine << " " << currentSplitLineType << endl;
-                    if (currentSplitLine * 10 != lines || currentSplitLineType != types)
-                        throw runtime_error("Overlapped Split Line: " + exp[i]);
-                    currentSplitLine = 0; currentSplitLineType = 0;
-                } else {
-                    if (lines > 6 || lines < 1) 
-                        throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
-                    currentSplitLine = lines; currentSplitLineType = types;
-                }
-                switch(tmp2[0].size()) {
-                    case 0: tmp2[0] = "000"; break;
-                    case 1: tmp2[0] = "00" + tmp2[0]; break;
-                    case 2: tmp2[0] = "0" + tmp2[0]; break;
-                }
-                mainData.push_back({tmp2[0] + "SL", atoi(tmp2[1].c_str()), 1920, type});
-            }
-            continue;
+        	if (head.substr(3, 2) == "01") {
+	            body = body.substr(1, body.size() - 2);
+	            if (body == "") continue;
+	            auto exp = explode(", ", body.c_str());
+	            for (auto i = 0; i < exp.size(); i++) {
+	                string tmp = exp[i];
+	                auto tmp1 = explode(":", tmp.c_str());
+	                if (tmp1.size() != 2)
+	                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+	                string beat = tmp1[0], type = tmp1[1];
+	                auto tmp2 = explode("'", beat.c_str());
+	                if (tmp2.size() != 2)
+	                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+	                auto tmp3 = explode(".", type.c_str());
+	                if (tmp3.size() != 2)
+	                    throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+	                // switch(tmp2[1].size()) {
+	                //     case 0: tmp2[1] = "0000"; break;
+	                //     case 1: tmp2[1] = "000" + tmp2[1]; break;
+	                //     case 2: tmp2[1] = "00" + tmp2[1]; break;
+	                //     case 3: tmp2[1] = "0" + tmp2[1]; break;
+	                // } 
+	                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
+	                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
+	                while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
+	                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
+	            }
+	            sort(exp.begin(), exp.end(), [](string a, string b){
+	            	return a.size() == b.size() ? a < b : a.size() < b.size();
+	            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2024/01/14
+	            for (auto i = 0; i < exp.size(); i++) {
+	                string tmp = exp[i];
+	                // cout << tmp << endl;
+	                auto tmp1 = explode(":", tmp.c_str());
+	                string beat = tmp1[0], type = tmp1[1];
+	                auto tmp2 = explode("'", beat.c_str());
+	                auto tmp3 = explode(".", type.c_str());
+	                int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
+	                if (currentSplitLine != 0) { // 分割线终点
+	                	// cout << currentSplitLine << " " << currentSplitLineType << endl;
+	                    if (currentSplitLine * 10 != lines || currentSplitLineType != types)
+	                        throw runtime_error("Overlapped Split Line: " + exp[i]);
+	                    currentSplitLine = 0; currentSplitLineType = 0;
+	                } else {
+	                    if (lines > 6 || lines < 1) 
+	                        throw runtime_error("Invalid Split Line Parameter: " + exp[i]);
+	                    currentSplitLine = lines; currentSplitLineType = types;
+	                }
+	                switch(tmp2[0].size()) {
+	                    case 0: tmp2[0] = "000"; break;
+	                    case 1: tmp2[0] = "00" + tmp2[0]; break;
+	                    case 2: tmp2[0] = "0" + tmp2[0]; break;
+	                }
+	                mainData.push_back({tmp2[0] + "SL", atoi(tmp2[1].c_str()), 1920, type});
+	            }
+	            continue;
+	        } else if (head.substr(3, 2) == "00") {
+	            body = body.substr(1, body.size() - 2);
+	            if (body == "") continue;
+	            auto exp = explode(", ", body.c_str());
+	            for (auto i = 0; i < exp.size(); i++) {
+	                string tmp = exp[i];
+	                auto tmp1 = explode(":", tmp.c_str());
+	                if (tmp1.size() != 2)
+	                    throw runtime_error("Invalid HiSpeed Parameter: " + exp[i]);
+	                string beat = tmp1[0], type = tmp1[1];
+	                auto tmp2 = explode("'", beat.c_str());
+	                if (tmp2.size() != 2)
+	                    throw runtime_error("Invalid HiSpeed Parameter: " + exp[i]);
+	                switch(tmp2[0].size()) {
+	                    case 0: tmp2[0] = "000"; break;
+	                    case 1: tmp2[0] = "00" + tmp2[0]; break;
+	                    case 2: tmp2[0] = "0" + tmp2[0]; break;
+	                }
+	                mainData.push_back({tmp2[0] + "HS", atoi(tmp2[1].c_str()), 1920, type});
+	            }
+	            continue;
+	        }
         }
         if (head.substr(3, 2) == "02") { // 处理变拍事件
             mainData.push_back({head, 0, 1, body});
@@ -443,10 +482,12 @@ string fromSUS(string text) {
             if (currentSplitLine == 0)
                 currentSplitLine = line, currentSplitLineType = type, currentSplitLineTime = currentTime;
             else {
-                txt << currentSplitLineTime << "," << currentTime << "," << 0 << "," << -1 << "," << 0 << ","
+                txt << currentSplitLineTime << "," << currentTime << "," << None << "," << -1 << "," << 0 << ","
                     << 10 + currentSplitLine << "," << currentSplitLineType << endl; // 调整 Split Line 的时间
                 currentSplitLine = 0; currentSplitLineType = 0; currentSplitLineTime = 0;
             }
+        } else if (prop == "HS") { // HiSpeed
+        	txt << currentTime << "," << atof(body.c_str()) << "," << HiSpeed << "," << -1 << "," << 0 << "," << 0 << "," << 0 << endl;
         } else if (prop[0] == '1') { // Tap
             if (body == "00") continue;
             if (body[0] != '1' && body[0] != '2' && body[0] != '3' && body[0] != '4') 

@@ -29,7 +29,7 @@ class SiriusSound: public Archetype {
     }
     
     SonolusApi spawnOrder() { return 1000 + beat; }
-    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
+    SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi complete(let t = times.now) {
 		FUNCBEGIN
@@ -73,8 +73,8 @@ class SiriusSound: public Archetype {
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, beat, lane, enLane); FI
-		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, beat, lane, enLane); FI
+		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
 		return VOID;
 	}
 };
