@@ -384,7 +384,7 @@ string fromSUS(string text) {
 	                // } 
 	                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
 	                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
-	                // while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
+	                while (tmp3[1].size() < 5) tmp3[1] = '0' + tmp3[1]; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
 	                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
 	            }
 	            sort(exp.begin(), exp.end(), [](string a, string b){
