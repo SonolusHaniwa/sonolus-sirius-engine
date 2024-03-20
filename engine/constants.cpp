@@ -26,7 +26,7 @@ double judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
 double judgeTextHeight = 0.15;               // 判定文字高度
-double judgeTextDuration = 0.2;			     // 判定文字动画时长
+double judgeTextDuration = 0.1;			     // 判定文字动画时长
 double stageWidth = 0.7;                         // 单个舞台宽度
 double stageHeight = 2.0;                        // 单个舞台高度
 double stageFullWidth = stageWidth + 0.3;        // 单个舞台占有宽度
@@ -41,6 +41,7 @@ double tickHeight = 112.0 / 640.0;           // tick 高度
 double arrowWidth = 80.0 / 640.0;            // 箭头宽度
 double arrowHeight = 240.0 / 640.0;          // 箭头高度
 double syncLineHeight = 5.0 / 640.0;         // 同步线高度
+double lineHeight = 114514;                  // 时间线高度(没用)
 #elif preview
 double noteHeight = 0.04;                        // 按键高度
 double tickWidth = 0.03;                         // tick 宽度
@@ -48,6 +49,7 @@ double tickHeight = 0.045;						// tick 高度
 double arrowWidth = 0.03;						// 箭头宽度
 double arrowHeight = 0.06;						// 箭头高度
 double syncLineHeight = 0.003; 					// 同步线高度
+double lineHeight = 0.008;                      // 时间线高度
 #endif
 
 #if play || watch
@@ -60,8 +62,9 @@ let syncLine = LevelOption.get(Options.SyncLine);
 let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
 let extraWidth = LevelOption.get(Options.ExtraWidth);
 let levelSpeed = LevelOption.get(Options.Speed);
+let opacity = LevelOption.get(Options.StageOpacity);
 #elif preview
-let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed;
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity;
 #endif
 
 #if play || watch

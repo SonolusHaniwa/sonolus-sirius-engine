@@ -168,6 +168,42 @@ class Metric {
 class AnimationEase {
     public:
 
+    #ifdef SONOLUS_080
+    string Linear = "linear";
+    string InSine = "inSine";
+    string InQuad = "inQuad";
+    string InCubic = "inCubic";
+    string InQuart = "inQuart";
+    string InExpo = "inExpo";
+    string InCirc = "inCirc";
+    string InBack = "inBack";
+    string InElastic = "inElastic";
+    string OutSine = "outSine";
+    string OutQuad = "outQuad";
+    string OutCubic = "outCubic";
+    string OutQuart = "outQuart";
+    string OutExpo = "outExpo";
+    string OutCirc = "outCirc";
+    string OutBack = "outBack";
+    string OutElastic = "outElastic";
+    string InOutSine = "inOutSine";
+    string InOutQuad = "inOutQuad";
+    string InOutCubic = "inOutCubic";
+    string InOutQuart = "inOutQuart";
+    string InOutExpo = "inOutExpo";
+    string InOutCirc = "inOutCirc";
+    string InOutBack = "inOutBack";
+    string InOutElastic = "inOutElastic";
+    string OutInSine = "outInSine";
+    string OutInQuad = "outInQuad";
+    string OutInCubic = "outInCubic";
+    string OutInQuart = "outInQuart";
+    string OutInExpo = "outInExpo";
+    string OutInCirc = "outInCirc";
+    string OutInBack = "outInBack";
+    string OutInElastic = "outInElastic";
+    string None = "none";
+    #else
     string Linear = "Linear";
     string InSine = "InSine";
     string InQuad = "InQuad";
@@ -202,6 +238,7 @@ class AnimationEase {
     string OutInBack = "OutInBack";
     string OutInElastic = "OutInElastic";
     string None = "None";
+    #endif
 }AnimationEase;
 
 class ErrorStyle {
@@ -418,6 +455,7 @@ class RuntimeFunction {
     string TimeToStartingTime = "TimeToStartingTime";
     string TimeToTimeScale = "TimeToTimeScale";
     string Print = "Print";
+    string ExportValue = "ExportValue";
 }RuntimeFunction;
 
 class SkinSpriteName {

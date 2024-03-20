@@ -3,9 +3,9 @@ class SiriusHoldEighth: public Archetype {
 
 	static constexpr const char* name = "Sirius Hold Eighth";
 	
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
 
 	SonolusApi preprocess() {
 		FUNCBEGIN

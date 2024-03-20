@@ -121,9 +121,24 @@ SonolusApi drawNoteCount(let t, let value) {
 	return VOID;
 }
 
+SonolusApi drawHiSpeed(let t, let value) {
+	FUNCBEGIN
+	let x = getPos(t).first, y = getPos(t).second;
+	printNumber(x + stageWidth / 2.0, y, value, PrintFormat.TimeScale, -1, PrintColor.Yellow, -1);
+	return VOID;
+}
+
+SonolusApi drawPreviewLine(let sprite, let t) {
+	FUNCBEGIN
+	let cx = getPos(t).first, cy = getPos(t).second;
+	let dx = stageWidth / 2.0, dy = lineHeight / 2.0;
+	Draw(sprite, cx - dx, cy - dy, cx - dx, cy + dy, cx + dx, cy + dy, cx + dx, cy - dy, 10, 0.8);
+	return VOID;
+}
+
 SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     var multiplier = noteHeight / 2 / stage.h * w / line1.getWidth(1);
@@ -153,7 +168,7 @@ SonolusApi drawPreviewNormalNote(let sprite, let time, let st, let en) {
 
 SonolusApi drawArrow(let lane, let enLane, let beat) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     auto multiplier = w / line1.getWidth(1);
@@ -200,7 +215,7 @@ SonolusApi drawPreviewArrow(let time, let st, let en) {
 
 SonolusApi drawLeftArrow(let lane, let enLane, let beat) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     auto multiplier = w / line1.getWidth(1);
@@ -237,7 +252,7 @@ SonolusApi drawPreviewLeftArrow(let time, let st, let en) {
 
 SonolusApi drawRightArrow(let lane, let enLane, let beat) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     auto multiplier = w / line1.getWidth(1);
@@ -276,8 +291,8 @@ SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBe
     FUNCBEGIN
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(1);
-    var p1 = ease(Min(1, Min(1, times.now - stBeat) / appearTime + 1)),
-        p2 = ease(Min(1, Min(1, times.now - enBeat) / appearTime + 1));
+    var p1 = ease(Min(1, Min(1, times.scaled - stBeat) / appearTime + 1)),
+        p2 = ease(Min(1, Min(1, times.scaled - enBeat) / appearTime + 1));
 	auto c1 = line1.getPosition(p1);
 	auto c2 = line1.getPosition(p2);
 	auto c3 = line2.getPosition(p1);
@@ -288,11 +303,12 @@ SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBe
          lt = c2 - Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
 	auto rb = c3 + Vec(w1 / 2 - noteMoveLength * w1 / w, 0), 
          rt = c4 + Vec(w2 / 2 - noteMoveLength * w2 / w, 0);
+    let val = EntityInfo.get(0) * 1e-5;
 	IF (isHolding) {
         let val = Floor(times.now / 0.1) % 2 == 1;
-        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.85);
-        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
-    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 4, 0.8); FI
+        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.85);
+        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
+    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
     return VOID;
 }
 
@@ -311,7 +327,7 @@ SonolusApi drawPreviewHoldEighth(let sprite, let stt, let ent, let st, let en) {
 
 SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     auto multiplier = w / line1.getWidth(1);
@@ -324,7 +340,7 @@ SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	auto cb = Vec((c2.x + c4.x) / 2, (c2.y + c4.y) / 2), ct = Vec((c1.x + c3.x) / 2, (c1.y + c3.y) / 2);
 	auto lb = cb - Vec(m2 * tickWidth / 2, 0), lt = ct - Vec(m1 * tickWidth / 2, 0);
 	auto rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 0.5);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 2000 - beat, 0.5);
 	return VOID;
 }
 
@@ -341,7 +357,7 @@ SonolusApi drawPreviewTick(let sprite, let time, let st, let en) {
 
 SonolusApi drawSyncLine(let beat, let lane, let enLane) {
 	FUNCBEGIN
-	var p = ease((times.now - beat) / appearTime + 1);
+	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
     auto multiplier = w / line1.getWidth(1);
@@ -528,8 +544,8 @@ SonolusApi drawSplitLine(let split) {
 
 SonolusApi drawPreviewSplitLine(let st, let en, let extra, let split) {
 	FUNCBEGIN
-    drawPreviewLine(0, st, en, splitLineMemory[0] + extra),
-    drawPreviewLine(12, st, en, splitLineMemory[split] + extra),
+    Run(drawPreviewLine(0, st, en, splitLineMemory[0] + extra)),
+    Run(drawPreviewLine(12, st, en, splitLineMemory[split] + extra)),
     Run(Switch(split, {
         {1, {}},
         {2, drawPreviewLine(6, st, en, splitLineMemory[1] + extra)},

@@ -1,9 +1,9 @@
 class FlatNote: public Archetype {
 	public:
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
 	Variable<EntitySharedMemoryId> enLane;
 	virtual let getSprite() { return -1; }
 

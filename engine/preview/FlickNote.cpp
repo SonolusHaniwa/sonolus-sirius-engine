@@ -3,9 +3,10 @@ class FlickNote : public Archetype {
 
 	static constexpr const char* name = "Sirius Flick Note";
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineImports(scratchLength);
 	Variable<EntitySharedMemoryId> enLane;
 
 	SonolusApi preprocess() {
@@ -21,7 +22,11 @@ class FlickNote : public Archetype {
 		FUNCBEGIN
 		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
 		drawPreviewNormalNote(Sprites.ScratchNote, beat, lane, enLane);
-		drawPreviewArrow(beat, lane, enLane);
+		IF (scratchLength == 0) drawPreviewArrow(beat, lane, enLane);
+		ELSE {
+			IF (scratchLength > 0) drawPreviewRightArrow(beat, lane, enLane);
+			ELSE drawPreviewLeftArrow(beat, lane, enLane); FI
+		} FI
 		return VOID;
 	}
 };

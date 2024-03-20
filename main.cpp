@@ -107,7 +107,8 @@ int main(int argc, char** argv) {
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
         SyncLine,
-        SplitLine
+        SplitLine,
+        SiriusHiSpeed
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
@@ -139,7 +140,8 @@ int main(int argc, char** argv) {
 		SiriusScratchHoldEnd,
 		SiriusSound,
 		SyncLine,
-        SplitLine
+        SplitLine,
+        SiriusHiSpeed
     >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];

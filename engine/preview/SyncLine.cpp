@@ -3,9 +3,9 @@ class SyncLine: public Archetype {
 
     static constexpr const char* name = "Sirius Sync Line";
 
-    defineEntityData(beat);
-    defineEntityData(left);
-    defineEntityData(right);
+    defineImports(beat);
+    defineImports(left);
+    defineImports(right);
 
     SonolusApi render() {
     	FUNCBEGIN
