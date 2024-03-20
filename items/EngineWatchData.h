@@ -82,6 +82,7 @@ class EngineWatchDataArchetype {
             res["imports"][i]["name"] = imports[i].first;
             res["imports"][i]["index"] = imports[i].second;
         }
+        res["data"] = res["imports"];
         return res;
     }
 };

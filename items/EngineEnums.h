@@ -168,6 +168,7 @@ class Metric {
 class AnimationEase {
     public:
 
+    #ifdef SONOLUS_080
     string Linear = "linear";
     string InSine = "inSine";
     string InQuad = "inQuad";
@@ -202,6 +203,42 @@ class AnimationEase {
     string OutInBack = "outInBack";
     string OutInElastic = "outInElastic";
     string None = "none";
+    #else
+    string Linear = "Linear";
+    string InSine = "InSine";
+    string InQuad = "InQuad";
+    string InCubic = "InCubic";
+    string InQuart = "InQuart";
+    string InExpo = "InExpo";
+    string InCirc = "InCirc";
+    string InBack = "InBack";
+    string InElastic = "InElastic";
+    string OutSine = "OutSine";
+    string OutQuad = "OutQuad";
+    string OutCubic = "OutCubic";
+    string OutQuart = "OutQuart";
+    string OutExpo = "OutExpo";
+    string OutCirc = "OutCirc";
+    string OutBack = "OutBack";
+    string OutElastic = "OutElastic";
+    string InOutSine = "InOutSine";
+    string InOutQuad = "InOutQuad";
+    string InOutCubic = "InOutCubic";
+    string InOutQuart = "InOutQuart";
+    string InOutExpo = "InOutExpo";
+    string InOutCirc = "InOutCirc";
+    string InOutBack = "InOutBack";
+    string InOutElastic = "InOutElastic";
+    string OutInSine = "OutInSine";
+    string OutInQuad = "OutInQuad";
+    string OutInCubic = "OutInCubic";
+    string OutInQuart = "OutInQuart";
+    string OutInExpo = "OutInExpo";
+    string OutInCirc = "OutInCirc";
+    string OutInBack = "OutInBack";
+    string OutInElastic = "OutInElastic";
+    string None = "None";
+    #endif
 }AnimationEase;
 
 class ErrorStyle {

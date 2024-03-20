@@ -125,6 +125,7 @@ class EngineDataArchetype {
             res["imports"][i]["name"] = imports[i].first;
             res["imports"][i]["index"] = imports[i].second;
         }
+    	res["data"] = res["imports"];
         res["exports"].resize(0);
         for (int i = 0; i < exports.size(); i++) res["exports"].append(exports[i]);
         return res;
