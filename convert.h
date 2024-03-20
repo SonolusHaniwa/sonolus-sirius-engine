@@ -384,7 +384,7 @@ string fromSUS(string text) {
 	                // } 
 	                while (tmp2[1].size() < 4) tmp2[1] = '0' + tmp2[1];
 	                while (tmp3[0].size() < 2) tmp3[0] = '0' + tmp3[0];
-	                while (tmp3[1].size() < 5) tmp3[1] += '0'; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
+	                while (tmp3[1].size() < 5) tmp3[1] = '0' + tmp3[1]; // upd: 解决部分 Ched 保存 HiSpeed 不会保留五位小数的问题 2024/01/13
 	                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
 	            }
 	            sort(exp.begin(), exp.end(), [](string a, string b){
@@ -400,7 +400,7 @@ string fromSUS(string text) {
 	                int lines = atoi(tmp3[0].c_str()), types = atoi(tmp3[1].c_str());
 	                if (currentSplitLine != 0) { // 分割线终点
 	                	// cout << currentSplitLine << " " << currentSplitLineType << endl;
-	                    if (currentSplitLine * 10 != lines || currentSplitLineType != types)
+	                    if (currentSplitLine * -1 != lines || currentSplitLineType != types)
 	                        throw runtime_error("Overlapped Split Line: " + exp[i]);
 	                    currentSplitLine = 0; currentSplitLineType = 0;
 	                } else {
@@ -443,11 +443,12 @@ string fromSUS(string text) {
             mainData.push_back({head, 0, 1, body});
             continue;
         }
-        for (int j = 0; j < body.size(); j += 2) 
+        for (int j = 0; j < body.size(); j += 2) if (body.substr(j, 2) != "00")
             mainData.push_back({head, j / 2, max(1, int(body.size()) / 2), body.substr(j, 2)});
     }
 
     // 音符排序
+    // cout << mainData.size() << endl;
     sort(mainData.begin(), mainData.end(), [](
         tuple<string, int, int, string> a, 
         tuple<string, int, int, string> b){
@@ -460,6 +461,8 @@ string fromSUS(string text) {
         if (a2 * b3 != a3 * b2) return a2 * b3 < a3 * b2; 
         return a4 < b4;
     });
+
+    // exit(0);
 
     // 处理主数据
     stringstream txt; map<double, vector<tuple<string, int, int, string> > > noteList[13][13];
