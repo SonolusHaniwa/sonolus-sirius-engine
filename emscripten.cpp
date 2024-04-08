@@ -43,7 +43,7 @@ vector<string> explode(const char* seperator, const char* source) {
 
 extern "C" EMSCRIPTEN_KEEPALIVE char* sus2txt(char* input) {
 	string data; data = string(input, strlen(input));
-	cout << data.size() << endl;
+	// cout << data.size() << endl;
 	// for (int i = 0; i < strlen(input); i++) data.push_back(input[i]);
 	string res = fromSUS(data);
 	char* result = const_cast<char*>(res.c_str());
