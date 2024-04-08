@@ -44,7 +44,7 @@ jobs:
       - name: Uploading data to server
         run: |
           mkdir sonolus-server
-          cp wds/sonolus.db sonolus-server/
+          cp wds/public/sonolus.db sonolus-server/
           cd tools
           ./make
           cp exportor ../sonolus-server/
@@ -56,8 +56,7 @@ jobs:
               ./tools/onedriveUploader ./sonolus-server/data/$name
               echo ""
           done
-          cp sonolus-server/data.json wds/
-          cp sonolus-server/sonolus.db wds/
+          cp sonolus-server/sonolus.db wds/public/
           cp sonolus-server/engine.json wbs/backend/
           cp sonolus-server/engine.json stellarity/backend/
 

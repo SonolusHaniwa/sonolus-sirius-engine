@@ -384,9 +384,5 @@ namespace watchData {
         FuncNode skip = RuntimeUpdate.get(3);
     }times;
 
-	#ifdef SONOLUS_080
     FuncNode isReplay = RuntimeEnvironment.get(4);
-    #else
-    FuncNode isReplay = 0;
-    #endif
 };
