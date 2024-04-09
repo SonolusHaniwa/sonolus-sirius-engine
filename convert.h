@@ -528,8 +528,8 @@ string fromSUS(string text) {
             for (auto v : noteList[l][r]) {
                 double t = v.first; auto info = v.second;
                 bool isCritical = false, isFlick = false, isDamage = false,
-                     isSlideStart = false, isSlideEnd = false, isSlideSound = false;
-                char SlideStartName = 0, SlideEndName = 0;
+                     isSlideSound = false;
+                vector<char> SlideStartName, SlideEndName;
                 int bpm = 120;
                 for (auto x : info) {
                     string head = get<0>(x), body = get<3>(x);
@@ -538,26 +538,24 @@ string fromSUS(string text) {
                     if (prop[0] == '1') isDamage |= (body[0] == '4');
                     if (prop[0] == '5') isFlick |= 1;
                     if (prop[0] == '3') {
-                        isSlideStart |= (body[0] == '1');
-                        isSlideEnd |= (body[0] == '2');
                         isSlideSound |= (body[0] == '3');
-                       	if (body[0] == '1') SlideStartName = prop[2];
-                       	if (body[0] == '2') SlideEndName = prop[2];
+                       	if (body[0] == '1') SlideStartName.push_back(prop[2]);
+                       	if (body[0] == '2') SlideEndName.push_back(prop[2]);
                         bpm = get<2>(x);
-                        cout << head << " " << body << endl;
+                        // cout << head << " " << body << endl;
                     }
                 }
-                cout << endl;
+                // cout << endl;
 
                 // Note 讨论
-                if (!isSlideStart && !isSlideEnd && !isSlideSound && !isFlick) continue;
+                if (SlideStartName.size() == 0 && SlideEndName.size() == 0 && !isSlideSound && !isFlick) continue;
                 if (isSlideSound) {
                     if (slideNumber == 0) throw runtime_error("Unknown Slide Sound in [" + to_string(l) + ", " + to_string(r) + "]");
                     txt << t << "," << -1 << "," << Sound << "," 
                         << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                 }
-                if (isSlideEnd) {
-                    if (slideNumber == 0 || slides[SlideEndName].inSlide == false) 
+                for (int k = 0; k < SlideEndName.size(); k++) {
+                    if (slideNumber == 0 || slides[SlideEndName[k]].inSlide == false) 
                     	throw runtime_error("Unknown Slide End in [" + to_string(l) + ", " + to_string(r) + "]");
                     int ScratchType = 0;
                     for (int i = 1; i <= 12; i++) {
@@ -566,29 +564,29 @@ string fromSUS(string text) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
                             if (prop[0] == '5') {
-                                slides[SlideEndName].ScratchSlide = true, ScratchType = (i == l ? (
+                                slides[SlideEndName[k]].ScratchSlide = true, ScratchType = (i == l ? (
                                     (body[0] == '3' ? -(r - l + 1) : (body[0] == '4' ? (r - l + 1) : 0))
                                 ) : (i < l ? i - r - 1 : i - l + 1));
                                 x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
                             }
                         }
                     }
-                    int noteType = (slides[SlideEndName].CriticalSlide ? 
-                        (slides[SlideEndName].ScratchSlide ? ScratchCriticalHoldStart : CriticalHoldStart) :
-                        (slides[SlideEndName].ScratchSlide ? ScratchHoldStart : HoldStart));
-                    int holdType = (slides[SlideEndName].CriticalSlide ? 
-                        (slides[SlideEndName].ScratchSlide ? ScratchCriticalHold : CriticalHold) :
-                        (slides[SlideEndName].ScratchSlide ? ScratchHold : Hold));
-                    if (slides[SlideEndName].addStart) txt << slides[SlideEndName].startTime << "," << -1 << "," << noteType << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
-                    txt << slides[SlideEndName].startTime << "," << t << "," << holdType << "," << l << "," << (r - l + 1) << "," 
+                    int noteType = (slides[SlideEndName[k]].CriticalSlide ? 
+                        (slides[SlideEndName[k]].ScratchSlide ? ScratchCriticalHoldStart : CriticalHoldStart) :
+                        (slides[SlideEndName[k]].ScratchSlide ? ScratchHoldStart : HoldStart));
+                    int holdType = (slides[SlideEndName[k]].CriticalSlide ? 
+                        (slides[SlideEndName[k]].ScratchSlide ? ScratchCriticalHold : CriticalHold) :
+                        (slides[SlideEndName[k]].ScratchSlide ? ScratchHold : Hold));
+                    if (slides[SlideEndName[k]].addStart) txt << slides[SlideEndName[k]].startTime << "," << -1 << "," << noteType << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    txt << slides[SlideEndName[k]].startTime << "," << t << "," << holdType << "," << l << "," << (r - l + 1) << "," 
                         << (ScratchType == 0 ? "0" : "JumpScratch") << "," << ScratchType << endl;
                     tickTime = ticks_per_beat / 3840.0 * 60 * 4 / bpm; // 最好不要在 Slide 中间切换 BPM
                     // cout << t - tickTime << endl;
-                    for (double i = slides[SlideEndName].startTime + tickTime; i <= t - 0.0001; i += tickTime) {
+                    for (double i = slides[SlideEndName[k]].startTime + tickTime; i <= t - 0.0001; i += tickTime) {
                         txt << i << "," << -1 << "," << HoldEighth << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                     }
                 	// cout << "&" << slides[SlideEndName].inSlide << " " << SlideEndName << endl;
-                    slides[SlideEndName].inSlide = false; slideNumber--;
+                    slides[SlideEndName[k]].inSlide = false; slideNumber--;
                 	// cout << "&" << slides[SlideEndName].inSlide << " " << SlideEndName << endl;
                 }
                 if (isFlick && slideNumber) {
@@ -602,11 +600,13 @@ string fromSUS(string text) {
                         }
                     }
                 }
-                if (isSlideStart) {
+                for (int k = 0; k < SlideStartName.size(); k++) {
                 	// cout << slides[SlideStartName].inSlide << " " << SlideStartName << endl;
-                    if (slides[SlideStartName].inSlide == true) throw runtime_error("Overlapped Slide in [" + to_string(l) + ", " + to_string(r) + "]");
-                    slides[SlideStartName] = SlideStructure();
-                    slides[SlideStartName].inSlide = true; slides[SlideStartName].CriticalSlide = isCritical; slides[SlideStartName].addStart = !isDamage;
+                    if (slides[SlideStartName[k]].inSlide == true) throw runtime_error("Overlapped Slide in [" + to_string(l) + ", " + to_string(r) + "]");
+                    slides[SlideStartName[k]] = SlideStructure();
+                    slides[SlideStartName[k]].inSlide = true; 
+                    slides[SlideStartName[k]].CriticalSlide = isCritical;
+                    slides[SlideStartName[k]].addStart = !isDamage;
                     if (isCritical) { // 如果是 CriticalHold 或 CriticalScratchHold
                         for (auto &x : noteList[l][r][t]) {
                             string head = get<0>(x), body = get<3>(x);
@@ -633,11 +633,12 @@ string fromSUS(string text) {
                             string head = get<0>(x), body = get<3>(x);
                             string prop = head.substr(3);
                             if (prop[0] == '5') {
-                                slides[SlideStartName].ScratchSlide = true, slides[SlideStartName].addStart = false;
+                                slides[SlideStartName[k]].ScratchSlide = true, 
+                                slides[SlideStartName[k]].addStart = false;
                                 break; 
                             }
                         }
-                    } slides[SlideStartName].startTime = t;
+                    } slides[SlideStartName[k]].startTime = t;
                     slideNumber++;
                 }
             }
