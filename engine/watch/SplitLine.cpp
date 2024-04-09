@@ -4,10 +4,10 @@ class SplitLine: public Archetype {
     static constexpr const char* name = "Sirius Split Line";
     bool input = false;
 
-	defineEntityData(beat);
-	defineEntityData(endBeat);
-	defineEntityData(split);
-	defineEntityData(color);
+	defineImports(beat);
+	defineImports(endBeat);
+	defineImports(split);
+	defineImports(color);
 
     SonolusApi spawnTime() { return beat - splitLineAnimationStart; }
     SonolusApi despawnTime() { return endBeat + splitLineAnimationEnd; }

@@ -3,9 +3,11 @@ class FlatNote : public Archetype {
 
     bool hasInput = true;
 
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineExports(judgeResult);
+	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -16,7 +18,7 @@ class FlatNote : public Archetype {
     virtual EffectsArray getEffects() { return {}; }
 
     SonolusApi spawnOrder() { return 1000 + beat; }
-    SonolusApi shouldSpawn() { return times.now > beat - appearTime; }
+    SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi preprocess() {
 		FUNCBEGIN
@@ -40,9 +42,14 @@ class FlatNote : public Archetype {
 		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
 		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
-		EntityInput.set(1, t - beat);
-		EntityInput.set(2, getBucket());
-		EntityInput.set(3, t - beat);
+		IF (res2 != 0) {
+			EntityInput.set(1, t - beat);
+			EntityInput.set(2, getBucket());
+			EntityInput.set(3, t - beat);
+			ExportValue(judgeResult, res);
+			ExportValue(accuracy, t - beat);
+		} FI
+
 		// IF (res2 == 0) DebugPause(); FI
 		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
 		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
@@ -91,7 +98,7 @@ class FlatNote : public Archetype {
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawNormalNote(getSprite(), lane, enLane, beat);
+		drawNormalNote(getSprite(), lane, enLane, TimeToScaledTime(beat));
 		Rect hitbox = getFullHitbox(lane, enLane);
 		hitbox.b = -0.2, hitbox.t = 0.2;
 		// Draw(Sprites.SyncLine, hitbox.l, hitbox.b, hitbox.l, hitbox.t, hitbox.r, hitbox.t, hitbox.r, hitbox.b, 100000, 1);

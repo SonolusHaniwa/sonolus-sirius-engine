@@ -3,11 +3,11 @@ class SiriusScratchHoldEnd: public Archetype {
 
 	static constexpr const char* name = "Sirius Scratch Hold End";
 	
-	defineEntityData(beat);
-	defineEntityData(stBeat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
-	defineEntityData(scratchLength)
+	defineImports(beat);
+	defineImports(stBeat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineImports(scratchLength)
     Variable<EntitySharedMemoryId> enLane;
     Variable<EntitySharedMemoryId> scratchLane;
     Variable<EntitySharedMemoryId> scratchEnLane;

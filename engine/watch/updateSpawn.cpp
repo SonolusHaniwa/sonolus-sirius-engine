@@ -1,5 +1,5 @@
 let updateSpawn() {
-	return times.now;
+	return times.scaled;
 }
 
 auto unused_updateSpawn_unused = defineUpdateSpawn(updateSpawn);

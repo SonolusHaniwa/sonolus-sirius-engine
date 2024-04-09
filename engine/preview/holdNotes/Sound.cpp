@@ -3,10 +3,10 @@ class SiriusSound: public Archetype {
 
 	static constexpr const char* name = "Sirius Sound";
 	
-	defineEntityData(beat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
-	defineEntityData(holdType);
+	defineImports(beat);
+	defineImports(lane);
+	defineImports(laneLength);
+	defineImports(holdType);
     Variable<EntitySharedMemoryId> enLane;
 
     SonolusApi preprocess() {

@@ -3,10 +3,10 @@ class SiriusHoldEnd: public Archetype {
 
 	static constexpr const char* name = "Sirius Hold End";
 	
-	defineEntityData(beat);
-	defineEntityData(stBeat);
-	defineEntityData(lane);
-	defineEntityData(laneLength);
+	defineImports(beat);
+	defineImports(stBeat);
+	defineImports(lane);
+	defineImports(laneLength);
     Variable<EntitySharedMemoryId> enLane;
 
     SonolusApi preprocess() {

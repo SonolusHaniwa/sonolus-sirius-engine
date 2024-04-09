@@ -42,19 +42,20 @@ vector<string> explode(const char* seperator, const char* source) {
 #endif
 
 extern "C" EMSCRIPTEN_KEEPALIVE char* sus2txt(char* input) {
-	string data = "";
-	for (int i = 0; i < strlen(input); i++) data.push_back(input[i]);
+	string data; data = string(input, strlen(input));
+	// cout << data.size() << endl;
+	// for (int i = 0; i < strlen(input); i++) data.push_back(input[i]);
 	string res = fromSUS(data);
-	char* result = new char[res.size()];
-	for (int i = 0; i < res.size(); i++) result[i] = res[i];
+	char* result = const_cast<char*>(res.c_str());
+	// for (int i = 0; i < res.size(); i++) result[i] = res[i];
 	return result;
 }
 
 extern "C" EMSCRIPTEN_KEEPALIVE char* txt2data(char* input) {
-	string data = "";
-	for (int i = 0; i < strlen(input); i++) data.push_back(input[i]);
+	string data; data = string(input, strlen(input));
+	// for (int i = 0; i < strlen(input); i++) data.push_back(input[i]);
 	string res = fromSirius(data, 0, 0);
-	char* result = new char[res.size()];
-	for (int i = 0; i < res.size(); i++) result[i] = res[i];
+	char* result = const_cast<char*>(res.c_str());
+	// for (int i = 0; i < res.size(); i++) result[i] = res[i];
 	return result;
 }
