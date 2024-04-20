@@ -25,7 +25,11 @@ double judgeGoodRatio = 237.0 / 76.0;        // 判定文字 Good 比例
 double judgeBadRatio = 163.0 / 76.0;         // 判定文字 Bad 比例
 double judgeMissRatio = 177.0 / 76.0;        // 判定文字 Miss 比例
 double judgeAutoRatio = 216.0 / 76.0;        // 判定文字 Auto 比例
+double judgeFastRatio = 121.0 / 52.0;        // 判定文字 Fast 比例
+double judgeSlowRatio = 143.0 / 52.0;        // 判定文字 Slow 比例
 double judgeTextHeight = 0.15;               // 判定文字高度
+double judgeText2Height = 0.08;              // 判定文字 2 高度
+double judgeTextDistance = 0.0;              // 判定文字间距
 double judgeTextDuration = 0.1;			     // 判定文字动画时长
 double stageWidth = 0.7;                         // 单个舞台宽度
 double stageHeight = 2.0;                        // 单个舞台高度
@@ -64,8 +68,9 @@ let lockAspectRatio = LevelOption.get(Options.LockAspectRatio);
 let extraWidth = LevelOption.get(Options.ExtraWidth);
 let levelSpeed = LevelOption.get(Options.Speed);
 let opacity = LevelOption.get(Options.StageOpacity);
+let judgeType = LevelOption.get(Options.JudgeType);
 #elif preview
-let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity;
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity, judgeType;
 #endif
 
 #if play || watch
@@ -145,6 +150,7 @@ class score {
 
 #if play || watch
 Variable<LevelMemoryId> currentJudge;
+Variable<LevelMemoryId> currentJudgeDeltaTime;
 Variable<LevelMemoryId> currentJudgeStartTime;
 Array<LevelMemoryId, let> splitLineMemory(16);
 let duration, noteCount, noteId;
@@ -153,5 +159,5 @@ Variable<PreviewDataId> duration;                   // 谱面时长
 Variable<PreviewDataId> noteCount;                  // note 数量
 Variable<EntitySharedMemoryId> noteId;              // note 编号
 Array<TemporaryMemoryId, let> splitLineMemory(16);
-let currentJudge, currentJudgeStartTime;
+let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime;
 #endif

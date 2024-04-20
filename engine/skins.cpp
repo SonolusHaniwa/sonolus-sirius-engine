@@ -37,6 +37,8 @@ class Sprites {
 	int JudgeBad = 19;
 	int JudgeMiss = 20;
 	int JudgeAuto = 21;
+	int JudgeFast = 10001;
+	int JudgeSlow = 10000;
 	int GridYellow = 22;
 	int SplitLine_1 = 23;
 	int SplitLineTrans1_1 = 24;
@@ -605,13 +607,15 @@ auto skins = defineSkins<class Sprites>({
 	{SkinSpriteName.NoteTickPurple, Sprites.TouchScratchTick},
 	{SkinSpriteName.Lane, Sprites.SyncLine},
 	{"Sirius Hidden Line", Sprites.HiddenLine},
-	{"Sirius Judge Perfect+", Sprites.JudgePerfectPlus},
-	{"Sirius Judge Perfect", Sprites.JudgePerfect},
-	{"Sirius Judge Great", Sprites.JudgeGreat},
-	{"Sirius Judge Good", Sprites.JudgeGood},
-	{"Sirius Judge Bad", Sprites.JudgeBad},
-	{"Sirius Judge Miss", Sprites.JudgeMiss},
-	{"Sirius Judge Auto", Sprites.JudgeAuto},
+	{"Sirius Judgment Perfect+", Sprites.JudgePerfectPlus},
+	{"Sirius Judgment Perfect", Sprites.JudgePerfect},
+	{"Sirius Judgment Great", Sprites.JudgeGreat},
+	{"Sirius Judgment Good", Sprites.JudgeGood},
+	{"Sirius Judgment Bad", Sprites.JudgeBad},
+	{"Sirius Judgment Miss", Sprites.JudgeMiss},
+	{"Sirius Judgment Auto", Sprites.JudgeAuto},
+	{"Sirius Judgment Fast", Sprites.JudgeFast},
+	{"Sirius Judgment Slow", Sprites.JudgeSlow},
 	{SkinSpriteName.GridYellow, Sprites.GridYellow},
 	{"Sirius Split Line #1", Sprites.SplitLine_1},
 	{"Sirius Split Line Transform 1 #1", Sprites.SplitLineTrans1_1},
@@ -1072,15 +1076,15 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Split Line #10690", Sprites.SplitLine_10690},
 	{"Sirius Split Line Transform 1 #10690", Sprites.SplitLineTrans1_10690},
 	{"Sirius Split Line Transform 2 #10690", Sprites.SplitLineTrans2_10690},
-	{"Sirius Split Line #10700", Sprites.SplitLine_10700},
-	{"Sirius Split Line Transform 1 #10700", Sprites.SplitLineTrans1_10700},
-	{"Sirius Split Line Transform 2 #10700", Sprites.SplitLineTrans2_10700},
-	{"Sirius Split Line #1070a", Sprites.SplitLine_1070a},
-	{"Sirius Split Line Transform 1 #1070a", Sprites.SplitLineTrans1_1070a},
-	{"Sirius Split Line Transform 2 #1070a", Sprites.SplitLineTrans2_1070a},
-	{"Sirius Split Line #1070b", Sprites.SplitLine_1070b},
-	{"Sirius Split Line Transform 1 #1070b", Sprites.SplitLineTrans1_1070b},
-	{"Sirius Split Line Transform 2 #1070b", Sprites.SplitLineTrans2_1070b},
+	{"Sirius Split Line #10710", Sprites.SplitLine_10710},
+	{"Sirius Split Line Transform 1 #10710", Sprites.SplitLineTrans1_10710},
+	{"Sirius Split Line Transform 2 #10710", Sprites.SplitLineTrans2_10710},
+	{"Sirius Split Line #10720", Sprites.SplitLine_10720},
+	{"Sirius Split Line Transform 1 #10720", Sprites.SplitLineTrans1_10720},
+	{"Sirius Split Line Transform 2 #10720", Sprites.SplitLineTrans2_10720},
+	{"Sirius Split Line #10690", Sprites.SplitLine_10690},
+	{"Sirius Split Line Transform 1 #10690", Sprites.SplitLineTrans1_10690},
+	{"Sirius Split Line Transform 2 #10690", Sprites.SplitLineTrans2_10690},
 	{"Sirius Split Line #10710", Sprites.SplitLine_10710},
 	{"Sirius Split Line Transform 1 #10710", Sprites.SplitLineTrans1_10710},
 	{"Sirius Split Line Transform 2 #10710", Sprites.SplitLineTrans2_10710},

@@ -88,12 +88,12 @@ class SiriusHoldEnd: public Archetype {
 		IF (res2 == 2) Play(Clips.Perfect, minSFXDistance); FI
 		IF (res2 == 3) Play(Clips.Good, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
-		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
-		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
-		IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood); FI
-		IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad); FI
+		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
+		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
+		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
+		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
+		IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - beat); FI
+		IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}

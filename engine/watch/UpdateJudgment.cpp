@@ -5,6 +5,7 @@ class UpdateJudgment: public Archetype {
 	static constexpr const char* name = "Sirius Update Judgment";
 	Variable<EntityMemoryId> beat;
 	Variable<EntityMemoryId> judgment;
+	Variable<EntityMemoryId> delta;
 	Variable<EntityMemoryId> updated;
 
 	SonolusApi spawnTime() { return TimeToScaledTime(beat); }
@@ -20,7 +21,7 @@ class UpdateJudgment: public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (updated) Return(0); FI
-		SpawnSubJudgeText(judgment);
+		SpawnSubJudgeText(judgment, delta);
 		updated = true;
 		return VOID;
 	}

@@ -27,7 +27,26 @@ enum GimmickType {
     Split3 = 13,
     Split4 = 14,
     Split5 = 15,
-    Split6 = 16
+    Split6 = 16,
+    // 接下来的东西我也不知道是干啥用的
+    FullSplit1 = 31,
+    FullSplit2 = 32,
+    FullSplit3 = 33,
+    FullSplit4 = 34,
+    FullSplit5 = 35,
+    FullSplit6 = 36,
+    LightSplit1 = 51,
+    LightSplit2 = 52,
+    LightSplit3 = 53,
+    LightSplit4 = 54,
+    LightSplit5 = 55,
+    LightSplit6 = 56,
+    IgnoreSplit1 = 71,
+    IgnoreSplit2 = 72,
+    IgnoreSplit3 = 73,
+    IgnoreSplit4 = 74,
+    IgnoreSplit5 = 75,
+    IgnoreSplit6 = 76
 };
 struct Note {
     double startTime;

@@ -13,6 +13,7 @@ class Options {
     int LockAspectRatio = 7;  // Supported
     int ExtraWidth = 8;       // Supoorted
     int StageOpacity = 9;     // Supported
+    int JudgeType = 10;       // Supported
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -99,5 +100,15 @@ auto options = defineOptions<class Options>({
 		max: 1.0,
 		step: 0.05,
 		unit: UnitText.Percentage
-	}
+	}, {
+        name: "Show FAST/SLOW",
+        scope: Scope,
+        type: OptionType.Select,
+        def: 2,
+        values: {
+            "PERFECT and below",
+            "GREAT and below",
+            "OFF"
+        }
+    }
 });

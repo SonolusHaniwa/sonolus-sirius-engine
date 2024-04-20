@@ -16,6 +16,7 @@ class SplitLine: public Archetype {
 
 	SonolusApi render() {
 		FUNCBEGIN
+		IF (split < 1 || split > 6) Return(0); FI
 		getSplitLine(color);
 		drawPreviewSplitLine(beat - splitLineAnimationStart, beat, 1, split);
 		drawPreviewSplitLine(beat, endBeat, 0, split);

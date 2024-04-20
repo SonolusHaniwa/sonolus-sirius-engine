@@ -461,13 +461,15 @@ SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
 	return VOID;
 }
 
-SonolusApi SpawnSubJudgeText(let sprite) {
+SonolusApi SpawnSubJudgeText(let sprite, let delta = 0) {
 	FUNCBEGIN
     IF (currentJudgeStartTime == times.now) {
         currentJudge = Max(currentJudge, sprite);
+        IF (Abs(delta) > Abs(currentJudgeDeltaTime)) currentJudgeDeltaTime = delta; FI
     } ELSE {
         currentJudge = sprite;
         currentJudgeStartTime = times.now;
+        currentJudgeDeltaTime = delta;
     } FI
     return VOID;
 }

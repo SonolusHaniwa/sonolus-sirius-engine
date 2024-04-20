@@ -21,6 +21,7 @@ class SplitLine: public Archetype {
    
     SonolusApi updateSequential() {
     	FUNCBEGIN
+		IF (split < 1 || split > 6) Return(0); FI
         getSplitLine(color);
         IF (times.now > endBeat) {
             drawDisappearLine(times.now - endBeat, split);

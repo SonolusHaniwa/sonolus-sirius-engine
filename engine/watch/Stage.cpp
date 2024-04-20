@@ -10,7 +10,10 @@ class Stage: public Archetype {
     SonolusApi drawJudgeText() {
     	FUNCBEGIN
 		let H = judgeTextHeight * ui.judgmentConfiguration.scale;
+		let H2 = judgeText2Height * ui.judgmentConfiguration.scale;
+		let D = judgeTextDistance * ui.judgmentConfiguration.scale;
         let T = H / 2.0, B = -1 * T;
+		let B2 = T + D, T2 = B2 + H2;
         let W = H * SwitchWithDefault(currentJudge.get(), {
             {Sprites.JudgePerfectPlus, judgePerfectPlusRatio},
             {Sprites.JudgePerfect, judgePerfectRatio},
@@ -20,11 +23,22 @@ class Stage: public Archetype {
             {Sprites.JudgeMiss, judgeMissRatio},
             {Sprites.JudgeAuto, judgeAutoRatio}
         }, 0);
+		let W2 = H2 * If(currentJudgeDeltaTime < 0, judgeFastRatio, judgeSlowRatio);
         let R = W / 2.0, L = -1 * R;
+		let R2 = W2 / 2.0, L2 = -1 * R2;
         let scale = 0.6 + 0.4 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
         let a = 0.6 + 0.4 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
         L *= scale, R *= scale, T *= scale, B *= scale;
+		L2 *= scale, R2 *= scale, T2 *= scale, B2 *= scale;
         Draw(currentJudge.get(), L, B, L, T, R, T, R, B, 1e8, a * ui.judgmentConfiguration.alpha);
+		IF (Abs(currentJudgeDeltaTime) > Switch(judgeType, {
+				{0, judgment.perfectPlus},
+				{1, judgment.perfect},
+				{2, judgment.bad}
+			}) && Abs(currentJudgeDeltaTime) <= judgment.bad) {
+			Draw(If(currentJudgeDeltaTime < 0, Sprites.JudgeFast, Sprites.JudgeSlow), 
+				L2, B2, L2, T2, R2, T2, R2, B2, 1e8, a * ui.judgmentConfiguration.alpha); 
+		} FI
         return VOID;
     }
 
@@ -43,6 +57,7 @@ class Stage: public Archetype {
 		IF (!times.skip) Return(0); FI
 		currentJudge.set(0);
 		currentJudgeStartTime.set(0);
+        currentJudgeDeltaTime.set(0);
 		return VOID;
 	}
 };

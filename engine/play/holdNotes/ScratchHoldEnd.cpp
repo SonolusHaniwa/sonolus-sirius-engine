@@ -88,9 +88,9 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
-		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
+		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
+		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
+		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}
