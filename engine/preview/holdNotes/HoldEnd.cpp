@@ -21,7 +21,7 @@ class SiriusHoldEnd: public Archetype {
     SonolusApi render() {
    		FUNCBEGIN
    		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-   		drawPreviewNormalNote(Sprites.HoldNote, beat, lane, enLane);
+   		drawPreviewNormalNote(Sprites.HoldNoteLeft, beat, lane, enLane);
 		drawPreviewHoldEighth(Sprites.Hold, stBeat, beat, lane, enLane);
    		return VOID;
    	}

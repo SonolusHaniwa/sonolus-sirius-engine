@@ -129,9 +129,9 @@ class SiriusScratchHoldEnd: public Archetype {
 		FUNCBEGIN
 		drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
-			drawNormalNote(Sprites.ScratchNote, lane, enLane, times.scaled); FI
+			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.ScratchNote, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+			drawNormalNote(Sprites.ScratchNoteLeft, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) {
 			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
 			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI

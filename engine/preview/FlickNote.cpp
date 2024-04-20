@@ -21,7 +21,7 @@ class FlickNote : public Archetype {
 	SonolusApi render() {
 		FUNCBEGIN
 		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-		drawPreviewNormalNote(Sprites.ScratchNote, beat, lane, enLane);
+		drawPreviewNormalNote(Sprites.ScratchNoteLeft, beat, lane, enLane);
 		IF (scratchLength == 0) drawPreviewArrow(beat, lane, enLane);
 		ELSE {
 			IF (scratchLength > 0) drawPreviewRightArrow(beat, lane, enLane);

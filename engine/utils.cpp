@@ -148,11 +148,15 @@ SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
     auto c4 = line2.getPosition(p + multiplier);
     auto w1 = line1.getWidth(p - multiplier);
     auto w2 = line1.getWidth(p + multiplier);
+    auto border_w1 = w1 * 12 * noteBorderPercent;
+    auto border_w2 = w2 * 12 * noteBorderPercent;
     auto lb = c2 - Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
     	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
     auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
     	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
-    Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
+    Draw(sprite, lb.x, lb.y, lt.x, lt.y, lt.x + border_w1, rt.y, lb.x + border_w2, rb.y, 1000 - beat, 1);
+    Draw(sprite + 1, lb.x + border_w2, lb.y, lt.x + border_w1, lt.y, rt.x - border_w1, rt.y, rb.x - border_w2, rb.y, 1000 - beat, 1);
+    Draw(sprite + 2, rb.x - border_w2, rb.y, rt.x - border_w1, rt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
     return VOID;
 }
 
@@ -162,7 +166,10 @@ SonolusApi drawPreviewNormalNote(let sprite, let time, let st, let en) {
 	let len = stageWidth / 12.0;
 	let l = x + (st - 7) * len + adjustDistance, r = x + (en - 6) * len - adjustDistance;
 	let t = y + noteHeight / 2.0, b = y - noteHeight / 2.0;
-	Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
+    let border_len = stageFullWidth * noteBorderPercent;
+	Draw(sprite, l, b, l, t, l + border_len, t, l + border_len, b, 4, 1);
+    Draw(sprite + 1, l + border_len, b, l + border_len, t, r - border_len, t, r - border_len, b, 4, 1);
+    Draw(sprite + 2, r - border_len, b, r - border_len, t, r, t, r, b, 4, 1);
 	return VOID;
 }
 

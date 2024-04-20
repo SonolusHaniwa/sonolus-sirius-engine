@@ -518,6 +518,7 @@ string fromSUS(string text) {
     	bool CriticalSlide = false;
     	bool ScratchSlide = false;
     	bool addStart = true;
+        bool isCausedByDamage = false;
     	double startTime = 0;
     };
     double tickTime = ticks_per_beat / 1920.0 * 60 * 4 / currentBpm;
@@ -557,7 +558,7 @@ string fromSUS(string text) {
                 for (int k = 0; k < SlideEndName.size(); k++) {
                     if (slideNumber == 0 || slides[SlideEndName[k]].inSlide == false) 
                     	throw runtime_error("Unknown Slide End in [" + to_string(l) + ", " + to_string(r) + "]");
-                    int ScratchType = 0;
+                    int ScratchType = 0; bool shouldUnscratch = true;
                     for (int i = 1; i <= 12; i++) {
                         if (i > l && i <= r) continue;
                         for (auto &x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
@@ -568,8 +569,13 @@ string fromSUS(string text) {
                                     (body[0] == '3' ? -(r - l + 1) : (body[0] == '4' ? (r - l + 1) : 0))
                                 ) : (i < l ? i - r - 1 : i - l + 1));
                                 x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                                shouldUnscratch = false;
                             }
                         }
+                    }
+                    if (shouldUnscratch && slides[SlideEndName[k]].ScratchSlide) {
+                        slides[SlideEndName[k]].ScratchSlide = false;
+                        if (!slides[SlideEndName[k]].isCausedByDamage) slides[SlideEndName[k]].addStart = true;
                     }
                     int noteType = (slides[SlideEndName[k]].CriticalSlide ? 
                         (slides[SlideEndName[k]].ScratchSlide ? ScratchCriticalHoldStart : CriticalHoldStart) :
@@ -607,6 +613,7 @@ string fromSUS(string text) {
                     slides[SlideStartName[k]].inSlide = true; 
                     slides[SlideStartName[k]].CriticalSlide = isCritical;
                     slides[SlideStartName[k]].addStart = !isDamage;
+                    slides[SlideStartName[k]].isCausedByDamage = isDamage;
                     if (isCritical) { // 如果是 CriticalHold 或 CriticalScratchHold
                         for (auto &x : noteList[l][r][t]) {
                             string head = get<0>(x), body = get<3>(x);
@@ -659,7 +666,9 @@ string fromSUS(string text) {
                         if (body[0] == '2') txt << t << "," << -1 << "," << Critical << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                     }
                     if (prop[0] == '5') {
-                        txt << t << "," << -1 << "," << Flick << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                        if (body[0] == '3') txt << t << "," << -1 << "," << Flick << "," << l << "," << (r - l + 1) << "," << 0 << "," << -(r - l + 1) << endl;
+                        else if (body[0] == '4') txt << t << "," << -1 << "," << Flick << "," << l << "," << (r - l + 1) << "," << 0 << "," << (r - l + 1) << endl;
+                        else txt << t << "," << -1 << "," << Flick << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                     }
                 }
             }

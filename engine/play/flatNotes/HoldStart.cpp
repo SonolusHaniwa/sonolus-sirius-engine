@@ -2,7 +2,7 @@ class SiriusHoldStart: public FlatNote {
 	public:
 	static constexpr const char* name = "Sirius Hold Start";
 
-	let getSprite() { return Sprites.HoldNote; }
+	let getSprite() { return Sprites.HoldNoteLeft; }
 	let getBucket() { return Buckets.HoldStart; }
     ClipsArray getClips() { return {
     	perfect: Clips.Perfect,

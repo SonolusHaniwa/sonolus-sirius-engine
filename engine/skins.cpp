@@ -6,9 +6,21 @@ class Sprites {
 	int Stage = 0;
 	int Judgeline = 1;
 	int NormalNote = 2;
+	int NormalNoteLeft = 2000;
+	int NormalNoteMiddle = 2001;
+	int NormalNoteRight = 2002;
 	int CriticalNote = 3;
+	int CriticalNoteLeft = 3000;
+	int CriticalNoteMiddle = 3001;
+	int CriticalNoteRight = 3002;
 	int HoldNote = 4;
+	int HoldNoteLeft = 4000;
+	int HoldNoteMiddle = 4001;
+	int HoldNoteRight = 4002;
 	int ScratchNote = 5;
+	int ScratchNoteLeft = 5000;
+	int ScratchNoteMiddle = 5001;
+	int ScratchNoteRight = 5002;
 	int ScratchArrow = 6;
 	int Hold = 7;
 	int Scratch = 8;
@@ -569,9 +581,21 @@ auto skins = defineSkins<class Sprites>({
 	{SkinSpriteName.StageCover, Sprites.Stage},
 	{SkinSpriteName.JudgmentLine, Sprites.Judgeline},
 	{SkinSpriteName.NoteHeadRed, Sprites.NormalNote},
+	{"Sirius Note Red Left", Sprites.NormalNoteLeft},
+	{"Sirius Note Red Middle", Sprites.NormalNoteMiddle},
+	{"Sirius Note Red Right", Sprites.NormalNoteRight},
 	{SkinSpriteName.NoteHeadYellow, Sprites.CriticalNote},
+	{"Sirius Note Yellow Left", Sprites.CriticalNoteLeft},
+	{"Sirius Note Yellow Middle", Sprites.CriticalNoteMiddle},
+	{"Sirius Note Yellow Right", Sprites.CriticalNoteRight},
 	{SkinSpriteName.NoteHeadBlue, Sprites.HoldNote},
+	{"Sirius Note Blue Left", Sprites.HoldNoteLeft},
+	{"Sirius Note Blue Middle", Sprites.HoldNoteMiddle},
+	{"Sirius Note Blue Right", Sprites.HoldNoteRight},
 	{SkinSpriteName.NoteHeadPurple, Sprites.ScratchNote},
+	{"Sirius Note Purple Left", Sprites.ScratchNoteLeft},
+	{"Sirius Note Purple Middle", Sprites.ScratchNoteMiddle},
+	{"Sirius Note Purple Right", Sprites.ScratchNoteRight},
 	{SkinSpriteName.DirectionalMarkerPurple, Sprites.ScratchArrow},
 	{SkinSpriteName.NoteConnectionBlue, Sprites.Hold},
 	{SkinSpriteName.NoteConnectionPurple, Sprites.Scratch},
@@ -1045,6 +1069,24 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Split Line #10680", Sprites.SplitLine_10680},
 	{"Sirius Split Line Transform 1 #10680", Sprites.SplitLineTrans1_10680},
 	{"Sirius Split Line Transform 2 #10680", Sprites.SplitLineTrans2_10680},
+	{"Sirius Split Line #10690", Sprites.SplitLine_10690},
+	{"Sirius Split Line Transform 1 #10690", Sprites.SplitLineTrans1_10690},
+	{"Sirius Split Line Transform 2 #10690", Sprites.SplitLineTrans2_10690},
+	{"Sirius Split Line #10700", Sprites.SplitLine_10700},
+	{"Sirius Split Line Transform 1 #10700", Sprites.SplitLineTrans1_10700},
+	{"Sirius Split Line Transform 2 #10700", Sprites.SplitLineTrans2_10700},
+	{"Sirius Split Line #1070a", Sprites.SplitLine_1070a},
+	{"Sirius Split Line Transform 1 #1070a", Sprites.SplitLineTrans1_1070a},
+	{"Sirius Split Line Transform 2 #1070a", Sprites.SplitLineTrans2_1070a},
+	{"Sirius Split Line #1070b", Sprites.SplitLine_1070b},
+	{"Sirius Split Line Transform 1 #1070b", Sprites.SplitLineTrans1_1070b},
+	{"Sirius Split Line Transform 2 #1070b", Sprites.SplitLineTrans2_1070b},
+	{"Sirius Split Line #10710", Sprites.SplitLine_10710},
+	{"Sirius Split Line Transform 1 #10710", Sprites.SplitLineTrans1_10710},
+	{"Sirius Split Line Transform 2 #10710", Sprites.SplitLineTrans2_10710},
+	{"Sirius Split Line #10720", Sprites.SplitLine_10720},
+	{"Sirius Split Line Transform 1 #10720", Sprites.SplitLineTrans1_10720},
+	{"Sirius Split Line Transform 2 #10720", Sprites.SplitLineTrans2_10720},
 	{"Sirius Split Line #2", Sprites.SplitLine_2},
 	{"Sirius Split Line Transform 1 #2", Sprites.SplitLineTrans1_2},
 	{"Sirius Split Line Transform 2 #2", Sprites.SplitLineTrans2_2},

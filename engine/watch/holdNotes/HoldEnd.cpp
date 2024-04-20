@@ -148,9 +148,9 @@
 			drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), times.now > stBeat && times.now < beat);
 		} FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
-			drawNormalNote(Sprites.HoldNote, lane, enLane, times.scaled); FI
+			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, times.scaled); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.HoldNote, lane, enLane, TimeToScaledTime(beat)); FI
+			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, TimeToScaledTime(beat)); FI
  		return VOID;
  	}
 };
