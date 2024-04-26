@@ -23,11 +23,11 @@ class SplitLine: public Archetype {
     	FUNCBEGIN
 		IF (split < 1 || split > 6) Return(0); FI
         getSplitLine(color);
-        IF (times.now > endBeat) {
-            drawDisappearLine(times.now - endBeat, split);
+        IF (times.scaled > endBeat) {
+            drawDisappearLine(times.scaled - endBeat, split);
         } ELSE {
-	        IF (times.now < beat) {
-	            drawAppearLine(splitLineAnimationStart - beat + times.now, split);
+	        IF (times.scaled < beat) {
+	            drawAppearLine(splitLineAnimationStart - beat + times.scaled, split);
 	        } ELSE {
 	            drawSplitLine(split);
 	        } FI

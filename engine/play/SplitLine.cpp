@@ -10,7 +10,7 @@ class SplitLine: public Archetype {
 	defineImports(color);
 
     SonolusApi spawnOrder() { return 1000 + beat - splitLineAnimationStart + appearTime; }
-    SonolusApi shouldSpawn() { return times.now > beat - splitLineAnimationStart; }
+    SonolusApi shouldSpawn() { return times.scaled > beat - splitLineAnimationStart; }
 
     SonolusApi preprocess() {
     	FUNCBEGIN
@@ -23,11 +23,11 @@ class SplitLine: public Archetype {
     	FUNCBEGIN
     	IF (split < 1 && split > 6) Return(0); FI
         getSplitLine(color);
-        IF (times.now > endBeat) {
-            drawDisappearLine(times.now - endBeat, split);
+        IF (times.scaled > endBeat) {
+            drawDisappearLine(times.scaled - endBeat, split);
         } ELSE {
-	        IF (times.now < beat) {
-	            drawAppearLine(splitLineAnimationStart - beat + times.now, split);
+	        IF (times.scaled < beat) {
+	            drawAppearLine(splitLineAnimationStart - beat + times.scaled, split);
 	        } ELSE {
 	            drawSplitLine(split);
 	        } FI
@@ -37,7 +37,7 @@ class SplitLine: public Archetype {
 
     SonolusApi updateParallel() {
     	FUNCBEGIN
-        IF (times.now > endBeat + splitLineAnimationEnd) {
+        IF (times.scaled > endBeat + splitLineAnimationEnd) {
             EntityDespawn.set(0, 1);
         } FI
 	    return VOID;
