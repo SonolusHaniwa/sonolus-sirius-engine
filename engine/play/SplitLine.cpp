@@ -37,7 +37,7 @@ class SplitLine: public Archetype {
 
     SonolusApi updateParallel() {
     	FUNCBEGIN
-        IF (times.now > TimeToScaledTime(endBeat) + splitLineAnimationEnd) {
+        IF (times.scaled > TimeToScaledTime(endBeat) + splitLineAnimationEnd) {
             EntityDespawn.set(0, 1);
         } FI
 	    return VOID;
