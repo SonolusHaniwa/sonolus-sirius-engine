@@ -1,5 +1,5 @@
 ARCH="x64"
-VERSION=v1.5.0-preview2
+VERSION=v1.5.0
 YELLOW="\e[93m"
 RED="\e[91m"
 RESET="\e[0m"
@@ -14,10 +14,10 @@ wget "https://raw.githubusercontent.com/SonolusHaniwa/sonolus-server-cpp/main/da
 sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus serve >/dev/null 2>&1 &
 # ./sonolus import ../sirius/sirius.srp
-./sonolus buildcpp play ../sirius -DDISABLE_TRACE
-# ./sonolus buildcpp tutorial ../sirius
-./sonolus buildcpp preview ../sirius -DDISABLE_TRACE
-./sonolus buildcpp watch ../sirius -DDISABLE_TRACE
+./sonolus buildcpp play ..
+# ./sonolus buildcpp tutorial ../
+./sonolus buildcpp preview ..
+./sonolus buildcpp watch ..
 # sqlite3 sonolus.db "SELECT * FROM Engine";
 
 # 数据导出
