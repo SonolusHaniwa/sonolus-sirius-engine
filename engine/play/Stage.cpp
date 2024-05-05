@@ -74,7 +74,6 @@ class Stage: public Archetype {
 			}) + comboDistance;
 			tmpNumber = Floor(tmpNumber / 10);
 		} DONE
-		Debuglog(W);
         let scale = 0.8 + 0.2 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
         let a = 0.8 + 0.2 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
 		W = W * scale; H = H * scale; W2 = W2 * scale; H2 = H2 * scale;
