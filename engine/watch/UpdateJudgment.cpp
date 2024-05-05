@@ -5,6 +5,8 @@ class UpdateJudgment: public Archetype {
 	static constexpr const char* name = "Sirius Update Judgment";
 	Variable<EntityMemoryId> beat;
 	Variable<EntityMemoryId> judgment;
+	Variable<EntityMemoryId> combo;
+	Variable<EntityMemoryId> status;
 	Variable<EntityMemoryId> delta;
 	Variable<EntityMemoryId> updated;
 
@@ -22,6 +24,8 @@ class UpdateJudgment: public Archetype {
 		FUNCBEGIN
 		IF (updated) Return(0); FI
 		SpawnSubJudgeText(judgment, delta);
+		comboStatus = Max(comboStatus, status);
+		comboNumber = If(combo == 0, 0, Max(comboNumber, combo));
 		updated = true;
 		return VOID;
 	}

@@ -45,11 +45,11 @@ class Stage: public Archetype {
 	SonolusApi drawCombo() {
 		FUNCBEGIN
 		IF (comboNumber == 0) Return(0); FI
-		let comboHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight, comboNumberHeight);
-		let comboDistance = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance, comboNumberDistance);
-		let comboHeight2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextHeight, comboTextHeight);
-		let comboDistance2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextDistance, comboTextDistance);
-		let status = If(comboStatus <= Sprites.JudgePerfect, 0, If(comboStatus <= Sprites.JudgeGreat, 1, 2));
+		let comboHeight = If(comboStatus <= 2, comboAPNumberHeight, comboNumberHeight);
+		let comboDistance = If(comboStatus <= 2, comboAPNumberDistance, comboNumberDistance);
+		let comboHeight2 = If(comboStatus <= 2, comboAPTextHeight, comboTextHeight);
+		let comboDistance2 = If(comboStatus <= 2, comboAPTextDistance, comboTextDistance);
+		let status = If(comboStatus <= 2, 0, If(comboStatus <= 3, 1, 2));
 		let H = comboHeight * ui.comboConfiguration.scale;
 		let H2 = comboHeight2 * ui.comboConfiguration.scale;
 		var W = -1 * comboDistance, tmpNumber = comboNumber.get();

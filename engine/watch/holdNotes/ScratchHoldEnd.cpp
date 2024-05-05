@@ -53,15 +53,19 @@
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
         IF (isReplay == 1) {
+			comboNumber = comboNumber + 1;
+			let combo = comboNumber.get();
+			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
+			let status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, accuracy);
 	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
         	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.CriticalGood, beat + accuracy, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat}); FI
+        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
+			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
+			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
 			FOR (i, time1.offset, time25.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
@@ -71,12 +75,16 @@
 				} FI
 			} DONE
         } ELSE {
+			comboNumber = comboNumber + 1;
+			let combo = comboNumber.get();
+			comboStatus = 0;
+			let status = comboStatus.get();
         	Set(EntityInputId, 0, beat);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, 0);
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
+			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
 		} FI
  	    return VOID;
  	}

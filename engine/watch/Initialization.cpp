@@ -6,6 +6,7 @@ class Initialization: public Archetype {
 	SonolusApi spawnTime() { return 0; }
 	SonolusApi despawnTime() { return 0; }
 
+	int preprocessOrder = 1;
 	SonolusApi preprocess() {
 		FUNCBEGIN
       	// 界面开关参数
@@ -85,6 +86,8 @@ class Initialization: public Archetype {
         buckets[10].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
         buckets[11].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
         buckets[12].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+
+        comboNumber = 0; comboStatus = 0;
         return VOID;
     }
 };

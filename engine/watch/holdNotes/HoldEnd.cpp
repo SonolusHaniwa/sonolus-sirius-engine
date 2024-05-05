@@ -49,6 +49,10 @@
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
         IF (isReplay) {
+			comboNumber = comboNumber + 1;
+			let combo = comboNumber.get();
+			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
+			let status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.HoldEnd);
         	Set(EntityInputId, 2, accuracy);
@@ -56,12 +60,12 @@
         	IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 4 || judgeResult == 5) PlayScheduled(Clips.Good, beat + accuracy, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus}); FI
-			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat}); FI
-			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood}); FI
-			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad}); FI
+        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
+			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
+			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status}); FI
+			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
+			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood, combo, status}); FI
+			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad, combo, status}); FI
 			FOR (i, time1.offset, time26.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
@@ -71,12 +75,16 @@
 				} FI
 			} DONE
         } ELSE {
+			comboNumber = comboNumber + 1;
+			let combo = comboNumber.get();
+			comboStatus = 0;
+			let status = comboStatus.get();
         	Set(EntityInputId, 0, beat);
         	Set(EntityInputId, 1, Buckets.HoldEnd);
         	Set(EntityInputId, 2, 0);
 	        PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto});
+			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
 		} FI
  	    return VOID;
  	}
