@@ -5,7 +5,7 @@ double highWidth = 0.1;                      // 高位宽度与低位宽度比
 double defaultAppearTime = 7.4 / 5.0;        // note 默认出现时间
 double minSFXDistance = 0.02;                // 最小音效时间
 double judgelineMarginBottom = 0.25;         // 判定线距离底部距离
-double judgelineHeight = 85.0 / 640.0;       // 判定线高度
+double judgelineHeight = 0.133;              // 判定线高度
 double judglineMoveLength = 0.01;            // judgline 微调距离
 double noteMoveLength = 0.02;                // note 微调距离
 double splitLineLength = 0.02;               // 分裂线宽度
@@ -13,11 +13,11 @@ double arrowPercent = 1.6;                   // 箭头所占比例
 double arrowSpeed = 20;                      // 箭头速率常数
 double splitLineAnimationStart = 0.75;       // 分裂线起始动画长度, basic: 0.7595
 double splitLineAnimationEnd = 0.20;         // 分裂线结束动画长度, basic: 0.7595
-double effectLinearHeight = 280.0 / 640.0;   // 特效高度
-double effectCircularHeight = 200.0 / 640.0; // 特效 2 高度
+double effectLinearHeight = 0.4375;          // 特效高度
+double effectCircularHeight = 0.3125;        // 特效 2 高度
 double effectDurationTime = 0.5;             // 特效持续时间
-double effectDistance = 20.0 / 640.0;        // 特效微调距离
-double hiddenLineHeight = 200.0 / 640.0;     // 隐藏线高度
+double effectDistance = 0.03125;             // 特效微调距离
+double hiddenLineHeight = 0.3125;            // 隐藏线高度
 double judgePerfectPlusRatio = 332.0 / 76.0; // 判定文字 Perfect+ 比例
 double judgePerfectRatio = 307.0 / 76.0;     // 判定文字 Perfect 比例
 double judgeGreatRatio = 247.0 / 76.0;       // 判定文字 Great 比例
@@ -31,6 +31,47 @@ double judgeTextHeight = 0.15;               // 判定文字高度
 double judgeText2Height = 0.08;              // 判定文字 2 高度
 double judgeTextDistance = 0.0;              // 判定文字间距
 double judgeTextDuration = 0.1;			     // 判定文字动画时长
+double comboNormalRatio = 154.0 / 37.0;      // 普通 combo 文字比例
+double comboNormal0Ratio = 89.0 / 124.0;     // 普通 combo 0 比例
+double comboNormal1Ratio = 89.0 / 119.0;     // 普通 combo 1 比例
+double comboNormal2Ratio = 94.0 / 121.0;     // 普通 combo 2 比例
+double comboNormal3Ratio = 90.0 / 124.0;     // 普通 combo 3 比例
+double comboNormal4Ratio = 91.0 / 119.0;     // 普通 combo 4 比例
+double comboNormal5Ratio = 89.0 / 122.0;     // 普通 combo 5 比例
+double comboNormal6Ratio = 91.0 / 124.0;     // 普通 combo 6 比例
+double comboNormal7Ratio = 91.0 / 119.0;     // 普通 combo 7 比例
+double comboNormal8Ratio = 90.0 / 124.0;     // 普通 combo 8 比例
+double comboNormal9Ratio = 90.0 / 124.0;     // 普通 combo 9 比例
+double comboFCRatio = 154.0 / 37.0;          // FC combo 文字比例
+double comboFC0Ratio = 89.0 / 124.0;         // FC combo 0 比例
+double comboFC1Ratio = 89.0 / 119.0;         // FC combo 1 比例
+double comboFC2Ratio = 94.0 / 121.0;         // FC combo 2 比例
+double comboFC3Ratio = 90.0 / 124.0;         // FC combo 3 比例
+double comboFC4Ratio = 91.0 / 119.0;         // FC combo 4 比例
+double comboFC5Ratio = 89.0 / 122.0;         // FC combo 5 比例
+double comboFC6Ratio = 91.0 / 124.0;         // FC combo 6 比例
+double comboFC7Ratio = 91.0 / 119.0;         // FC combo 7 比例
+double comboFC8Ratio = 90.0 / 124.0;         // FC combo 8 比例
+double comboFC9Ratio = 90.0 / 124.0;         // FC combo 9 比例
+double comboAPRatio = 168.0 / 48.0;          // AP combo 文字比例
+double comboAP0Ratio = 118.0 / 148.0;        // AP combo 0 比例
+double comboAP1Ratio = 118.0 / 148.0;        // AP combo 1 比例
+double comboAP2Ratio = 118.0 / 148.0;        // AP combo 2 比例
+double comboAP3Ratio = 118.0 / 148.0;        // AP combo 3 比例
+double comboAP4Ratio = 118.0 / 148.0;        // AP combo 4 比例
+double comboAP5Ratio = 118.0 / 148.0;        // AP combo 5 比例
+double comboAP6Ratio = 118.0 / 148.0;        // AP combo 6 比例
+double comboAP7Ratio = 118.0 / 148.0;        // AP combo 7 比例
+double comboAP8Ratio = 118.0 / 148.0;        // AP combo 8 比例
+double comboAP9Ratio = 118.0 / 148.0;        // AP combo 9 比例
+double comboTextHeight = 0.05;               // combo 文字高度
+double comboAPTextHeight = 0.066;            // AP combo 文字高度
+double comboTextDistance = 0.015;            // combo 文字间距
+double comboAPTextDistance = 0.003;          // AP combo 文字间距
+double comboNumberHeight = 0.2;              // combo 数字高度
+double comboAPNumberHeight = 0.238;          // AP 数字高度
+double comboNumberDistance = 0.0;            // combo 数字间距
+double comboAPNumberDistance = -0.048;       // AP combo 数字间距
 double stageWidth = 0.7;                         // 单个舞台宽度
 double stageHeight = 2.0;                        // 单个舞台高度
 double stageFullWidth = stageWidth + 0.3;        // 单个舞台占有宽度
@@ -38,7 +79,7 @@ double stageTimelineWidth = stageWidth + 0.2;    // 时间线宽度
 double stageTimeLength = 2.0;                    // 单个舞台容纳时间
 double adjustDistance = 0.002;                   // 按键微调距离
 double noteCountDistance = 10;                   // 按键计数长度
-double noteBorderPercent = 0.02;            // note 边框比例 (相对于 Stage 大小)
+double noteBorderPercent = 0.02;             // note 边框比例 (相对于 Stage 大小)
 #if play || watch
 double noteHeight = 85.0 / 640.0;            // note 高度
 double tickWidth = 168.0 / 640.0;            // tick 宽度
@@ -153,11 +194,13 @@ Variable<LevelMemoryId> currentJudge;
 Variable<LevelMemoryId> currentJudgeDeltaTime;
 Variable<LevelMemoryId> currentJudgeStartTime;
 Array<LevelMemoryId, let> splitLineMemory(16);
+Variable<LevelMemoryId> comboNumber;
+Variable<LevelMemoryId> comboStatus;
 let duration, noteCount, noteId;
 #elif preview
 Variable<PreviewDataId> duration;                   // 谱面时长
 Variable<PreviewDataId> noteCount;                  // note 数量
 Variable<EntitySharedMemoryId> noteId;              // note 编号
 Array<TemporaryMemoryId, let> splitLineMemory(16);
-let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime;
+let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus;
 #endif

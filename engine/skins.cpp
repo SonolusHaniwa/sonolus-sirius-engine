@@ -39,6 +39,39 @@ class Sprites {
 	int JudgeAuto = 33;
 	int JudgeFast = 34;
 	int JudgeSlow = 35;
+	int ComboNormalText = 1000;
+	int ComboNormal0 = 1001;
+	int ComboNormal1 = 1002;
+	int ComboNormal2 = 1003;
+	int ComboNormal3 = 1004;
+	int ComboNormal4 = 1005;
+	int ComboNormal5 = 1006;
+	int ComboNormal6 = 1007;
+	int ComboNormal7 = 1008;
+	int ComboNormal8 = 1009;
+	int ComboNormal9 = 1010;
+	int ComboFCText = 2000;
+	int ComboFC0 = 2001;
+	int ComboFC1 = 2002;
+	int ComboFC2 = 2003;
+	int ComboFC3 = 2004;
+	int ComboFC4 = 2005;
+	int ComboFC5 = 2006;
+	int ComboFC6 = 2007;
+	int ComboFC7 = 2008;
+	int ComboFC8 = 2009;
+	int ComboFC9 = 2010;
+	int ComboAPText = 3000;
+	int ComboAP0 = 3001;
+	int ComboAP1 = 3002;
+	int ComboAP2 = 3003;
+	int ComboAP3 = 3004;
+	int ComboAP4 = 3005;
+	int ComboAP5 = 3006;
+	int ComboAP6 = 3007;
+	int ComboAP7 = 3008;
+	int ComboAP8 = 3009;
+	int ComboAP9 = 3010;
 	int GridYellow = 36;
 	int SplitLine_1 = 37;
 	int SplitLineTrans1_1 = 38;
@@ -616,6 +649,39 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Judgment Auto", Sprites.JudgeAuto},
 	{"Sirius Judgment Fast", Sprites.JudgeFast},
 	{"Sirius Judgment Slow", Sprites.JudgeSlow},
+	{"Sirius Combo Normal", Sprites.ComboNormalText},
+	{"Sirius Combo Normal 0", Sprites.ComboNormal0},
+	{"Sirius Combo Normal 1", Sprites.ComboNormal1},
+	{"Sirius Combo Normal 2", Sprites.ComboNormal2},
+	{"Sirius Combo Normal 3", Sprites.ComboNormal3},
+	{"Sirius Combo Normal 4", Sprites.ComboNormal4},
+	{"Sirius Combo Normal 5", Sprites.ComboNormal5},
+	{"Sirius Combo Normal 6", Sprites.ComboNormal6},
+	{"Sirius Combo Normal 7", Sprites.ComboNormal7},
+	{"Sirius Combo Normal 8", Sprites.ComboNormal8},
+	{"Sirius Combo Normal 9", Sprites.ComboNormal9},
+	{"Sirius Combo FC", Sprites.ComboFCText},
+	{"Sirius Combo FC 0", Sprites.ComboFC0},
+	{"Sirius Combo FC 1", Sprites.ComboFC1},
+	{"Sirius Combo FC 2", Sprites.ComboFC2},
+	{"Sirius Combo FC 3", Sprites.ComboFC3},
+	{"Sirius Combo FC 4", Sprites.ComboFC4},
+	{"Sirius Combo FC 5", Sprites.ComboFC5},
+	{"Sirius Combo FC 6", Sprites.ComboFC6},
+	{"Sirius Combo FC 7", Sprites.ComboFC7},
+	{"Sirius Combo FC 8", Sprites.ComboFC8},
+	{"Sirius Combo FC 9", Sprites.ComboFC9},
+	{"Sirius Combo AP", Sprites.ComboAPText},
+	{"Sirius Combo AP 0", Sprites.ComboAP0},
+	{"Sirius Combo AP 1", Sprites.ComboAP1},
+	{"Sirius Combo AP 2", Sprites.ComboAP2},
+	{"Sirius Combo AP 3", Sprites.ComboAP3},
+	{"Sirius Combo AP 4", Sprites.ComboAP4},
+	{"Sirius Combo AP 5", Sprites.ComboAP5},
+	{"Sirius Combo AP 6", Sprites.ComboAP6},
+	{"Sirius Combo AP 7", Sprites.ComboAP7},
+	{"Sirius Combo AP 8", Sprites.ComboAP8},
+	{"Sirius Combo AP 9", Sprites.ComboAP9},
 	{SkinSpriteName.GridYellow, Sprites.GridYellow},
 	{"Sirius Split Line #1", Sprites.SplitLine_1},
 	{"Sirius Split Line Transform 1 #1", Sprites.SplitLineTrans1_1},

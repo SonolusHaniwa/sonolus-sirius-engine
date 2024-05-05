@@ -463,6 +463,9 @@ SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
 
 SonolusApi SpawnSubJudgeText(let sprite, let delta = 0) {
 	FUNCBEGIN
+    IF (sprite <= Sprites.JudgeGreat || sprite == Sprites.JudgeAuto) comboNumber = comboNumber + 1;
+    ELSE comboNumber = 0; FI
+    comboStatus = Max(comboStatus, If(sprite == Sprites.JudgeAuto, Sprites.JudgePerfectPlus, sprite));
     IF (currentJudgeStartTime == times.now) {
         currentJudge = Max(currentJudge, sprite);
         IF (Abs(delta) > Abs(currentJudgeDeltaTime)) currentJudgeDeltaTime = delta; FI

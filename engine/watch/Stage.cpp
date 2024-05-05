@@ -42,6 +42,74 @@ class Stage: public Archetype {
         return VOID;
     }
 
+	SonolusApi drawCombo() {
+		FUNCBEGIN
+		IF (comboNumber == 0) Return(0); FI
+		let comboHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight, comboNumberHeight);
+		let comboDistance = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance, comboNumberDistance);
+		let comboHeight2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextHeight, comboTextHeight);
+		let comboDistance2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextDistance, comboTextDistance);
+		let status = If(comboStatus <= Sprites.JudgePerfect, 0, If(comboStatus <= Sprites.JudgeGreat, 1, 2));
+		let H = comboHeight * ui.comboConfiguration.scale;
+		let H2 = comboHeight2 * ui.comboConfiguration.scale;
+		var W = -1 * comboDistance, tmpNumber = comboNumber.get();
+		let W2 = H2 * Switch(status, {
+			{0, comboAPRatio},
+			{1, comboFCRatio},
+			{2, comboNormalRatio}
+		});
+		WHILE (tmpNumber) {
+			W = W + H * Switch(tmpNumber % 10, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			}) + comboDistance;
+			tmpNumber = Floor(tmpNumber / 10);
+		} DONE
+		Debuglog(W);
+        let scale = 0.8 + 0.2 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
+        let a = 0.8 + 0.2 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
+		W = W * scale; H = H * scale; W2 = W2 * scale; H2 = H2 * scale;
+		let cx = screen.w * 0.4;
+		var R = cx + W / 2.0; let B = -1 * H / 2.0;
+		let L2 = cx - W2 / 2.0; let B2 = H / 2.0 + comboDistance2 * scale;
+		tmpNumber = comboNumber.get();
+		WHILE (tmpNumber) {
+			let L = R - H * Switch(tmpNumber % 10, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			});
+			Draw(Switch(status, {
+				{0, Sprites.ComboAP0 + tmpNumber % 10},
+				{1, Sprites.ComboFC0 + tmpNumber % 10},
+				{2, Sprites.ComboNormal0 + tmpNumber % 10}
+			}), L, B, L, B + H, R, B + H, R, B, 1e8, a * ui.comboConfiguration.alpha);
+			R = L - comboDistance * scale;
+			tmpNumber = Floor(tmpNumber / 10);
+		} DONE
+		Draw(Switch(status, {
+			{0, Sprites.ComboAPText},
+			{1, Sprites.ComboFCText},
+			{2, Sprites.ComboNormalText}
+		}), L2, B2, L2, B2 + H2, L2 + W2, B2 + H2, L2 + W2, B2, 1e8, a * ui.comboConfiguration.alpha);
+		return VOID;
+	}
+
     SonolusApi updateParallel() {
     	FUNCBEGIN
         Draw(Sprites.Stage, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 1, 1);
@@ -49,6 +117,7 @@ class Stage: public Archetype {
 		IF (LevelOption.get(Options.Hidden) != 0) drawHiddenLine(); FI
 		Draw(Sprites.Judgeline, judgline.lbX, judgline.lbY, judgline.ltX, judgline.ltY, judgline.rtX, judgline.rtY, judgline.rbX, judgline.rbY, 3, 1);
 		drawJudgeText();
+		drawCombo();
 		return VOID;
     }
 

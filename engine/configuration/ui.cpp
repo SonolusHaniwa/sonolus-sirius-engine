@@ -51,14 +51,14 @@ EngineConfigurationUI configurationUI = {
     },
     .comboAnimation = {
         .scale = {
-            .from = 0.6,
-            .to = 1.0,
+            .from = 0.0,
+            .to = 0.0,
             .duration = 0.1,
             .ease = AnimationEase.InSine
         },
         .alpha = {
-            .from = 0.6,
-            .to = 1.0,
+            .from = 0.0,
+            .to = 0.0,
             .duration = 0.1,
             .ease = AnimationEase.Linear
         }

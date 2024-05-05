@@ -35,7 +35,7 @@
         "background": "sirius-default",
         "effect": "sirius",
         "particle": "sirius",
-        "description": "A recreation of World Dai Star: Dream's Stellarium engine in Sonolus.\nSirius Version: 1.1.2.20240420_beta\nSonolus.h Version: 2.0.0_20240320_beta\n\nGithub Repository\nhttps://github.com/SonolusHaniwa/sonolus-sirius-engine"
+        "description": "A recreation of World Dai Star: Dream's Stellarium engine in Sonolus.\nSirius Version: 1.1.3_20240505_beta\nSonolus.h Version: 2.0.0_20240320_beta\n\nGithub Repository\nhttps://github.com/SonolusHaniwa/sonolus-sirius-engine"
       }
     ]
   }
