@@ -3,9 +3,21 @@ class Stage: public Archetype {
 
 	static constexpr const char* name = "Sirius Stage";
 	bool input = false;
+	Variable<EntityMemoryId> lastCombo;
+	Variable<EntityMemoryId> lastComboStatus;
+	Variable<EntityMemoryId> endTime;
 
 	SonolusApi spawnTime() { return -999999; }
 	SonolusApi despawnTime() { return 999999; }
+
+	int preprocessOrder = 1;
+	SonolusApi preprocess() {
+		FUNCBEGIN
+		lastCombo = comboNumber.get();
+		lastComboStatus = comboStatus.get();
+		endTime = currentJudgeStartTime.get();
+		return VOID;
+	}
 
     SonolusApi drawJudgeText() {
     	FUNCBEGIN
@@ -44,7 +56,7 @@ class Stage: public Archetype {
 
 	SonolusApi drawCombo() {
 		FUNCBEGIN
-		IF (comboNumber == 0) Return(0); FI
+		IF (comboNumber <= 0) Return(0); FI
 		let comboHeight = If(comboStatus <= 2, comboAPNumberHeight, comboNumberHeight);
 		let comboDistance = If(comboStatus <= 2, comboAPNumberDistance, comboNumberDistance);
 		let comboHeight2 = If(comboStatus <= 2, comboAPTextHeight, comboTextHeight);
@@ -77,8 +89,8 @@ class Stage: public Archetype {
         let a = 0.8 + 0.2 * Ease(Min(1, (times.now - currentJudgeStartTime.get()) / judgeTextDuration), RuntimeFunction.EaseInSine);
 		W = W * scale; H = H * scale; W2 = W2 * scale; H2 = H2 * scale;
 		let cx = screen.w * 0.4;
-		var R = cx + W / 2.0; let B = -1 * H / 2.0;
-		let L2 = cx - W2 / 2.0; let B2 = H / 2.0 + comboDistance2 * scale;
+		var R = cx + W / 2.0; let B = 0.2 - 1 * H / 2.0;
+		let L2 = cx - W2 / 2.0; let B2 = 0.2 + H / 2.0 + comboDistance2 * scale;
 		tmpNumber = comboNumber.get();
 		WHILE (tmpNumber) {
 			let L = R - H * Switch(tmpNumber % 10, {
@@ -122,10 +134,15 @@ class Stage: public Archetype {
 
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (times.now > endTime) {
+			comboNumber = lastCombo.get();
+			comboStatus = lastComboStatus.get();
+		} FI
 		IF (!times.skip) Return(0); FI
 		currentJudge.set(0);
 		currentJudgeStartTime.set(0);
         currentJudgeDeltaTime.set(0);
+        comboNumber = 0;
 		return VOID;
 	}
 };

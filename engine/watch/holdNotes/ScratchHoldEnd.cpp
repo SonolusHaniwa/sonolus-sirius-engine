@@ -52,8 +52,10 @@
         enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
+        currentJudgeStartTime = Max(currentJudgeStartTime, beat);
         IF (isReplay == 1) {
-			comboNumber = comboNumber + 1;
+			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			ELSE comboNumber = 0; FI
 			let combo = comboNumber.get();
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			let status = comboStatus.get();

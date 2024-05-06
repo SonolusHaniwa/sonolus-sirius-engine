@@ -22,8 +22,10 @@
  	 	beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
+        currentJudgeStartTime = Max(currentJudgeStartTime, beat);
 		IF (isReplay == 1) {
-			comboNumber = comboNumber + 1;
+			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			ELSE comboNumber = 0; FI
 			let combo = comboNumber.get();
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			let status = comboStatus.get();
@@ -33,12 +35,12 @@
 			IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(getClips().great, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 4 || judgeResult == 5) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, accuracy, combo, status}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, accuracy, combo, status}); FI
-			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, accuracy, combo, status}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, accuracy, combo, status}); FI
-			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood, accuracy, combo, status}); FI
-			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad, accuracy, combo, status}); FI
+			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, accuracy}); FI
+			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, accuracy}); FI
+			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status, accuracy}); FI
+			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, accuracy}); FI
+			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood, combo, status, accuracy}); FI
+			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad, combo, status, accuracy}); FI
 		} ELSE {
 			comboNumber = comboNumber + 1;
 			let combo = comboNumber.get();

@@ -48,8 +48,10 @@
  	 	stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
+        currentJudgeStartTime = Max(currentJudgeStartTime, beat);
         IF (isReplay) {
-			comboNumber = comboNumber + 1;
+			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			ELSE comboNumber = 0; FI
 			let combo = comboNumber.get();
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			let status = comboStatus.get();

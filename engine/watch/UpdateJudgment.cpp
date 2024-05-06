@@ -24,7 +24,7 @@ class UpdateJudgment: public Archetype {
 		FUNCBEGIN
 		IF (updated) Return(0); FI
 		SpawnSubJudgeText(judgment, delta);
-		comboStatus = Max(comboStatus, status);
+		comboStatus = status.get();
 		comboNumber = combo.get();
 		updated = true;
 		return VOID;

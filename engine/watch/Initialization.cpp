@@ -6,7 +6,7 @@ class Initialization: public Archetype {
 	SonolusApi spawnTime() { return 0; }
 	SonolusApi despawnTime() { return 0; }
 
-	int preprocessOrder = 1;
+	int preprocessOrder = 2;
 	SonolusApi preprocess() {
 		FUNCBEGIN
       	// 界面开关参数
