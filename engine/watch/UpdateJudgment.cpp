@@ -23,9 +23,14 @@ class UpdateJudgment: public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (updated) Return(0); FI
+	    IF (currentJudgeStartTime == times.now) {
+			comboStatus = Max(comboStatus, status);
+			comboNumber = If(combo == 0, 0, Max(comboNumber, combo));
+	    } ELSE {
+			comboStatus = status.get();
+			comboNumber = combo.get();
+	    } FI
 		SpawnSubJudgeText(judgment, delta);
-		comboStatus = status.get();
-		comboNumber = combo.get();
 		updated = true;
 		return VOID;
 	}

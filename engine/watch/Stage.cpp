@@ -5,7 +5,7 @@ class Stage: public Archetype {
 	bool input = false;
 	Variable<EntityMemoryId> lastCombo;
 	Variable<EntityMemoryId> lastComboStatus;
-	Variable<EntityMemoryId> endTime;
+	Variable<EntityMemoryId> entityNumber;
 
 	SonolusApi spawnTime() { return -999999; }
 	SonolusApi despawnTime() { return 999999; }
@@ -15,7 +15,7 @@ class Stage: public Archetype {
 		FUNCBEGIN
 		lastCombo = comboNumber.get();
 		lastComboStatus = comboStatus.get();
-		endTime = currentJudgeStartTime.get();
+		entityNumber = currentJudgeStartTime.get();
 		return VOID;
 	}
 
@@ -134,7 +134,7 @@ class Stage: public Archetype {
 
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (times.now > endTime) {
+		IF (times.now > EntityDataArray[entityNumber].get(0)) {
 			comboNumber = lastCombo.get();
 			comboStatus = lastComboStatus.get();
 		} FI

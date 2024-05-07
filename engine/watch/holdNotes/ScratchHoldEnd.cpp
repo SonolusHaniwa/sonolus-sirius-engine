@@ -40,6 +40,8 @@
      Variable<EntityMemoryId> effectInstanceId;
 	 Variable<EntityMemoryId> scratchLane;
 	 Variable<EntityMemoryId> scratchEnLane;
+     Variable<EntitySharedMemoryId> combo;
+     Variable<EntitySharedMemoryId> status;
  
      SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
      SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
@@ -52,13 +54,13 @@
         enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
-        currentJudgeStartTime = Max(currentJudgeStartTime, beat);
+        currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
         IF (isReplay == 1) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI
-			let combo = comboNumber.get();
+			combo = comboNumber.get();
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			let status = comboStatus.get();
+			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, accuracy);
@@ -78,9 +80,9 @@
 			} DONE
         } ELSE {
 			comboNumber = comboNumber + 1;
-			let combo = comboNumber.get();
+			combo = comboNumber.get();
 			comboStatus = 0;
-			let status = comboStatus.get();
+			status = comboStatus.get();
         	Set(EntityInputId, 0, beat);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, 0);

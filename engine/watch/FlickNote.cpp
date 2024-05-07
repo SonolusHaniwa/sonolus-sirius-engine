@@ -12,6 +12,8 @@
      defineImports(activation);
      defineImports(accuracy);
      Variable<EntityMemoryId> enLane;
+     Variable<EntitySharedMemoryId> combo;
+     Variable<EntitySharedMemoryId> status;
  
      SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
      SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
@@ -21,13 +23,13 @@
  	 	beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
-        currentJudgeStartTime = Max(currentJudgeStartTime, beat);
+        currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
         IF (isReplay == 1) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI
-			let combo = comboNumber.get();
+			combo = comboNumber.get();
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			let status = comboStatus.get();
+			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.FlickNote);
         	Set(EntityInputId, 2, accuracy);
@@ -38,9 +40,9 @@
 			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
         } ELSE {
 			comboNumber = comboNumber + 1;
-			let combo = comboNumber.get();
+			combo = comboNumber.get();
 			comboStatus = 0;
-			let status = comboStatus.get();
+			status = comboStatus.get();
         	Set(EntityInputId, 0, beat);
         	Set(EntityInputId, 1, Buckets.FlickNote);
         	Set(EntityInputId, 2, 0);
