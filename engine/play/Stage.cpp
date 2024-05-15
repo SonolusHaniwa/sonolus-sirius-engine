@@ -133,7 +133,7 @@ class Stage: public Archetype {
 			IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI 
 			IF (disallowEmptiesNow.indexOf(touches[i].id) != -1) CONTINUE; FI
 			IF (touches[i].started == 1) {
-				Play(Clips.Stage,minSFXDistance);
+				Play(Clips.Stage, minSFXDistance);
 				spawnLineEffect(xToL(touches[i].x), xToL(touches[i].x));
 			} ELSE {
 				let lastL = xToL(touches[i].x - touches[i].dx);

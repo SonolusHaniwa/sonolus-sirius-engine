@@ -12,11 +12,29 @@ Todo List:
 - [x] Finish writing tutorial mode
 - [x] Finish writing preview mode
 - [x] Finish writing watch mode
-- [ ] Designed particle effect for sirius
+- [x] Designed particle effect for sirius
 - [x] Update to Sonolus v0.7.4
 - [x] Update to Sonolus v0.8.0
 
-使用 Sonolus Server C++ v1.5.0 进行开发，并在 Ubuntu amd64 环境下编译通过。
+## Preview
+
+### Play Mode
+
+![Play Mode Perfect](./1.jpg)
+
+![Play Mode Full Combo](./2.jpg)
+
+### Preview Mode
+
+![Preview Mode](./4.jpg)
+
+### Watch Mode
+
+![Watch Mode](./3.jpg)
+
+### Replay Mode
+
+![Replay Mode](./5.jpg)
 
 ## Links
 
