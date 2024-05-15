@@ -20,21 +20,21 @@ Todo List:
 
 ### Play Mode
 
-![Play Mode Perfect](./1.jpg)
+![Play Mode Perfect](./image/1.jpg)
 
-![Play Mode Full Combo](./2.jpg)
+![Play Mode Full Combo](./image/2.jpg)
 
 ### Preview Mode
 
-![Preview Mode](./4.jpg)
+![Preview Mode](./image/4.jpg)
 
 ### Watch Mode
 
-![Watch Mode](./3.jpg)
+![Watch Mode](./image/3.jpg)
 
 ### Replay Mode
 
-![Replay Mode](./5.jpg)
+![Replay Mode](./image/5.jpg)
 
 ## Links
 
