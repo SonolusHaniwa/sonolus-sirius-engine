@@ -114,6 +114,9 @@ let judgeType = LevelOption.get(Options.JudgeType);
 let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity, judgeType;
 #endif
 
+let hasJudgment = HasSkinSprite(Sprites.JudgePerfectPlus);
+let hasCombo = HasSkinSprite(Sprites.ComboNormalText);
+
 #if play || watch
 class stage {
 	public:

@@ -656,7 +656,7 @@ auto skins = defineSkins<class Sprites>({
 	{SkinSpriteName.StageMiddle, Sprites.TouchFeedback},
 	{SkinSpriteName.NoteTickBlue, Sprites.TouchTick},
 	{SkinSpriteName.NoteTickPurple, Sprites.TouchScratchTick},
-	{SkinSpriteName.Lane, Sprites.SyncLine},
+	{SkinSpriteName.SimultaneousConnectionNeutral, Sprites.SyncLine},
 	{"Sirius Hidden Line", Sprites.HiddenLine},
 	{"Sirius Judgment Perfect+", Sprites.JudgePerfectPlus},
 	{"Sirius Judgment Perfect", Sprites.JudgePerfect},

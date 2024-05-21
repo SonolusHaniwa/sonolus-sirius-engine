@@ -46,14 +46,18 @@ class Initialization: public Archetype {
         let comboTextHeight = screen.h * 0.033 * ui.comboConfiguration.scale;
         let comboTextX = screen.w * 0.4;
         let comboTextY = Lerp(t, b, 0.425);
-        ui.comboValue.set(comboValueX, comboValueY, 0.5, 0.5, comboValueWidth, comboValueHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
-        ui.comboText.set(comboTextX, comboTextY, 0.5, 2.75, comboTextWidth, comboTextHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
+        IF (!hasCombo) {
+	        ui.comboValue.set(comboValueX, comboValueY, 0.5, 0.5, comboValueWidth, comboValueHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
+	        ui.comboText.set(comboTextX, comboTextY, 0.5, 2.75, comboTextWidth, comboTextHeight, 0, ui.comboConfiguration.alpha, HorizontalAlign.Center, false);
+	    } FI
         
         // 判定指标参数
         let judgmentX = 0, judgmentY = -0.115 * stage.h;
         let judgmentWidth = 0;
     	let judgmentHeight = stage.h * 0.0475 * ui.judgmentConfiguration.scale;
-        ui.judgment.set(judgmentX, judgmentY, 0.5, 0.5, judgmentWidth, judgmentHeight, 0, ui.judgmentConfiguration.alpha, HorizontalAlign.Center, false);
+        IF (!hasJudgment) {
+        	ui.judgment.set(judgmentX, judgmentY, 0.5, 0.5, judgmentWidth, judgmentHeight, 0, ui.judgmentConfiguration.alpha, HorizontalAlign.Center, false);
+        } FI
         
         LevelScore.set(0, score.perfect);
         LevelScore.set(1, score.great);

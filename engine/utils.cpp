@@ -136,8 +136,32 @@ SonolusApi drawPreviewLine(let sprite, let t) {
 	return VOID;
 }
 
+SonolusApi drawNormalNote_fallback(let sprite, let lane, let enLane, let beat) {
+	FUNCBEGIN
+	var p = ease((times.scaled - beat) / appearTime + 1);
+	auto line1 = lines[lane], line2 = lines[enLane];
+    auto w = line1.getWidth(p);
+    var multiplier = noteHeight / 2 / stage.h * w / line1.getWidth(1);
+    auto c1 = line1.getPosition(p - multiplier);
+    auto c2 = line1.getPosition(p + multiplier);
+    auto c3 = line2.getPosition(p - multiplier);
+    auto c4 = line2.getPosition(p + multiplier);
+    auto w1 = line1.getWidth(p - multiplier);
+    auto w2 = line1.getWidth(p + multiplier);
+    auto lb = c2 - Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
+    	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
+    	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
+    Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
+    return VOID;
+}
+
 SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
 	FUNCBEGIN
+	IF (!HasSkinSprite(sprite)) {
+		drawNormalNote_fallback(sprite - 1, lane, enLane, beat);
+		Return(0);
+	} FI
 	var p = ease((times.scaled - beat) / appearTime + 1);
 	auto line1 = lines[lane], line2 = lines[enLane];
     auto w = line1.getWidth(p);
@@ -160,8 +184,22 @@ SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
     return VOID;
 }
 
+SonolusApi drawPreviewNormalNote_fallback(let sprite, let time, let st, let en) {
+	FUNCBEGIN
+	let x = getPos(time).first, y = getPos(time).second;
+	let len = stageWidth / 12.0;
+	let l = x + (st - 7) * len + adjustDistance, r = x + (en - 6) * len - adjustDistance;
+	let t = y + noteHeight / 2.0, b = y - noteHeight / 2.0;
+	Draw(sprite, l, b, l, t, r, t, r, b, 4, 1);
+	return VOID;
+}
+
 SonolusApi drawPreviewNormalNote(let sprite, let time, let st, let en) {
 	FUNCBEGIN
+	IF (!HasSkinSprite(sprite)) {
+		drawPreviewNormalNote_fallback(sprite - 1, time, st, en);
+		Return(0);
+	} FI
 	let x = getPos(time).first, y = getPos(time).second;
 	let len = stageWidth / 12.0;
 	let l = x + (st - 7) * len + adjustDistance, r = x + (en - 6) * len - adjustDistance;
