@@ -133,8 +133,8 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	single["data"][0]["name"] = "#BEAT"; single["data"][0]["value"] = 0;
 	single["data"][1]["name"] = "#BPM"; single["data"][1]["value"] = 60;
 	res.append(single); 
-    double lastTime[13][13]; int lastType[13][13], total = 0;
-    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastType[i][j] = 0;
+    double lastTime[13][13]; double lastEighthTime[13][13]; int lastType[13][13], total = 0;
+    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastEighthTime[i][j] = 0, lastType[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
         // 提前处理 Sirius HoldEnd;
         while (holdEnd.size() && (*holdEnd.begin()).endTime <= notes[i].startTime) {
@@ -225,6 +225,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 holdEnd.insert(x);
             } break;
             case Sound: case ScratchSound: {
+                lastEighthTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
                 single["archetype"] = "Sirius Sound";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
@@ -233,6 +234,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 total++;
             } break;
             case SoundPurple: {
+                lastEighthTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
             	single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
@@ -243,7 +245,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 total++;
             } break;
             case HoldEighth: {
-                if (lastTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
+                if (lastEighthTime[x.leftLane][x.leftLane + x.laneLength - 1] == x.startTime) break;
                 single["archetype"] = "Sirius Hold Eighth";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
