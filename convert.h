@@ -133,8 +133,8 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	single["data"][0]["name"] = "#BEAT"; single["data"][0]["value"] = 0;
 	single["data"][1]["name"] = "#BPM"; single["data"][1]["value"] = 60;
 	res.append(single); 
-    double lastTime[13][13]; double lastEighthTime[13][13]; int lastType[13][13], total = 0;
-    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastTime[i][j] = 0, lastEighthTime[i][j] = 0, lastType[i][j] = 0;
+    double lastEighthTime[13][13]; int total = 0;
+    for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastEighthTime[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
         // 提前处理 Sirius HoldEnd;
         while (holdEnd.size() && (*holdEnd.begin()).endTime <= notes[i].startTime) {
@@ -220,8 +220,6 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 total++;
             } break;
             case Hold: case CriticalHold: case ScratchHold: case ScratchCriticalHold: {
-                lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
-				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
             case Sound: case ScratchSound: {
@@ -230,7 +228,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = Sound ? Hold : ScratchHold;
                 total++;
             } break;
             case SoundPurple: {
@@ -250,7 +248,8 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
                 single["data"][2]["name"] = "laneLength"; single["data"][2]["value"] = x.laneLength;
-				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+                // 历史遗留代码了，这个属性现在应该不需要了 2024.5.27
+				single["data"][3]["name"] = "holdType"; single["data"][3]["value"] = 0;
                 total++;
             } break;
             case None: {
@@ -276,19 +275,19 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         if (x.type == Hold || x.type == CriticalHold) {
             single["archetype"] = "Sirius Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             total++;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
-            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = lastTime[x.leftLane][x.leftLane + x.laneLength - 1];
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
             total++;
-        } lastTime[x.leftLane][x.leftLane + x.laneLength - 1] = 0; res.append(single);
+        } res.append(single);
         addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
 

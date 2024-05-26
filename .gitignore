@@ -2,4 +2,5 @@ dist/*
 !dist/thumbnail.jpg
 !dist/banner.jpg
 !dist/EngineTutorialData
+emsdk
 main

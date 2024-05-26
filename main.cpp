@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include"sonolus.h"
+#include"sonolus/sonolus.h"
 using namespace std;
 
 const string dist = "./dist";

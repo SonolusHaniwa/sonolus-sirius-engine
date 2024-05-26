@@ -19,9 +19,9 @@ vector<string> explode(const char* seperator, const char* source) {
 	return res;
 }
 
-#include"modules/json.h"
-#include"modules/buffer.h"
-#include"modules/gzip.h"
+#include"sonolus/modules/json.h"
+#include"sonolus/modules/buffer.h"
+#include"sonolus/modules/gzip.h"
 #include"convert.h"
 
 #ifndef EM_PORT_API
