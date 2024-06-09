@@ -4,3 +4,4 @@ dist/*
 !dist/EngineTutorialData
 emsdk
 main
+.vscode

@@ -17,6 +17,7 @@ enum NoteType {
     CriticalHold = 101,
     ScratchHold = 110,
     ScratchCriticalHold = 111,
+    BlueTap = 200,
     HoldEighth = 900
 };
 enum GimmickType {
@@ -187,7 +188,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
-            case HoldStart: {
+            case HoldStart: case BlueTap: {
                 single["archetype"] = "Sirius Hold Start";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.startTime;
                 single["data"][1]["name"] = "lane"; single["data"][1]["value"] = x.leftLane;
