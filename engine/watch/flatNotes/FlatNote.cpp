@@ -36,7 +36,8 @@
         	Set(EntityInputId, 2, accuracy);
 			IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(getClips().great, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 4 || judgeResult == 5) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
+			IF (judgeResult == 4) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
+			IF (judgeResult == 4) PlayScheduled(getClips().bad, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, accuracy}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, accuracy}); FI
 			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status, accuracy}); FI

@@ -323,7 +323,6 @@ void addTime( double &current, double bpm, double beat,
     int a2 = get<1>(a), b2 = get<1>(b);
     int a3 = get<2>(a), b3 = get<2>(b);
     double timesPerBeat = 60.0 * beat / bpm;
-    // cout << current << " " << (1.0 * b2 / b3 - 1.0 * a2 / a3) * timesPerBeat << endl; exit(1);
     if (a1 == b1) current += (1.0 * b2 / b3 - 1.0 * a2 / a3) * timesPerBeat;
     else current += ((b1 - a1 - 1) + 1.0 - 1.0 * a2 / a3 + 1.0 * b2 / b3) * timesPerBeat; 
 }

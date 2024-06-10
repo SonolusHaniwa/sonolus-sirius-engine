@@ -5,9 +5,10 @@ class CriticalNote: public FlatNote {
 	let getSprite() { return Sprites.CriticalNoteLeft; }
 	let getBucket() { return Buckets.CriticalNote; }
 	ClipsArray getClips() { return {
-		perfect: Clips.CriticalPerfect,
-		great: Clips.CriticalPerfect,
-		good: Clips.Good
+		perfect: Clips.Critical,
+		great: Clips.Great,
+		good: Clips.Good,
+		bad: Clips.Bad
 	}; }
 	EffectsArray getEffects() { return {
 		linear: Effects.CriticalLinear,

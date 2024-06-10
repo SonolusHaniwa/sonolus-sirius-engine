@@ -46,7 +46,7 @@ class FlickNote : public Archetype {
 		} FI
 
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
-		IF (res2 == 2) Play(Clips.CriticalGood, minSFXDistance); FI
+		IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI

@@ -51,9 +51,10 @@ class FlatNote : public Archetype {
 		} FI
 
 		// IF (res2 == 0) DebugPause(); FI
-		IF (res2 == 1) Play(getClips().perfect, minSFXDistance); FI
-		IF (res2 == 2) Play(getClips().great, minSFXDistance); FI
-		IF (res2 == 3) Play(getClips().good, minSFXDistance); FI
+		IF (res == 1 || res == 2) Play(getClips().perfect, minSFXDistance); FI
+		IF (res == 3) Play(getClips().great, minSFXDistance); FI
+		IF (res == 4) Play(getClips().good, minSFXDistance); FI
+		IF (res == 5) Play(getClips().bad, minSFXDistance); FI
 		IF (res2 != 0) spawnEffect(getEffects().linear, getEffects().circular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI

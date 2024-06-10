@@ -5,9 +5,10 @@ class SiriusCriticalScratchHoldStart: public FlatNote {
 	let getSprite() { return Sprites.CriticalNoteLeft; }
 	let getBucket() { return Buckets.ScratchHoldStart; }
     ClipsArray getClips() { return {
-    	perfect: Clips.Perfect,
-    	great: Clips.Perfect,
-    	good: Clips.Good
+		perfect: Clips.Critical,
+		great: Clips.Great,
+		good: Clips.Good,
+		bad: Clips.Bad
     }; }
     EffectsArray getEffects() { return {
     	linear: Effects.CriticalLinear,

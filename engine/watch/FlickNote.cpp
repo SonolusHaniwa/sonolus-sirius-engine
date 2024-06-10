@@ -34,7 +34,7 @@
         	Set(EntityInputId, 1, Buckets.FlickNote);
         	Set(EntityInputId, 2, accuracy);
    			IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 3) PlayScheduled(Clips.CriticalGood, beat + accuracy, minSFXDistance); FI
+			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
 			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI

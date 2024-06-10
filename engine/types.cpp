@@ -47,6 +47,7 @@ class ClipsArray {
 	defineVar(let, perfect, 0);
 	defineVar(let, great, 0);
 	defineVar(let, good, 0);
+	defineVar(let, bad, 0);
 };
 
 class EffectsArray {
