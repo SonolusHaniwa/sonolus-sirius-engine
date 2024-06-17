@@ -17,7 +17,7 @@ class FlatNote : public Archetype {
     virtual ClipsArray getClips() { return {}; }
     virtual EffectsArray getEffects() { return {}; }
 
-    SonolusApi spawnOrder() { return 1000 + beat; }
+    SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi preprocess() {

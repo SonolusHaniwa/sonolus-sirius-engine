@@ -16,7 +16,7 @@ class FlickNote : public Archetype {
     Variable<EntityMemoryId> inputTimeMax;
     Variable<EntityMemoryId> activate;
 
-    SonolusApi spawnOrder() { return 1000 + beat; }
+    SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi preprocess() {

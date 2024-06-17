@@ -28,7 +28,7 @@ class SiriusSound: public Archetype {
         return VOID;
     }
     
-    SonolusApi spawnOrder() { return 1000 + beat; }
+    SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi complete(let t = times.now) {

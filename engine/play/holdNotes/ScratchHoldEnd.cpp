@@ -64,7 +64,7 @@ class SiriusScratchHoldEnd: public Archetype {
         return VOID;
     }
     
-    SonolusApi spawnOrder() { return 1000 + stBeat; }
+    SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(stBeat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(stBeat) - appearTime; }
 
 	SonolusApi complete(let t = times.now) {
