@@ -18,6 +18,7 @@ SonolusApi getSplitLine(let id) {
 		{1040, setSplitLine({Sprites.SplitLine_1040})},
 		{1050, setSplitLine({Sprites.SplitLine_1050})},
 		{1060, setSplitLine({Sprites.SplitLine_1060a, Sprites.SplitLine_1060b})},
+		{1070, setSplitLine({Sprites.SplitLine_1070})},
 		{2010, setSplitLine({Sprites.SplitLine_2010})},
 		{2020, setSplitLine({Sprites.SplitLine_2020})},
 		{2030, setSplitLine({Sprites.SplitLine_2030})},
