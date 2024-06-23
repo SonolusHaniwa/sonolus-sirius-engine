@@ -9,6 +9,7 @@
 	 defineImports(lane);
 	 defineImports(laneLength);
 	 defineImports(scratchLength);
+	 defineImports(nonTail);
  	 defineImports(judgeResult);
  	 defineImports(accuracy);
  	 defineImports(time1);
@@ -35,7 +36,6 @@
  	 defineImports(time22);
  	 defineImports(time23);
  	 defineImports(time24);
- 	 defineImports(time25);
 	 Variable<EntityMemoryId> enLane;
      Variable<EntityMemoryId> effectInstanceId;
 	 Variable<EntityMemoryId> scratchLane;
@@ -70,7 +70,7 @@
         	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
 			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
-			FOR (i, time1.offset, time25.offset + 1, 2) {
+			FOR (i, time1.offset, time24.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
@@ -103,7 +103,7 @@
  		FUNCBEGIN
  		IF (isReplay) {
  			var active = false;
- 			FOR (i, time1.offset, time25.offset + 1, 2) {
+ 			FOR (i, time1.offset, time24.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
@@ -141,6 +141,7 @@
    		} FI
 		IF (times.skip) Return(0); FI
 		IF (isReplay == 1 && judgeResult == 0) Return(0); FI
+		IF (nonTail) Return(0); FI
 		spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane);
  		return VOID;
  	}
@@ -149,7 +150,7 @@
  		FUNCBEGIN
  		IF (isReplay) {
  			var active = false;
- 			FOR (i, time1.offset, time25.offset + 1, 2) {
+ 			FOR (i, time1.offset, time24.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
@@ -159,6 +160,7 @@
  		} ELSE {
 			drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), stBeat <= times.now && times.now <= beat);
 		} FI
+		IF (nonTail) Return(0); FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 

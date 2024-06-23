@@ -8,6 +8,7 @@ class SiriusScratchHoldEnd: public Archetype {
 	defineImports(lane);
 	defineImports(laneLength);
 	defineImports(scratchLength)
+	defineImports(nonTail)
     Variable<EntitySharedMemoryId> enLane;
     Variable<EntitySharedMemoryId> scratchLane;
     Variable<EntitySharedMemoryId> scratchEnLane;
@@ -26,8 +27,9 @@ class SiriusScratchHoldEnd: public Archetype {
     SonolusApi render() {
    		FUNCBEGIN
    		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-   		drawPreviewNormalNote(Sprites.ScratchNoteLeft, beat, scratchLane, scratchEnLane);
 		drawPreviewHoldEighth(Sprites.Scratch, stBeat, beat, lane, enLane);
+		IF (nonTail) Return(0); FI
+   		drawPreviewNormalNote(Sprites.ScratchNoteLeft, beat, scratchLane, scratchEnLane);
 		IF (scratchLength > 0) { drawPreviewRightArrow(beat, scratchLane, scratchEnLane); }
 		ELSE {
 			IF (scratchLength < 0) { drawPreviewLeftArrow(beat, scratchLane, scratchEnLane); }

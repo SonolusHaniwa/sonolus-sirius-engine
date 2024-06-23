@@ -9,6 +9,7 @@ class SiriusScratchHoldEnd: public Archetype {
 	defineImports(lane);
 	defineImports(laneLength);
 	defineImports(scratchLength);
+	defineImports(nonTail);
 	defineExports(judgeResult);
 	defineExports(accuracy);
 	defineExports(time1);
@@ -35,7 +36,6 @@ class SiriusScratchHoldEnd: public Archetype {
 	defineExports(time22);
 	defineExports(time23);
 	defineExports(time24);
-	defineExports(time25);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -87,7 +87,7 @@ class SiriusScratchHoldEnd: public Archetype {
 
 		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
+		IF (res2 != 0 && !nonTail) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
 		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
@@ -101,7 +101,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (isHolding && playId == 0) {
 			playId = PlayLooped(Clips.Hold);
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
-			IF (exportId <= time25) {
+			IF (exportId <= time24) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -109,7 +109,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (!isHolding && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
-			IF (exportId <= time25) {
+			IF (exportId <= time24) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -120,7 +120,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (times.now > inputTimeMax) complete(lastHoldTime); FI
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, inputTimeMin); FI
 		isHolding = findFlickTouch(lane, enLane) != -1;
-		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now); FI
+		IF (isHolding == 1 || nonTail) lastHoldTime = Max(lastHoldTime, times.now); FI
 		IF (times.now >= beat && lastHoldTime > inputTimeMin) complete(lastHoldTime); FI
 		return VOID;
 	}
@@ -128,6 +128,7 @@ class SiriusScratchHoldEnd: public Archetype {
     SonolusApi updateParallel() {
 		FUNCBEGIN
 		drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
+		IF (nonTail) Return(0); FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 

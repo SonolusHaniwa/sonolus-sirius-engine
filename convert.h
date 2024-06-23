@@ -14,9 +14,13 @@ enum NoteType {
     ScratchHoldStart = 82,
     ScratchCriticalHoldStart = 83,
     Hold = 100,
+    NontailHold = 1100,
     CriticalHold = 101,
+    NontailCriticalHold = 1101,
     ScratchHold = 110,
+    NontailScratchHold = 1110,
     ScratchCriticalHold = 111,
+    NontailScratchCriticalHold = 1111,
     BlueTap = 200,
     HoldEighth = 900
 };
@@ -140,12 +144,13 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         // 提前处理 Sirius HoldEnd;
         while (holdEnd.size() && (*holdEnd.begin()).endTime <= notes[i].startTime) {
             Note x = *holdEnd.begin(); holdEnd.erase(holdEnd.begin()); Json::Value single;
-            if (x.type == Hold || x.type == CriticalHold) {
+            if (x.type == Hold || x.type == CriticalHold || x.type == NontailHold || x.type == NontailCriticalHold) {
                 single["archetype"] = "Sirius Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
                 single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+                single["data"][4]["name"] = "nonTail"; single["data"][4]["value"] = x.type != Hold && x.type != CriticalHold ? 1 : 0;
                 total++;
             } else {
                 single["archetype"] = "Sirius Scratch Hold End";
@@ -154,9 +159,10 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
+                single["data"][5]["name"] = "nonTail"; single["data"][5]["value"] = x.type != ScratchHold && x.type != ScratchCriticalHold ? 1 : 0;
                 total++;
-            }
-            res.append(single);
+            } res.append(single);
+            if (x.type >= NontailHold) continue;
 			addSyncLine(x.endTime, x.leftLane, x.laneLength);
         }
         // 处理当前 Note
@@ -220,7 +226,8 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
-            case Hold: case CriticalHold: case ScratchHold: case ScratchCriticalHold: {
+            case Hold: case CriticalHold: case ScratchHold: case ScratchCriticalHold: 
+            case NontailHold: case NontailCriticalHold: case NontailScratchHold: case NontailScratchCriticalHold: {
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
@@ -274,12 +281,13 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	// 处理完 HoldEnd
 	while (holdEnd.size()) {
         Note x = *holdEnd.begin(); holdEnd.erase(holdEnd.begin()); Json::Value single;
-        if (x.type == Hold || x.type == CriticalHold) {
+        if (x.type == Hold || x.type == CriticalHold || x.type == NontailHold || x.type == NontailCriticalHold) {
             single["archetype"] = "Sirius Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
             single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            single["data"][4]["name"] = "nonTail"; single["data"][4]["value"] = x.type != Hold && x.type != CriticalHold ? 1 : 0;
             total++;
         } else {
             single["archetype"] = "Sirius Scratch Hold End";
@@ -288,8 +296,10 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
+            single["data"][5]["name"] = "nonTail"; single["data"][5]["value"] = x.type != ScratchHold && x.type != ScratchCriticalHold ? 1 : 0;
             total++;
         } res.append(single);
+        if (x.type >= NontailHold) continue;
         addSyncLine(x.endTime, x.leftLane, x.laneLength);
     }
 
@@ -580,6 +590,16 @@ string fromSUS(string text) {
                     if (slideNumber == 0 || slides[SlideEndName[k]].inSlide == false) 
                     	throw runtime_error("Unknown Slide End in [" + to_string(l) + ", " + to_string(r) + "]");
                     int ScratchType = 0; bool shouldUnscratch = true;
+                    if (isDamage) { // 如果没有尾
+                        for (auto &x : noteList[l][r][t]) {
+                            string head = get<0>(x), body = get<3>(x);
+                            string prop = head.substr(3);
+                            if (prop[0] == '1' && body[0] == '4') {
+                                x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                                break;
+                            }
+                        }
+                    }
                     for (int i = 1; i <= 12; i++) {
                         if (i > l && i <= r) continue;
                         for (auto &x : (i <= l ? noteList[i][r][t] : noteList[l][i][t])) {
@@ -604,6 +624,7 @@ string fromSUS(string text) {
                     int holdType = (slides[SlideEndName[k]].CriticalSlide ? 
                         (slides[SlideEndName[k]].ScratchSlide ? ScratchCriticalHold : CriticalHold) :
                         (slides[SlideEndName[k]].ScratchSlide ? ScratchHold : Hold));
+                    if (isDamage) holdType += 1000;
                     if (slides[SlideEndName[k]].addStart) txt << slides[SlideEndName[k]].startTime << "," << -1 << "," << noteType << "," << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
                     txt << slides[SlideEndName[k]].startTime << "," << t << "," << holdType << "," << l << "," << (r - l + 1) << "," 
                         << (ScratchType == 0 ? "0" : "JumpScratch") << "," << ScratchType << endl;

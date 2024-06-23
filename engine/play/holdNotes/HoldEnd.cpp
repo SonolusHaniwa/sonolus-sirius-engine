@@ -8,6 +8,7 @@ class SiriusHoldEnd: public Archetype {
 	defineImports(stBeat);
 	defineImports(lane);
 	defineImports(laneLength);
+	defineImports(nonTail);
 	defineExports(judgeResult);
 	defineExports(accuracy);
 	defineExports(time1);
@@ -35,7 +36,6 @@ class SiriusHoldEnd: public Archetype {
 	defineExports(time23);
 	defineExports(time24);
 	defineExports(time25);
-	defineExports(time26);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -88,7 +88,7 @@ class SiriusHoldEnd: public Archetype {
 		IF (res == 3) Play(Clips.Great, minSFXDistance); FI
 		IF (res == 4) Play(Clips.Good, minSFXDistance); FI
 		IF (res == 5) Play(Clips.Bad, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
+		IF (res2 != 0 && !nonTail) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
@@ -105,7 +105,7 @@ class SiriusHoldEnd: public Archetype {
 		IF (isHolding && playId == 0) {
 			playId = PlayLooped(Clips.Hold);
 			effectId = spawnHoldEffect(Effects.Hold, lane, enLane);
-			IF (exportId <= time26) {
+			IF (exportId <= time25) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -113,7 +113,7 @@ class SiriusHoldEnd: public Archetype {
 		IF (!isHolding && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
-			IF (exportId <= time26) {
+			IF (exportId <= time25) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -130,6 +130,7 @@ class SiriusHoldEnd: public Archetype {
     SonolusApi updateParallel() {
 		FUNCBEGIN
 		drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
+		IF (nonTail) Return(0); FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, times.scaled); FI
 		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 

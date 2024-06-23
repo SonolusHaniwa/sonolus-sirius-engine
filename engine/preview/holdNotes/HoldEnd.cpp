@@ -7,6 +7,7 @@ class SiriusHoldEnd: public Archetype {
 	defineImports(stBeat);
 	defineImports(lane);
 	defineImports(laneLength);
+	defineImports(nonTail);
     Variable<EntitySharedMemoryId> enLane;
 
     SonolusApi preprocess() {
@@ -21,8 +22,9 @@ class SiriusHoldEnd: public Archetype {
     SonolusApi render() {
    		FUNCBEGIN
    		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-   		drawPreviewNormalNote(Sprites.HoldNoteLeft, beat, lane, enLane);
 		drawPreviewHoldEighth(Sprites.Hold, stBeat, beat, lane, enLane);
+		IF (nonTail) Return(0); FI
+   		drawPreviewNormalNote(Sprites.HoldNoteLeft, beat, lane, enLane);
    		return VOID;
    	}
 };
