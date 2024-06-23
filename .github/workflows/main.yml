@@ -35,6 +35,7 @@ jobs:
           git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/sirius-sync tools
           git clone https://littleyang0531:$TK@github.com/LittleYang0531/world-best-star-private wbs
           git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/stellarity stellarity
+          git clone https://littleyang0531:$TK@github.com/LittleYang0531/sirius-private-data sonolus-data
           
       - name: Preparing C/C++ Compiler
         run: |
@@ -56,6 +57,7 @@ jobs:
               ./tools/onedriveUploader ./sonolus-server/data/$name
               echo ""
           done
+          cp sonolus-server/data/* sonolus-data/
           cp sonolus-server/sonolus.db wds/public/
           cp sonolus-server/engine.json wbs/backend/
           cp sonolus-server/engine.json stellarity/backend/
@@ -78,6 +80,14 @@ jobs:
           git push origin
 
           cd ../stellarity
+          git config --local user.email "littleyang0531@outlook.com"
+          git config --local user.name "LittleYang0531"
+          git add .
+          git commit -m "Update Engine"
+          git push origin
+          echo "Sync Finished!"
+          
+          cd ../sonolus-data
           git config --local user.email "littleyang0531@outlook.com"
           git config --local user.name "LittleYang0531"
           git add .
