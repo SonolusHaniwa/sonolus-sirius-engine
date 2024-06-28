@@ -5,3 +5,6 @@ dist/*
 emsdk
 main
 .vscode
+*.sus
+music_config.txt
+LevelData

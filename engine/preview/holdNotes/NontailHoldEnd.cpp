@@ -1,7 +1,7 @@
-class SiriusHoldEnd: public Archetype {
+class SiriusNontailHoldEnd: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Hold End";
+	static constexpr const char* name = "Sirius Nontail Hold End";
 	
 	defineImports(beat);
 	defineImports(stBeat);
@@ -12,17 +12,13 @@ class SiriusHoldEnd: public Archetype {
     SonolusApi preprocess() {
    		FUNCBEGIN
 		duration = Max(duration.get(), beat);
-		noteCount = noteCount + 1;
-		noteId = noteCount.get();
 		enLane = lane + laneLength - 1;
         return VOID;
     }
 
     SonolusApi render() {
    		FUNCBEGIN
-   		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
 		drawPreviewHoldEighth(Sprites.Hold, stBeat, beat, lane, enLane);
-   		drawPreviewNormalNote(Sprites.HoldNoteLeft, beat, lane, enLane);
    		return VOID;
    	}
 };

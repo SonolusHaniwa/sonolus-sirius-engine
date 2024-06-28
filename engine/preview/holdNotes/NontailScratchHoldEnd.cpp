@@ -1,7 +1,7 @@
-class SiriusScratchHoldEnd: public Archetype {
+class SiriusNontailScratchHoldEnd: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Scratch Hold End";
+	static constexpr const char* name = "Sirius Nontail Scratch Hold End";
 	
 	defineImports(beat);
 	defineImports(stBeat);
@@ -15,8 +15,6 @@ class SiriusScratchHoldEnd: public Archetype {
     SonolusApi preprocess() {
    		FUNCBEGIN
 		duration = Max(duration.get(), beat);
-		noteCount = noteCount + 1;
-		noteId = noteCount.get();
 		enLane = lane + laneLength - 1;
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
@@ -25,14 +23,7 @@ class SiriusScratchHoldEnd: public Archetype {
 
     SonolusApi render() {
    		FUNCBEGIN
-   		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
 		drawPreviewHoldEighth(Sprites.Scratch, stBeat, beat, lane, enLane);
-   		drawPreviewNormalNote(Sprites.ScratchNoteLeft, beat, scratchLane, scratchEnLane);
-		IF (scratchLength > 0) { drawPreviewRightArrow(beat, scratchLane, scratchEnLane); }
-		ELSE {
-			IF (scratchLength < 0) { drawPreviewLeftArrow(beat, scratchLane, scratchEnLane); }
-			ELSE { drawPreviewArrow(beat, scratchLane, scratchEnLane); } FI
-		} FI
    		return VOID;
    	}
 };

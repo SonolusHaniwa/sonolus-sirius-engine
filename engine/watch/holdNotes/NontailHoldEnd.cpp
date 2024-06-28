@@ -1,14 +1,13 @@
-class SiriusScratchHoldEnd : public Archetype {
+ class SiriusNontailHoldEnd : public Archetype {
      public:
      
-     static constexpr const char* name = "Sirius Scratch Hold End";
-	 bool hasInput = true;
+     static constexpr const char* name = "Sirius Nontail Hold End";
+	 bool hasInput = false;
 	 
 	 defineImports(beat);
 	 defineImports(stBeat);
 	 defineImports(lane);
 	 defineImports(laneLength);
-	 defineImports(scratchLength);
  	 defineImports(judgeResult);
  	 defineImports(accuracy);
  	 defineImports(time1);
@@ -36,10 +35,9 @@ class SiriusScratchHoldEnd : public Archetype {
  	 defineImports(time23);
  	 defineImports(time24);
  	 defineImports(time25);
+ 	 defineImports(time26);
 	 Variable<EntityMemoryId> enLane;
      Variable<EntityMemoryId> effectInstanceId;
-	 Variable<EntityMemoryId> scratchLane;
-	 Variable<EntityMemoryId> scratchEnLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;
  
@@ -50,27 +48,30 @@ class SiriusScratchHoldEnd : public Archetype {
  	 	FUNCBEGIN
  	 	beat = beat / levelSpeed;
  	 	stBeat = stBeat / levelSpeed;
-        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; FI
         enLane = lane + laneLength - 1;
-		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
-		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
-        IF (isReplay == 1) {
-			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
-			ELSE comboNumber = 0; FI
-			combo = comboNumber.get();
-			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat + accuracy);
-        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
-        	Set(EntityInputId, 2, accuracy);
-	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
-        	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
-			FOR (i, time1.offset, time25.offset + 1, 2) {
+        IF (isReplay) {
+			// IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			// ELSE comboNumber = 0; FI
+			// combo = comboNumber.get();
+			// comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
+			// status = comboStatus.get();
+        	// Set(EntityInputId, 0, beat + accuracy);
+        	// Set(EntityInputId, 1, Buckets.HoldEnd);
+        	// Set(EntityInputId, 2, accuracy);
+	        // PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
+        	// IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance); FI
+			// IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
+			// IF (judgeResult == 4) PlayScheduled(Clips.Good, beat + accuracy, minSFXDistance); FI
+			// IF (judgeResult == 5) PlayScheduled(Clips.Bad, beat + accuracy, minSFXDistance); FI
+        	// IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
+			// IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
+			// IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status}); FI
+			// IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
+			// IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood, combo, status}); FI
+			// IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad, combo, status}); FI
+			FOR (i, time1.offset, time26.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
@@ -79,16 +80,16 @@ class SiriusScratchHoldEnd : public Archetype {
 				} FI
 			} DONE
         } ELSE {
-			comboNumber = comboNumber + 1;
-			combo = comboNumber.get();
-			comboStatus = 0;
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat);
-        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
-        	Set(EntityInputId, 2, 0);
-	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			// comboNumber = comboNumber + 1;
+			// combo = comboNumber.get();
+			// comboStatus = 0;
+			// status = comboStatus.get();
+        	// Set(EntityInputId, 0, beat);
+        	// Set(EntityInputId, 1, Buckets.HoldEnd);
+        	// Set(EntityInputId, 2, 0);
+	        // PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
+			// Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
 		} FI
  	    return VOID;
  	}
@@ -103,7 +104,7 @@ class SiriusScratchHoldEnd : public Archetype {
  		FUNCBEGIN
  		IF (isReplay) {
  			var active = false;
- 			FOR (i, time1.offset, time25.offset + 1, 2) {
+ 			FOR (i, time1.offset, time26.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
@@ -111,7 +112,7 @@ class SiriusScratchHoldEnd : public Archetype {
 			} DONE
 			IF (active) {
 				IF (effectInstanceId.get() == 0) {
-					effectInstanceId.set(spawnHoldEffect(Effects.Scratch, lane, enLane));
+					effectInstanceId.set(spawnHoldEffect(Effects.Hold, lane, enLane));
 				} ELSE {
 					updateHoldEffect(effectInstanceId, lane, enLane);
 				} FI
@@ -124,7 +125,7 @@ class SiriusScratchHoldEnd : public Archetype {
  		} ELSE {
  			IF (times.now >= stBeat) {
 				IF (effectInstanceId.get() == 0) {
-					effectInstanceId.set(spawnHoldEffect(Effects.Scratch, lane, enLane));
+					effectInstanceId.set(spawnHoldEffect(Effects.Hold, lane, enLane));
 				} ELSE {
 					updateHoldEffect(effectInstanceId, lane, enLane);
 				} FI
@@ -139,9 +140,9 @@ class SiriusScratchHoldEnd : public Archetype {
    			DestroyParticleEffect(effectInstanceId);
    			effectInstanceId = 0;
    		} FI
-		IF (times.skip) Return(0); FI
-		IF (isReplay == 1 && judgeResult == 0) Return(0); FI
-		spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane);
+		// IF (times.skip) Return(0); FI
+		// IF (isReplay == 1 && judgeResult == 0) Return(0); FI
+		// spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane);
  		return VOID;
  	}
 
@@ -149,25 +150,20 @@ class SiriusScratchHoldEnd : public Archetype {
  		FUNCBEGIN
  		IF (isReplay) {
  			var active = false;
- 			FOR (i, time1.offset, time25.offset + 1, 2) {
+ 			FOR (i, time1.offset, time26.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
 				IF (EntityData.get(i) == 0) BREAK; FI
 				active = active || (startTime <= times.now && times.now <= endTime);
 			} DONE
-			drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), active);
+			drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), active);
  		} ELSE {
-			drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), stBeat <= times.now && times.now <= beat);
+			drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), times.now > stBeat && times.now < beat);
 		} FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
-			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.ScratchNoteLeft, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) {
-			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-		} FI
+			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, times.scaled); FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
+		// 	drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, TimeToScaledTime(beat)); FI
  		return VOID;
  	}
 };

@@ -40,10 +40,11 @@ int allocatorSizeBackupCounter = 0;
 
 // TemporaryMemory block 除外
 void createAllocatorBackup() {
-	memcpy(allocatorSizeBackup[allocatorSizeBackupCounter++], allocatorSize, 10000);
+	for (int i = 0; i < 10000; i++) allocatorSizeBackup[allocatorSizeBackupCounter][i] = allocatorSize[i];
+	allocatorSizeBackupCounter++;
 }
 void restoreAllocatorBackup() {
-	memcpy(allocatorSize, allocatorSizeBackup[allocatorSizeBackupCounter - 1], 10000);
+	for (int i = 0; i < 10000; i++) allocatorSize[i] = allocatorSizeBackup[allocatorSizeBackupCounter - 1][i];
 }
 void deleteAllocatorBackup() {
 	allocatorSizeBackupCounter--;

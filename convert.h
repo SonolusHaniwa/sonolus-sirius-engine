@@ -144,22 +144,35 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
         // 提前处理 Sirius HoldEnd;
         while (holdEnd.size() && (*holdEnd.begin()).endTime <= notes[i].startTime) {
             Note x = *holdEnd.begin(); holdEnd.erase(holdEnd.begin()); Json::Value single;
-            if (x.type == Hold || x.type == CriticalHold || x.type == NontailHold || x.type == NontailCriticalHold) {
+            if (x.type == Hold || x.type == CriticalHold) {
                 single["archetype"] = "Sirius Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
                 single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-                single["data"][4]["name"] = "nonTail"; single["data"][4]["value"] = x.type != Hold && x.type != CriticalHold ? 1 : 0;
                 total++;
-            } else {
+            } else if (x.type == NontailHold || x.type == NontailCriticalHold) {
+                single["archetype"] = "Sirius Nontail Hold End";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
+                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+                total++;
+            } else if (x.type == ScratchHold || x.type == ScratchCriticalHold) {
                 single["archetype"] = "Sirius Scratch Hold End";
                 single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
                 single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
                 single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
-                single["data"][5]["name"] = "nonTail"; single["data"][5]["value"] = x.type != ScratchHold && x.type != ScratchCriticalHold ? 1 : 0;
+                total++;
+            } else {
+                single["archetype"] = "Sirius Nontail Scratch Hold End";
+                single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+                single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
+                single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+                single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+                single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
                 total++;
             } res.append(single);
             if (x.type >= NontailHold) continue;
@@ -281,22 +294,35 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
 	// 处理完 HoldEnd
 	while (holdEnd.size()) {
         Note x = *holdEnd.begin(); holdEnd.erase(holdEnd.begin()); Json::Value single;
-        if (x.type == Hold || x.type == CriticalHold || x.type == NontailHold || x.type == NontailCriticalHold) {
+        if (x.type == Hold || x.type == CriticalHold) {
             single["archetype"] = "Sirius Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
             single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-            single["data"][4]["name"] = "nonTail"; single["data"][4]["value"] = x.type != Hold && x.type != CriticalHold ? 1 : 0;
             total++;
-        } else {
+        } else if (x.type == NontailHold || x.type == NontailCriticalHold) {
+            single["archetype"] = "Sirius Nontail Hold End";
+            single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
+            single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+            single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            total++;
+        } else if (x.type == ScratchHold || x.type == ScratchCriticalHold) {
             single["archetype"] = "Sirius Scratch Hold End";
             single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
             single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
             single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
             single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
             single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
-            single["data"][5]["name"] = "nonTail"; single["data"][5]["value"] = x.type != ScratchHold && x.type != ScratchCriticalHold ? 1 : 0;
+            total++;
+        } else {
+            single["archetype"] = "Sirius Nontail Scratch Hold End";
+            single["data"][0]["name"] = "beat"; single["data"][0]["value"] = x.endTime;
+            single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
+            single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
+            single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
+            single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
             total++;
         } res.append(single);
         if (x.type >= NontailHold) continue;

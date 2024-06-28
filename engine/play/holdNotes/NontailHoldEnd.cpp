@@ -1,8 +1,8 @@
-class SiriusHoldEnd: public Archetype {
+class SiriusNontailHoldEnd: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Hold End";
-	bool hasInput = true;
+	static constexpr const char* name = "Sirius Nontail Hold End";
+	bool hasInput = false;
 	
 	defineImports(beat);
 	defineImports(stBeat);
@@ -69,32 +69,32 @@ class SiriusHoldEnd: public Archetype {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
 		} FI
-		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.great) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
-		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
-		EntityInput.set(0, res2);
-		IF (res2 != 0) {
-			EntityInput.set(1, t - beat);
-			EntityInput.set(2, Buckets.HoldEnd);
-			EntityInput.set(3, t - beat);
-			ExportValue(judgeResult, res);
+		// var res = 0, res2 = 0;
+		// IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
+		// IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
+		// IF (Abs(t - beat) <= judgment.great) res = 3, res2 = 2; FI
+		// IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
+		// IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
+		// EntityInput.set(0, res2);
+		// IF (res2 != 0) {
+		// 	EntityInput.set(1, t - beat);
+		// 	EntityInput.set(2, Buckets.HoldEnd);
+		// 	EntityInput.set(3, t - beat);
+		// 	ExportValue(judgeResult, res);
 			ExportValue(accuracy, t - beat);
-		} FI
+		// } FI
 
-		IF (res == 1 || res == 2) Play(Clips.Perfect, minSFXDistance); FI
-		IF (res == 3) Play(Clips.Great, minSFXDistance); FI
-		IF (res == 4) Play(Clips.Good, minSFXDistance); FI
-		IF (res == 5) Play(Clips.Bad, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
-		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
-		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
-		IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - beat); FI
-		IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - beat); FI
+		// IF (res == 1 || res == 2) Play(Clips.Perfect, minSFXDistance); FI
+		// IF (res == 3) Play(Clips.Great, minSFXDistance); FI
+		// IF (res == 4) Play(Clips.Good, minSFXDistance); FI
+		// IF (res == 5) Play(Clips.Bad, minSFXDistance); FI
+		// IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
+		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
+		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
+		// IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
+		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
+		// IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - beat); FI
+		// IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}
@@ -132,8 +132,8 @@ class SiriusHoldEnd: public Archetype {
 		drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, times.scaled); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, TimeToScaledTime(beat)); FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
+		// 	drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, TimeToScaledTime(beat)); FI
 		return VOID;
 	}
 };

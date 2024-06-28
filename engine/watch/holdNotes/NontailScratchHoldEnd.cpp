@@ -1,8 +1,8 @@
-class SiriusScratchHoldEnd : public Archetype {
+class SiriusNontailScratchHoldEnd : public Archetype {
      public:
      
-     static constexpr const char* name = "Sirius Scratch Hold End";
-	 bool hasInput = true;
+     static constexpr const char* name = "Sirius Nontail Scratch Hold End";
+	 bool hasInput = false;
 	 
 	 defineImports(beat);
 	 defineImports(stBeat);
@@ -56,20 +56,20 @@ class SiriusScratchHoldEnd : public Archetype {
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
         IF (isReplay == 1) {
-			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
-			ELSE comboNumber = 0; FI
-			combo = comboNumber.get();
-			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat + accuracy);
-        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
-        	Set(EntityInputId, 2, accuracy);
-	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
-        	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
+			// IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			// ELSE comboNumber = 0; FI
+			// combo = comboNumber.get();
+			// comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
+			// status = comboStatus.get();
+        	// Set(EntityInputId, 0, beat + accuracy);
+        	// Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
+        	// Set(EntityInputId, 2, accuracy);
+	        // PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
+        	// IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
+			// IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
+        	// IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
+			// IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
+			// IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
 			FOR (i, time1.offset, time25.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
@@ -79,16 +79,16 @@ class SiriusScratchHoldEnd : public Archetype {
 				} FI
 			} DONE
         } ELSE {
-			comboNumber = comboNumber + 1;
-			combo = comboNumber.get();
-			comboStatus = 0;
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat);
-        	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
-        	Set(EntityInputId, 2, 0);
-	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			// comboNumber = comboNumber + 1;
+			// combo = comboNumber.get();
+			// comboStatus = 0;
+			// status = comboStatus.get();
+        	// Set(EntityInputId, 0, beat);
+        	// Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
+        	// Set(EntityInputId, 2, 0);
+	        // PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
+			// Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
 		} FI
  	    return VOID;
  	}
@@ -139,9 +139,9 @@ class SiriusScratchHoldEnd : public Archetype {
    			DestroyParticleEffect(effectInstanceId);
    			effectInstanceId = 0;
    		} FI
-		IF (times.skip) Return(0); FI
-		IF (isReplay == 1 && judgeResult == 0) Return(0); FI
-		spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane);
+		// IF (times.skip) Return(0); FI
+		// IF (isReplay == 1 && judgeResult == 0) Return(0); FI
+		// spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane);
  		return VOID;
  	}
 
@@ -161,13 +161,13 @@ class SiriusScratchHoldEnd : public Archetype {
 		} FI
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.ScratchNoteLeft, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) {
-			IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-			IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-			IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
-		} FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
+		// 	drawNormalNote(Sprites.ScratchNoteLeft, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) {
+		// 	IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// 	IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// 	IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// } FI
  		return VOID;
  	}
 };

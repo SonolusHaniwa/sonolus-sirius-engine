@@ -1,13 +1,14 @@
-class SiriusHoldEnd: public Archetype {
+class SiriusNontailScratchHoldEnd: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Hold End";
-	bool hasInput = true;
+	static constexpr const char* name = "Sirius Nontail Scratch Hold End";
+	bool hasInput = false;
 	
 	defineImports(beat);
 	defineImports(stBeat);
 	defineImports(lane);
 	defineImports(laneLength);
+	defineImports(scratchLength);
 	defineExports(judgeResult);
 	defineExports(accuracy);
 	defineExports(time1);
@@ -35,7 +36,6 @@ class SiriusHoldEnd: public Archetype {
 	defineExports(time23);
 	defineExports(time24);
 	defineExports(time25);
-	defineExports(time26);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -43,19 +43,24 @@ class SiriusHoldEnd: public Archetype {
 	Variable<EntityMemoryId> lastHoldTime;
 	Variable<EntityMemoryId> playId;
 	Variable<EntityMemoryId> effectId;
+	Variable<EntityMemoryId> scratchLane;
+	Variable<EntityMemoryId> scratchEnLane;
 	Variable<EntityMemoryId> exportId;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
    		beat = beat / levelSpeed;
    		stBeat = stBeat / levelSpeed;
-        IF (mirror) lane = 14 - lane - laneLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
 		enLane = lane + laneLength - 1;
+		Debuglog(enLane);
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		isHolding = false;
 		lastHoldTime = -1;
 		playId = 0;
+		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
+		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
 		exportId = time1;
         return VOID;
     }
@@ -69,32 +74,24 @@ class SiriusHoldEnd: public Archetype {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
 		} FI
-		var res = 0, res2 = 0;
-		IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
-		IF (Abs(t - beat) <= judgment.great) res = 3, res2 = 2; FI
-		IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
-		IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
-		EntityInput.set(0, res2);
-		IF (res2 != 0) {
-			EntityInput.set(1, t - beat);
-			EntityInput.set(2, Buckets.HoldEnd);
-			EntityInput.set(3, t - beat);
-			ExportValue(judgeResult, res);
+		// var res = 0, res2 = 0;
+		// IF (t == inputTimeMin) res = 3, res2 = 2; FI
+		// IF (t > inputTimeMin) res = 1, res2 = 1; FI
+		// EntityInput.set(0, res2);
+		// IF (res2 != 0) {
+		// 	EntityInput.set(1, t - beat);
+		// 	EntityInput.set(2, Buckets.ScratchHoldEnd);
+		// 	EntityInput.set(3, t - beat);
+		// 	ExportValue(judgeResult, res);
 			ExportValue(accuracy, t - beat);
-		} FI
+		// } FI
 
-		IF (res == 1 || res == 2) Play(Clips.Perfect, minSFXDistance); FI
-		IF (res == 3) Play(Clips.Great, minSFXDistance); FI
-		IF (res == 4) Play(Clips.Good, minSFXDistance); FI
-		IF (res == 5) Play(Clips.Bad, minSFXDistance); FI
-		IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
-		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
-		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
-		IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - beat); FI
-		IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - beat); FI
+		// IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
+		// IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
+		// IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
+		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
+		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
+		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}
@@ -104,8 +101,8 @@ class SiriusHoldEnd: public Archetype {
 		isHolding = findHoldTouch(lane, enLane) != -1;
 		IF (isHolding && playId == 0) {
 			playId = PlayLooped(Clips.Hold);
-			effectId = spawnHoldEffect(Effects.Hold, lane, enLane);
-			IF (exportId <= time26) {
+			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
+			IF (exportId <= time25) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -113,7 +110,7 @@ class SiriusHoldEnd: public Archetype {
 		IF (!isHolding && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
-			IF (exportId <= time26) {
+			IF (exportId <= time25) {
 				ExportValue(exportId, times.now - stBeat);
 				exportId = exportId + 1;
 			} FI
@@ -121,19 +118,26 @@ class SiriusHoldEnd: public Archetype {
 
 		// 判定主代码
 		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) complete(-1); FI
+		IF (times.now > inputTimeMax) complete(lastHoldTime); FI
+		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, inputTimeMin); FI
+		isHolding = findFlickTouch(lane, enLane) != -1;
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now); FI
-		IF (times.now >= beat && lastHoldTime != -1) complete(lastHoldTime); FI
+		IF (times.now >= beat && lastHoldTime > inputTimeMin) complete(lastHoldTime); FI
 		return VOID;
 	}
 
     SonolusApi updateParallel() {
 		FUNCBEGIN
-		drawHoldEighth(Sprites.Hold, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
+		drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
 		IF (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
-			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, times.scaled); FI
-		IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
-			drawNormalNote(Sprites.HoldNoteLeft, lane, enLane, TimeToScaledTime(beat)); FI
+			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled); FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) 
+		// 	drawNormalNote(Sprites.ScratchNoteLeft, scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// IF (times.scaled > TimeToScaledTime(beat) - appearTime) {
+		// 	IF (scratchLength > 0) drawRightArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// 	IF (scratchLength < 0) drawLeftArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// 	IF (scratchLength == 0) drawArrow(scratchLane, scratchEnLane, TimeToScaledTime(beat)); FI
+		// } FI
 		return VOID;
 	}
 };

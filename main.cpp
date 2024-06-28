@@ -106,6 +106,8 @@ int main(int argc, char** argv) {
         SiriusSound,
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
+        SiriusNontailHoldEnd,
+        SiriusNontailScratchHoldEnd,
         SyncLine,
         SplitLine,
         SiriusHiSpeed
@@ -136,9 +138,11 @@ int main(int argc, char** argv) {
 		SiriusCriticalHoldStart,
 		SiriusScratchHoldStart,
 		SiriusCriticalScratchHoldStart,
+		SiriusSound,
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
-		SiriusSound,
+        SiriusNontailHoldEnd,
+        SiriusNontailScratchHoldEnd,
 		SyncLine,
         SplitLine,
         SiriusHiSpeed
@@ -165,6 +169,8 @@ int main(int argc, char** argv) {
 		SiriusSound,
 		SiriusHoldEnd,
 		SiriusScratchHoldEnd,
+        SiriusNontailHoldEnd,
+        SiriusNontailScratchHoldEnd,
 		SyncLine,
 		SplitLine
 	>(configuration, data);

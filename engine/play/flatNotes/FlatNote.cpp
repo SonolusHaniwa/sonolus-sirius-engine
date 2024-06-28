@@ -24,7 +24,6 @@ class FlatNote : public Archetype {
 		FUNCBEGIN
 		beat = beat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; FI
-		// cout << lane.offset << endl;
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
