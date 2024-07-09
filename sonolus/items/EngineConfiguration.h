@@ -47,7 +47,7 @@ class EngineConfigurationOption {
             Json::Value res;
             res["name"] = name;
             res["advanced"] = advanced;
-            res["standard"] = standard;`
+            res["standard"] = standard;
             res["scope"] = scope;
             res["type"] = type;
             res["def"] = def ? 1 : 0;
