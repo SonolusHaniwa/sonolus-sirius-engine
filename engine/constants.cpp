@@ -199,11 +199,14 @@ Variable<LevelMemoryId> currentJudgeStartTime;
 Array<LevelMemoryId, let> splitLineMemory(16);
 Variable<LevelMemoryId> comboNumber;
 Variable<LevelMemoryId> comboStatus;
+Variable<LevelMemoryId> lastNoteId;
+Variable<LevelMemoryId> lastUpdatedId;
+Variable<LevelMemoryId> firstComboTime;
 let duration, noteCount, noteId;
 #elif preview
 Variable<PreviewDataId> duration;                   // 谱面时长
 Variable<PreviewDataId> noteCount;                  // note 数量
 Variable<EntitySharedMemoryId> noteId;              // note 编号
 Array<TemporaryMemoryId, let> splitLineMemory(16);
-let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus;
+let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus, lastNoteId, lastUpdatedId, firstComboTime;
 #endif

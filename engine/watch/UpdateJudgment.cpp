@@ -8,30 +8,21 @@ class UpdateJudgment: public Archetype {
 	Variable<EntityMemoryId> combo;
 	Variable<EntityMemoryId> status;
 	Variable<EntityMemoryId> delta;
-	Variable<EntityMemoryId> updated;
+	Variable<EntityMemoryId> entityId;
 
 	SonolusApi spawnTime() { return TimeToScaledTime(beat); }
-	SonolusApi despawnTime() { return TimeToScaledTime(beat) + 1; }
-
-	SonolusApi initialize() {
-		FUNCBEGIN
-		updated = false;
-		return VOID;
+	SonolusApi despawnTime() { 
+		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].get(2));
 	}
 
  	// int updateSequentialOrder = 1;
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (updated) Return(0); FI
-	    IF (currentJudgeStartTime == times.now) {
-			comboStatus = Max(comboStatus, status);
-			comboNumber = If(combo == 0, 0, Max(comboNumber, combo));
-	    } ELSE {
-			comboStatus = status.get();
-			comboNumber = combo.get();
-	    } FI
+		IF (lastUpdatedId > entityId) Return(0); FI
+		comboStatus = status.get();
+		comboNumber = combo.get();
 		SpawnSubJudgeText(judgment, delta);
-		updated = true;
+		lastUpdatedId = entityId.get();
 		return VOID;
 	}
 };

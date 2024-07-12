@@ -3,8 +3,7 @@ class Stage: public Archetype {
 
 	static constexpr const char* name = "Sirius Stage";
 	bool input = false;
-	Variable<EntityMemoryId> lastCombo;
-	Variable<EntityMemoryId> lastComboStatus;
+	Variable<EntityMemoryId> firstTime;
 	Variable<EntityMemoryId> entityNumber;
 
 	SonolusApi spawnTime() { return -999999; }
@@ -13,8 +12,7 @@ class Stage: public Archetype {
 	int preprocessOrder = 1;
 	SonolusApi preprocess() {
 		FUNCBEGIN
-		lastCombo = comboNumber.get();
-		lastComboStatus = comboStatus.get();
+		firstTime = firstComboTime.get();
 		entityNumber = currentJudgeStartTime.get();
 		return VOID;
 	}
@@ -132,17 +130,19 @@ class Stage: public Archetype {
 		return VOID;
     }
 
+	int updateSequentialOrder = 2;
 	SonolusApi updateSequential() {
 		FUNCBEGIN
-		IF (times.now > EntityDataArray[entityNumber].get(0)) {
-			comboNumber = lastCombo.get();
-			comboStatus = lastComboStatus.get();
+		IF (times.now < firstTime) {
+			comboNumber = 0;
+			comboStatus = 0;
 		} FI
-		IF (!times.skip) Return(0); FI
+		/*IF (!times.skip) Return(0); FI
 		currentJudge.set(0);
 		currentJudgeStartTime.set(0);
         currentJudgeDeltaTime.set(0);
-        comboNumber = 0;
+        comboNumber = 0;*/
+        lastUpdatedId = 0;
 		return VOID;
 	}
 };

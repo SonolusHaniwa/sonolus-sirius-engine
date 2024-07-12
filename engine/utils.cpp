@@ -229,7 +229,7 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
             	L + (i - 1) * W / 2, c1.y + H / 2, 
                 L + (i + 1) * W / 2, c1.y + H / 2, 
                 L + (i + 1) * W / 2, c1.y, 
-                1001 - beat, 
+                1000000 - beat, 
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
         FOR (i, 1, num, 1) {
@@ -238,7 +238,7 @@ SonolusApi drawArrow(let lane, let enLane, let beat) {
             	R - (i - 1) * W / 2, c2.y + H / 2, 
                 R - (i + 1) * W / 2, c2.y + H / 2, 
                 R - (i + 1) * W / 2, c2.y, 
-                1001 - beat, 
+                1000000 - beat, 
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
     } FI
@@ -276,7 +276,7 @@ SonolusApi drawLeftArrow(let lane, let enLane, let beat) {
             	L + (i - 1) * W / 2, c1.y + H / 2, 
                 L + (i + 1) * W / 2, c1.y + H / 2, 
                 L + (i + 1) * W / 2, c1.y, 
-                1001 - beat, 
+                1000000 - beat, 
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
     } FI
@@ -313,7 +313,7 @@ SonolusApi drawRightArrow(let lane, let enLane, let beat) {
             	R - (i - 1) * W / 2, c2.y + H / 2, 
                 R - (i + 1) * W / 2, c2.y + H / 2, 
                 R - (i + 1) * W / 2, c2.y, 
-                1001 - beat, 
+                1000000 - beat, 
                 1 - 0.8 * Mod({i + times.now * arrowSpeed, num}) / num);
         } DONE
     } FI
