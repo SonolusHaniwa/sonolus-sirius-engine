@@ -21,7 +21,7 @@ class UpdateJudgment: public Archetype {
 		IF (lastUpdatedId > entityId) Return(0); FI
 		comboStatus = status.get();
 		comboNumber = combo.get();
-		SpawnSubJudgeText(judgment, delta);
+		SpawnSubJudgeText(judgment, delta, beat);
 		lastUpdatedId = entityId.get();
 		return VOID;
 	}

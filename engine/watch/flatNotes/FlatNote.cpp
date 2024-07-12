@@ -62,6 +62,7 @@
 			PlayScheduled(getClips().perfect, beat, minSFXDistance);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId});
 		} FI;
+		lastNoteId = EntityInfo.get(0);
  	    return VOID;
  	}
  

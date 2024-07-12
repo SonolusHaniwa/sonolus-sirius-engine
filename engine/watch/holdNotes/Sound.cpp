@@ -13,6 +13,7 @@
      Variable<EntityMemoryId> enLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;
+     Variable<EntitySharedMemoryId> nextNoteTime;
  
      SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
      SonolusApi despawnTime() { return TimeToScaledTime(beat); }
@@ -24,6 +25,8 @@
         enLane = lane + laneLength - 1;
         Set(EntityInputId, 0, beat);
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
+        nextNoteTime = 99999;
+        let id = lastNoteId, thisId = EntityInfo.get(0);
         IF (isReplay) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI
@@ -34,13 +37,15 @@
 			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
 			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
         	Set(EntityInputId, 2, accuracy);
+        	EntitySharedMemoryArray[id].set(2, beat + accuracy);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
         	IF (judgeResult != 0) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeMiss, combo, status}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgePerfectPlus, combo, status}); FI
-			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgePerfect, combo, status}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeGreat, combo, status}); FI
-			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeGood, combo, status}); FI
-			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeBad, combo, status}); FI
+        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
+			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId}); FI
+			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status, thisId}); FI
+			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId}); FI
+			IF (judgeResult == 4) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGood, combo, status, thisId}); FI
+			IF (judgeResult == 5) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeBad, combo, status, thisId}); FI
         } ELSE {
 			comboNumber = comboNumber + 1;
 			combo = comboNumber.get();
@@ -50,9 +55,12 @@
 			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
 			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
         	Set(EntityInputId, 2, 0);
+        	EntitySharedMemoryArray[id].set(2, beat);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
 	        PlayScheduled(Clips.Sound, beat, minSFXDistance);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
+			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId});
 		} FI
+		lastNoteId = EntityInfo.get(0);
  	    return VOID;
  	}
 

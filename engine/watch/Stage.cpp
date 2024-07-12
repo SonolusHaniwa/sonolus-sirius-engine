@@ -136,6 +136,9 @@ class Stage: public Archetype {
 		IF (times.now < firstTime) {
 			comboNumber = 0;
 			comboStatus = 0;
+			currentJudge = 0;
+			currentJudgeStartTime = 0;
+			currentJudgeDeltaTime = 9999;
 		} FI
 		/*IF (!times.skip) Return(0); FI
 		currentJudge.set(0);

@@ -499,19 +499,19 @@ SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
 	return VOID;
 }
 
-SonolusApi SpawnSubJudgeText(let sprite, let delta = 0) {
+SonolusApi SpawnSubJudgeText(let sprite, let delta = 0, let judgeTime = 0) {
 	FUNCBEGIN
 	#ifdef play
     IF (sprite <= Sprites.JudgeGreat || sprite == Sprites.JudgeAuto) comboNumber = comboNumber + 1;
     ELSE comboNumber = 0; FI
     comboStatus = Max(comboStatus, If(sprite == Sprites.JudgeAuto, Sprites.JudgePerfectPlus, sprite));
     #endif
-    IF (currentJudgeStartTime == times.now) {
+    IF (currentJudgeStartTime == judgeTime) {
         currentJudge = Max(currentJudge, sprite);
         IF (Abs(delta) > Abs(currentJudgeDeltaTime)) currentJudgeDeltaTime = delta; FI
     } ELSE {
         currentJudge = sprite;
-        currentJudgeStartTime = times.now;
+        currentJudgeStartTime = judgeTime;
         currentJudgeDeltaTime = delta;
     } FI
     return VOID;

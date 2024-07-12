@@ -42,6 +42,7 @@ class SiriusScratchHoldEnd : public Archetype {
 	 Variable<EntityMemoryId> scratchEnLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;
+     Variable<EntitySharedMemoryId> nextNoteTime;
  
      SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
      SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
@@ -55,6 +56,8 @@ class SiriusScratchHoldEnd : public Archetype {
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
+        nextNoteTime = 99999;
+        let id = lastNoteId, thisId = EntityInfo.get(0);
         IF (isReplay == 1) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI
@@ -64,12 +67,14 @@ class SiriusScratchHoldEnd : public Archetype {
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, accuracy);
+        	EntitySharedMemoryArray[id].set(2, beat + accuracy);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
 	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
         	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
-        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
+        	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
+			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId}); FI
+			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId}); FI
 			FOR (i, time1.offset, time25.offset + 1, 2) {
 				var startTime = stBeat + EntityData.get(i);
 				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
@@ -86,10 +91,13 @@ class SiriusScratchHoldEnd : public Archetype {
         	Set(EntityInputId, 0, beat);
         	Set(EntityInputId, 1, Buckets.ScratchHoldEnd);
         	Set(EntityInputId, 2, 0);
+        	EntitySharedMemoryArray[id].set(2, beat);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status});
+			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId});
 		} FI
+		lastNoteId = EntityInfo.get(0);
  	    return VOID;
  	}
 

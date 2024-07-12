@@ -37,6 +37,7 @@
         	Set(EntityInputId, 1, Buckets.FlickNote);
         	Set(EntityInputId, 2, accuracy);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
    			IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
 			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
@@ -51,9 +52,11 @@
         	Set(EntityInputId, 1, Buckets.FlickNote);
         	Set(EntityInputId, 2, 0);
         	EntitySharedMemoryArray[id].set(2, beat);
+        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId});
 		} FI;
+		lastNoteId = EntityInfo.get(0);
  	    return VOID;
  	}
  
