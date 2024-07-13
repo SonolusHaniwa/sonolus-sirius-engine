@@ -7,8 +7,8 @@ class UpdateJudgment: public Archetype {
 	Variable<EntityMemoryId> judgment;
 	Variable<EntityMemoryId> combo;
 	Variable<EntityMemoryId> status;
-	Variable<EntityMemoryId> delta;
 	Variable<EntityMemoryId> entityId;
+	Variable<EntityMemoryId> delta;
 
 	SonolusApi spawnTime() { return TimeToScaledTime(beat); }
 	SonolusApi despawnTime() { 
