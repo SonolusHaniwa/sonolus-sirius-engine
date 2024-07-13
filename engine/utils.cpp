@@ -499,7 +499,7 @@ SonolusApi updateHoldEffect(let effectInstanceId, let lane, let enLane) {
 	return VOID;
 }
 
-SonolusApi SpawnSubJudgeText(let sprite, let delta = 0, let judgeTime = 0) {
+SonolusApi SpawnSubJudgeText(let sprite, let delta = 0, let judgeTime = times.now) {
 	FUNCBEGIN
 	#ifdef play
     IF (sprite <= Sprites.JudgeGreat || sprite == Sprites.JudgeAuto) comboNumber = comboNumber + 1;
