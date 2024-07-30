@@ -598,78 +598,87 @@ class Sprites {
 	int SplitLine_10920 = 592;
 	int SplitLineTrans1_10920 = 593;
 	int SplitLineTrans2_10920 = 594;
-	int SplitLine_2 = 595;
-	int SplitLineTrans1_2 = 596;
-	int SplitLineTrans2_2 = 597;
-	int SplitLine_2010 = 598;
-	int SplitLineTrans1_2010 = 599;
-	int SplitLineTrans2_2010 = 600;
-	int SplitLine_2020 = 601;
-	int SplitLineTrans1_2020 = 602;
-	int SplitLineTrans2_2020 = 603;
-	int SplitLine_2030 = 604;
-	int SplitLineTrans1_2030 = 605;
-	int SplitLineTrans2_2030 = 606;
-	int SplitLine_2040a = 607;
-	int SplitLineTrans1_2040a = 608;
-	int SplitLineTrans2_2040a = 609;
-	int SplitLine_2040b = 610;
-	int SplitLineTrans1_2040b = 611;
-	int SplitLineTrans2_2040b = 612;
-	int SplitLine_2050 = 613;
-	int SplitLineTrans1_2050 = 614;
-	int SplitLineTrans2_2050 = 615;
-	int SplitLine_3 = 616;
-	int SplitLineTrans1_3 = 617;
-	int SplitLineTrans2_3 = 618;
-	int SplitLine_3010 = 619;
-	int SplitLineTrans1_3010 = 620;
-	int SplitLineTrans2_3010 = 621;
-	int SplitLine_3020 = 622;
-	int SplitLineTrans1_3020 = 623;
-	int SplitLineTrans2_3020 = 624;
-	int SplitLine_3030 = 625;
-	int SplitLineTrans1_3030 = 626;
-	int SplitLineTrans2_3030 = 627;
-	int SplitLine_3040 = 628;
-	int SplitLineTrans1_3040 = 629;
-	int SplitLineTrans2_3040 = 630;
-	int SplitLine_3050 = 631;
-	int SplitLineTrans1_3050 = 632;
-	int SplitLineTrans2_3050 = 633;
-	int SplitLine_4 = 634;
-	int SplitLineTrans1_4 = 635;
-	int SplitLineTrans2_4 = 636;
-	int SplitLine_4010 = 637;
-	int SplitLineTrans1_4010 = 638;
-	int SplitLineTrans2_4010 = 639;
-	int SplitLine_4020 = 640;
-	int SplitLineTrans1_4020 = 641;
-	int SplitLineTrans2_4020 = 642;
-	int SplitLine_4030 = 643;
-	int SplitLineTrans1_4030 = 644;
-	int SplitLineTrans2_4030 = 645;
-	int SplitLine_4040 = 646;
-	int SplitLineTrans1_4040 = 647;
-	int SplitLineTrans2_4040 = 648;
-	int SplitLine_4050 = 649;
-	int SplitLineTrans1_4050 = 650;
-	int SplitLineTrans2_4050 = 651;
-	int SplitLine_5 = 652;
-	int SplitLineTrans1_5 = 653;
-	int SplitLineTrans2_5 = 654;
-	int SplitLine_6 = 655;
-	int SplitLineTrans1_6 = 656;
-	int SplitLineTrans2_6 = 657;
-	int SplitLine_7 = 658;
-	int SplitLineTrans1_7 = 659;
-	int SplitLineTrans2_7 = 660;
-	int SplitLine_8 = 661;
-	int SplitLineTrans1_8 = 662;
-	int SplitLineTrans2_8 = 663;
-	int SplitLine_9 = 664;
-	int SplitLineTrans1_9 = 665;
-	int SplitLineTrans2_9 = 666;
+	int SplitLine_10930 = 595;
+	int SplitLineTrans1_10930 = 596;
+	int SplitLineTrans2_10930 = 597;
+	int SplitLine_10940_1 = 598;
+	int SplitLineTrans1_10940_1 = 599;
+	int SplitLineTrans2_10940_1 = 600;
+	int SplitLine_10940_2 = 601;
+	int SplitLineTrans1_10940_2 = 602;
+	int SplitLineTrans2_10940_2 = 603;
+	int SplitLine_2 = 604;
+	int SplitLineTrans1_2 = 605;
+	int SplitLineTrans2_2 = 606;
+	int SplitLine_2010 = 607;
+	int SplitLineTrans1_2010 = 608;
+	int SplitLineTrans2_2010 = 609;
+	int SplitLine_2020 = 610;
+	int SplitLineTrans1_2020 = 611;
+	int SplitLineTrans2_2020 = 612;
+	int SplitLine_2030 = 613;
+	int SplitLineTrans1_2030 = 614;
+	int SplitLineTrans2_2030 = 615;
+	int SplitLine_2040a = 616;
+	int SplitLineTrans1_2040a = 617;
+	int SplitLineTrans2_2040a = 618;
+	int SplitLine_2040b = 619;
+	int SplitLineTrans1_2040b = 620;
+	int SplitLineTrans2_2040b = 621;
+	int SplitLine_2050 = 622;
+	int SplitLineTrans1_2050 = 623;
+	int SplitLineTrans2_2050 = 624;
+	int SplitLine_3 = 625;
+	int SplitLineTrans1_3 = 626;
+	int SplitLineTrans2_3 = 627;
+	int SplitLine_3010 = 628;
+	int SplitLineTrans1_3010 = 629;
+	int SplitLineTrans2_3010 = 630;
+	int SplitLine_3020 = 631;
+	int SplitLineTrans1_3020 = 632;
+	int SplitLineTrans2_3020 = 633;
+	int SplitLine_3030 = 634;
+	int SplitLineTrans1_3030 = 635;
+	int SplitLineTrans2_3030 = 636;
+	int SplitLine_3040 = 637;
+	int SplitLineTrans1_3040 = 638;
+	int SplitLineTrans2_3040 = 639;
+	int SplitLine_3050 = 640;
+	int SplitLineTrans1_3050 = 641;
+	int SplitLineTrans2_3050 = 642;
+	int SplitLine_4 = 643;
+	int SplitLineTrans1_4 = 644;
+	int SplitLineTrans2_4 = 645;
+	int SplitLine_4010 = 646;
+	int SplitLineTrans1_4010 = 647;
+	int SplitLineTrans2_4010 = 648;
+	int SplitLine_4020 = 649;
+	int SplitLineTrans1_4020 = 650;
+	int SplitLineTrans2_4020 = 651;
+	int SplitLine_4030 = 652;
+	int SplitLineTrans1_4030 = 653;
+	int SplitLineTrans2_4030 = 654;
+	int SplitLine_4040 = 655;
+	int SplitLineTrans1_4040 = 656;
+	int SplitLineTrans2_4040 = 657;
+	int SplitLine_4050 = 658;
+	int SplitLineTrans1_4050 = 659;
+	int SplitLineTrans2_4050 = 660;
+	int SplitLine_5 = 661;
+	int SplitLineTrans1_5 = 662;
+	int SplitLineTrans2_5 = 663;
+	int SplitLine_6 = 664;
+	int SplitLineTrans1_6 = 665;
+	int SplitLineTrans2_6 = 666;
+	int SplitLine_7 = 667;
+	int SplitLineTrans1_7 = 668;
+	int SplitLineTrans2_7 = 669;
+	int SplitLine_8 = 670;
+	int SplitLineTrans1_8 = 671;
+	int SplitLineTrans2_8 = 672;
+	int SplitLine_9 = 673;
+	int SplitLineTrans1_9 = 674;
+	int SplitLineTrans2_9 = 675;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -1268,6 +1277,15 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Split Line #10920", Sprites.SplitLine_10920},
 	{"Sirius Split Line Transform 1 #10920", Sprites.SplitLineTrans1_10920},
 	{"Sirius Split Line Transform 2 #10920", Sprites.SplitLineTrans2_10920},
+	{"Sirius Split Line #10930", Sprites.SplitLine_10930},
+	{"Sirius Split Line Transform 1 #10930", Sprites.SplitLineTrans1_10930},
+	{"Sirius Split Line Transform 2 #10930", Sprites.SplitLineTrans2_10930},
+	{"Sirius Split Line #10940_1", Sprites.SplitLine_10940_1},
+	{"Sirius Split Line Transform 1 #10940_1", Sprites.SplitLineTrans1_10940_1},
+	{"Sirius Split Line Transform 2 #10940_1", Sprites.SplitLineTrans2_10940_1},
+	{"Sirius Split Line #10940_2", Sprites.SplitLine_10940_2},
+	{"Sirius Split Line Transform 1 #10940_2", Sprites.SplitLineTrans1_10940_2},
+	{"Sirius Split Line Transform 2 #10940_2", Sprites.SplitLineTrans2_10940_2},
 	{"Sirius Split Line #2", Sprites.SplitLine_2},
 	{"Sirius Split Line Transform 1 #2", Sprites.SplitLineTrans1_2},
 	{"Sirius Split Line Transform 2 #2", Sprites.SplitLineTrans2_2},

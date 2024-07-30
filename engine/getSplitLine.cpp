@@ -144,6 +144,8 @@ SonolusApi getSplitLine(let id) {
 		{10850, setSplitLine({Sprites.SplitLine_10850})},
 		{10860, setSplitLine({Sprites.SplitLine_10860})},
 		{10920, setSplitLine({Sprites.SplitLine_10920})},
+		{10930, setSplitLine({Sprites.SplitLine_10930})},
+		{10940, setSplitLine({Sprites.SplitLine_10940_1, Sprites.SplitLine_10940_2})},
 	}));
 	return VOID;
 }
