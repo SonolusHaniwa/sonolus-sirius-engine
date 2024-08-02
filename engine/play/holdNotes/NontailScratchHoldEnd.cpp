@@ -100,7 +100,8 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 		IF (times.now < stBeat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
 		IF (isHolding && playId == 0) {
-			playId = PlayLooped(Clips.Hold);
+			IF (HasEffectClip(Clips.Hold)) playId = PlayLooped(Clips.Hold);
+			ELSE playId = 1; FI
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
 			IF (exportId <= time25) {
 				ExportValue(exportId, times.now - stBeat);
