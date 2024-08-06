@@ -21,7 +21,16 @@ class SiriusSound: public Archetype {
 	SonolusApi render() {
 		FUNCBEGIN
 		IF (noteId.get() % noteCountDistance == 0) { drawNoteCount(beat, noteId.get()); } FI
-		drawPreviewTick(SwitchWithDefault(holdType, {{100, Sprites.TouchTick}, {101, Sprites.TouchTick}, {110, Sprites.TouchScratchTick}, {111, Sprites.TouchScratchTick}}, Sprites.TouchTick), beat, lane, enLane);
+		drawPreviewTick(SwitchWithDefault(holdType, {
+			{100, Sprites.TouchTick}, 
+			{101, Sprites.TouchTick}, 
+			{1100, Sprites.TouchTick}, 
+			{1101, Sprites.TouchTick}, 
+			{110, Sprites.TouchScratchTick}, 
+			{111, Sprites.TouchScratchTick},
+			{1110, Sprites.TouchScratchTick}, 
+			{1111, Sprites.TouchScratchTick}
+		}, Sprites.TouchTick), beat, lane, enLane);
 		return VOID;
 	}
 };
