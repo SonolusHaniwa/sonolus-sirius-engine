@@ -260,7 +260,7 @@ string fromSirius(string text, double chartOffset, double bgmOffset = 0) {
             	single["data"][1]["name"] = "stBeat"; single["data"][1]["value"] = x.startTime;
                 single["data"][2]["name"] = "lane"; single["data"][2]["value"] = x.leftLane;
                 single["data"][3]["name"] = "laneLength"; single["data"][3]["value"] = x.laneLength;
-                single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = 0;
+                single["data"][4]["name"] = "scratchLength"; single["data"][4]["value"] = x.scratchLength;
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
@@ -814,15 +814,19 @@ string fromSUS(string text) {
                 	// cout << "&" << slides[SlideEndName].inSlide << " " << SlideEndName << endl;
                 }
                 if (isFlick && slideNumber) {
-                    txt << t << "," << -1 << "," << SoundPurple << "," 
-                        << l << "," << (r - l + 1) << "," << 0 << "," << 0 << endl;
+                    int dir = 0;
                     for (auto &x : noteList[l][r][t]) {
                         string head = get<0>(x), body = get<3>(x);
                         string prop = head.substr(3);
                         if (prop[0] == '5') {
                             x = {get<0>(x), magicNumber, get<2>(x), get<3>(x)};
+                            if (body[0] == '3') dir = -(r - l + 1);
+                            else if (body[0] == '4') dir = (r - l + 1);
+                            else dir = 0;
                         }
                     }
+                    txt << t << "," << -1 << "," << SoundPurple << "," 
+                        << l << "," << (r - l + 1) << "," << 0 << "," << dir << endl;
                 }
                 for (int k = 0; k < SlideStartName.size(); k++) {
                 	// cout << slides[SlideStartName].inSlide << " " << SlideStartName << endl;
