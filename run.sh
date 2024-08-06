@@ -1,8 +1,11 @@
 ARCH="x64"
-VERSION=v1.6.1-patch1
 YELLOW="\e[93m"
 RED="\e[91m"
 RESET="\e[0m"
+
+# 获取最新版本
+echo -e $YELLOW"Checking latest version..."$RESET
+VERSION=$(curl -s https://api.github.com/repos/SonolusHaniwa/sonolus-server-cpp/releases/latest | jq -r '.tag_name')
 
 # 下载 Sonolus Server C++
 echo -e $YELLOW"Downloading Sonolus Server $VERSION for $ARCH..."$RESET
@@ -14,6 +17,7 @@ wget "https://raw.githubusercontent.com/SonolusHaniwa/sonolus-server-cpp/main/da
 sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus serve >/dev/null 2>&1 &
 ./sonolus import ../sirius/sirius.scp
+./sonolus import ../sirius/sirius-light.scp
 ./sonolus buildcpp play ..
 # ./sonolus buildcpp tutorial ../
 ./sonolus buildcpp preview ..
