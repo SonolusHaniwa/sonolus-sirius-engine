@@ -42,7 +42,7 @@ class SiriusSound: public Archetype {
 		EntityInput.set(0, res2);
 		IF (res2 != 0) {
 			EntityInput.set(1, t - beat);
-			EntityInput.set(2, If(holdType == 100 || holdType == 101, Buckets.Sound, Buckets.ScratchSound));
+			EntityInput.set(2, If(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101 , Buckets.Sound, Buckets.ScratchSound));
 			EntityInput.set(3, t - beat);
 			ExportValue(judgeResult, res);
 			ExportValue(accuracy, t - beat);
@@ -73,8 +73,8 @@ class SiriusSound: public Archetype {
 
 	SonolusApi updateParallel() {
 		FUNCBEGIN
-		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
-		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
 		return VOID;
 	}
 };

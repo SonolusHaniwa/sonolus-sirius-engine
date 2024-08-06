@@ -34,8 +34,8 @@
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
-			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
-			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
+			IF (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) Set(EntityInputId, 1, Buckets.Sound); FI
+			IF (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
         	Set(EntityInputId, 2, accuracy);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
@@ -52,8 +52,8 @@
 			comboStatus = 0;
 			status = comboStatus.get();
         	Set(EntityInputId, 0, beat);
-			IF (holdType == 100 || holdType == 101) Set(EntityInputId, 1, Buckets.Sound); FI
-			IF (holdType == 110 || holdType == 111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
+			IF (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) Set(EntityInputId, 1, Buckets.Sound); FI
+			IF (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
         	Set(EntityInputId, 2, 0);
         	EntitySharedMemoryArray[id].set(2, beat);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
@@ -66,8 +66,8 @@
 
  	SonolusApi updateParallel() {
 		FUNCBEGIN
-		IF (holdType == 100 || holdType == 101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
-		IF (holdType == 110 || holdType == 111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane); FI
+		IF (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane); FI
 		return VOID;
 	}
 };
