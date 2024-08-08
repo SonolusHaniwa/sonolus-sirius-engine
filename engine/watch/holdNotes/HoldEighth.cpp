@@ -32,7 +32,7 @@
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
-        	Set(EntityInputId, 2, accuracy);
+        	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
         	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI

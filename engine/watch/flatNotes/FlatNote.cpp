@@ -36,7 +36,7 @@
 			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, getBucket());
-        	Set(EntityInputId, 2, accuracy);
+        	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat + accuracy; FI
 			IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI

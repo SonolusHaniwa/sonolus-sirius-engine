@@ -80,7 +80,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (res2 != 0) {
 			EntityInput.set(1, t - beat);
 			EntityInput.set(2, Buckets.ScratchHoldEnd);
-			EntityInput.set(3, t - beat);
+			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
 			ExportValue(accuracy, t - beat);
 		} FI

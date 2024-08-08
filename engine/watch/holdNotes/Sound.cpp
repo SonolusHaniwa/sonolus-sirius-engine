@@ -36,7 +36,7 @@
         	Set(EntityInputId, 0, beat + accuracy);
 			IF (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) Set(EntityInputId, 1, Buckets.Sound); FI
 			IF (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) Set(EntityInputId, 1, Buckets.ScratchSound); FI
-        	Set(EntityInputId, 2, accuracy);
+        	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
         	IF (judgeResult != 0) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI

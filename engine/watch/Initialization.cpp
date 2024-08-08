@@ -77,19 +77,19 @@ class Initialization: public Archetype {
         for (int i = 10; i <= 11; i++) lifes[i].set(0, 0, 0, -40);
         for (int i = 12; i <= 13; i++) lifes[i].set(0, 0, 0, -80);
         
-        buckets[0].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[1].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[2].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.good, judgment.good, -1 * judgment.good, judgment.good);
-        buckets[3].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[4].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[5].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[6].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[7].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[8].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[9].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[10].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[11].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
-        buckets[12].set(-1 * judgment.perfect, judgment.perfect, -1 * judgment.great, judgment.great, -1 * judgment.good, judgment.good);
+        buckets[0].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[1].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[2].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.good * 1000, judgment.good * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[3].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[4].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[5].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[6].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[7].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[8].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[9].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[10].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[11].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
+        buckets[12].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
 
         comboNumber = 0; comboStatus = 0;
         return VOID;

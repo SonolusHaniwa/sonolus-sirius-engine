@@ -35,7 +35,7 @@
 			status = comboStatus.get();
         	Set(EntityInputId, 0, beat + accuracy);
         	Set(EntityInputId, 1, Buckets.FlickNote);
-        	Set(EntityInputId, 2, accuracy);
+        	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
    			IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI

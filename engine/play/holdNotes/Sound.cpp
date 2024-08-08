@@ -43,7 +43,7 @@ class SiriusSound: public Archetype {
 		IF (res2 != 0) {
 			EntityInput.set(1, t - beat);
 			EntityInput.set(2, If(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101 , Buckets.Sound, Buckets.ScratchSound));
-			EntityInput.set(3, t - beat);
+			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
 			ExportValue(accuracy, t - beat);
 		} FI
