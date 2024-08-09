@@ -8,7 +8,7 @@
  	 defineImports(lane);
  	 defineImports(laneLength);
  	 defineImports(judgeResult);
- 	 defineImports(accuracy);
+	 defineImportsDetailed(accuracy, "#ACCURACY");
      Variable<EntityMemoryId> enLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;

@@ -10,7 +10,6 @@ class SiriusScratchHoldEnd: public Archetype {
 	defineImports(laneLength);
 	defineImports(scratchLength);
 	defineExports(judgeResult);
-	defineExports(accuracy);
 	defineExports(time1);
 	defineExports(time2);
 	defineExports(time3);
@@ -46,6 +45,7 @@ class SiriusScratchHoldEnd: public Archetype {
 	Variable<EntityMemoryId> scratchLane;
 	Variable<EntityMemoryId> scratchEnLane;
 	Variable<EntityMemoryId> exportId;
+	Variable<EntityMemoryId> played;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -61,6 +61,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
 		exportId = time1;
+		played = false;
         return VOID;
     }
     
@@ -82,11 +83,12 @@ class SiriusScratchHoldEnd: public Archetype {
 			EntityInput.set(2, Buckets.ScratchHoldEnd);
 			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		} FI
 
-		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
-		IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
+		IF (!autoSFX) {
+			IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
+			IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
+		} FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
@@ -96,10 +98,15 @@ class SiriusScratchHoldEnd: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			played = true;
+			PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
+		} FI
 		IF (times.now < stBeat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
 		IF (isHolding && playId == 0) {
-			IF (HasEffectClip(Clips.Hold)) playId = PlayLooped(Clips.Hold);
+			IF (HasEffectClip(Clips.Hold) && !autoSFX) playId = PlayLooped(Clips.Hold);
 			ELSE playId = 1; FI
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
 			IF (exportId <= time25) {

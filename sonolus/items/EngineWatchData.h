@@ -6,11 +6,11 @@ using namespace std;
 class EngineWatchDataArchetypeCallback {
     public:
 
-    double index = 0;
+    int index = 0;
     double order = 0;
 
     EngineWatchDataArchetypeCallback(){}
-    EngineWatchDataArchetypeCallback(double index, double order): index(index), order(order){};
+    EngineWatchDataArchetypeCallback(int index, double order): index(index), order(order){};
     EngineWatchDataArchetypeCallback(Json::Value arr){
         if (arr.isNull() == true) return;
         index = arr["index"].asInt(), order = arr["order"].asInt();

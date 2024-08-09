@@ -10,7 +10,7 @@ class SiriusScratchHoldEnd : public Archetype {
 	 defineImports(laneLength);
 	 defineImports(scratchLength);
  	 defineImports(judgeResult);
- 	 defineImports(accuracy);
+	 defineImportsDetailed(accuracy, "#ACCURACY");
  	 defineImports(time1);
  	 defineImports(time2);
  	 defineImports(time3);
@@ -69,20 +69,27 @@ class SiriusScratchHoldEnd : public Archetype {
         	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
-	        PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
-        	IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
+			IF (autoSFX)
+	        	PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			ELSE {
+				IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
+				IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
+			} FI
         	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId}); FI
 			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId}); FI
-			FOR (i, time1.offset, time25.offset + 1, 2) {
-				var startTime = stBeat + EntityData.get(i);
-				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
-				IF (EntityData.get(i) == 0) BREAK; FI
-				IF (startTime < endTime) {
-					StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, startTime), endTime);
-				} FI
-			} DONE
+			IF (autoSFX) 
+			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
+			ELSE
+				FOR (i, time1.offset, time25.offset + 1, 2) {
+					var startTime = stBeat + EntityData.get(i);
+					var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
+					IF (EntityData.get(i) == 0) BREAK; FI
+					IF (startTime < endTime) {
+						StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, startTime), endTime);
+					} FI
+				} DONE
+			FI
         } ELSE {
 			comboNumber = comboNumber + 1;
 			combo = comboNumber.get();

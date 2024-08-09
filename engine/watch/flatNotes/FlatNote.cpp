@@ -7,7 +7,7 @@
      defineImports(lane);
      defineImports(laneLength);
 	 defineImports(judgeResult);
-	 defineImports(accuracy);
+	 defineImportsDetailed(accuracy, "#ACCURACY");
      Variable<EntityMemoryId> enLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;
@@ -39,10 +39,14 @@
         	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat + accuracy; FI
-			IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 3) PlayScheduled(getClips().great, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 4) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
-			IF (judgeResult == 4) PlayScheduled(getClips().bad, beat + accuracy, minSFXDistance); FI
+			IF (autoSFX)
+				PlayScheduled(getClips().perfect, beat, minSFXDistance); 
+			ELSE {
+				IF (judgeResult == 1 || judgeResult == 2) PlayScheduled(getClips().perfect, beat + accuracy, minSFXDistance); FI
+				IF (judgeResult == 3) PlayScheduled(getClips().great, beat + accuracy, minSFXDistance); FI
+				IF (judgeResult == 4) PlayScheduled(getClips().good, beat + accuracy, minSFXDistance); FI
+				IF (judgeResult == 4) PlayScheduled(getClips().bad, beat + accuracy, minSFXDistance); FI
+			} FI
 			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy}); FI
 			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status, thisId, accuracy}); FI

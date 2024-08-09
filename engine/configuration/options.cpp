@@ -7,7 +7,7 @@ class Options {
     int NoteSpeed = 1;        // Supported
     int Speed = 2;            // Supported
     int Hidden = 3;           // Supported
-    int SplitRandom = 4;
+    int AutoSFX = 4;          // Supported
     int SplitLine = 5;        // Supported
     int SyncLine = 6;         // Supported
     int LockAspectRatio = 7;  // Supported
@@ -53,7 +53,7 @@ auto options = defineOptions<class Options>({
         step: 0.05,
         unit: UnitText.Percentage,
     }, {
-        name: "Split Random Fall (not implement yet)",
+        name: NameText.AutoSFX,
         scope: Scope,
         standard: 0,
         type: OptionType.Toggle,

@@ -7,11 +7,11 @@ class FlatNote : public Archetype {
 	defineImports(lane);
 	defineImports(laneLength);
 	defineExports(judgeResult);
-	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
     Variable<EntityMemoryId> touchTime;
+    Variable<EntityMemoryId> played;
     virtual let getSprite() { return -1; }
     virtual let getBucket() { return -1; }
     virtual ClipsArray getClips() { return {}; }
@@ -28,6 +28,7 @@ class FlatNote : public Archetype {
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		touchTime = -1;
+		played = false;
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -46,14 +47,15 @@ class FlatNote : public Archetype {
 			EntityInput.set(2, getBucket());
 			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		} FI
 
 		// IF (res2 == 0) DebugPause(); FI
-		IF (res == 1 || res == 2) Play(getClips().perfect, minSFXDistance); FI
-		IF (res == 3) Play(getClips().great, minSFXDistance); FI
-		IF (res == 4) Play(getClips().good, minSFXDistance); FI
-		IF (res == 5) Play(getClips().bad, minSFXDistance); FI
+		IF (!autoSFX) {
+			IF (res == 1 || res == 2) Play(getClips().perfect, minSFXDistance); FI
+			IF (res == 3) Play(getClips().great, minSFXDistance); FI
+			IF (res == 4) Play(getClips().good, minSFXDistance); FI
+			IF (res == 5) Play(getClips().bad, minSFXDistance); FI	
+		} FI		
 		IF (res2 != 0) spawnEffect(getEffects().linear, getEffects().circular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
@@ -66,6 +68,10 @@ class FlatNote : public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			PlayScheduled(getClips().perfect, beat, minSFXDistance);
+			played = true;
+		} FI
 		IF (times.now < inputTimeMin) Return(0); FI
 		IF (times.now > inputTimeMax) complete(-1); FI
 		claimStart(EntityInfo.get(0));

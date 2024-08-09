@@ -10,11 +10,11 @@ class FlickNote : public Archetype {
 	defineImports(scratchLength);
 	defineExports(judgeResult);
 	defineExports(activation);
-	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
     Variable<EntityMemoryId> activate;
+    Variable<EntityMemoryId> played;
 
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
@@ -27,6 +27,7 @@ class FlickNote : public Archetype {
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		activate = 0;
+		played = false;
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -42,11 +43,12 @@ class FlickNote : public Archetype {
 			EntityInput.set(2, Buckets.FlickNote);
 			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		} FI
 
-		IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
-		IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
+		IF (!autoSFX) {
+			IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
+			IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
+		} FI
 		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
@@ -56,6 +58,10 @@ class FlickNote : public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			played = true;
+		} FI
 		IF (times.now < inputTimeMin) Return(0); FI
 		IF (times.now > inputTimeMax) {
 			IF (activate == 1) complete(inputTimeMax);

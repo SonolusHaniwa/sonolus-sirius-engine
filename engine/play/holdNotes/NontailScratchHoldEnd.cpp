@@ -10,7 +10,6 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 	defineImports(laneLength);
 	defineImports(scratchLength);
 	defineExports(judgeResult);
-	defineExports(accuracy);
 	defineExports(time1);
 	defineExports(time2);
 	defineExports(time3);
@@ -46,6 +45,7 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 	Variable<EntityMemoryId> scratchLane;
 	Variable<EntityMemoryId> scratchEnLane;
 	Variable<EntityMemoryId> exportId;
+	Variable<EntityMemoryId> played;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -62,6 +62,7 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
 		exportId = time1;
+		played = false;
         return VOID;
     }
     
@@ -83,7 +84,6 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 		// 	EntityInput.set(2, Buckets.ScratchHoldEnd);
 		// 	EntityInput.set(3, t - beat);
 		// 	ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		// } FI
 
 		// IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
@@ -97,10 +97,14 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			played = true;
+			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
+		} FI
 		IF (times.now < stBeat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
 		IF (isHolding && playId == 0) {
-			IF (HasEffectClip(Clips.Hold)) playId = PlayLooped(Clips.Hold);
+			IF (HasEffectClip(Clips.Hold) && !autoSFX) playId = PlayLooped(Clips.Hold);
 			ELSE playId = 1; FI
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
 			IF (exportId <= time25) {

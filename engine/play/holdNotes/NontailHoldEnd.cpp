@@ -9,7 +9,6 @@ class SiriusNontailHoldEnd: public Archetype {
 	defineImports(lane);
 	defineImports(laneLength);
 	defineExports(judgeResult);
-	defineExports(accuracy);
 	defineExports(time1);
 	defineExports(time2);
 	defineExports(time3);
@@ -44,6 +43,7 @@ class SiriusNontailHoldEnd: public Archetype {
 	Variable<EntityMemoryId> playId;
 	Variable<EntityMemoryId> effectId;
 	Variable<EntityMemoryId> exportId;
+	Variable<EntityMemoryId> played;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -57,6 +57,7 @@ class SiriusNontailHoldEnd: public Archetype {
 		lastHoldTime = -1;
 		playId = 0;
 		exportId = time1;
+		played = false;
         return VOID;
     }
     
@@ -81,7 +82,6 @@ class SiriusNontailHoldEnd: public Archetype {
 		// 	EntityInput.set(2, Buckets.HoldEnd);
 		// 	EntityInput.set(3, t - beat);
 		// 	ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		// } FI
 
 		// IF (res == 1 || res == 2) Play(Clips.Perfect, minSFXDistance); FI
@@ -100,10 +100,14 @@ class SiriusNontailHoldEnd: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			played = true;
+			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
+		} FI
 		IF (times.now < stBeat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
 		IF (isHolding && playId == 0) {
-			IF (HasEffectClip(Clips.Hold)) playId = PlayLooped(Clips.Hold);
+			IF (HasEffectClip(Clips.Hold) && !autoSFX) playId = PlayLooped(Clips.Hold);
 			ELSE playId = 1; FI
 			effectId = spawnHoldEffect(Effects.Hold, lane, enLane);
 			IF (exportId <= time26) {

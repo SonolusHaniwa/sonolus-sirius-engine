@@ -9,12 +9,12 @@ class SiriusSound: public Archetype {
 	defineImports(laneLength);
 	defineImports(holdType);
 	defineExports(judgeResult);
-	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
 	Variable<EntityMemoryId> isHolding;
 	Variable<EntityMemoryId> lastHoldTime;
+	Variable<EntityMemoryId> played;
 
     SonolusApi preprocess() {
    		FUNCBEGIN
@@ -45,10 +45,9 @@ class SiriusSound: public Archetype {
 			EntityInput.set(2, If(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101 , Buckets.Sound, Buckets.ScratchSound));
 			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		} FI
 
-		IF (res != 0) Play(Clips.Sound, minSFXDistance); FI
+		IF (res != 0 && !autoSFX) Play(Clips.Sound, minSFXDistance); FI
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
 		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
 		IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect); FI
@@ -60,6 +59,10 @@ class SiriusSound: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		FUNCBEGIN
+		IF (!played && autoSFX) {
+			played = true;
+			PlayScheduled(Clips.Sound, beat, minSFXDistance);
+		} FI
 		IF (times.now < beat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;
 

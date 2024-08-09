@@ -8,7 +8,6 @@ class SiriusHoldEighth: public Archetype {
 	defineImports(lane);
 	defineImports(laneLength);
 	defineExports(judgeResult);
-	defineExports(accuracy);
     Variable<EntityMemoryId> enLane;
     Variable<EntityMemoryId> inputTimeMin;
     Variable<EntityMemoryId> inputTimeMax;
@@ -43,7 +42,6 @@ class SiriusHoldEighth: public Archetype {
 			EntityInput.set(1, t - beat);
 			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
-			ExportValue(accuracy, t - beat);
 		} FI
 
 		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI

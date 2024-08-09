@@ -154,5 +154,9 @@ class Archetype {
 	bool unused_##name##_unused = [&](){ \
 		name.offset = imports.size(); allocatorSize[EntityDataId]++; \
 		imports.push_back({ #name, imports.size() }); return true; }(); 
+#define defineImportsDetailed(varName, dataName) Variable<EntityDataId> varName = Variable<EntityDataId>(0, true); \
+	bool unused_##varName##_unused = [&](){ \
+		varName.offset = imports.size(); allocatorSize[EntityDataId]++; \
+		imports.push_back({ dataName, imports.size() }); return true; }(); 
 #define defineExports(name) int name = [&](){ \
 		exports.push_back(#name); return exports.size() - 1; }();

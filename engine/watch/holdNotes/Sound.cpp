@@ -9,7 +9,7 @@
  	 defineImports(laneLength);
 	 defineImports(holdType);
 	 defineImports(judgeResult);
-	 defineImports(accuracy);
+	 defineImportsDetailed(accuracy, "#ACCURACY");
      Variable<EntityMemoryId> enLane;
      Variable<EntitySharedMemoryId> combo;
      Variable<EntitySharedMemoryId> status;
@@ -39,7 +39,8 @@
         	Set(EntityInputId, 2, accuracy * 1000);
         	EntitySharedMemoryArray[id].set(2, beat + accuracy);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
-        	IF (judgeResult != 0) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
+			IF (autoSFX) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
+        	IF (judgeResult != 0 && !autoSFX) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
         	IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
 			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId}); FI
 			IF (judgeResult == 2) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfect, combo, status, thisId}); FI

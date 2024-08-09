@@ -10,7 +10,7 @@ class SiriusNontailScratchHoldEnd : public Archetype {
 	 defineImports(laneLength);
 	 defineImports(scratchLength);
  	 defineImports(judgeResult);
- 	 defineImports(accuracy);
+	 defineImportsDetailed(accuracy, "#ACCURACY");
  	 defineImports(time1);
  	 defineImports(time2);
  	 defineImports(time3);
@@ -70,14 +70,18 @@ class SiriusNontailScratchHoldEnd : public Archetype {
         	// IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status}); FI
 			// IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status}); FI
 			// IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status}); FI
-			FOR (i, time1.offset, time25.offset + 1, 2) {
-				var startTime = stBeat + EntityData.get(i);
-				var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
-				IF (EntityData.get(i) == 0) BREAK; FI
-				IF (startTime < endTime) {
-					StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, startTime), endTime);
-				} FI
-			} DONE
+			IF (autoSFX) 
+				StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
+			ELSE
+				FOR (i, time1.offset, time25.offset + 1, 2) {
+					var startTime = stBeat + EntityData.get(i);
+					var endTime = If(EntityData.get(i + 1) == 0, beat + accuracy, stBeat + EntityData.get(i + 1));
+					IF (EntityData.get(i) == 0) BREAK; FI
+					IF (startTime < endTime) {
+						StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, startTime), endTime);
+					} FI
+				} DONE
+			FI
         } ELSE {
 			// comboNumber = comboNumber + 1;
 			// combo = comboNumber.get();
