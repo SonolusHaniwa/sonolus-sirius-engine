@@ -22,7 +22,7 @@
  	 SonolusApi preprocess() {
  	 	FUNCBEGIN
  	 	beat = beat / levelSpeed;
-        IF (mirror) lane = 14 - lane - laneLength; FI
+        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
         enLane = lane + laneLength - 1;
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
         nextNoteTime = 99999;
