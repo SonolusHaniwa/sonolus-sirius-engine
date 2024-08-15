@@ -53,7 +53,7 @@ class SiriusNontailScratchHoldEnd: public Archetype {
    		stBeat = stBeat / levelSpeed;
         IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
 		enLane = lane + laneLength - 1;
-		Debuglog(enLane);
+		// Debuglog(enLane);
 		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		isHolding = false;
