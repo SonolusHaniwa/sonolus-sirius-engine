@@ -178,9 +178,9 @@ SonolusApi drawNormalNote(let sprite, let lane, let enLane, let beat) {
     	 lt = c1 - Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
     auto rb = c4 + Vec(w2 / 2 - noteMoveLength * w1 / line1.getWidth(1), 0),
     	 rt = c3 + Vec(w1 / 2 - noteMoveLength * w2 / line1.getWidth(1), 0);
-    Draw(sprite, lb.x, lb.y, lt.x, lt.y, lt.x + border_w1, rt.y, lb.x + border_w2, rb.y, 1000 - beat, 1);
-    Draw(sprite + 1, lb.x + border_w2, lb.y, lt.x + border_w1, lt.y, rt.x - border_w1, rt.y, rb.x - border_w2, rb.y, 1000 - beat, 1);
-    Draw(sprite + 2, rb.x - border_w2, rb.y, rt.x - border_w1, rt.y, rt.x, rt.y, rb.x, rb.y, 1000 - beat, 1);
+    Draw(sprite, lb.x, lb.y, lt.x, lt.y, lt.x + border_w1, rt.y, lb.x + border_w2, rb.y, 100000 - beat, 1);
+    Draw(sprite + 1, lb.x + border_w2, lb.y, lt.x + border_w1, lt.y, rt.x - border_w1, rt.y, rb.x - border_w2, rb.y, 100000 - beat, 1);
+    Draw(sprite + 2, rb.x - border_w2, rb.y, rt.x - border_w1, rt.y, rt.x, rt.y, rb.x, rb.y, 100000 - beat, 1);
     return VOID;
 }
 
@@ -351,9 +351,9 @@ SonolusApi drawHoldEighth(let sprite, let lane, let enLane, let stBeat, let enBe
     let val = EntityInfo.get(0) * 1e-5;
 	IF (isHolding) {
         let val = Floor(times.now / 0.1) % 2 == 1;
-        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.85);
-        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
-    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 500 - stBeat + val, 0.8); FI
+        IF (val == 1) Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 50000 - stBeat + val, 0.85);
+        ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 50000 - stBeat + val, 0.8); FI
+    } ELSE Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 50000 - stBeat + val, 0.8); FI
     return VOID;
 }
 
@@ -385,7 +385,7 @@ SonolusApi drawTick(let sprite, let beat, let lane, let enLane) {
 	auto cb = Vec((c2.x + c4.x) / 2, (c2.y + c4.y) / 2), ct = Vec((c1.x + c3.x) / 2, (c1.y + c3.y) / 2);
 	auto lb = cb - Vec(m2 * tickWidth / 2, 0), lt = ct - Vec(m1 * tickWidth / 2, 0);
 	auto rb = cb + Vec(m2 * tickWidth / 2, 0), rt = ct + Vec(m1 * tickWidth / 2, 0);
-	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 2000 - beat, 0.5);
+	Draw(sprite, lb.x, lb.y, lt.x, lt.y, rt.x, rt.y, rb.x, rb.y, 200000 - beat, 0.5);
 	return VOID;
 }
 
