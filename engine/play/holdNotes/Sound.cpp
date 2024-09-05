@@ -25,6 +25,7 @@ class SiriusSound: public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		isHolding = false;
 		lastHoldTime = -1;
+		EntityInput.set(1, judgment.bad);
         return VOID;
     }
     

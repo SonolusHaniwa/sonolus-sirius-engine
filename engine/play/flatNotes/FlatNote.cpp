@@ -29,6 +29,7 @@ class FlatNote : public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		touchTime = -1;
 		played = false;
+		EntityInput.set(1, judgment.bad);
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}

@@ -58,6 +58,7 @@ class SiriusHoldEnd: public Archetype {
 		playId = 0;
 		exportId = time1;
 		played = false;
+		EntityInput.set(1, judgment.bad);
         return VOID;
     }
     

@@ -62,6 +62,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
 		exportId = time1;
 		played = false;
+		EntityInput.set(1, judgment.bad);
         return VOID;
     }
     

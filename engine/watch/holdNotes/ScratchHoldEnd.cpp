@@ -58,6 +58,7 @@ class SiriusScratchHoldEnd : public Archetype {
         currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
         nextNoteTime = 99999;
         let id = lastNoteId, thisId = EntityInfo.get(0);
+		EntityInput.set(0, judgment.bad);
         IF (isReplay == 1) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI

@@ -28,6 +28,7 @@ class FlickNote : public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		activate = 0;
 		played = false;
+		EntityInput.set(1, judgment.bad);
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
