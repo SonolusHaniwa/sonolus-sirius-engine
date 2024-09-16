@@ -155,14 +155,14 @@ SonolusApi getClaimedStart(let index) {
 // 	return VOID;
 // }
 
-double minFlickVR = 0.1;
+double minFlickVW = 0.1;
 // Map<LevelMemoryId, var, var> usedTouchId(16);
 SonolusApi findFlickTouch(let lane, let enLane) {
 	FUNCBEGIN
 	Rect hitbox = getFullHitbox(lane, enLane);
 	FOR (i, 0, touches.size, 1) {
 		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
-		IF (touches[i].vr < minFlickVR) CONTINUE; FI
+		IF (touches[i].vw < minFlickVW) CONTINUE; FI
 		disallowEmptiesNow.set(touches[i].id, 1);
 		Return(touches[i].id);
 	} DONE
