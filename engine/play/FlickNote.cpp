@@ -29,6 +29,7 @@ class FlickNote : public Archetype {
 		activate = 0;
 		played = false;
 		EntityInput.set(1, judgment.bad);
+		IF (autoSFX) PlayScheduled(Clips.Scratch, beat, minSFXDistance); FI
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -60,7 +61,7 @@ class FlickNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (!played && autoSFX) {
-			PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+			// PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			played = true;
 		} FI
 		IF (times.now < inputTimeMin) Return(0); FI

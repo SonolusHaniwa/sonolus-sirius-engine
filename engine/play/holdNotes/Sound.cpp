@@ -26,6 +26,7 @@ class SiriusSound: public Archetype {
 		isHolding = false;
 		lastHoldTime = -1;
 		EntityInput.set(1, judgment.bad);
+		IF (autoSFX) PlayScheduled(Clips.Sound, beat, minSFXDistance); FI
         return VOID;
     }
     
@@ -62,7 +63,7 @@ class SiriusSound: public Archetype {
 		FUNCBEGIN
 		IF (!played && autoSFX) {
 			played = true;
-			PlayScheduled(Clips.Sound, beat, minSFXDistance);
+			// PlayScheduled(Clips.Sound, beat, minSFXDistance);
 		} FI
 		IF (times.now < beat) Return(0); FI
 		isHolding = findHoldTouch(lane, enLane) != -1;

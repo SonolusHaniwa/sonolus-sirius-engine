@@ -31,11 +31,9 @@ jobs:
           B="zwnIhWoprI5x4WW1vR"
           TK=$A$B
           git clone https://github.com/SonolusHaniwa/sonolus-sirius-engine sirius
-          git clone https://littleyang0531:$TK@github.com/LittleYang0531/world-dai-star-private wds
           git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/sirius-sync tools
-          git clone https://littleyang0531:$TK@github.com/LittleYang0531/world-best-star-private wbs
+          git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/sirius-decrypted-data wds
           git clone https://littleyang0531:$TK@github.com/SonolusHaniwa/stellarity stellarity
-          git clone https://littleyang0531:$TK@github.com/LittleYang0531/sirius-private-data sonolus-data
           
       - name: Preparing C/C++ Compiler
         run: |
@@ -45,7 +43,7 @@ jobs:
       - name: Uploading data to server
         run: |
           mkdir sonolus-server
-          cp wds/public/sonolus.db sonolus-server/
+          cp wds/sonolus.db sonolus-server/
           cd tools
           ./make
           cp exportor ../sonolus-server/
@@ -57,9 +55,8 @@ jobs:
               ./tools/onedriveUploader ./sonolus-server/data/$name
               echo ""
           done
-          cp sonolus-server/data/* sonolus-data/
-          cp sonolus-server/sonolus.db wds/public/
-          cp sonolus-server/engine.json wbs/backend/
+          cp sonolus-server/sonolus.db wds/
+          cp sonolus-server/engine.json wds/
           cp sonolus-server/engine.json stellarity/backend/
 
       - name: Commit to World Dai Star Private
@@ -72,22 +69,7 @@ jobs:
           git commit -m "Update Engine"
           git push origin
 
-          cd ../wbs
-          git config --local user.email "littleyang0531@outlook.com"
-          git config --local user.name "LittleYang0531"
-          git add .
-          git commit -m "Update Engine"
-          git push origin
-
           cd ../stellarity
-          git config --local user.email "littleyang0531@outlook.com"
-          git config --local user.name "LittleYang0531"
-          git add .
-          git commit -m "Update Engine"
-          git push origin
-          echo "Sync Finished!"
-          
-          cd ../sonolus-data
           git config --local user.email "littleyang0531@outlook.com"
           git config --local user.name "LittleYang0531"
           git add .

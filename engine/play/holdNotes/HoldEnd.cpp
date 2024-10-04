@@ -59,6 +59,7 @@ class SiriusHoldEnd: public Archetype {
 		exportId = time1;
 		played = false;
 		EntityInput.set(1, judgment.bad);
+		IF (autoSFX) PlayScheduled(Clips.Perfect, beat, minSFXDistance); FI
         return VOID;
     }
     
@@ -105,7 +106,7 @@ class SiriusHoldEnd: public Archetype {
 		FUNCBEGIN
 		IF (!played && autoSFX) {
 			played = true;
-			PlayScheduled(Clips.Perfect, beat, minSFXDistance);
+			// PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 		} FI
 		IF (times.now < stBeat) Return(0); FI

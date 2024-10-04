@@ -30,6 +30,7 @@ class FlatNote : public Archetype {
 		touchTime = -1;
 		played = false;
 		EntityInput.set(1, judgment.bad);
+		IF (autoSFX) PlayScheduled(getClips().perfect, beat, minSFXDistance); FI
         return VOID;
 		// beat.set(Buckets.NormalNote),
 	}
@@ -70,7 +71,7 @@ class FlatNote : public Archetype {
 	SonolusApi updateSequential() {
 		FUNCBEGIN
 		IF (!played && autoSFX) {
-			PlayScheduled(getClips().perfect, beat, minSFXDistance);
+			// PlayScheduled(getClips().perfect, beat, minSFXDistance);
 			played = true;
 		} FI
 		IF (times.now < inputTimeMin) Return(0); FI
