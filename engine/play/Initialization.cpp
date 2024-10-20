@@ -96,6 +96,9 @@ class Initialization: public Archetype {
         buckets[12].set(-1 * judgment.perfect * 1000, judgment.perfect * 1000, -1 * judgment.great * 1000, judgment.great * 1000, -1 * judgment.good * 1000, judgment.good * 1000);
         // });
         EntityDespawn.set(0, 1);
+
+        comboNumber = 0; comboStatus = 0;
+        totalAccuracy = 0; currentAccuracy = 0;
         return VOID;
     }
 

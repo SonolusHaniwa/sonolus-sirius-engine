@@ -42,6 +42,8 @@ double comboNormal6Ratio = 91.0 / 124.0;     // 普通 combo 6 比例
 double comboNormal7Ratio = 91.0 / 119.0;     // 普通 combo 7 比例
 double comboNormal8Ratio = 90.0 / 124.0;     // 普通 combo 8 比例
 double comboNormal9Ratio = 90.0 / 124.0;     // 普通 combo 9 比例
+double comboNormalPercentRatio = 27.0 / 28.0;// 普通 combo % 比例
+double comboNormalPointRatio = 1;            // 普通 combo . 比例
 double comboFCRatio = 154.0 / 37.0;          // FC combo 文字比例
 double comboFC0Ratio = 89.0 / 124.0;         // FC combo 0 比例
 double comboFC1Ratio = 89.0 / 119.0;         // FC combo 1 比例
@@ -53,6 +55,8 @@ double comboFC6Ratio = 91.0 / 124.0;         // FC combo 6 比例
 double comboFC7Ratio = 91.0 / 119.0;         // FC combo 7 比例
 double comboFC8Ratio = 90.0 / 124.0;         // FC combo 8 比例
 double comboFC9Ratio = 90.0 / 124.0;         // FC combo 9 比例
+double comboFCPercentRatio = 27.0 / 28.0;    // FC combo % 比例
+double comboFCPointRatio = 1;                // FC combo . 比例
 double comboAPRatio = 168.0 / 48.0;          // AP combo 文字比例
 double comboAP0Ratio = 118.0 / 148.0;        // AP combo 0 比例
 double comboAP1Ratio = 118.0 / 148.0;        // AP combo 1 比例
@@ -64,6 +68,8 @@ double comboAP6Ratio = 118.0 / 148.0;        // AP combo 6 比例
 double comboAP7Ratio = 118.0 / 148.0;        // AP combo 7 比例
 double comboAP8Ratio = 118.0 / 148.0;        // AP combo 8 比例
 double comboAP9Ratio = 118.0 / 148.0;        // AP combo 9 比例
+double comboAPPercentRatio = 28.0 / 30.0;    // AP combo % 比例
+double comboAPPointRatio = 1;                // AP combo . 比例
 double comboTextHeight = 0.05;               // combo 文字高度
 double comboAPTextHeight = 0.066;            // AP combo 文字高度
 double comboTextDistance = 0.015;            // combo 文字间距
@@ -72,13 +78,27 @@ double comboNumberHeight = 0.2;              // combo 数字高度
 double comboAPNumberHeight = 0.238;          // AP 数字高度
 double comboNumberDistance = 0.0;            // combo 数字间距
 double comboAPNumberDistance = -0.048;       // AP combo 数字间距
-double stageWidth = 0.7;                         // 单个舞台宽度
-double stageHeight = 2.0;                        // 单个舞台高度
-double stageFullWidth = stageWidth + 0.3;        // 单个舞台占有宽度
-double stageTimelineWidth = stageWidth + 0.2;    // 时间线宽度
-double stageTimeLength = 2.0;                    // 单个舞台容纳时间
-double adjustDistance = 0.002;                   // 按键微调距离
-double noteCountDistance = 10;                   // 按键计数长度
+double comboNumberHeight2 = 0.1;             // combo 数字高度 2
+double comboAPNumberHeight2 = 0.119;         // AP 数字高度 2
+double comboNumberDistance2 = 0.0;           // combo 数字间距 2
+double comboAPNumberDistance2 = -0.024;      // AP combo 数字间距 2
+double comboNumberHeight3 = 0.05;            // combo 数字高度 3
+double comboAPNumberHeight3 = 0.059;         // AP 数字高度 3
+double comboNumberDistance3 = 0.0;           // combo 数字间距 3
+double comboAPNumberDistance3 = -0.012;      // AP combo 数字间距 3
+double comboPointHeight = 0.025;             // combo . 高度
+double comboAPPointHeight = 0.029;           // AP . 高度
+double comboPercentHeight = 0.05;            // combo % 高度
+double comboAPPercentHeight = 0.059;         // AP % 高度
+double comboAccuracyDistance = 0.045;        // combo 完成度距离
+double comboAPAccuracyDistance = 0.025;      // AP 完成度距离
+double stageWidth = 0.7;                     // 单个舞台宽度
+double stageHeight = 2.0;                    // 单个舞台高度
+double stageFullWidth = stageWidth + 0.3;    // 单个舞台占有宽度
+double stageTimelineWidth = stageWidth + 0.2;// 时间线宽度
+double stageTimeLength = 2.0;                // 单个舞台容纳时间
+double adjustDistance = 0.002;               // 按键微调距离
+double noteCountDistance = 10;               // 按键计数长度
 double noteBorderPercent = 0.02;             // note 边框比例 (相对于 Stage 大小)
 #if play || watch
 double noteHeight = 85.0 / 640.0;            // note 高度
@@ -110,12 +130,17 @@ let extraWidth = LevelOption.get(Options.ExtraWidth);
 let levelSpeed = LevelOption.get(Options.Speed);
 let opacity = LevelOption.get(Options.StageOpacity);
 let judgeType = LevelOption.get(Options.JudgeType);
+let showAccuracy = LevelOption.get(Options.Accuracy);
+let sonolusCombo = LevelOption.get(Options.SonolusCombo);
+let sonolusJudgment = LevelOption.get(Options.SonolusJudgment);
+let lightweight = LevelOption.get(Options.Lightweight);
 #elif preview
-let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth, levelSpeed, opacity, judgeType;
+let mirror, speed, hidden, splitRandom, splitLine, syncLine, lockAspectRatio, extraWidth;
+let levelSpeed, opacity, judgeType, showAccuracy, sonolusCombo, sonolusJudgment, lightweight;
 #endif
 
-let hasJudgment = HasSkinSprite(Sprites.JudgePerfectPlus);
-let hasCombo = HasSkinSprite(Sprites.ComboNormalText);
+let hasJudgment = HasSkinSprite(Sprites.JudgePerfectPlus) && !sonolusJudgment;
+let hasCombo = HasSkinSprite(Sprites.ComboNormalText) && !sonolusCombo;
 
 #if play || watch
 class stage {
@@ -202,11 +227,14 @@ Variable<LevelMemoryId> comboStatus;
 Variable<LevelMemoryId> lastNoteId;
 Variable<LevelMemoryId> lastUpdatedId;
 Variable<LevelMemoryId> firstComboTime;
+Variable<LevelMemoryId> totalAccuracy;
+Variable<LevelMemoryId> currentAccuracy;
 let duration, noteCount, noteId;
 #elif preview
 Variable<PreviewDataId> duration;                   // 谱面时长
 Variable<PreviewDataId> noteCount;                  // note 数量
 Variable<EntitySharedMemoryId> noteId;              // note 编号
 Array<TemporaryMemoryId, let> splitLineMemory(16);
-let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus, lastNoteId, lastUpdatedId, firstComboTime;
+let currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus;
+let lastNoteId, lastUpdatedId, firstComboTime, totalAccuracy, currentAccuracy;
 #endif

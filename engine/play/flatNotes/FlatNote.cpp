@@ -29,6 +29,8 @@ class FlatNote : public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		touchTime = -1;
 		played = false;
+		totalAccuracy = totalAccuracy + 1.01;
+		currentAccuracy = currentAccuracy + 1.01;
 		EntityInput.set(1, judgment.bad);
 		IF (autoSFX) PlayScheduled(getClips().perfect, beat, minSFXDistance); FI
         return VOID;

@@ -8,12 +8,17 @@ class Options {
     int Speed = 2;            // Supported
     int Hidden = 3;           // Supported
     int AutoSFX = 4;          // Supported
-    int SplitLine = 5;        // Supported
-    int SyncLine = 6;         // Supported
-    int LockAspectRatio = 7;  // Supported
-    int ExtraWidth = 8;       // Supoorted
-    int StageOpacity = 9;     // Supported
-    int JudgeType = 10;       // Supported
+    int SplitRandom = 5;
+    int SplitLine = 6;        // Supported
+    int SyncLine = 7;         // Supported
+    int LockAspectRatio = 8;  // Supported
+    int ExtraWidth = 9;       // Supoorted
+    int StageOpacity = 10;    // Supported
+    int JudgeType = 11;       // Supported
+    int Accuracy = 12;        // Supported
+    int SonolusCombo = 13;    // Supported
+    int SonolusJudgment = 14; // Supported
+    int Lightweight = 15;
 }Options;
 
 auto options = defineOptions<class Options>({
@@ -58,6 +63,12 @@ auto options = defineOptions<class Options>({
         standard: 0,
         type: OptionType.Toggle,
         def: 0
+    }, {
+        name: "Split Random Fall (not implement yet)",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0,
     }, {
         name: "Split Line Visibility",
         scope: Scope,
@@ -110,5 +121,29 @@ auto options = defineOptions<class Options>({
             "GREAT and below",
             "OFF"
         }
+    }, {
+        name: "Show Accuracy",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0,
+    }, {
+        name: "Use Sonolus Combo",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0,
+    }, {
+        name: "Use Sonolus Judgment",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0,
+    }, {
+        name: "Lightweight Particle",
+        scope: Scope,
+        standard: 0,
+        type: OptionType.Toggle,
+        def: 0,
     }
 });

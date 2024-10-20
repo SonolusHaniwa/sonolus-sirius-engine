@@ -28,6 +28,7 @@
         nextNoteTime = 99999;
         let id = lastNoteId, thisId = EntityInfo.get(0);
 		EntityInput.set(0, judgment.bad);
+		totalAccuracy = totalAccuracy + 1.01;
         IF (isReplay == 1) {
 			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
 			ELSE comboNumber = 0; FI
@@ -45,9 +46,9 @@
 				IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
 				IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
 			} FI
-			IF (judgeResult == 0) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId}); FI
-			IF (judgeResult == 1) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId}); FI
-			IF (judgeResult == 3) Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId}); FI
+			IF (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy}); FI
+			IF (judgeResult == 1) currentAccuracy = currentAccuracy; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy}); FI
+			IF (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy}); FI
         } ELSE {
 			comboNumber = comboNumber + 1;
 			combo = comboNumber.get();
@@ -59,7 +60,7 @@
         	EntitySharedMemoryArray[id].set(2, beat);
         	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId});
+			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId, 0, 0});
 		} FI;
 		lastNoteId = EntityInfo.get(0);
  	    return VOID;

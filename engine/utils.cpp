@@ -506,6 +506,15 @@ SonolusApi SpawnSubJudgeText(let sprite, let delta = 0, let judgeTime = times.no
     ELSE comboNumber = 0; FI
     comboStatus = Max(comboStatus, If(sprite == Sprites.JudgeAuto, Sprites.JudgePerfectPlus, sprite));
     #endif
+    currentAccuracy = currentAccuracy - Switch(sprite, {
+        { Sprites.JudgeMiss, 1.01 },
+        { Sprites.JudgePerfectPlus, 0 },
+        { Sprites.JudgePerfect, 0.01 },
+        { Sprites.JudgeGreat, 0.21 },
+        { Sprites.JudgeGood, 0.51 },
+        { Sprites.JudgeBad, 1.01 },
+        { Sprites.JudgeAuto, 0 }
+    });
     IF (currentJudgeStartTime == judgeTime) {
         currentJudge = Max(currentJudge, sprite);
         IF (Abs(delta) > Abs(currentJudgeDeltaTime)) currentJudgeDeltaTime = delta; FI

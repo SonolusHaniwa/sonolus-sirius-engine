@@ -9,9 +9,10 @@ class UpdateJudgment: public Archetype {
 	Variable<EntityMemoryId> status;
 	Variable<EntityMemoryId> entityId;
 	Variable<EntityMemoryId> delta;
+	Variable<EntityMemoryId> accuracy;
 
 	SonolusApi spawnTime() { return TimeToScaledTime(beat); }
-	SonolusApi despawnTime() { 
+	SonolusApi despawnTime() {
 		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].get(2));
 	}
 
@@ -23,6 +24,7 @@ class UpdateJudgment: public Archetype {
 		comboNumber = combo.get();
 		SpawnSubJudgeText(judgment, delta, beat);
 		lastUpdatedId = entityId.get();
+		currentAccuracy = accuracy + totalAccuracy;
 		return VOID;
 	}
 };

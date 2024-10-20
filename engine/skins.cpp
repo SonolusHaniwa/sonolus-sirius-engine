@@ -50,6 +50,8 @@ class Sprites {
 	int ComboNormal7 = 44;
 	int ComboNormal8 = 45;
 	int ComboNormal9 = 46;
+	int ComboNormalPoint = 1000;
+	int ComboNormalPercent = 1001;
 	int ComboFCText = 47;
 	int ComboFC0 = 48;
 	int ComboFC1 = 49;
@@ -61,6 +63,8 @@ class Sprites {
 	int ComboFC7 = 55;
 	int ComboFC8 = 56;
 	int ComboFC9 = 57;
+	int ComboFCPoint = 2000;
+	int ComboFCPercent = 2001;
 	int ComboAPText = 58;
 	int ComboAP0 = 59;
 	int ComboAP1 = 60;
@@ -72,6 +76,8 @@ class Sprites {
 	int ComboAP7 = 66;
 	int ComboAP8 = 67;
 	int ComboAP9 = 68;
+	int ComboAPPoint = 3000;
+	int ComboAPPercent = 3001;
 	int GridYellow = 69;
 	int SplitLine_1 = 70;
 	int SplitLineTrans1_1 = 71;
@@ -828,6 +834,8 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Combo Normal 7", Sprites.ComboNormal7},
 	{"Sirius Combo Normal 8", Sprites.ComboNormal8},
 	{"Sirius Combo Normal 9", Sprites.ComboNormal9},
+	{"Sirius Combo Normal Point", Sprites.ComboNormalPoint},
+	{"Sirius Combo Normal Percent", Sprites.ComboNormalPercent},
 	{"Sirius Combo FC", Sprites.ComboFCText},
 	{"Sirius Combo FC 0", Sprites.ComboFC0},
 	{"Sirius Combo FC 1", Sprites.ComboFC1},
@@ -839,6 +847,8 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Combo FC 7", Sprites.ComboFC7},
 	{"Sirius Combo FC 8", Sprites.ComboFC8},
 	{"Sirius Combo FC 9", Sprites.ComboFC9},
+	{"Sirius Combo FC Point", Sprites.ComboFCPoint},
+	{"Sirius Combo FC Percent", Sprites.ComboFCPercent},
 	{"Sirius Combo AP", Sprites.ComboAPText},
 	{"Sirius Combo AP 0", Sprites.ComboAP0},
 	{"Sirius Combo AP 1", Sprites.ComboAP1},
@@ -850,6 +860,8 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Combo AP 7", Sprites.ComboAP7},
 	{"Sirius Combo AP 8", Sprites.ComboAP8},
 	{"Sirius Combo AP 9", Sprites.ComboAP9},
+	{"Sirius Combo AP Point", Sprites.ComboAPPoint},
+	{"Sirius Combo AP Percent", Sprites.ComboAPPercent},
 	{SkinSpriteName.GridYellow, Sprites.GridYellow},
 	{"Sirius Split Line #1", Sprites.SplitLine_1},
 	{"Sirius Split Line Transform 1 #1", Sprites.SplitLineTrans1_1},

@@ -47,9 +47,9 @@ class Stage: public Archetype {
 		FUNCBEGIN
 		IF (comboNumber == 0) Return(0); FI
 		let comboHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight, comboNumberHeight);
-		let comboDistance = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance, comboNumberDistance);
+		let comboDistance = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance, comboNumberDistance) * ui.comboConfiguration.scale;
 		let comboHeight2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextHeight, comboTextHeight);
-		let comboDistance2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextDistance, comboTextDistance);
+		let comboDistance2 = If(comboStatus <= Sprites.JudgePerfect, comboAPTextDistance, comboTextDistance) * ui.comboConfiguration.scale;
 		let status = If(comboStatus <= Sprites.JudgePerfect, 0, If(comboStatus <= Sprites.JudgeGreat, 1, 2));
 		let H = comboHeight * ui.comboConfiguration.scale;
 		let H2 = comboHeight2 * ui.comboConfiguration.scale;
@@ -110,14 +110,140 @@ class Stage: public Archetype {
 		return VOID;
 	}
 
+	SonolusApi drawAccuracy() {
+		FUNCBEGIN
+		let a = currentAccuracy / totalAccuracy * 101;
+		let b = Floor(a), c = a - Floor(a);
+		let scale = ui.comboConfiguration.scale;
+		let accuracyHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight2, comboNumberHeight2);
+		let accuracyDistance = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance2, comboNumberDistance2) * scale;
+		let accuracyHeight2 = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight3, comboNumberHeight3);
+		let accuracyDistance2 = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberDistance3, comboNumberDistance3) * scale;
+		let pointHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPPointHeight, comboPointHeight) * scale;
+		let percentHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPPercentHeight, comboPercentHeight) * scale;
+		let distance = If(comboStatus <= Sprites.JudgePerfect, comboAPAccuracyDistance, comboAccuracyDistance) * scale;
+		let status = If(comboStatus <= Sprites.JudgePerfect, 0, If(comboStatus <= Sprites.JudgeGreat, 1, 2));
+		var W = -1 * accuracyDistance, tmp = b;
+		WHILE (tmp) {
+			let v = tmp % 10;
+			W = W + accuracyHeight * scale * Switch(v, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			}) + accuracyDistance;
+			tmp = Floor(tmp / 10);
+		} DONE
+		var W1 = W;
+		W = W + pointHeight * SwitchInteger(status, { comboAPPointRatio, comboFCPointRatio, comboNormalPointRatio });
+		tmp = c; W = W - accuracyDistance2;
+		FOR (i, 0, 4, 1) {
+			tmp = tmp * 10;
+			var v = Floor(tmp);
+			tmp = tmp - v;
+			W = W + If(i >= 2, accuracyHeight2, accuracyHeight) * scale * Switch(v, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			}) + If(i >= 1, accuracyDistance2, accuracyDistance);
+		} DONE
+		W = W + percentHeight * SwitchInteger(status, { comboAPPercentRatio, comboFCPercentRatio, comboNormalPercentRatio });
+		W = W + accuracyDistance - accuracyDistance2 / 2;
+		let cx = screen.w * 0.4;
+		var R = cx - W / 2 + W1;
+		var L = R + accuracyDistance / 2;
+		let T = 0.2 + If(
+			comboStatus <= Sprites.JudgePerfect, 
+			comboAPNumberHeight / 2.0 + comboAPTextDistance + comboAPTextHeight, 
+			comboNumberHeight / 2.0 + comboTextDistance + comboTextHeight
+		) * scale + distance;
+		tmp = b;
+		WHILE (tmp) {
+			let v = tmp % 10;
+			let w = accuracyHeight * scale * Switch(v, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			});
+			Draw(Switch(status, {
+				{0, Sprites.ComboAP0 + v},
+				{1, Sprites.ComboFC0 + v},
+				{2, Sprites.ComboNormal0 + v}
+			}), R - w, T, R - w, T + accuracyHeight * scale, R, T + accuracyHeight * scale, R, T, 1e8, 1);
+			R = R - w - accuracyDistance;
+			tmp = Floor(tmp / 10);
+		} DONE
+		let pointWidth = pointHeight * SwitchInteger(status, { comboAPPointRatio, comboFCPointRatio, comboNormalPointRatio });
+		Draw(Switch(status, {
+			{0, Sprites.ComboAPPoint},
+			{1, Sprites.ComboFCPoint},
+			{2, Sprites.ComboNormalPoint}
+		}), L, T, L, T + pointHeight, L + pointWidth, T + pointHeight, L + pointWidth, T, 1e8, 1);
+		L = L + pointWidth + accuracyDistance / 2;
+		tmp = c;
+		FOR (i, 0, 4, 1) {
+			tmp = tmp * 10;
+			var v = Floor(tmp);
+			tmp = tmp - v;
+			let h = If(i >= 2, accuracyHeight2, accuracyHeight);
+			let w = h * scale * Switch(v, {
+				{0, SwitchInteger(status, { comboAP0Ratio, comboFC0Ratio, comboNormal0Ratio })},
+				{1, SwitchInteger(status, { comboAP1Ratio, comboFC1Ratio, comboNormal1Ratio })},
+				{2, SwitchInteger(status, { comboAP2Ratio, comboFC2Ratio, comboNormal2Ratio })},
+				{3, SwitchInteger(status, { comboAP3Ratio, comboFC3Ratio, comboNormal3Ratio })},
+				{4, SwitchInteger(status, { comboAP4Ratio, comboFC4Ratio, comboNormal4Ratio })},
+				{5, SwitchInteger(status, { comboAP5Ratio, comboFC5Ratio, comboNormal5Ratio })},
+				{6, SwitchInteger(status, { comboAP6Ratio, comboFC6Ratio, comboNormal6Ratio })},
+				{7, SwitchInteger(status, { comboAP7Ratio, comboFC7Ratio, comboNormal7Ratio })},
+				{8, SwitchInteger(status, { comboAP8Ratio, comboFC8Ratio, comboNormal8Ratio })},
+				{9, SwitchInteger(status, { comboAP9Ratio, comboFC9Ratio, comboNormal9Ratio })}
+			});
+			Draw(Switch(status, {
+				{0, Sprites.ComboAP0 + v},
+				{1, Sprites.ComboFC0 + v},
+				{2, Sprites.ComboNormal0 + v}
+			}), L, T, L, T + h * scale, L + w, T + h * scale, L + w, T, 1e8, 1);
+			L = L + w + If(i >= 1, accuracyDistance2, accuracyDistance);
+		} DONE
+		L = L - accuracyDistance2 / 2;
+		let percentWidth = percentHeight * SwitchInteger(status, { comboAPPercentRatio, comboFCPercentRatio, comboNormalPercentRatio });
+		Draw(Switch(status, {
+			{0, Sprites.ComboAPPercent},
+			{1, Sprites.ComboFCPercent},
+			{2, Sprites.ComboNormalPercent}
+		}), L, T, L, T + percentHeight, L + percentWidth, T + percentHeight, L + percentWidth, T, 1e8, 1);
+		return VOID;
+	}
+
     SonolusApi updateParallel() {
     	FUNCBEGIN
         Draw(Sprites.Stage, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 1, 1);
 	    Draw(Sprites.StageBackground, stage.l, stage.b, stage.l * highWidth, stage.t, stage.r * highWidth, stage.t, stage.r, stage.b, 2, opacity);
 		IF (LevelOption.get(Options.Hidden) != 0) drawHiddenLine(); FI
 		Draw(Sprites.Judgeline, judgline.lbX, judgline.lbY, judgline.ltX, judgline.ltY, judgline.rtX, judgline.rtY, judgline.rbX, judgline.rbY, 3, 1);
-		drawJudgeText();
-		drawCombo();
+		IF (!sonolusJudgment) drawJudgeText(); FI
+		IF (!sonolusCombo) drawCombo(); FI
+		IF (showAccuracy && HasSkinSprite(Sprites.ComboNormal0)) drawAccuracy(); FI
 		return VOID;
     }
 

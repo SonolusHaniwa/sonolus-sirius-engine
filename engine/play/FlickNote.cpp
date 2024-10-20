@@ -28,6 +28,8 @@ class FlickNote : public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		activate = 0;
 		played = false;
+		totalAccuracy = totalAccuracy + 1.01;
+		currentAccuracy = currentAccuracy + 1.01;
 		EntityInput.set(1, judgment.bad);
 		IF (autoSFX) PlayScheduled(Clips.Scratch, beat, minSFXDistance); FI
         return VOID;

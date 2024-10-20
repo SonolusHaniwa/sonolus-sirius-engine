@@ -23,6 +23,8 @@ class SiriusHoldEighth: public Archetype {
 		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
 		isHolding = false;
 		lastHoldTime = -1;
+		totalAccuracy = totalAccuracy + 1.01;
+		currentAccuracy = currentAccuracy + 1.01;
 		EntityInput.set(1, judgment.bad);
         return VOID;
     }

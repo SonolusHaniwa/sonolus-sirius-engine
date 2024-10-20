@@ -58,6 +58,8 @@ class SiriusHoldEnd: public Archetype {
 		playId = 0;
 		exportId = time1;
 		played = false;
+		totalAccuracy = totalAccuracy + 1.01;
+		currentAccuracy = currentAccuracy + 1.01;
 		EntityInput.set(1, judgment.bad);
 		IF (autoSFX) PlayScheduled(Clips.Perfect, beat, minSFXDistance); FI
         return VOID;
