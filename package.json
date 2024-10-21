@@ -41,7 +41,7 @@
   },
   "level": {
     "name": "sirius-test-114514",
-    "generate": "sus2data test.sus music_config.txt dist/LevelData",
+    "generate": "",
     "i18n": [
       {
         "localization": "default",
