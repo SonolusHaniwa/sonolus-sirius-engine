@@ -526,7 +526,7 @@ string fromSUS(string text) {
     auto lines = explode("\n", text.c_str());
     double ticks_per_beat = 480;
     vector<tuple<string, int, double, string> > mainData;
-    map<string, int> bpmList;
+    map<string, double> bpmList;
     double currentBpm = 120.0; double currentBeat = 2, currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
     double waveOffset = 0;
@@ -558,7 +558,7 @@ string fromSUS(string text) {
         string head = res[0], body = res[1];
         if (head.substr(0, 3) == "BPM") {
             string id = head.substr(3);
-            int bpm = atoi(body.c_str());
+            double bpm = atof(body.c_str());
             bpmList[id] = bpm;
             continue;
         }
