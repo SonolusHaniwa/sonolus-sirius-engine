@@ -525,9 +525,9 @@ int getLine(char x, char offset = '0', int offset2 = 0) {
 string fromSUS(string text) {
     auto lines = explode("\n", text.c_str());
     double ticks_per_beat = 480;
-    vector<tuple<string, int, int, string> > mainData;
+    vector<tuple<string, int, double, string> > mainData;
     map<string, int> bpmList;
-    int currentBpm = 120; double currentBeat = 2, currentTime = 0;
+    double currentBpm = 120.0; double currentBeat = 2, currentTime = 0;
     int currentSplitLine = 0, currentSplitLineType = 0; double currentSplitLineTime = 0;
     double waveOffset = 0;
     for (int i = 0; i < lines.size(); i++) {
@@ -620,7 +620,7 @@ string fromSUS(string text) {
 	                    case 1: tmp2[0] = "00" + tmp2[0]; break;
 	                    case 2: tmp2[0] = "0" + tmp2[0]; break;
 	                }
-	                mainData.push_back({tmp2[0] + "SL", atoi(tmp2[1].c_str()), 1920, type});
+	                mainData.push_back({tmp2[0] + "SL", atoi(tmp2[1].c_str()), 1920.0, type});
 	            }
 	            continue;
 	        } else if (head.substr(3, 2) == "00") {
@@ -641,24 +641,24 @@ string fromSUS(string text) {
 	                    case 1: tmp2[0] = "00" + tmp2[0]; break;
 	                    case 2: tmp2[0] = "0" + tmp2[0]; break;
 	                }
-	                mainData.push_back({tmp2[0] + "HS", atoi(tmp2[1].c_str()), 1920, type});
+	                mainData.push_back({tmp2[0] + "HS", atoi(tmp2[1].c_str()), 1920.0, type});
 	            }
 	            continue;
 	        }
         }
         if (head.substr(3, 2) == "02") { // 处理变拍事件
-            mainData.push_back({head, 0, 1, body});
+            mainData.push_back({head, 0, 1.0, body});
             continue;
         }
         for (int j = 0; j < body.size(); j += 2) if (body.substr(j, 2) != "00")
-            mainData.push_back({head, j / 2, max(1, int(body.size()) / 2), body.substr(j, 2)});
+            mainData.push_back({head, j / 2, max(1, int(body.size()) / 2) * 1.0, body.substr(j, 2)});
     }
 
     // 音符排序
     // cout << mainData.size() << endl;
     sort(mainData.begin(), mainData.end(), [](
-        tuple<string, int, int, string> a, 
-        tuple<string, int, int, string> b){
+        tuple<string, int, double, string> a, 
+        tuple<string, int, double, string> b){
         int a1 = atoi(get<0>(a).substr(0, 3).c_str());
         int b1 = atoi(get<0>(b).substr(0, 3).c_str());
         int a2 = get<1>(a), b2 = get<1>(b);
@@ -670,16 +670,16 @@ string fromSUS(string text) {
     });
 
     // 处理主数据
-    stringstream txt; map<double, vector<tuple<string, int, int, string> > > noteList[13][13];
+    stringstream txt; map<double, vector<tuple<string, int, double, string> > > noteList[13][13];
     for (int i = 0; i < mainData.size(); i++) {
-        if (i == 0) addTime(currentTime, currentBpm, currentBeat, {"00000", 0, 1, "00"}, mainData[i]);
+        if (i == 0) addTime(currentTime, currentBpm, currentBeat, {"00000", 0, 1.0, "00"}, mainData[i]);
         else addTime(currentTime, currentBpm, currentBeat, mainData[i - 1], mainData[i]);
         string head = get<0>(mainData[i]), body = get<3>(mainData[i]);
         int beat = atoi(head.substr(0, 3).c_str());
         string prop = head.substr(3);
         if (prop == "08") { // BPM Change
             if (get<3>(mainData[i]) == "00") continue;
-            int bpm = bpmList[get<3>(mainData[i])];
+            double bpm = bpmList[get<3>(mainData[i])];
             currentBpm = bpm;
         } else if (prop == "02") { // Beat Change 
             double beat = atof(get<3>(mainData[i]).c_str());
