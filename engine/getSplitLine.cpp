@@ -184,6 +184,7 @@ SonolusApi getSplitLine(let id) {
 		{11121, setSplitLine({Sprites.SplitLine_11121})},
 		{11122, setSplitLine({Sprites.SplitLine_11122})},
 		{11130, setSplitLine({Sprites.SplitLine_11130})},
+		{11140, setSplitLine({Sprites.SplitLine_11140})},
 		{11150, setSplitLine({Sprites.SplitLine_11150})},
 		{11151, setSplitLine({Sprites.SplitLine_11151, Sprites.SplitLine_11151_1})},
 		{11160, setSplitLine({Sprites.SplitLine_11160})},
@@ -191,6 +192,14 @@ SonolusApi getSplitLine(let id) {
 		{11180, setSplitLine({Sprites.SplitLine_11180})},
 		{11190, setSplitLine({Sprites.SplitLine_11190})},
 		{11200, setSplitLine({Sprites.SplitLine_11200})},
+		{11210, setSplitLine({Sprites.SplitLine_11210})},
+		{11211, setSplitLine({Sprites.SplitLine_11211})},
+		{11212, setSplitLine({Sprites.SplitLine_11212})},
+		{11220, setSplitLine({Sprites.SplitLine_11220})},
+		{11230, setSplitLine({Sprites.SplitLine_11230})},
+		{11240, setSplitLine({Sprites.SplitLine_11240})},
+		{11250, setSplitLine({Sprites.SplitLine_11250})},
+		{11260, setSplitLine({Sprites.SplitLine_11260})},
 	}));
 	return VOID;
 }
