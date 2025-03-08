@@ -712,84 +712,177 @@ class Sprites {
 	int SplitLine_11041_7 = 706;
 	int SplitLineTrans1_11041_7 = 707;
 	int SplitLineTrans2_11041_7 = 708;
-	int SplitLine_11070 = 709;
-	int SplitLineTrans1_11070 = 710;
-	int SplitLineTrans2_11070 = 711;
-	int SplitLine_11080 = 712;
-	int SplitLineTrans1_11080 = 713;
-	int SplitLineTrans2_11080 = 714;
-	int SplitLine_2 = 715;
-	int SplitLineTrans1_2 = 716;
-	int SplitLineTrans2_2 = 717;
-	int SplitLine_2010 = 718;
-	int SplitLineTrans1_2010 = 719;
-	int SplitLineTrans2_2010 = 720;
-	int SplitLine_2020 = 721;
-	int SplitLineTrans1_2020 = 722;
-	int SplitLineTrans2_2020 = 723;
-	int SplitLine_2030 = 724;
-	int SplitLineTrans1_2030 = 725;
-	int SplitLineTrans2_2030 = 726;
-	int SplitLine_2040a = 727;
-	int SplitLineTrans1_2040a = 728;
-	int SplitLineTrans2_2040a = 729;
-	int SplitLine_2040b = 730;
-	int SplitLineTrans1_2040b = 731;
-	int SplitLineTrans2_2040b = 732;
-	int SplitLine_2050 = 733;
-	int SplitLineTrans1_2050 = 734;
-	int SplitLineTrans2_2050 = 735;
-	int SplitLine_3 = 736;
-	int SplitLineTrans1_3 = 737;
-	int SplitLineTrans2_3 = 738;
-	int SplitLine_3010 = 739;
-	int SplitLineTrans1_3010 = 740;
-	int SplitLineTrans2_3010 = 741;
-	int SplitLine_3020 = 742;
-	int SplitLineTrans1_3020 = 743;
-	int SplitLineTrans2_3020 = 744;
-	int SplitLine_3030 = 745;
-	int SplitLineTrans1_3030 = 746;
-	int SplitLineTrans2_3030 = 747;
-	int SplitLine_3040 = 748;
-	int SplitLineTrans1_3040 = 749;
-	int SplitLineTrans2_3040 = 750;
-	int SplitLine_3050 = 751;
-	int SplitLineTrans1_3050 = 752;
-	int SplitLineTrans2_3050 = 753;
-	int SplitLine_4 = 754;
-	int SplitLineTrans1_4 = 755;
-	int SplitLineTrans2_4 = 756;
-	int SplitLine_4010 = 757;
-	int SplitLineTrans1_4010 = 758;
-	int SplitLineTrans2_4010 = 759;
-	int SplitLine_4020 = 760;
-	int SplitLineTrans1_4020 = 761;
-	int SplitLineTrans2_4020 = 762;
-	int SplitLine_4030 = 763;
-	int SplitLineTrans1_4030 = 764;
-	int SplitLineTrans2_4030 = 765;
-	int SplitLine_4040 = 766;
-	int SplitLineTrans1_4040 = 767;
-	int SplitLineTrans2_4040 = 768;
-	int SplitLine_4050 = 769;
-	int SplitLineTrans1_4050 = 770;
-	int SplitLineTrans2_4050 = 771;
-	int SplitLine_5 = 772;
-	int SplitLineTrans1_5 = 773;
-	int SplitLineTrans2_5 = 774;
-	int SplitLine_6 = 775;
-	int SplitLineTrans1_6 = 776;
-	int SplitLineTrans2_6 = 777;
-	int SplitLine_7 = 778;
-	int SplitLineTrans1_7 = 779;
-	int SplitLineTrans2_7 = 780;
-	int SplitLine_8 = 781;
-	int SplitLineTrans1_8 = 782;
-	int SplitLineTrans2_8 = 783;
-	int SplitLine_9 = 784;
-	int SplitLineTrans1_9 = 785;
-	int SplitLineTrans2_9 = 786;
+	int SplitLine_11050 = 709;
+	int SplitLineTrans1_11050 = 710;
+	int SplitLineTrans2_11050 = 711;
+	int SplitLine_11060 = 712;
+	int SplitLineTrans1_11060 = 713;
+	int SplitLineTrans2_11060 = 714;
+	int SplitLine_11070 = 715;
+	int SplitLineTrans1_11070 = 716;
+	int SplitLineTrans2_11070 = 717;
+	int SplitLine_11080 = 718;
+	int SplitLineTrans1_11080 = 719;
+	int SplitLineTrans2_11080 = 720;
+	int SplitLine_11090_1 = 721;
+	int SplitLineTrans1_11090_1 = 722;
+	int SplitLineTrans2_11090_1 = 723;
+	int SplitLine_11090_2 = 724;
+	int SplitLineTrans1_11090_2 = 725;
+	int SplitLineTrans2_11090_2 = 726;
+	int SplitLine_11091 = 727;
+	int SplitLineTrans1_11091 = 728;
+	int SplitLineTrans2_11091 = 729;
+	int SplitLine_11100 = 730;
+	int SplitLineTrans1_11100 = 731;
+	int SplitLineTrans2_11100 = 732;
+	int SplitLine_11110 = 733;
+	int SplitLineTrans1_11110 = 734;
+	int SplitLineTrans2_11110 = 735;
+	int SplitLine_11111 = 736;
+	int SplitLineTrans1_11111 = 737;
+	int SplitLineTrans2_11111 = 738;
+	int SplitLine_11120 = 739;
+	int SplitLineTrans1_11120 = 740;
+	int SplitLineTrans2_11120 = 741;
+	int SplitLine_11121 = 742;
+	int SplitLineTrans1_11121 = 743;
+	int SplitLineTrans2_11121 = 744;
+	int SplitLine_11122 = 745;
+	int SplitLineTrans1_11122 = 746;
+	int SplitLineTrans2_11122 = 747;
+	int SplitLine_11130 = 748;
+	int SplitLineTrans1_11130 = 749;
+	int SplitLineTrans2_11130 = 750;
+	int SplitLine_11140 = 751;
+	int SplitLineTrans1_11140 = 752;
+	int SplitLineTrans2_11140 = 753;
+	int SplitLine_11150 = 754;
+	int SplitLineTrans1_11150 = 755;
+	int SplitLineTrans2_11150 = 756;
+	int SplitLine_11151 = 757;
+	int SplitLineTrans1_11151 = 758;
+	int SplitLineTrans2_11151 = 759;
+	int SplitLine_11151_1 = 760;
+	int SplitLineTrans1_11151_1 = 761;
+	int SplitLineTrans2_11151_1 = 762;
+	int SplitLine_11160 = 763;
+	int SplitLineTrans1_11160 = 764;
+	int SplitLineTrans2_11160 = 765;
+	int SplitLine_11170 = 766;
+	int SplitLineTrans1_11170 = 767;
+	int SplitLineTrans2_11170 = 768;
+	int SplitLine_11180 = 769;
+	int SplitLineTrans1_11180 = 770;
+	int SplitLineTrans2_11180 = 771;
+	int SplitLine_11190 = 772;
+	int SplitLineTrans1_11190 = 773;
+	int SplitLineTrans2_11190 = 774;
+	int SplitLine_11200 = 775;
+	int SplitLineTrans1_11200 = 776;
+	int SplitLineTrans2_11200 = 777;
+	int SplitLine_11210 = 778;
+	int SplitLineTrans1_11210 = 779;
+	int SplitLineTrans2_11210 = 780;
+	int SplitLine_11211 = 781;
+	int SplitLineTrans1_11211 = 782;
+	int SplitLineTrans2_11211 = 783;
+	int SplitLine_11212 = 784;
+	int SplitLineTrans1_11212 = 785;
+	int SplitLineTrans2_11212 = 786;
+	int SplitLine_11220 = 787;
+	int SplitLineTrans1_11220 = 788;
+	int SplitLineTrans2_11220 = 789;
+	int SplitLine_11230 = 790;
+	int SplitLineTrans1_11230 = 791;
+	int SplitLineTrans2_11230 = 792;
+	int SplitLine_11240 = 793;
+	int SplitLineTrans1_11240 = 794;
+	int SplitLineTrans2_11240 = 795;
+	int SplitLine_11250 = 796;
+	int SplitLineTrans1_11250 = 797;
+	int SplitLineTrans2_11250 = 798;
+	int SplitLine_11260 = 799;
+	int SplitLineTrans1_11260 = 800;
+	int SplitLineTrans2_11260 = 801;
+	int SplitLine_11270 = 802;
+	int SplitLineTrans1_11270 = 803;
+	int SplitLineTrans2_11270 = 804;
+	int SplitLine_11300 = 805;
+	int SplitLineTrans1_11300 = 806;
+	int SplitLineTrans2_11300 = 807;
+	int SplitLine_2 = 808;
+	int SplitLineTrans1_2 = 809;
+	int SplitLineTrans2_2 = 810;
+	int SplitLine_2010 = 811;
+	int SplitLineTrans1_2010 = 812;
+	int SplitLineTrans2_2010 = 813;
+	int SplitLine_2020 = 814;
+	int SplitLineTrans1_2020 = 815;
+	int SplitLineTrans2_2020 = 816;
+	int SplitLine_2030 = 817;
+	int SplitLineTrans1_2030 = 818;
+	int SplitLineTrans2_2030 = 819;
+	int SplitLine_2040a = 820;
+	int SplitLineTrans1_2040a = 821;
+	int SplitLineTrans2_2040a = 822;
+	int SplitLine_2040b = 823;
+	int SplitLineTrans1_2040b = 824;
+	int SplitLineTrans2_2040b = 825;
+	int SplitLine_2050 = 826;
+	int SplitLineTrans1_2050 = 827;
+	int SplitLineTrans2_2050 = 828;
+	int SplitLine_3 = 829;
+	int SplitLineTrans1_3 = 830;
+	int SplitLineTrans2_3 = 831;
+	int SplitLine_3010 = 832;
+	int SplitLineTrans1_3010 = 833;
+	int SplitLineTrans2_3010 = 834;
+	int SplitLine_3020 = 835;
+	int SplitLineTrans1_3020 = 836;
+	int SplitLineTrans2_3020 = 837;
+	int SplitLine_3030 = 838;
+	int SplitLineTrans1_3030 = 839;
+	int SplitLineTrans2_3030 = 840;
+	int SplitLine_3040 = 841;
+	int SplitLineTrans1_3040 = 842;
+	int SplitLineTrans2_3040 = 843;
+	int SplitLine_3050 = 844;
+	int SplitLineTrans1_3050 = 845;
+	int SplitLineTrans2_3050 = 846;
+	int SplitLine_4 = 847;
+	int SplitLineTrans1_4 = 848;
+	int SplitLineTrans2_4 = 849;
+	int SplitLine_4010 = 850;
+	int SplitLineTrans1_4010 = 851;
+	int SplitLineTrans2_4010 = 852;
+	int SplitLine_4020 = 853;
+	int SplitLineTrans1_4020 = 854;
+	int SplitLineTrans2_4020 = 855;
+	int SplitLine_4030 = 856;
+	int SplitLineTrans1_4030 = 857;
+	int SplitLineTrans2_4030 = 858;
+	int SplitLine_4040 = 859;
+	int SplitLineTrans1_4040 = 860;
+	int SplitLineTrans2_4040 = 861;
+	int SplitLine_4050 = 862;
+	int SplitLineTrans1_4050 = 863;
+	int SplitLineTrans2_4050 = 864;
+	int SplitLine_5 = 865;
+	int SplitLineTrans1_5 = 866;
+	int SplitLineTrans2_5 = 867;
+	int SplitLine_6 = 868;
+	int SplitLineTrans1_6 = 869;
+	int SplitLineTrans2_6 = 870;
+	int SplitLine_7 = 871;
+	int SplitLineTrans1_7 = 872;
+	int SplitLineTrans2_7 = 873;
+	int SplitLine_8 = 874;
+	int SplitLineTrans1_8 = 875;
+	int SplitLineTrans2_8 = 876;
+	int SplitLine_9 = 877;
+	int SplitLineTrans1_9 = 878;
+	int SplitLineTrans2_9 = 879;
 }Sprites;
 
 auto skins = defineSkins<class Sprites>({
@@ -1502,12 +1595,105 @@ auto skins = defineSkins<class Sprites>({
 	{"Sirius Split Line #11041_7", Sprites.SplitLine_11041_7},
 	{"Sirius Split Line Transform 1 #11041_7", Sprites.SplitLineTrans1_11041_7},
 	{"Sirius Split Line Transform 2 #11041_7", Sprites.SplitLineTrans2_11041_7},
+	{"Sirius Split Line #11050", Sprites.SplitLine_11050},
+	{"Sirius Split Line Transform 1 #11050", Sprites.SplitLineTrans1_11050},
+	{"Sirius Split Line Transform 2 #11050", Sprites.SplitLineTrans2_11050},
+	{"Sirius Split Line #11060", Sprites.SplitLine_11060},
+	{"Sirius Split Line Transform 1 #11060", Sprites.SplitLineTrans1_11060},
+	{"Sirius Split Line Transform 2 #11060", Sprites.SplitLineTrans2_11060},
 	{"Sirius Split Line #11070", Sprites.SplitLine_11070},
 	{"Sirius Split Line Transform 1 #11070", Sprites.SplitLineTrans1_11070},
 	{"Sirius Split Line Transform 2 #11070", Sprites.SplitLineTrans2_11070},
 	{"Sirius Split Line #11080", Sprites.SplitLine_11080},
 	{"Sirius Split Line Transform 1 #11080", Sprites.SplitLineTrans1_11080},
 	{"Sirius Split Line Transform 2 #11080", Sprites.SplitLineTrans2_11080},
+	{"Sirius Split Line #11090_1", Sprites.SplitLine_11090_1},
+	{"Sirius Split Line Transform 1 #11090_1", Sprites.SplitLineTrans1_11090_1},
+	{"Sirius Split Line Transform 2 #11090_1", Sprites.SplitLineTrans2_11090_1},
+	{"Sirius Split Line #11090_2", Sprites.SplitLine_11090_2},
+	{"Sirius Split Line Transform 1 #11090_2", Sprites.SplitLineTrans1_11090_2},
+	{"Sirius Split Line Transform 2 #11090_2", Sprites.SplitLineTrans2_11090_2},
+	{"Sirius Split Line #11091", Sprites.SplitLine_11091},
+	{"Sirius Split Line Transform 1 #11091", Sprites.SplitLineTrans1_11091},
+	{"Sirius Split Line Transform 2 #11091", Sprites.SplitLineTrans2_11091},
+	{"Sirius Split Line #11100", Sprites.SplitLine_11100},
+	{"Sirius Split Line Transform 1 #11100", Sprites.SplitLineTrans1_11100},
+	{"Sirius Split Line Transform 2 #11100", Sprites.SplitLineTrans2_11100},
+	{"Sirius Split Line #11110", Sprites.SplitLine_11110},
+	{"Sirius Split Line Transform 1 #11110", Sprites.SplitLineTrans1_11110},
+	{"Sirius Split Line Transform 2 #11110", Sprites.SplitLineTrans2_11110},
+	{"Sirius Split Line #11111", Sprites.SplitLine_11111},
+	{"Sirius Split Line Transform 1 #11111", Sprites.SplitLineTrans1_11111},
+	{"Sirius Split Line Transform 2 #11111", Sprites.SplitLineTrans2_11111},
+	{"Sirius Split Line #11120", Sprites.SplitLine_11120},
+	{"Sirius Split Line Transform 1 #11120", Sprites.SplitLineTrans1_11120},
+	{"Sirius Split Line Transform 2 #11120", Sprites.SplitLineTrans2_11120},
+	{"Sirius Split Line #11121", Sprites.SplitLine_11121},
+	{"Sirius Split Line Transform 1 #11121", Sprites.SplitLineTrans1_11121},
+	{"Sirius Split Line Transform 2 #11121", Sprites.SplitLineTrans2_11121},
+	{"Sirius Split Line #11122", Sprites.SplitLine_11122},
+	{"Sirius Split Line Transform 1 #11122", Sprites.SplitLineTrans1_11122},
+	{"Sirius Split Line Transform 2 #11122", Sprites.SplitLineTrans2_11122},
+	{"Sirius Split Line #11130", Sprites.SplitLine_11130},
+	{"Sirius Split Line Transform 1 #11130", Sprites.SplitLineTrans1_11130},
+	{"Sirius Split Line Transform 2 #11130", Sprites.SplitLineTrans2_11130},
+	{"Sirius Split Line #11140", Sprites.SplitLine_11140},
+	{"Sirius Split Line Transform 1 #11140", Sprites.SplitLineTrans1_11140},
+	{"Sirius Split Line Transform 2 #11140", Sprites.SplitLineTrans2_11140},
+	{"Sirius Split Line #11150", Sprites.SplitLine_11150},
+	{"Sirius Split Line Transform 1 #11150", Sprites.SplitLineTrans1_11150},
+	{"Sirius Split Line Transform 2 #11150", Sprites.SplitLineTrans2_11150},
+	{"Sirius Split Line #11151", Sprites.SplitLine_11151},
+	{"Sirius Split Line Transform 1 #11151", Sprites.SplitLineTrans1_11151},
+	{"Sirius Split Line Transform 2 #11151", Sprites.SplitLineTrans2_11151},
+	{"Sirius Split Line #11151_1", Sprites.SplitLine_11151_1},
+	{"Sirius Split Line Transform 1 #11151_1", Sprites.SplitLineTrans1_11151_1},
+	{"Sirius Split Line Transform 2 #11151_1", Sprites.SplitLineTrans2_11151_1},
+	{"Sirius Split Line #11160", Sprites.SplitLine_11160},
+	{"Sirius Split Line Transform 1 #11160", Sprites.SplitLineTrans1_11160},
+	{"Sirius Split Line Transform 2 #11160", Sprites.SplitLineTrans2_11160},
+	{"Sirius Split Line #11170", Sprites.SplitLine_11170},
+	{"Sirius Split Line Transform 1 #11170", Sprites.SplitLineTrans1_11170},
+	{"Sirius Split Line Transform 2 #11170", Sprites.SplitLineTrans2_11170},
+	{"Sirius Split Line #11180", Sprites.SplitLine_11180},
+	{"Sirius Split Line Transform 1 #11180", Sprites.SplitLineTrans1_11180},
+	{"Sirius Split Line Transform 2 #11180", Sprites.SplitLineTrans2_11180},
+	{"Sirius Split Line #11190", Sprites.SplitLine_11190},
+	{"Sirius Split Line Transform 1 #11190", Sprites.SplitLineTrans1_11190},
+	{"Sirius Split Line Transform 2 #11190", Sprites.SplitLineTrans2_11190},
+	{"Sirius Split Line #11200", Sprites.SplitLine_11200},
+	{"Sirius Split Line Transform 1 #11200", Sprites.SplitLineTrans1_11200},
+	{"Sirius Split Line Transform 2 #11200", Sprites.SplitLineTrans2_11200},
+	{"Sirius Split Line #11210", Sprites.SplitLine_11210},
+	{"Sirius Split Line Transform 1 #11210", Sprites.SplitLineTrans1_11210},
+	{"Sirius Split Line Transform 2 #11210", Sprites.SplitLineTrans2_11210},
+	{"Sirius Split Line #11211", Sprites.SplitLine_11211},
+	{"Sirius Split Line Transform 1 #11211", Sprites.SplitLineTrans1_11211},
+	{"Sirius Split Line Transform 2 #11211", Sprites.SplitLineTrans2_11211},
+	{"Sirius Split Line #11212", Sprites.SplitLine_11212},
+	{"Sirius Split Line Transform 1 #11212", Sprites.SplitLineTrans1_11212},
+	{"Sirius Split Line Transform 2 #11212", Sprites.SplitLineTrans2_11212},
+	{"Sirius Split Line #11220", Sprites.SplitLine_11220},
+	{"Sirius Split Line Transform 1 #11220", Sprites.SplitLineTrans1_11220},
+	{"Sirius Split Line Transform 2 #11220", Sprites.SplitLineTrans2_11220},
+	{"Sirius Split Line #11230", Sprites.SplitLine_11230},
+	{"Sirius Split Line Transform 1 #11230", Sprites.SplitLineTrans1_11230},
+	{"Sirius Split Line Transform 2 #11230", Sprites.SplitLineTrans2_11230},
+	{"Sirius Split Line #11240", Sprites.SplitLine_11240},
+	{"Sirius Split Line Transform 1 #11240", Sprites.SplitLineTrans1_11240},
+	{"Sirius Split Line Transform 2 #11240", Sprites.SplitLineTrans2_11240},
+	{"Sirius Split Line #11250", Sprites.SplitLine_11250},
+	{"Sirius Split Line Transform 1 #11250", Sprites.SplitLineTrans1_11250},
+	{"Sirius Split Line Transform 2 #11250", Sprites.SplitLineTrans2_11250},
+	{"Sirius Split Line #11260", Sprites.SplitLine_11260},
+	{"Sirius Split Line Transform 1 #11260", Sprites.SplitLineTrans1_11260},
+	{"Sirius Split Line Transform 2 #11260", Sprites.SplitLineTrans2_11260},
+	{"Sirius Split Line #11270", Sprites.SplitLine_11270},
+	{"Sirius Split Line Transform 1 #11270", Sprites.SplitLineTrans1_11270},
+	{"Sirius Split Line Transform 2 #11270", Sprites.SplitLineTrans2_11270},
+	{"Sirius Split Line #11300", Sprites.SplitLine_11300},
+	{"Sirius Split Line Transform 1 #11300", Sprites.SplitLineTrans1_11300},
+	{"Sirius Split Line Transform 2 #11300", Sprites.SplitLineTrans2_11300},
 	{"Sirius Split Line #2", Sprites.SplitLine_2},
 	{"Sirius Split Line Transform 1 #2", Sprites.SplitLineTrans1_2},
 	{"Sirius Split Line Transform 2 #2", Sprites.SplitLineTrans2_2},

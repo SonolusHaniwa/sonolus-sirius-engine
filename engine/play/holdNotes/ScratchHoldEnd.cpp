@@ -131,7 +131,7 @@ class SiriusScratchHoldEnd: public Archetype {
 		IF (times.now < inputTimeMin) Return(0); FI
 		IF (times.now > inputTimeMax) complete(lastHoldTime); FI
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, inputTimeMin); FI
-		isHolding = findFlickTouch(lane, enLane) != -1;
+		isHolding = findFlickTouch(scratchLane, scratchEnLane) != -1;
 		IF (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now); FI
 		IF (times.now >= beat && lastHoldTime > inputTimeMin) complete(lastHoldTime); FI
 		return VOID;
