@@ -1,26 +1,22 @@
 class SplitLine: public Archetype {
     public:
 
-    static constexpr const char* name = "Sirius Split Line";
+    string name = "Sirius Split Line";
 
-	defineImports(beat);
-	defineImports(endBeat);
-	defineImports(split);
-	defineImports(color);
+	defineImport(beat);
+	defineImport(endBeat);
+	defineImport(split);
+	defineImport(color);
 
 	SonolusApi preprocess() {
-		FUNCBEGIN
-		duration = Max(duration.get(), beat);
-		return VOID;
+		duration = Max(duration, beat);
 	}
 
 	SonolusApi render() {
-		FUNCBEGIN
-		IF (split < 1 || split > 6) Return(0); FI
+		if (split < 1 || split > 6) return;
 		getSplitLine(color);
-		drawPreviewSplitLine(beat - splitLineAnimationStart, beat, 1, split);
-		drawPreviewSplitLine(beat, endBeat, 0, split);
-		drawPreviewSplitLine(endBeat, endBeat + splitLineAnimationEnd, 2, split);
-		return VOID;
+		drawSplitLine(beat - splitLineAnimationStart, beat, 1, split);
+		drawSplitLine(beat, endBeat, 0, split);
+		drawSplitLine(endBeat, endBeat + splitLineAnimationEnd, 2, split);
 	}
 };

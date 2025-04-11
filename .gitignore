@@ -1,12 +1,5 @@
-dist/*
-!dist/thumbnail.jpg
-!dist/banner.jpg
-!dist/EngineTutorialData
-emsdk
+decompiler
+dist
 main
-.vscode
-*.sus
-music_config.txt
-LevelData
-libsirius*
-*.txt
+compiler/*
+!compiler/main

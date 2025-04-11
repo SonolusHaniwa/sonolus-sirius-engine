@@ -1,24 +1,23 @@
-Map<LevelMemoryId, let, let> disallowEmptiesNow(16);
-Map<LevelMemoryId, let, let> disallowEmptiesOld(16);
+Map<var, var, 16> disallowEmptiesNow, disallowEmptiesOld;
 
 class ClaimManager {
 	public:
 	
 	class ClaimInfo {
-		CLASSBEGIN
+        public:
 
-		defineVar(let, index, 0);
-		defineVar(let, time, 0);
-		defineVar(Rect, hitbox, Rect());
-		defineVar(Rect, fullHitbox, Rect());
+        var index = 0;
+        var time = 0;
+        Rect hitbox = Rect();
+        Rect fullHitbox = Rect();
 	};
 
-	Map<LevelMemoryId, let, let> claimed = Map<LevelMemoryId, let, let>(16);
+    Map<var, var, 16> claimed;
 
-	ClaimInfo getInfo(let id) {
-		let time = EntityDataArray[id].get(0);
-		let lane = EntityDataArray[id].get(1);
-		let enLane = EntityDataArray[id].get(2) + lane - 1;
+	ClaimInfo getInfo(var id) {
+		var time = EntityDataArray[id].generic[0];
+		var lane = EntityDataArray[id].generic[1];
+		var enLane = EntityDataArray[id].generic[2] + lane - 1;
 		return {
 			index: id,
 			time: time,
@@ -27,122 +26,123 @@ class ClaimManager {
 		};
 	}
 
-	SonolusApi findBestTouchIndex(let index) {
-		FUNCBEGIN
+	SonolusApi findBestTouchIndex(var index) {
 		ClaimInfo origin = getInfo(index);
-		let x = (origin.hitbox.l + origin.hitbox.r) / 2;
+		var x = (origin.hitbox.l + origin.hitbox.r) / 2;
 		var res = -1, minDis = 1e9;
-		FOR (i, 0, touches.size, 1) {
-			IF (touches[i].started == 0) CONTINUE; FI
+        for (var i = 0; i < touchCount; i++) {
+			if (touches[i].started == 0) continue;
 			// Debuglog(origin.fullHitbox.l); Debuglog(origin.fullHitbox.r);
-			IF (origin.fullHitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
-			// IF (EntityDataArray[index].get(1) == 4 && EntityDataArray[index].get(2) == 3) 
+			if (origin.fullHitbox.contains({ touches[i].x, touches[i].y }) == 0) continue;
+			// if (EntityDataArray[index].get(1) == 4 && EntityDataArray[index].get(2) == 3) 
 			// Debuglog(origin.fullHitbox.l);
 			// Debuglog(origin.fullHitbox.r);
-			// DebugPause(); FI
+			// DebugPause();
 
-			let dis = Abs(touches[i].x - x);
-			IF (res != -1 && minDis <= dis) CONTINUE; FI
+			var dis = Abs(touches[i].x - x);
+			if (EntityInfo.index == 90 || EntityInfo.index == 91) {
+				DebugLog(touches[i].id);
+				DebugLog(touches[i].x);
+				DebugLog(touches[i].y);
+				DebugLog(dis);
+			}
+			if (res != -1 && minDis <= dis) continue;
 
-			let claimIndex = claimed.indexOf(touches[i].id);
-			IF (claimIndex == -1) {
+			var claimIndex = claimed.indexOf(touches[i].id);
+			if (claimIndex == -1) {
 				res = touches[i].id; minDis = dis;
-				CONTINUE;
-			} FI
+				continue;
+			}
 
-			ClaimInfo claim = getInfo(claimed.getValById(claimIndex));
-			IF (origin.time > claim.time) CONTINUE; FI
-			IF (origin.time < claim.time) {
+			ClaimInfo claim = getInfo(claimed.getValue(claimIndex));
+			if (origin.time > claim.time) continue;
+			// DebugLog(1919810);
+			if (origin.time < claim.time) {
 				res = touches[i].id; minDis = dis;
-				CONTINUE;
-			} FI
+				continue;
+			}
+			// if (EntityInfo.index == 91) {
+			// 	DebugLog(claim.hitbox.contains({ touches[i].x, touches[i].y }));
+			// 	DebugLog(origin.hitbox.contains({ touches[i].x, touches[i].y }));
+			// }
          
-			IF (claim.hitbox.contain(touches[i].x, touches[i].y) == 1) CONTINUE; FI
-			IF (origin.hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+			if (claim.hitbox.contains({ touches[i].x, touches[i].y }) == 1) continue;
+			if (origin.hitbox.contains({ touches[i].x, touches[i].y }) == 0) continue;
 			res = touches[i].id; minDis = dis;
-		} DONE
-		Return(res);
-		return VAR;
+		}
+        return res;
 	}
 
-	SonolusApi claim(let index) {
-		FUNCBEGIN
+	SonolusApi claim(var index) {
 		var currentId = index;
 		ClaimInfo info = getInfo(currentId);
-		WHILE (true) {
+		while (true) {
 			var touchIndex = findBestTouchIndex(currentId);
-			IF (touchIndex == -1) BREAK; FI
+			if (touchIndex == -1) break;
 			disallowEmptiesNow.set(touchIndex, 1);
+			// DebugLog(index); DebugLog(touchIndex);
+			// DebugLog(disallowEmptiesNow[touchIndex]);
 			
-			let claimIndex = claimed.indexOf(touchIndex);
+			var claimIndex = claimed.indexOf(touchIndex);
 			// Debuglog(info.fullHitbox.l); Debuglog(info.fullHitbox.r);
 			// Debuglog(touchIndex); Debuglog(info.index); Debuglog(info.time); Debuglog(claimIndex);
-			IF (claimIndex == -1) {
+			if (claimIndex == -1) {
 				claimed.set(touchIndex, currentId); 
 				// Debuglog(claimed.indexOf(touchIndex));
 				// Debuglog(claimed.size);
-				BREAK;
-			} FI
+				break;
+			}
 
 			// ClaimInfo replaced = getInfo(cldaimIndex)
 			// Debuglog(claimed.indexOf(touchIndex));
 			var tmp = currentId;
-			currentId = claimed.getValById(claimIndex);
+			currentId = claimed[touchIndex];
 			// Debuglog(claimed.indexOf(touchIndex));
-			claimed.set(touchIndex, tmp);
+			claimed[touchIndex] = tmp;
 			// DebugPause();
 			// claimed.val.set(claimIndex, tmp);
 			// Debuglog(touchIndex);
 			// Debuglog(claimed.getValById(claimIndex));
-			// IF (claimed.getValById(claimIndex) != tmp) DebugPause(); FI
+			// if (claimed.getValById(claimIndex) != tmp) DebugPause();
 			// Debuglog(claimed.size);
-		} DONE
-		return VOID;
+		}
 	}
 
-	SonolusApi getClaimedTouchIndex(let index) {
-		FUNCBEGIN
-		FOR (i, 0, claimed.size, 1) {
-			IF (claimed.getValById(i) == index) 
+	SonolusApi getClaimedTouchIndex(var index) {
+        for (var i = 0; i < claimed.count; i++) {
+			if (claimed.getValue(i) == index) return claimed.getKey(i);
 				// Debuglog(claimed.getValById(i)); Debuglog(index); Debuglog(i); 
-				Return(claimed.getKeyById(i)); FI
-		} DONE 
-		Return(-1);
-		return VAR;
+				// Return(claimed.getKeyById(i));
+		} 
+        return -1;
 	}
 
-	SonolusApi clear() {
-		FUNCBEGIN
+	Blocked SonolusApi clear() {
 		claimed.clear();
-		return VOID;
 	}
 };
 
 ClaimManager claimStartManager = ClaimManager();
-SonolusApi claimStart(let index) {
-	FUNCBEGIN
+SonolusApi claimStart(var index) {
 	claimStartManager.claim(index);
-	return VOID;
 }
-SonolusApi getClaimedStart(let index) {
-	FUNCBEGIN
-	Return(claimStartManager.getClaimedTouchIndex(index));
-	return VAR;
+SonolusApi getClaimedStart(var index) {
+	return claimStartManager.getClaimedTouchIndex(index);
 }
 
-// Map<LevelMemoryId, let, let> disabledList(16);
+// Map<LevelMemoryId, var, var> disabledList(16);
 
-// SonolusApi getTouch(let lane, let enLane) {
+// SonolusApi getTouch(var lane, var enLane) {
 // 	FUNCBEGIN
 // 	Rect hitbox = getFullHitbox(lane, enLane);
-// 	let x = (hitbox.l + hitbox.r) / 2;
+// 	var x = (hitbox.l + hitbox.r) / 2;
 // 	var id = -1, minDis = 9999;
 // 	FOR (i, 0, touches.size, 1) {
-// 		IF (touches[i].started == false) CONTINUE; FI
-// 		IF (!hitbox.contain(touches[i].x, touches[i].y)) CONTINUE; FI
-// 		IF (disabledList.indexOf(touches[i].id) != -1) CONTINUE; FI
-// 		let dis = Abs(touches[i].x - x);
-// 		IF (id != -1 && dis > minDis) CONTINUE; FI
+// 		if (touches[i].started == false) CONTINUE;
+// 		if (!hitbox.contain(touches[i].x, touches[i].y)) CONTINUE;
+// 		if (disabledList.indexOf(touches[i].id) != -1) CONTINUE;
+// 		var dis = Abs(touches[i].x - x);
+// 		if (id != -1 && dis > minDis) CONTINUE;
 // 		id = touches[i].id; minDis = dis;
 // 	} DONE
 // 	Return(id);
@@ -157,74 +157,63 @@ SonolusApi getClaimedStart(let index) {
 
 double minFlickV = 0.1;
 // Map<LevelMemoryId, var, var> usedTouchId(16);
-SonolusApi findFlickTouch(let lane, let enLane) {
-	FUNCBEGIN
+SonolusApi findFlickTouch(var lane, var enLane) {
 	Rect hitbox = getFullHitbox(lane, enLane);
-	FOR (i, 0, touches.size, 1) {
-		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
-		IF (Power({touches[i].vx * touches[i].vx + touches[i].vy * touches[i].vy, 0.5}) < minFlickV) CONTINUE; FI
+    for (var i = 0; i < touchCount; i++) {
+		if (hitbox.contains({ touches[i].x, touches[i].y }) == 0) continue;
+		if (Power({touches[i].vx * touches[i].vx + touches[i].vy * touches[i].vy, 0.5}) < minFlickV) continue;
 		disallowEmptiesNow.set(touches[i].id, 1);
-		Return(touches[i].id);
-	} DONE
-	Return(-1);
-	return VAR;
+		return touches[i].id;
+	}
+    return -1;
 }
 
-SonolusApi findHoldTouch(let lane, let enLane) {
-	FUNCBEGIN 
+SonolusApi findHoldTouch(var lane, var enLane) {
 	Rect hitbox = getFullHitbox(lane, enLane);
-	FOR (i, 0, touches.size, 1) {
-		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+    for (var i = 0; i < touchCount; i++) {
+		if (hitbox.contains({ touches[i].x, touches[i].y }) == 0) continue;
 		disallowEmptiesNow.set(touches[i].id, 1);
-		Return(touches[i].id);
-	} DONE
-	Return(-1);
-	return VAR;
+        return touches[i].id;
+	}
+    return -1;
 }
 
-// Map<LevelMemoryId, var, var> inputList(16), inputList_old(16);
 class InputManager: public Archetype {
 	public:
 
-	static constexpr const char* name = "Sirius Input Manager";
+	string name = "Sirius Input Manager";
 
 	SonolusApi spawnOrder() { return 1; }
 	SonolusApi shouldSpawn() { return 1; }
 	
 	SonolusApi updateSequential() {
-		FUNCBEGIN
+		// if (disallowEmptiesNow.count != 0) DebugLog(disallowEmptiesNow.count);
 		claimStartManager.clear();
 		disallowEmptiesOld.clear();
-		FOR (i, 0, disallowEmptiesNow.size, 1) {
+        for (var i = 0; i < disallowEmptiesNow.count; i++)
 			// Debuglog(disallowEmptiesNow.getKeyById(i));
-			disallowEmptiesOld.set(
-				disallowEmptiesNow.getKeyById(i), 
-				disallowEmptiesNow.getValById(i)
-			);
-		} DONE
+			disallowEmptiesOld.set(disallowEmptiesNow.getKey(i), disallowEmptiesNow.getValue(i));
 		// cout << disallowEmptiesNow.size.offset << endl;
 		// Debuglog(disallowEmptiesOld.size);
 		// cout << disallowEmptiesOld.size.offset << endl;
 		disallowEmptiesNow.clear();
 		// Debuglog(disallowEmptiesOld.size);
-		FOR (i, 0, touches.size, 1) {
-			// IF (touches[i].started) {
+        for (var i = 0; i < touchCount; i++) {
+			// if (touches[i].started) {
 			// 	Debuglog(touches[i].id);
 			// 	Debuglog(touches[i].x);
 			// 	Debuglog(touches[i].y);
-			// } FI
+			// }
 			// Debuglog(disallowEmptiesOld.key[0]);
 			// Debuglog(touches[i].id);
-			IF (disallowEmptiesOld.indexOf(touches[i].id) != -1)
-				disallowEmptiesNow.add(touches[i].id, 1); 
-			FI
-		} DONE
-		return VOID;
+			if (disallowEmptiesOld.indexOf(touches[i].id) != -1)
+				disallowEmptiesNow.set(touches[i].id, 1);
+		}
 		// inputList_old.size = 0;
 		// FOR (i, 0, touches.size, 1) {
-		// 	IF (usedTouchId.indexOf(touches[i].id) != -1) {
+		// 	if (usedTouchId.indexOf(touches[i].id) != -1) {
 		// 		inputList_old.set(touches[i].id, 1);
-		// 	} FI
+		// 	}
 		// } DONE
 		// usedTouchId.size = 0;
 		// FOR (i, 0, inputList_old.size, 1) usedTouchId.add(inputList_old.getKeyById(i), 1); DONE
@@ -237,46 +226,46 @@ class InputManager: public Archetype {
 
 		// FOR (j, 0, inputList_old.size, 1) {
 		// 	FOR (i, 0, touches.size, 1) {
-		// 		IF (touches[i].started == 0) CONTINUE; FI
+		// 		if (touches[i].started == 0) CONTINUE;
 		// 		var best = -1, bestDis = 1e9, bestTime = 1e9, bestId = -1;
 
-		// 		IF (inputList_old.getValById(j) != -1) CONTINUE; FI
-		// 		let time = EntityDataArray[inputList_old.getKeyById(j)].get(0);
-		// 		let lane = EntityDataArray[inputList_old.getKeyById(j)].get(1);
-		// 		let enLane = EntityDataArray[inputList_old.getKeyById(j)].get(2) + lane;
+		// 		if (inputList_old.getValById(j) != -1) CONTINUE;
+		// 		var time = EntityDataArray[inputList_old.getKeyById(j)].get(0);
+		// 		var lane = EntityDataArray[inputList_old.getKeyById(j)].get(1);
+		// 		var enLane = EntityDataArray[inputList_old.getKeyById(j)].get(2) + lane;
 				
 		// 		Rect hitbox = getHitbox(lane, enLane);
 		// 		Rect fullHitbox = getFullHitbox(lane, enLane);
-		// 		IF (fullHitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+		// 		if (fullHitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE;
 
-		// 		let dis = Abs(touches[i].x - (hitbox.l + hitbox.r) / 2);
-		// 		IF (best == -1) {
+		// 		var dis = Abs(touches[i].x - (hitbox.l + hitbox.r) / 2);
+		// 		if (best == -1) {
 		// 			best = inputList_old.getKeyById(j); bestDis = dis;
 		// 			bestTime = time; bestId = j;
 		// 			CONTINUE;
-		// 		} FI
-		// 		IF (bestDis <= dis) CONTINUE; FI
+		// 		}
+		// 		if (bestDis <= dis) CONTINUE;
 
-		// 		IF (time > bestTime) CONTINUE; FI
-		// 		IF (time < bestTime) {
+		// 		if (time > bestTime) CONTINUE;
+		// 		if (time < bestTime) {
 		// 			best = inputList_old.getKeyById(j); bestDis = dis;
 		// 			bestTime = time; bestId = j;
 		// 			CONTINUE;
-		// 		} FI
+		// 		}
 
-		// 		let lane2 = EntityDataArray[best].get(1);
-		// 		let enLane2 = EntityDataArray[best].get(2) + lane2;
+		// 		var lane2 = EntityDataArray[best].get(1);
+		// 		var enLane2 = EntityDataArray[best].get(2) + lane2;
 		// 		Rect hitbox2 = getHitbox(lane2, enLane2);
-		// 		IF (hitbox2.contain(touches[i].x, touches[i].y) == 1) CONTINUE; FI
-		// 		IF (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE; FI
+		// 		if (hitbox2.contain(touches[i].x, touches[i].y) == 1) CONTINUE;
+		// 		if (hitbox.contain(touches[i].x, touches[i].y) == 0) CONTINUE;
 		// 		best = inputList_old.getKeyById(j); bestDis = dis;
 		// 		bestTime = time; bestId = j;
 		// 	} DONE
-		// 	IF (best != -1) {
+		// 	if (best != -1) {
 		// 		inputList_old.val.set(bestId, touches[i].id);
 		// 		usedTouchId.set(touches[i].id, 1);
-		// 	} FI
-		// 	// IF (best == -1) Debuglog(touches[i].id); Debuglog(best); FI
+		// 	}
+		// 	// if (best == -1) Debuglog(touches[i].id); Debuglog(best);
 		// } DONE
 		// return VOID;
 	}
@@ -285,7 +274,7 @@ class InputManager: public Archetype {
 	// 	FUNCBEGIN
 	// 	Rect hitbox = getFullHitbox(4, 6);
 		// FOR (i, 0, touches.size, 1) {
-		// 	IF (touches[i].started == 0) CONTINUE; FI
+		// 	if (touches[i].started == 0) CONTINUE;
 		// 	Debuglog(hitbox.l); Debuglog(hitbox.r);
 		// 	Debuglog(touches[i].x); Debuglog(hitbox.contain(touches[i].x, touches[i].y));
 		// } DONE

@@ -1,45 +1,39 @@
 class SplitLine: public Archetype {
     public:
 
-    static constexpr const char* name = "Sirius Split Line";
+    string name = "Sirius Split Line";
     bool input = false;
 
-	defineImports(beat);
-	defineImports(endBeat);
-	defineImports(split);
-	defineImports(color);
+	defineImport(beat);
+	defineImport(endBeat);
+	defineImport(split);
+	defineImport(color);
 
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat - splitLineAnimationStart) + appearTime; }
     SonolusApi shouldSpawn() { return times.now > beat - splitLineAnimationStart; }
 
     SonolusApi preprocess() {
-    	FUNCBEGIN
 		beat = beat / levelSpeed;
 		endBeat = endBeat / levelSpeed;
-    	return VOID;
     }
    
     SonolusApi updateSequential() {
-    	FUNCBEGIN
-    	IF (split < 1 && split > 6) Return(0); FI
+    	if (split < 1 && split > 6) return;
         getSplitLine(color);
-        IF (times.now > endBeat) {
+        if (times.now > endBeat) {
             drawDisappearLine(times.now - endBeat, split);
-        } ELSE {
-	        IF (times.now < beat) {
+        } else {
+	        if (times.now < beat) {
 	            drawAppearLine(splitLineAnimationStart - beat + times.now, split);
-	        } ELSE {
+	        } else {
 	            drawSplitLine(split);
-	        } FI
-	    } FI
-		return VOID;
+	        }
+	    }
 	}
 
     SonolusApi updateParallel() {
-    	FUNCBEGIN
-        IF (times.now > endBeat + splitLineAnimationEnd) {
-            EntityDespawn.set(0, 1);
-        } FI
-	    return VOID;
+        if (times.now > endBeat + splitLineAnimationEnd) {
+			despawn.despawn = true;
+        }
 	}
 };

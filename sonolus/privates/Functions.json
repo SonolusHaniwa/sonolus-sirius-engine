@@ -1,0 +1,3232 @@
+[
+    {
+        "name": "Abs",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Add",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "And",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Arccos",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Arcsin",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Arctan",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Arctan2",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "BeatToBPM",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "beat"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "BeatToStartingBeat",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "beat"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "BeatToStartingTime",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "beat"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "BeatToTime",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "beat"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Block",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "body"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Break",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "count"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": true
+    },
+    {
+        "name": "Ceil",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Clamp",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "b"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Copy",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "srcId"
+            },
+            {
+                "type": "item",
+                "name": "srcIndex"
+            },
+            {
+                "type": "item",
+                "name": "dstId"
+            },
+            {
+                "type": "item",
+                "name": "dstIndex"
+            },
+            {
+                "type": "item",
+                "name": "count"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Cos",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Cosh",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "DebugLog",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DebugPause",
+        "parameters": [],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPost",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPostPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPostShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPre",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPrePointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DecrementPreShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Degree",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "DestroyParticleEffect",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "particleId"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Divide",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "DoWhile",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "body"
+            },
+            {
+                "type": "item",
+                "name": "test"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Draw",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedB",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "item",
+                "name": "p"
+            },
+            {
+                "type": "item",
+                "name": "q"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedBT",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "p"
+                    },
+                    {
+                        "type": "item",
+                        "name": "q"
+                    }
+                ],
+                "count": 2
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedL",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "item",
+                "name": "p"
+            },
+            {
+                "type": "item",
+                "name": "q"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedLR",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "p"
+                    },
+                    {
+                        "type": "item",
+                        "name": "q"
+                    }
+                ],
+                "count": 2
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedR",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "item",
+                "name": "p"
+            },
+            {
+                "type": "item",
+                "name": "q"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "DrawCurvedT",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "n"
+            },
+            {
+                "type": "item",
+                "name": "p"
+            },
+            {
+                "type": "item",
+                "name": "q"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInBack",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInCirc",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInCubic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInElastic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInExpo",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutBack",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutCirc",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutCubic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutElastic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutExpo",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutQuad",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutQuart",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutQuint",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInOutSine",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInQuad",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInQuart",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInQuint",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseInSine",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutBack",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutCirc",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutCubic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutElastic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutExpo",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInBack",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInCirc",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInCubic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInElastic",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInExpo",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInQuad",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInQuart",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInQuint",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutInSine",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutQuad",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutQuart",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutQuint",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "EaseOutSine",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Equal",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Execute",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Execute0",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "ExportValue",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Floor",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Frac",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Get",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "GetPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "GetShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Greater",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "GreaterOr",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "HasEffectClip",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "HasParticleEffect",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "HasSkinSprite",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "If",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "test"
+            },
+            {
+                "type": "item",
+                "name": "consequent"
+            },
+            {
+                "type": "item",
+                "name": "alternate"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "IncrementPost",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "IncrementPostPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "IncrementPostShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "IncrementPre",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "IncrementPrePointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "IncrementPreShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Judge",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "source"
+            },
+            {
+                "type": "item",
+                "name": "target"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "min"
+                    },
+                    {
+                        "type": "item",
+                        "name": "max"
+                    }
+                ],
+                "forEach": [
+                    "perfect",
+                    "great",
+                    "good"
+                ]
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "JudgeSimple",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "source"
+            },
+            {
+                "type": "item",
+                "name": "target"
+            },
+            {
+                "type": "item",
+                "name": "max",
+                "forEach": [
+                    "perfect",
+                    "great",
+                    "good"
+                ]
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "JumpLoop",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "branch",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Lerp",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "LerpClamped",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Less",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "LessOr",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Log",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Max",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Min",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Mod",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "MoveParticleEffect",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "particleId"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Multiply",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Negate",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Not",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "NotEqual",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "lhs"
+            },
+            {
+                "type": "item",
+                "name": "rhs"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Or",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Paint",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "size"
+            },
+            {
+                "type": "item",
+                "name": "rotation"
+            },
+            {
+                "type": "item",
+                "name": "z"
+            },
+            {
+                "type": "item",
+                "name": "a"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Play",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "distance"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "PlayLooped",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "PlayLoopedScheduled",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "startTime"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "PlayScheduled",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "time"
+            },
+            {
+                "type": "item",
+                "name": "distance"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Power",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Print",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            },
+            {
+                "type": "item",
+                "name": "format"
+            },
+            {
+                "type": "item",
+                "name": "decimalPlaces"
+            },
+            {
+                "type": "item",
+                "name": "anchorX"
+            },
+            {
+                "type": "item",
+                "name": "anchorY"
+            },
+            {
+                "type": "item",
+                "name": "pivotX"
+            },
+            {
+                "type": "item",
+                "name": "pivotY"
+            },
+            {
+                "type": "item",
+                "name": "width"
+            },
+            {
+                "type": "item",
+                "name": "height"
+            },
+            {
+                "type": "item",
+                "name": "rotation"
+            },
+            {
+                "type": "item",
+                "name": "color"
+            },
+            {
+                "type": "item",
+                "name": "alpha"
+            },
+            {
+                "type": "item",
+                "name": "horizontalAlign"
+            },
+            {
+                "type": "item",
+                "name": "background"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Radian",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Random",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "min"
+            },
+            {
+                "type": "item",
+                "name": "max"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "RandomInteger",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "min"
+            },
+            {
+                "type": "item",
+                "name": "max"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Rem",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Remap",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "b"
+            },
+            {
+                "type": "item",
+                "name": "c"
+            },
+            {
+                "type": "item",
+                "name": "d"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "RemapClamped",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "b"
+            },
+            {
+                "type": "item",
+                "name": "c"
+            },
+            {
+                "type": "item",
+                "name": "d"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Round",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Set",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetAdd",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetAddPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetAddShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetDivide",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetDividePointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetDivideShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetMod",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetModPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetModShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetMultiply",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetMultiplyPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetMultiplyShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetPower",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetPowerPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetPowerShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetRem",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetRemPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetRemShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetSubtract",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetSubtractPointed",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SetSubtractShifted",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            },
+            {
+                "type": "item",
+                "name": "y"
+            },
+            {
+                "type": "item",
+                "name": "s"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Sign",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Sin",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Sinh",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Spawn",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "item",
+                "name": "memory",
+                "minCount": 0
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "SpawnParticleEffect",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "id"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            },
+            {
+                "type": "item",
+                "name": "duration"
+            },
+            {
+                "type": "item",
+                "name": "isLooped"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackEnter",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "size"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackGet",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackGetFrame",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "offset"
+            }
+        ],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackGetFramePointer",
+        "parameters": [],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackGetPointer",
+        "parameters": [],
+        "sideEffects": false,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackGrow",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "size"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackInit",
+        "parameters": [],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackLeave",
+        "parameters": [],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackPop",
+        "parameters": [],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackPush",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackSet",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackSetFrame",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "offset"
+            },
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackSetFramePointer",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StackSetPointer",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StopLooped",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "loopId"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "StopLoopedScheduled",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "loopId"
+            },
+            {
+                "type": "item",
+                "name": "endTime"
+            }
+        ],
+        "sideEffects": true,
+        "pure": false,
+        "controlFlow": false
+    },
+    {
+        "name": "Subtract",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value",
+                "minCount": 1
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Switch",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "discriminant"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "test"
+                    },
+                    {
+                        "type": "item",
+                        "name": "consequent"
+                    }
+                ],
+                "minCount": 0
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "SwitchInteger",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "discriminant"
+            },
+            {
+                "type": "item",
+                "name": "consequent",
+                "minCount": 0
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "SwitchIntegerWithDefault",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "discriminant"
+            },
+            {
+                "type": "item",
+                "name": "consequent",
+                "minCount": 0
+            },
+            {
+                "type": "item",
+                "name": "default"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "SwitchWithDefault",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "discriminant"
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "test"
+                    },
+                    {
+                        "type": "item",
+                        "name": "consequent"
+                    }
+                ],
+                "minCount": 0
+            },
+            {
+                "type": "item",
+                "name": "default"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    },
+    {
+        "name": "Tan",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Tanh",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "TimeToScaledTime",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "time"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "TimeToStartingScaledTime",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "time"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "TimeToStartingTime",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "time"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "TimeToTimeScale",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "time"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Trunc",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "value"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "Unlerp",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "b"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "UnlerpClamped",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "a"
+            },
+            {
+                "type": "item",
+                "name": "b"
+            },
+            {
+                "type": "item",
+                "name": "x"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": false
+    },
+    {
+        "name": "While",
+        "parameters": [
+            {
+                "type": "item",
+                "name": "test"
+            },
+            {
+                "type": "item",
+                "name": "body"
+            }
+        ],
+        "sideEffects": false,
+        "pure": true,
+        "controlFlow": true
+    }
+]

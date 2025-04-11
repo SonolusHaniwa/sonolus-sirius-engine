@@ -1,0 +1,347 @@
+[
+    {
+        "name": "RuntimeEnvironment",
+        "id": 1000,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "debugMode"
+            },
+            {
+                "type": "item",
+                "name": "screenAspectRatio"
+            }
+        ]
+    },
+    {
+        "name": "RuntimeCanvas",
+        "id": 1001,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "scroll"
+            },
+            {
+                "type": "item",
+                "name": "size"
+            }
+        ]
+    },
+    {
+        "name": "RuntimeSkinTransform",
+        "id": 1002,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "m",
+                "count": 16
+            }
+        ]
+    },
+    {
+        "name": "RuntimeUI",
+        "id": 1003,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "anchorX"
+                    },
+                    {
+                        "type": "item",
+                        "name": "anchorY"
+                    },
+                    {
+                        "type": "item",
+                        "name": "pivotX"
+                    },
+                    {
+                        "type": "item",
+                        "name": "pivotY"
+                    },
+                    {
+                        "type": "item",
+                        "name": "width"
+                    },
+                    {
+                        "type": "item",
+                        "name": "height"
+                    },
+                    {
+                        "type": "item",
+                        "name": "rotation"
+                    },
+                    {
+                        "type": "item",
+                        "name": "alpha"
+                    },
+                    {
+                        "type": "item",
+                        "name": "background"
+                    }
+                ],
+                "forEach": [
+                    "menu",
+                    "progress"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "RuntimeUIConfiguration",
+        "id": 1004,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "scale"
+                    },
+                    {
+                        "type": "item",
+                        "name": "alpha"
+                    }
+                ],
+                "forEach": [
+                    "menu",
+                    "progress"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "PreviewData",
+        "id": 2000,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 4096
+            }
+        ]
+    },
+    {
+        "name": "PreviewOption",
+        "id": 2001,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "option",
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EngineRom",
+        "id": 3000,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "rom",
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntityData",
+        "id": 4000,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 32
+            }
+        ]
+    },
+    {
+        "name": "EntitySharedMemory",
+        "id": 4001,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 32
+            }
+        ]
+    },
+    {
+        "name": "EntityInfo",
+        "id": 4002,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "archetype"
+            }
+        ]
+    },
+    {
+        "name": "EntityDataArray",
+        "id": 4100,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "generic",
+                        "count": 32
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntitySharedMemoryArray",
+        "id": 4101,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "generic",
+                        "count": 32
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntityInfoArray",
+        "id": 4102,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "index"
+                    },
+                    {
+                        "type": "item",
+                        "name": "archetype"
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "TemporaryMemory",
+        "id": 10000,
+        "readable": [
+            "preprocess",
+            "render"
+        ],
+        "writable": [
+            "preprocess",
+            "render"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 4096
+            }
+        ]
+    }
+]

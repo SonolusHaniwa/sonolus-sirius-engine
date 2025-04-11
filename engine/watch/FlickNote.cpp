@@ -1,96 +1,103 @@
- class FlickNote : public Archetype {
-     public:
-
-     static constexpr const char* name = "Sirius Flick Note";
-     bool hasInput = true;
-
-     defineImports(beat);
-     defineImports(lane);
-     defineImports(laneLength);
-     defineImports(scratchLength);
-     defineImports(judgeResult);
-     defineImports(activation);
-	 defineImportsDetailed(accuracy, "#ACCURACY");
-     Variable<EntityMemoryId> enLane;
-     Variable<EntitySharedMemoryId> combo;
-     Variable<EntitySharedMemoryId> status;
-     Variable<EntitySharedMemoryId> nextNoteTime;
+Bucket FlickNoteBucket = defineBucket({
+    EngineDataBucketSprite(Sprites.ScratchNote, 0, -0.35, 0.0, 2.0, 1.0, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.8, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.6, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.4, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.2, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.8, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.6, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.4, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.2, 0.4, 1.2, 90),
+}, Text.MillisecondUnit);
  
-     SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
-     SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
- 
- 	 SonolusApi preprocess() {
- 	 	FUNCBEGIN
+class FlickNote : public Archetype {
+	public:
+
+	string name = "Sirius Flick Note";
+	bool hasInput = true;
+
+	defineImport(beat);
+	defineImport(lane);
+	defineImport(laneLength);
+	defineImport(scratchLength);
+	defineImport(judgeResult);
+	defineImport(activation);
+	defineImportDetailed(accuracy, "#ACCURACY");
+	var enLane;
+	var combo = EntitySharedMemory[0];
+	var status = EntitySharedMemory[1];
+	var nextNoteTime = EntitySharedMemory[2];
+
+	SonolusApi spawnTime() { return TimeToScaledTime(beat) - appearTime; }
+	SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
+
+	SonolusApi preprocess() {
  	 	beat = beat / levelSpeed;
-        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
+        if (mirror) lane = 14 - lane - laneLength, scratchLength = -1 * scratchLength;
         enLane = lane + laneLength - 1;
-        currentJudgeStartTime = Max(currentJudgeStartTime, EntityInfo.get(0));
+        currentJudgeStartTime = Max(currentJudgeStartTime, info.index);
         nextNoteTime = 99999;
-        let id = lastNoteId, thisId = EntityInfo.get(0);
-		EntityInput.set(0, judgment.bad);
+        var id = lastNoteId, thisId = info.index;
+		input.time = judgment.bad;
 		totalAccuracy = totalAccuracy + 1.01;
-        IF (isReplay == 1) {
-			IF (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
-			ELSE comboNumber = 0; FI
-			combo = comboNumber.get();
+		life.miss_increment = -80;
+        if (replay == 1) {
+			if (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+			else comboNumber = 0;
+			combo = comboNumber;
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat + accuracy);
-        	Set(EntityInputId, 1, Buckets.FlickNote);
-        	Set(EntityInputId, 2, accuracy * 1000);
-        	EntitySharedMemoryArray[id].set(2, beat + accuracy);
-        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
-			IF (autoSFX)
+			status = comboStatus;
+        	input.time = beat + accuracy;
+        	input.bucketIndex = FuncNode(FlickNoteBucket);
+        	input.bucketValue = accuracy * 1000;
+        	EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
+        	if (firstComboTime == 0) firstComboTime = beat;
+			if (autoSFX)
 				PlayScheduled(Clips.Scratch, beat, minSFXDistance);
-			ELSE {
-				IF (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); FI
-				IF (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); FI
-			} FI
-			IF (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy}); FI
-			IF (judgeResult == 1) currentAccuracy = currentAccuracy; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy}); FI
-			IF (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21; Spawn(getArchetypeId(UpdateJudgment), {beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy}); FI
-        } ELSE {
+			else {
+				if (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance);
+				if (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance);
+			}
+			if (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 1) currentAccuracy = currentAccuracy, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy });
+        } else {
 			comboNumber = comboNumber + 1;
-			combo = comboNumber.get();
+			combo = comboNumber;
 			comboStatus = 0;
-			status = comboStatus.get();
-        	Set(EntityInputId, 0, beat);
-        	Set(EntityInputId, 1, Buckets.FlickNote);
-        	Set(EntityInputId, 2, 0);
-        	EntitySharedMemoryArray[id].set(2, beat);
-        	IF (firstComboTime == 0) firstComboTime = beat.get(); FI
+			status = comboStatus;
+        	input.time = beat;
+        	input.bucketIndex = FuncNode(FlickNoteBucket);
+        	input.bucketValue = 0;
+        	EntitySharedMemoryArray[id].generic[2] = beat;
+        	if (firstComboTime == 0) firstComboTime = beat;
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
-			Spawn(getArchetypeId(UpdateJudgment), {beat, Sprites.JudgeAuto, combo, status, thisId, 0, 0});
-		} FI;
-		lastNoteId = EntityInfo.get(0);
- 	    return VOID;
+			Spawn(getAid(UpdateJudgment), { beat, Sprites.JudgeAuto, combo, status, thisId, 0, 0 });
+		};
+		lastNoteId = info.index;
  	}
  
  	// int updateSequentialOrder = 1;
  	// SonolusaApi updateSequential() {
  	// 	FUNCBEGIN
-		// IF (times.now >= beat - 0.03) {
+		// if (times.now >= beat - 0.03) {
 		// 	SpawnSubJudgeText(Sprites.PerfectPlus);
-		// } FI
+		// }
  	// 	return VOID;
  	// }
  
  	SonolusApi terminate() {
- 		FUNCBEGIN
-		IF (times.skip) Return(0); FI
-		IF (isReplay == 1 && judgeResult == 0) Return(0); FI
+		if (skip) return;
+		if (replay == 1 && judgeResult == 0) return;
 		spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane);
-		return VOID;
  	}
 
  	SonolusApi updateParallel() {
- 		FUNCBEGIN
 		drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, TimeToScaledTime(beat));
-		IF (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
-		ELSE {
-			IF (scratchLength > 0) drawRightArrow(lane, enLane, TimeToScaledTime(beat));
-			ELSE drawLeftArrow(lane, enLane, TimeToScaledTime(beat)); FI
-		} FI
- 		return VOID;
+		if (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
+		else {
+			if (scratchLength > 0) drawRightArrow(lane, enLane, TimeToScaledTime(beat));
+			else drawLeftArrow(lane, enLane, TimeToScaledTime(beat));
+		}
  	}
 };

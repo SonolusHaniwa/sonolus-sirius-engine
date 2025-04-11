@@ -1,15 +1,13 @@
 class SyncLine: public Archetype {
     public:
 
-    static constexpr const char* name = "Sirius Sync Line";
+    string name = "Sirius Sync Line";
 
-    defineImports(beat);
-    defineImports(left);
-    defineImports(right);
+    defineImport(beat);
+    defineImport(left);
+    defineImport(right);
 
     SonolusApi render() {
-    	FUNCBEGIN
-		drawPreviewSyncLine(beat, left, right);
-		return VOID;
+		drawSyncLine(beat, left, right);
 	}
 };

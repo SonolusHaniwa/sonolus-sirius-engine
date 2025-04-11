@@ -1,0 +1,926 @@
+[
+    {
+        "name": "RuntimeEnvironment",
+        "id": 1000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "debugMode"
+            },
+            {
+                "type": "item",
+                "name": "screenAspectRatio"
+            },
+            {
+                "type": "item",
+                "name": "audioOffset"
+            },
+            {
+                "type": "item",
+                "name": "inputOffset"
+            },
+            {
+                "type": "item",
+                "name": "multiplayer"
+            }
+        ]
+    },
+    {
+        "name": "RuntimeUpdate",
+        "id": 1001,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "time"
+            },
+            {
+                "type": "item",
+                "name": "deltaTime"
+            },
+            {
+                "type": "item",
+                "name": "scaledTime"
+            },
+            {
+                "type": "item",
+                "name": "touchCount"
+            }
+        ]
+    },
+    {
+        "name": "RuntimeTouchArray",
+        "id": 1002,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "id"
+                    },
+                    {
+                        "type": "item",
+                        "name": "started"
+                    },
+                    {
+                        "type": "item",
+                        "name": "ended"
+                    },
+                    {
+                        "type": "item",
+                        "name": "t"
+                    },
+                    {
+                        "type": "item",
+                        "name": "st"
+                    },
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    },
+                    {
+                        "type": "item",
+                        "name": "sx"
+                    },
+                    {
+                        "type": "item",
+                        "name": "sy"
+                    },
+                    {
+                        "type": "item",
+                        "name": "dx"
+                    },
+                    {
+                        "type": "item",
+                        "name": "dy"
+                    },
+                    {
+                        "type": "item",
+                        "name": "vx"
+                    },
+                    {
+                        "type": "item",
+                        "name": "vy"
+                    },
+                    {
+                        "type": "item",
+                        "name": "vr"
+                    },
+                    {
+                        "type": "item",
+                        "name": "vw"
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "RuntimeSkinTransform",
+        "id": 1003,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "m",
+                "count": 16
+            }
+        ]
+    },
+    {
+        "name": "RuntimeParticleTransform",
+        "id": 1004,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "m",
+                "count": 16
+            }
+        ]
+    },
+    {
+        "name": "RuntimeBackground",
+        "id": 1005,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "x"
+                    },
+                    {
+                        "type": "item",
+                        "name": "y"
+                    }
+                ],
+                "count": 4
+            }
+        ]
+    },
+    {
+        "name": "RuntimeUI",
+        "id": 1006,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "anchorX"
+                    },
+                    {
+                        "type": "item",
+                        "name": "anchorY"
+                    },
+                    {
+                        "type": "item",
+                        "name": "pivotX"
+                    },
+                    {
+                        "type": "item",
+                        "name": "pivotY"
+                    },
+                    {
+                        "type": "item",
+                        "name": "width"
+                    },
+                    {
+                        "type": "item",
+                        "name": "height"
+                    },
+                    {
+                        "type": "item",
+                        "name": "rotation"
+                    },
+                    {
+                        "type": "item",
+                        "name": "alpha"
+                    },
+                    {
+                        "type": "item",
+                        "name": "horizontalAlign"
+                    },
+                    {
+                        "type": "item",
+                        "name": "background"
+                    }
+                ],
+                "forEach": [
+                    "menu",
+                    "judgment",
+                    "comboValue",
+                    "comboText",
+                    "primaryMetricBar",
+                    "primaryMetricValue",
+                    "secondaryMetricBar",
+                    "secondaryMetricValue"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "RuntimeUIConfiguration",
+        "id": 1007,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "scale"
+                    },
+                    {
+                        "type": "item",
+                        "name": "alpha"
+                    }
+                ],
+                "forEach": [
+                    "menu",
+                    "judgment",
+                    "combo",
+                    "primaryMetric",
+                    "secondaryMetric"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "LevelMemory",
+        "id": 2000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 4096
+            }
+        ]
+    },
+    {
+        "name": "LevelData",
+        "id": 2001,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 4096
+            }
+        ]
+    },
+    {
+        "name": "LevelOption",
+        "id": 2002,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "option",
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "LevelBucket",
+        "id": 2003,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "group",
+                        "items": [
+                            {
+                                "type": "item",
+                                "name": "min"
+                            },
+                            {
+                                "type": "item",
+                                "name": "max"
+                            }
+                        ],
+                        "forEach": [
+                            "perfect",
+                            "great",
+                            "good"
+                        ]
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "LevelScore",
+        "id": 2004,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "multiplier",
+                "forEach": [
+                    "perfect",
+                    "great",
+                    "good"
+                ]
+            },
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "consecutiveMultiplier"
+                    },
+                    {
+                        "type": "item",
+                        "name": "consecutiveStep"
+                    },
+                    {
+                        "type": "item",
+                        "name": "consecutiveCap"
+                    }
+                ],
+                "forEach": [
+                    "perfect",
+                    "great",
+                    "good"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "LevelLife",
+        "id": 2005,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "consecutiveIncrement"
+                    },
+                    {
+                        "type": "item",
+                        "name": "consecutiveStep"
+                    }
+                ],
+                "forEach": [
+                    "perfect",
+                    "great",
+                    "good"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "EngineRom",
+        "id": 3000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "rom",
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntityMemory",
+        "id": 4000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 64
+            }
+        ]
+    },
+    {
+        "name": "EntityData",
+        "id": 4001,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 32
+            }
+        ]
+    },
+    {
+        "name": "EntitySharedMemory",
+        "id": 4002,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 32
+            }
+        ]
+    },
+    {
+        "name": "EntityInfo",
+        "id": 4003,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "item",
+                "name": "index"
+            },
+            {
+                "type": "item",
+                "name": "archetype"
+            },
+            {
+                "type": "item",
+                "name": "state"
+            }
+        ]
+    },
+    {
+        "name": "EntityDespawn",
+        "id": 4004,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "despawn"
+            }
+        ]
+    },
+    {
+        "name": "EntityInput",
+        "id": 4005,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "judgment"
+            },
+            {
+                "type": "item",
+                "name": "accuracy"
+            },
+            {
+                "type": "item",
+                "name": "bucketIndex"
+            },
+            {
+                "type": "item",
+                "name": "bucketValue"
+            }
+        ]
+    },
+    {
+        "name": "EntityDataArray",
+        "id": 4101,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "generic",
+                        "count": 32
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntitySharedMemoryArray",
+        "id": 4102,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "updateSequential",
+            "touch"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "generic",
+                        "count": 32
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "EntityInfoArray",
+        "id": 4103,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "index"
+                    },
+                    {
+                        "type": "item",
+                        "name": "archetype"
+                    },
+                    {
+                        "type": "item",
+                        "name": "state"
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "ArchetypeLife",
+        "id": 5000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess"
+        ],
+        "values": [
+            {
+                "type": "group",
+                "items": [
+                    {
+                        "type": "item",
+                        "name": "increment",
+                        "forEach": [
+                            "perfect",
+                            "great",
+                            "good",
+                            "miss"
+                        ]
+                    }
+                ],
+                "minCount": 0
+            }
+        ]
+    },
+    {
+        "name": "TemporaryMemory",
+        "id": 10000,
+        "readable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "writable": [
+            "preprocess",
+            "spawnOrder",
+            "shouldSpawn",
+            "initialize",
+            "updateSequential",
+            "touch",
+            "updateParallel",
+            "terminate"
+        ],
+        "values": [
+            {
+                "type": "item",
+                "name": "generic",
+                "count": 4096
+            }
+        ]
+    }
+]

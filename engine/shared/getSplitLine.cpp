@@ -1,0 +1,3 @@
+SonolusApi getSplitLine(var color) {
+    
+}

@@ -1,32 +1,29 @@
 class FlickNote : public Archetype {
     public:
 
-	static constexpr const char* name = "Sirius Flick Note";
+	string name = "Sirius Flick Note";
 
-	defineImports(beat);
-	defineImports(lane);
-	defineImports(laneLength);
-	defineImports(scratchLength);
-	Variable<EntitySharedMemoryId> enLane;
+	defineImport(beat);
+	defineImport(lane);
+	defineImport(laneLength);
+	defineImport(scratchLength);
+	var enLane;
+	var noteId;
 
 	SonolusApi preprocess() {
-		FUNCBEGIN
-		duration = Max(duration.get(), beat);
+		duration = Max(duration, beat);
 		noteCount = noteCount + 1;
-		noteId = noteCount.get();
+		noteId = noteCount;
 		enLane = lane + laneLength - 1;
-		return VOID;
 	}
 
 	SonolusApi render() {
-		FUNCBEGIN
-		IF (noteId % noteCountDistance == 0) { drawNoteCount(beat, noteId); } FI;
-		drawPreviewNormalNote(Sprites.ScratchNoteLeft, beat, lane, enLane);
-		IF (scratchLength == 0) drawPreviewArrow(beat, lane, enLane);
-		ELSE {
-			IF (scratchLength > 0) drawPreviewRightArrow(beat, lane, enLane);
-			ELSE drawPreviewLeftArrow(beat, lane, enLane); FI
-		} FI
-		return VOID;
+		if (noteId % noteCountDistance == 0) drawNoteCount(beat, noteId);
+		drawNormalNote(Sprites.ScratchNoteLeft, beat, lane, enLane);
+		if (scratchLength == 0) drawArrow(beat, lane, enLane);
+		else {
+			if (scratchLength > 0) drawRightArrow(beat, lane, enLane);
+			else drawLeftArrow(beat, lane, enLane);
+		}
 	}
 };

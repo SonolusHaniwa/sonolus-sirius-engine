@@ -1,122 +1,131 @@
-class FlickNote : public Archetype {
+Bucket FlickNoteBucket = defineBucket({
+    EngineDataBucketSprite(Sprites.ScratchNote, 0, -0.35, 0.0, 2.0, 1.0, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.8, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.6, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.4, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, 0.2, 0.4, 1.2, 270),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.8, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.6, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.4, 0.4, 1.2, 90),
+    EngineDataBucketSprite(Sprites.ScratchArrow, 0, 0.25, -0.2, 0.4, 1.2, 90),
+}, Text.MillisecondUnit);
+
+class FlickNote: public Archetype {
     public:
 
-	static constexpr const char* name = "Sirius Flick Note";
+	string name = "Sirius Flick Note";
     bool hasInput = true;
 
-	defineImports(beat);
-	defineImports(lane);
-	defineImports(laneLength);
-	defineImports(scratchLength);
-	defineExports(judgeResult);
-	defineExports(activation);
-    Variable<EntityMemoryId> enLane;
-    Variable<EntityMemoryId> inputTimeMin;
-    Variable<EntityMemoryId> inputTimeMax;
-    Variable<EntityMemoryId> activate;
-    Variable<EntityMemoryId> played;
+	defineImport(beat);
+	defineImport(lane);
+	defineImport(laneLength);
+	defineImport(scratchLength);
+	defineExport(judgeResult);
+	defineExport(activation);
+    var enLane;
+    var inputTimeMin;
+    var inputTimeMax;
+    var activate;
+    var played;
 
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
 	SonolusApi preprocess() {
-		FUNCBEGIN
 		beat = beat / levelSpeed;
-        IF (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength; FI
+        if (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength;
 		enLane = lane + laneLength - 1;
-		inputTimeMin = beat - judgment.bad + RuntimeEnvironment.get(3);
-		inputTimeMax = beat + judgment.bad + RuntimeEnvironment.get(3);
+		inputTimeMin = beat - judgment.bad + offsets.input;
+		inputTimeMax = beat + judgment.bad + offsets.input;
 		activate = 0;
 		played = false;
 		totalAccuracy = totalAccuracy + 1.01;
 		currentAccuracy = currentAccuracy + 1.01;
-		EntityInput.set(1, judgment.bad);
-		IF (autoSFX) PlayScheduled(Clips.Scratch, beat, minSFXDistance); FI
-        return VOID;
+		input.accuracy = judgment.bad;
+		if (autoSFX) PlayScheduled(Clips.Scratch, beat, minSFXDistance);
+		life.miss_increment = -80;
+		setBucket(
+			FlickNoteBucket, 
+			-1 * judgment.perfect * 1000, judgment.perfect * 1000, 
+			-1 * judgment.good * 1000, judgment.good * 1000, 
+			-1 * judgment.good * 1000, judgment.good * 1000
+		);
 		// beat.set(Buckets.NormalNote),
 	}
 
-	SonolusApi complete(let t = times.now) {
-		FUNCBEGIN
+	SonolusApi complete(var t = times.now) {
 		var res = 0, res2 = 0;
-		IF (t == inputTimeMax) res = 3, res2 = 2; FI
-		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
-		EntityInput.set(0, res2);
-		IF (res2 != 0) {
-			EntityInput.set(1, t - beat);
-			EntityInput.set(2, Buckets.FlickNote);
-			EntityInput.set(3, (t - beat) * 1000);
+		if (t == inputTimeMax) res = 3, res2 = 2;
+		if (t != -1 && t != inputTimeMax) res = 1, res2 = 1;
+		input.judgment = res2;
+		if (res2 != 0) {
+            input.accuracy = t - beat;
+            input.bucketIndex = FuncNode(FlickNoteBucket);
+            input.bucketValue = (t - beat) * 1000;
 			ExportValue(judgeResult, res);
-		} FI
+		}
 
-		IF (!autoSFX) {
-			IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
-			IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
-		} FI
-		IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane); FI
-		IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss); FI
-		IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus); FI
-		IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat); FI
-		EntityDespawn.set(0, 1);
-		return VOID;
+		if (!autoSFX) {
+			if (res2 == 1) Play(Clips.Scratch, minSFXDistance);
+			if (res2 == 2) Play(Clips.Great, minSFXDistance);
+		}
+		if (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, lane, enLane);
+		if (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss);
+		if (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus);
+		if (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat);
+        despawn.despawn = true;
 	}
 	SonolusApi updateSequential() {
-		FUNCBEGIN
-		IF (!played && autoSFX) {
+		if (!played && autoSFX) {
 			// PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			played = true;
-		} FI
-		IF (times.now < inputTimeMin) Return(0); FI
-		IF (times.now > inputTimeMax) {
-			IF (activate == 1) complete(inputTimeMax);
-			ELSE complete(-1); FI
-		} FI
-		IF (activate == 0) claimStart(EntityInfo.get(0)); FI
-		IF (activate == 1) {
-			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
-		} FI
-		return VOID;
+		}
+		if (times.now < inputTimeMin) return;
+		if (times.now > inputTimeMax) {
+			if (activate == 1) complete(inputTimeMax);
+			else complete(-1);
+		}
+		if (activate == 0) claimStart(info.index);
+		if (activate == 1) {
+			if (findFlickTouch(lane, enLane) != -1) complete();
+		}
 	}
 
  //    var updateSequential() {
 	// 	return {
 	//         drawNormalNote(Sprites.NormalNote, lane, enLane, beat),
-	// 		IF (times.now > beat + judgment.good) {
+	// 		if (times.now > beat + judgment.good) {
  //                SpawnSubJudgeText(Sprites.JudgeMiss)
-	// 		} FI
+	// 		}
 	// 	};
 	// }
 
 	SonolusApi touch() {
-		FUNCBEGIN
-		IF (times.now < inputTimeMin) Return(0); FI
-		// IF (touchTime != -1) Return(0); FI
-		let index = getClaimedStart(EntityInfo.get(0));
-		IF (index == -1) Return(0); FI
+		if (times.now < inputTimeMin) return;
+		// if (touchTime != -1) Return(0);
+		var index = getClaimedStart(info.index);
+		if (index == -1) return;
 		activate = 1; ExportValue(activation, times.now - beat);
-		return VOID;
 	}
 
 	SonolusApi updateParallel() {
-		FUNCBEGIN
 		drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, TimeToScaledTime(beat));
-		IF (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
-		ELSE {
-			IF (scratchLength > 0) drawRightArrow(lane, enLane, TimeToScaledTime(beat));
-			ELSE drawLeftArrow(lane, enLane, TimeToScaledTime(beat)); FI
-		} FI
-		// let index = getTouch(lane, enLane);
+		if (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
+		else {
+			if (scratchLength > 0) drawRightArrow(lane, enLane, TimeToScaledTime(beat));
+			else drawLeftArrow(lane, enLane, TimeToScaledTime(beat));
+		}
+		// var index = getTouch(lane, enLane);
 		// touchIndex = index;
-		return VOID;
 	}
 
  //    var updateParallel() {
 	// 	return {
-	//         IF (times.now > beat + judgment.good) {
+	//         if (times.now > beat + judgment.good) {
 	//             EntityInput.set(0, 0),
 	//             EntityInput.set(1, 0),
 	//             EntityDespawn.set(0, 1),
-	//         } FI
+	//         }
 	//     };	
 	// }
 };
