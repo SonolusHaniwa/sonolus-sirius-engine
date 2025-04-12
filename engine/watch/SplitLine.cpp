@@ -27,7 +27,7 @@ class SplitLine: public Archetype {
             drawDisappearLine(times.now - endBeat, split);
         } ELSE {
 	        IF (times.now < beat) {
-	            drawAppearLine(splitLineAnimationStart - beat + times.now, split);
+	            drawAppearLine(splitLineAnimationStart - RuntimeEnvironment.get(3) - beat + times.now, split);
 	        } ELSE {
 	            drawSplitLine(split);
 	        } FI

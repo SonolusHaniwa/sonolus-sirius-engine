@@ -10,3 +10,5 @@ music_config.txt
 LevelData
 libsirius*
 *.txt
+compiler
+decompiler

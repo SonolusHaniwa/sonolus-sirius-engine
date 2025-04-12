@@ -69,7 +69,7 @@ class SiriusNontailScratchHoldEnd: public Archetype {
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(stBeat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(stBeat) - appearTime; }
 
-	SonolusApi complete(let t = times.now) {
+	SonolusApi complete(let t) {
 		FUNCBEGIN
 		IF (playId != 0) {
 			StopLooped(playId); playId = 0;
@@ -80,18 +80,18 @@ class SiriusNontailScratchHoldEnd: public Archetype {
 		// IF (t > inputTimeMin) res = 1, res2 = 1; FI
 		// EntityInput.set(0, res2);
 		// IF (res2 != 0) {
-		// 	EntityInput.set(1, t - beat);
+		// 	EntityInput.set(1, t - RuntimeEnvironment.get(3) - beat);
 		// 	EntityInput.set(2, Buckets.ScratchHoldEnd);
-		// 	EntityInput.set(3, t - beat);
+		// 	EntityInput.set(3, t - RuntimeEnvironment.get(3) - beat);
 		// 	ExportValue(judgeResult, res);
 		// } FI
 
 		// IF (res2 == 1) Play(Clips.Scratch, minSFXDistance); FI
 		// IF (res2 == 2) Play(Clips.Great, minSFXDistance); FI
 		// IF (res2 != 0) spawnEffect(Effects.ScratchLinear, Effects.ScratchCircular, scratchLane, scratchEnLane); FI
-		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
-		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
-		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
+		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - RuntimeEnvironment.get(3) - beat); FI
+		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - RuntimeEnvironment.get(3) - beat); FI
+		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - RuntimeEnvironment.get(3) - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}

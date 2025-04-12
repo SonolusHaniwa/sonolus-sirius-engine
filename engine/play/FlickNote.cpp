@@ -36,16 +36,16 @@ class FlickNote : public Archetype {
 		// beat.set(Buckets.NormalNote),
 	}
 
-	SonolusApi complete(let t = times.now) {
+	SonolusApi complete(let t) {
 		FUNCBEGIN
 		var res = 0, res2 = 0;
 		IF (t == inputTimeMax) res = 3, res2 = 2; FI
 		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		IF (res2 != 0) {
-			EntityInput.set(1, t - beat);
+			EntityInput.set(1, t - RuntimeEnvironment.get(3) - beat);
 			EntityInput.set(2, Buckets.FlickNote);
-			EntityInput.set(3, (t - beat) * 1000);
+			EntityInput.set(3, (t - RuntimeEnvironment.get(3) - beat) * 1000);
 			ExportValue(judgeResult, res);
 		} FI
 
@@ -72,8 +72,12 @@ class FlickNote : public Archetype {
 			ELSE complete(-1); FI
 		} FI
 		IF (activate == 0) claimStart(EntityInfo.get(0)); FI
-		IF (activate == 1) {
-			IF (findFlickTouch(lane, enLane) != -1) complete(); FI
+		IF (activate) {
+			let id = findFlickTouch(lane, enLane);
+			IF (id == -1) Return(0); FI
+			FOR (i, 0, touches.size, 1) {
+				IF (touches[i].id == activate) complete(touches[i].st); FI
+			} DONE
 		} FI
 		return VOID;
 	}
@@ -93,7 +97,8 @@ class FlickNote : public Archetype {
 		// IF (touchTime != -1) Return(0); FI
 		let index = getClaimedStart(EntityInfo.get(0));
 		IF (index == -1) Return(0); FI
-		activate = 1; ExportValue(activation, times.now - beat);
+		activate = index; 
+		ExportValue(activation, times.now - beat);
 		return VOID;
 	}
 
