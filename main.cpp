@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#define play 1
 #include"sonolus/sonolus.h"
 using namespace std;
 
