@@ -43,9 +43,9 @@ class FlickNote : public Archetype {
 		IF (t != -1 && t != inputTimeMax) res = 1, res2 = 1; FI
 		EntityInput.set(0, res2);
 		IF (res2 != 0) {
-			EntityInput.set(1, t - RuntimeEnvironment.get(3) - beat);
+			EntityInput.set(1, t - beat);
 			EntityInput.set(2, Buckets.FlickNote);
-			EntityInput.set(3, (t - RuntimeEnvironment.get(3) - beat) * 1000);
+			EntityInput.set(3, (t - beat) * 1000);
 			ExportValue(judgeResult, res);
 		} FI
 

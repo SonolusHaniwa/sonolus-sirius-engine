@@ -71,16 +71,16 @@ class SiriusNontailHoldEnd: public Archetype {
 			DestroyParticleEffect(effectId); effectId = 0;
 		} FI
 		// var res = 0, res2 = 0;
-		// IF (Abs(t - RuntimeEnvironment.get(3) - beat) <= judgment.bad) res = 5, res2 = 3; FI
-		// IF (Abs(t - RuntimeEnvironment.get(3) - beat) <= judgment.good) res = 4, res2 = 3; FI
-		// IF (Abs(t - RuntimeEnvironment.get(3) - beat) <= judgment.great) res = 3, res2 = 2; FI
-		// IF (Abs(t - RuntimeEnvironment.get(3) - beat) <= judgment.perfect) res = 2, res2 = 1; FI
-		// IF (Abs(t - RuntimeEnvironment.get(3) - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
+		// IF (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3; FI
+		// IF (Abs(t - beat) <= judgment.good) res = 4, res2 = 3; FI
+		// IF (Abs(t - beat) <= judgment.great) res = 3, res2 = 2; FI
+		// IF (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1; FI
+		// IF (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1; FI
 		// EntityInput.set(0, res2);
 		// IF (res2 != 0) {
-		// 	EntityInput.set(1, t - RuntimeEnvironment.get(3) - beat);
+		// 	EntityInput.set(1, t - beat);
 		// 	EntityInput.set(2, Buckets.HoldEnd);
-		// 	EntityInput.set(3, t - RuntimeEnvironment.get(3) - beat);
+		// 	EntityInput.set(3, t - beat);
 		// 	ExportValue(judgeResult, res);
 		// } FI
 
@@ -89,12 +89,12 @@ class SiriusNontailHoldEnd: public Archetype {
 		// IF (res == 4) Play(Clips.Good, minSFXDistance); FI
 		// IF (res == 5) Play(Clips.Bad, minSFXDistance); FI
 		// IF (res2 != 0) spawnEffect(Effects.HoldLinear, Effects.HoldCircular, lane, enLane); FI
-		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - RuntimeEnvironment.get(3) - beat); FI
-		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - RuntimeEnvironment.get(3) - beat); FI
-		// IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - RuntimeEnvironment.get(3) - beat); FI
-		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - RuntimeEnvironment.get(3) - beat); FI
-		// IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - RuntimeEnvironment.get(3) - beat); FI
-		// IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - RuntimeEnvironment.get(3) - beat); FI
+		// IF (res == 0) SpawnSubJudgeText(Sprites.JudgeMiss, t - beat); FI
+		// IF (res == 1) SpawnSubJudgeText(Sprites.JudgePerfectPlus, t - beat); FI
+		// IF (res == 2) SpawnSubJudgeText(Sprites.JudgePerfect, t - beat); FI
+		// IF (res == 3) SpawnSubJudgeText(Sprites.JudgeGreat, t - beat); FI
+		// IF (res == 4) SpawnSubJudgeText(Sprites.JudgeGood, t - beat); FI
+		// IF (res == 5) SpawnSubJudgeText(Sprites.JudgeBad, t - beat); FI
 		EntityDespawn.set(0, 1);
 		return VOID;
 	}
