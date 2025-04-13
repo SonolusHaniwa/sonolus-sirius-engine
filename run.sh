@@ -15,12 +15,12 @@ cd sonolus-server && unzip -n sonolus.zip
 echo -e $YELLOW"Syncing data into database..."$RESET
 wget "https://raw.githubusercontent.com/SonolusHaniwa/sonolus-server-cpp/main/data.sql" -O data.sql
 sqlite3 sonolus.db ".read ./data.sql"
-./sonolus serve &
 ./sonolus import ../sirius/sirius.scp
 ./sonolus import ../sirius/sirius-light.scp
 ./sonolus synccpp
-ls plugins/libsonolush/* -all
+cp ../compiler/main plugins/libsonolush/source/compiler/main
 cp plugins ../../ -r
+./sonolus serve &
 ./sonolus buildcpp all ..
 # sqlite3 sonolus.db "SELECT * FROM Engine";
 
