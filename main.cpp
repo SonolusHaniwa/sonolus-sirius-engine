@@ -1,4 +1,3 @@
-#define play
 #include<bits/stdc++.h>
 #include"sonolus/sonolus.h"
 #include"engine/engine.cpp"

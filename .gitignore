@@ -4,3 +4,4 @@ main
 compiler/*
 !compiler/main
 .sonolus
+!dist/thumbnail.jpg
