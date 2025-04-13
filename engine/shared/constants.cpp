@@ -249,7 +249,9 @@ FuncNode duration, noteCount, noteId;
 #if defined(preview)
 var duration;                   // 谱面时长
 var noteCount;                  // note 数量
+auto unused_usdcnac_unused = [](){ return defaultAllocatorId = TemporaryMemoryId; }();
 Array<var, 16> splitLineMemory;
+auto unused_usdcna2c_unused = [](){ return defaultAllocatorId = PreviewDataId; }();
 FuncNode currentJudge, currentJudgeStartTime, currentJudgeDeltaTime, comboNumber, comboStatus;
 FuncNode lastNoteId, lastUpdatedId, firstComboTime, totalAccuracy, currentAccuracy;
 #endif

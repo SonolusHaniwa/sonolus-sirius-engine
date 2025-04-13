@@ -8,6 +8,6 @@ class SyncLine: public Archetype {
     defineImport(right);
 
     SonolusApi render() {
-		drawSyncLine(beat, left, right);
-	}
+      drawSyncLine(beat, left, right);
+    }
 };
