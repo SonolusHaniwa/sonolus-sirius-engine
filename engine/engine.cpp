@@ -5,13 +5,13 @@
 #include"shared/instructions.cpp"
 #include"shared/constants.cpp"
 #include"shared/utils.cpp"
-#include"shared/getSplitLine.cpp"
 
 #ifndef preview
 #include"play/utils.cpp"
 #else
 #include"preview/utils.cpp"
 #endif
+#include"shared/getSplitLine.cpp"
 
 #ifdef play
 #include"play/Initialization.cpp"
