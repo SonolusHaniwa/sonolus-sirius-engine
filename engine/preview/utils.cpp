@@ -200,3 +200,8 @@ SonolusApi drawSplitLine(var st, var en, var extra, var split) {
         } break;
     }
 }
+
+SonolusApi setSplitLine(vector<var> lines) {
+    for (CppLoop int i = 0; i < 16; i++)
+        splitLineMemory[i] = lines[i % lines.size()];
+}
