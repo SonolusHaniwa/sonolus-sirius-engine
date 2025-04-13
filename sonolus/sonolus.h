@@ -72,7 +72,7 @@ Blocked void __builtin_SonolusAssert(
     cerr << "Assertion `" << exprString << "` failed!" << endl << endl;
     printStack();
     callStacks.pop_back();
-    exit(1);
+    abort();
 }
 
 // 库部分内容
@@ -165,3 +165,4 @@ vector<pair<string, string> > particle_effects;
 #include"resource/Skins.h"
 #include"resource/Effects.h"
 #include"resource/Particles.h"
+#include"resource/Levels.h"
