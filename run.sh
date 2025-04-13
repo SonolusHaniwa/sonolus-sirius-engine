@@ -18,7 +18,6 @@ sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus import ../sirius/sirius.scp
 ./sonolus import ../sirius/sirius-light.scp
 ./sonolus synccpp
-cp ../compiler/main plugins/libsonolush/source/compiler/main
 cp plugins ../../ -r
 ./sonolus serve &
 ./sonolus buildcpp all ..
