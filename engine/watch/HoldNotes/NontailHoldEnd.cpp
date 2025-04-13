@@ -58,7 +58,7 @@ class NontailHoldEnd : public Archetype {
 			// comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			// status = comboStatus;
         	// input.time = beat + accuracy;
-        	// input.bucketIndex = FuncNode(Buckets.HoldEnd);
+        	// input.bucketIndex = int(Buckets.HoldEnd);
         	// input.bucketValue = accuracy;
 	        // PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
         	// if (judgeResult == 1 || judgeResult == 2) PlayScheduled(Clips.Perfect, beat + accuracy, minSFXDistance);
@@ -88,7 +88,7 @@ class NontailHoldEnd : public Archetype {
 			// comboStatus = 0;
 			// status = comboStatus;
         	// input.time = beat;
-        	// input.bucketIndex = FuncNode(Buckets.HoldEnd);
+        	// input.bucketIndex = int(Buckets.HoldEnd);
         	// input.bucketValue = 0;
 	        // PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);

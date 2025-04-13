@@ -118,7 +118,7 @@ Blocked SonolusApi NormalScratchNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi NormalScratchNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.ScratchStartNote);
+    instruction = int(iTexts.ScratchStartNote);
     drawNormalNote(Sprites.NormalNoteLeft, 5, 8, times.now);
     drawHoldEighth(Sprites.Scratch, 5, 8, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -154,7 +154,7 @@ Blocked SonolusApi NormalScratchNoteClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.ScratchEndNote);
+    instruction = int(iTexts.ScratchEndNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 5, 8, times.now);
     drawArrow(5, 8, times.now);
     drawUpperHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, handEndAngle, true, false);
@@ -180,7 +180,7 @@ Blocked SonolusApi CriticalScratchNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi CriticalScratchNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.ScratchStartNote);
+    instruction = int(iTexts.ScratchStartNote);
     drawNormalNote(Sprites.CriticalNoteLeft, 5, 8, times.now);
     drawHoldEighth(Sprites.Scratch, 5, 8, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -216,7 +216,7 @@ Blocked SonolusApi CriticalScratchNoteClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.ScratchEndNote);
+    instruction = int(iTexts.ScratchEndNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 5, 8, times.now);
     drawArrow(5, 8, times.now);
     drawUpperHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, handEndAngle, true, false);

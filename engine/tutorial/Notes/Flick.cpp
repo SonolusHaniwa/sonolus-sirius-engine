@@ -63,7 +63,7 @@ Blocked SonolusApi FlickNoteFall(var t, var s) {
 
 Blocked SonolusApi FlickNoteClick(var t, var s) {
     var p = t / tutorialClickTime;
-    instruction = FuncNode(iTexts.ScratchNote);
+    instruction = int(iTexts.ScratchNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 5, 8, times.now);
     drawArrow(5, 8, times.now);
     if (Ceil(p * 4) % 2 == 1) drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, p * 4 % 1, true, false);

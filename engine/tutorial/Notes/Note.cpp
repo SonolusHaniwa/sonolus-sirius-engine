@@ -21,7 +21,7 @@ Blocked SonolusApi NormalNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi NormalNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.NormalNote);
+    instruction = int(iTexts.NormalNote);
     drawNormalNote(Sprites.NormalNoteLeft, 5, 8, times.now);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1);
 }
@@ -41,7 +41,7 @@ Blocked SonolusApi CriticalNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi CriticalNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.CriticalNote);
+    instruction = int(iTexts.CriticalNote);
     drawNormalNote(Sprites.CriticalNoteLeft, 5, 8, times.now);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1);
 }

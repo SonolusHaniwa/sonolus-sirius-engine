@@ -38,7 +38,7 @@ Blocked SonolusApi NormalHoldNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi NormalHoldNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.HoldStartNote);
+    instruction = int(iTexts.HoldStartNote);
     drawNormalNote(Sprites.HoldNoteLeft, 5, 8, times.now);
     drawHoldEighth(Sprites.Hold, 5, 8, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -73,7 +73,7 @@ Blocked SonolusApi NormalHoldNoteClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.HoldEndNote);
+    instruction = int(iTexts.HoldEndNote);
     drawNormalNote(Sprites.HoldNoteLeft, 5, 8, times.now);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, 1 - t / s * 4 % 1, true, false);
 }
@@ -98,7 +98,7 @@ Blocked SonolusApi CriticalHoldNoteFall(var t, var s) {
 }
 
 Blocked SonolusApi CriticalHoldNoteClick(var t, var s) {
-    instruction = FuncNode(iTexts.CriticalHoldStartNote);
+    instruction = int(iTexts.CriticalHoldStartNote);
     drawNormalNote(Sprites.CriticalNoteLeft, 5, 8, times.now);
     drawHoldEighth(Sprites.Hold, 5, 8, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -133,7 +133,7 @@ Blocked SonolusApi CriticalHoldNoteClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.CriticalHoldEndNote);
+    instruction = int(iTexts.CriticalHoldEndNote);
     drawNormalNote(Sprites.HoldNoteLeft, 5, 8, times.now);
     drawFrozenHand(iIcons.Hand, 0, stage.b + judgelineMarginBottom * stage.h, 1 - t / s * 4 % 1, true, false);
 }

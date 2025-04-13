@@ -128,7 +128,7 @@ Blocked SonolusApi NormalJumpScratchFall(var t, var s) {
 }
 
 Blocked SonolusApi NormalJumpScratchClick(var t, var s) {
-    instruction = FuncNode(iTexts.JumpScratchStartNote);
+    instruction = int(iTexts.JumpScratchStartNote);
     drawNormalNote(Sprites.NormalNoteLeft, 4, 6, times.now);
     drawHoldEighth(Sprites.Scratch, 4, 6, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, -x, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -165,7 +165,7 @@ Blocked SonolusApi NormalJumpScratchClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.JumpScratchMiddleNote);
+    instruction = int(iTexts.JumpScratchMiddleNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 4, 9, times.now);
     drawRightArrow(4, 9, times.now);
     drawHoldEighth(Sprites.Scratch, 7, 9, times.now, times.now + appearTime, false);
@@ -202,7 +202,7 @@ Blocked SonolusApi NormalJumpScratchClick3(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.JumpScratchEndNote);
+    instruction = int(iTexts.JumpScratchEndNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 4, 9, times.now);
     drawLeftArrow(4, 9, times.now);
     drawHorizontalHand(iIcons.Hand, x, stage.b + judgelineMarginBottom * stage.h, -x * 2, t / s * 4 % 1, handEndAngle);
@@ -228,7 +228,7 @@ Blocked SonolusApi CriticalJumpScratchFall(var t, var s) {
 }
 
 Blocked SonolusApi CriticalJumpScratchClick(var t, var s) {
-    instruction = FuncNode(iTexts.JumpScratchStartNote);
+    instruction = int(iTexts.JumpScratchStartNote);
     drawNormalNote(Sprites.CriticalNoteLeft, 7, 9, times.now);
     drawHoldEighth(Sprites.Scratch, 7, 9, times.now, times.now + appearTime, false);
     drawFrozenHand(iIcons.Hand, x, stage.b + judgelineMarginBottom * stage.h, t / s * 4 % 1, true, false);
@@ -265,7 +265,7 @@ Blocked SonolusApi CriticalJumpScratchClick2(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.JumpScratchMiddleNote);
+    instruction = int(iTexts.JumpScratchMiddleNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 4, 9, times.now);
     drawLeftArrow(4, 9, times.now);
     drawHoldEighth(Sprites.Scratch, 4, 6, times.now, times.now + appearTime, false);
@@ -302,7 +302,7 @@ Blocked SonolusApi CriticalJumpScratchClick3(var t, var s) {
         StopLooped(spawnedLoopEffect), spawnedLoopEffect = 0;
         DestroyParticleEffect(spawnedParticleEffect), spawnedParticleEffect = 0;
     }
-    instruction = FuncNode(iTexts.JumpScratchEndNote);
+    instruction = int(iTexts.JumpScratchEndNote);
     drawNormalNote(Sprites.ScratchNoteLeft, 4, 9, times.now);
     drawRightArrow(4, 9, times.now);
     drawHorizontalHand(iIcons.Hand, -x, stage.b + judgelineMarginBottom * stage.h, x * 2, t / s * 4 % 1, handEndAngle);
