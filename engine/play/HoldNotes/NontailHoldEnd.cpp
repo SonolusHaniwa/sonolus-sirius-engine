@@ -62,7 +62,7 @@ class NontailHoldEnd: public Archetype {
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(stBeat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(stBeat) - appearTime; }
 
-	SonolusApi complete(var t = times.now) {
+	SonolusApi complete(var t) {
 		if (playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;

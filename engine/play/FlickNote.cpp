@@ -53,7 +53,7 @@ class FlickNote: public Archetype {
 		// beat.set(Buckets.NormalNote),
 	}
 
-	SonolusApi complete(var t = times.now) {
+	SonolusApi complete(var t) {
 		var res = 0, res2 = 0;
 		if (t == inputTimeMax) res = 3, res2 = 2;
 		if (t != -1 && t != inputTimeMax) res = 1, res2 = 1;
@@ -82,12 +82,12 @@ class FlickNote: public Archetype {
 		}
 		if (times.now < inputTimeMin) return;
 		if (times.now > inputTimeMax) {
-			if (activate == 1) complete(inputTimeMax);
+			if (activate) complete(inputTimeMax);
 			else complete(-1);
 		}
 		if (activate == 0) claimStart(info.index);
-		if (activate == 1) {
-			if (findFlickTouch(lane, enLane) != -1) complete();
+		if (activate) {
+			if (findFlickTouch(lane, enLane) != -1) complete(activate);
 		}
 	}
 
@@ -105,7 +105,9 @@ class FlickNote: public Archetype {
 		// if (touchTime != -1) Return(0);
 		var index = getClaimedStart(info.index);
 		if (index == -1) return;
-		activate = 1; ExportValue(activation, times.now - beat);
+		for (var i = 0; i < touchCount; i++) 
+			if (touches[i].id == index) activate = touches[i].st;
+		ExportValue(activation, times.now - beat);
 	}
 
 	SonolusApi updateParallel() {

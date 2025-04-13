@@ -49,7 +49,7 @@ class Sound: public Archetype {
     SonolusApi spawnOrder() { return 1000 + TimeToScaledTime(beat); }
     SonolusApi shouldSpawn() { return times.scaled > TimeToScaledTime(beat) - appearTime; }
 
-	SonolusApi complete(var t = times.now) {
+	SonolusApi complete(var t) {
 		var res = 0, res2 = 0;
 		if (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3;
 		if (Abs(t - beat) <= judgment.good) res = 4, res2 = 3;

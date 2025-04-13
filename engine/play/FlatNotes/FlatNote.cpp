@@ -44,7 +44,7 @@ class FlatNote: public Archetype {
 		// beat.set(Buckets.NormalNote)
 	}
 
-	SonolusApi complete(var t = times.now) {
+	SonolusApi complete(var t) {
 		var res = 0, res2 = 0;
 		if (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3;
 		if (Abs(t - beat) <= judgment.good) res = 4, res2 = 3;
@@ -116,7 +116,7 @@ class FlatNote: public Archetype {
 		// 	DebugLog(touches[i].x);
 		// 	DebugLog(touches[i].y);
 		// }
-		complete(times.now);
+		for (var i = 0; i < touchCount; i++) if (touches[i].id == index) complete(touches[i].st);
 	}
 
 	SonolusApi updateParallel() {
