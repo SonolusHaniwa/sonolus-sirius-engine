@@ -58,6 +58,7 @@ jobs:
           cp sonolus-server/sonolus.db wds/
           cp sonolus-server/engine.json wds/
           cp sonolus-server/engine.json stellarity/backend/
+          cd sonolus-server && ./sonolus synccpp
 
       - name: Commit to World Dai Star Private
         run: |
