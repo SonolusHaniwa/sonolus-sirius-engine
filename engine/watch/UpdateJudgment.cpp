@@ -1,30 +1,29 @@
 class UpdateJudgment: public Archetype {
 	public:
 
-	static const bool disableGlobalPreprocess = true;
-	static constexpr const char* name = "Sirius Update Judgment";
-	Variable<EntityMemoryId> beat;
-	Variable<EntityMemoryId> judgment;
-	Variable<EntityMemoryId> combo;
-	Variable<EntityMemoryId> status;
-	Variable<EntityMemoryId> entityId;
-	Variable<EntityMemoryId> delta;
-	Variable<EntityMemoryId> accuracy;
+	string name = "Sirius Update Judgment";
+	var beat;
+	var judgment;
+	var combo;
+	var status;
+	var entityId;
+	var delta;
+	var accuracy;
 
-	SonolusApi spawnTime() { return TimeToScaledTime(beat); }
+	SonolusApi spawnTime() { 
+		return TimeToScaledTime(beat); 
+	}
 	SonolusApi despawnTime() {
-		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].get(2));
+		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].generic[2]);
 	}
 
  	// int updateSequentialOrder = 1;
 	SonolusApi updateSequential() {
-		FUNCBEGIN
-		IF (lastUpdatedId > entityId) Return(0); FI
-		comboStatus = status.get();
-		comboNumber = combo.get();
+		if (lastUpdatedId > entityId) return;
+		comboStatus = status;
+		comboNumber = combo;
 		SpawnSubJudgeText(judgment, delta, beat);
-		lastUpdatedId = entityId.get();
+		lastUpdatedId = entityId;
 		currentAccuracy = accuracy + totalAccuracy;
-		return VOID;
 	}
 };

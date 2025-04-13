@@ -1,20 +1,17 @@
 class Stage: public Archetype {
     public:
 
-    static constexpr const char*  name = "Sirius Stage";
-    bool input = false;
+    string name = "Sirius Stage";
 
 	int preprocessOrder = 1;
     SonolusApi preprocess() {
-    	FUNCBEGIN
-		canvas.set(Scroll.LeftToRight, Ceil(duration.get() / stageTimeLength) * stageFullWidth);
-		return VOID;
+		scroll = CanvasScroll.LeftToRight;
+		canvasSize = Ceil(duration / stageTimeLength) * stageFullWidth;
     }
 
 	SonolusApi render() {
-		FUNCBEGIN
-		FOR (i, 0, Ceil(duration / stageTimeLength), 1) { drawStage(i); } DONE
-		FOR (i, 0, duration + 1, 1) { drawTime(i); } DONE
-		return VOID;
+		DebugLog(duration);
+		for (var i = 0; i < Ceil(duration / stageTimeLength); i++) drawStage(i);
+		for (var i = 0; i <= duration; i++) drawTime(i);
 	}
 };
