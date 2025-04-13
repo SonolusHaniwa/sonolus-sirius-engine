@@ -18,8 +18,8 @@ sqlite3 sonolus.db ".read ./data.sql"
 ./sonolus serve &
 ./sonolus import ../sirius/sirius.scp
 ./sonolus import ../sirius/sirius-light.scp
-./sonolus synccpp
 cp plugins ../../ -r
+./sonolus synccpp
 ./sonolus buildcpp all ..
 # sqlite3 sonolus.db "SELECT * FROM Engine";
 
