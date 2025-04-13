@@ -101,7 +101,7 @@ class ScratchHoldEnd: public Archetype {
 		input.judgment = res2;
 		if (res2 != 0) {
 			input.accuracy = t - beat;
-			input.bucketIndex = FuncNode(ScratchHoldEndBucket);
+			input.bucketIndex = int(ScratchHoldEndBucket);
 			input.bucketValue = (t - beat) * 1000;
 			ExportValue(judgeResult, res);
 		}

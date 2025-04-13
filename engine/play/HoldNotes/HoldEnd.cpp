@@ -93,7 +93,7 @@ class HoldEnd: public Archetype {
 		input.judgment = res2;
 		if (res2 != 0) {
 			input.accuracy = t - beat;
-			input.bucketIndex = FuncNode(HoldEndBucket);
+			input.bucketIndex = int(HoldEndBucket);
 			input.bucketValue = (t - beat) * 1000;
 			ExportValue(judgeResult, res);
 		}

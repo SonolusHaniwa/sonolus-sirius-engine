@@ -48,7 +48,7 @@ class FlickNote : public Archetype {
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			status = comboStatus;
         	input.time = beat + accuracy;
-        	input.bucketIndex = FuncNode(FlickNoteBucket);
+        	input.bucketIndex = int(FlickNoteBucket);
         	input.bucketValue = accuracy * 1000;
         	EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
         	if (firstComboTime == 0) firstComboTime = beat;
@@ -67,7 +67,7 @@ class FlickNote : public Archetype {
 			comboStatus = 0;
 			status = comboStatus;
         	input.time = beat;
-        	input.bucketIndex = FuncNode(FlickNoteBucket);
+        	input.bucketIndex = int(FlickNoteBucket);
         	input.bucketValue = 0;
         	EntitySharedMemoryArray[id].generic[2] = beat;
         	if (firstComboTime == 0) firstComboTime = beat;

@@ -45,8 +45,8 @@ class Sound : public Archetype {
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			status = comboStatus;
         	input.time = beat + accuracy;
-			if(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) input.bucketIndex = FuncNode(SoundBucket);
-			if(holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) input.bucketIndex = FuncNode(ScratchSoundBucket);
+			if(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) input.bucketIndex = int(SoundBucket);
+			if(holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) input.bucketIndex = int(ScratchSoundBucket);
         	input.bucketValue = accuracy * 1000;
         	EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
         	if(firstComboTime == 0) firstComboTime = beat;
@@ -64,8 +64,8 @@ class Sound : public Archetype {
 			comboStatus = 0;
 			status = comboStatus;
         	input.time = beat;
-			if(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) input.bucketIndex = FuncNode(SoundBucket);
-			if(holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) input.bucketIndex = FuncNode(ScratchSoundBucket);
+			if(holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) input.bucketIndex = int(SoundBucket);
+			if(holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) input.bucketIndex = int(ScratchSoundBucket);
         	input.bucketValue = 0;
         	EntitySharedMemoryArray[id].generic[2] = beat;
         	if(firstComboTime == 0) firstComboTime = beat;
