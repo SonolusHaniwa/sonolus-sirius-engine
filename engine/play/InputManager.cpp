@@ -40,12 +40,12 @@ class ClaimManager {
 			// DebugPause();
 
 			var dis = Abs(touches[i].x - x);
-			if (EntityInfo.index == 90 || EntityInfo.index == 91) {
-				DebugLog(touches[i].id);
-				DebugLog(touches[i].x);
-				DebugLog(touches[i].y);
-				DebugLog(dis);
-			}
+			// if (EntityInfo.index == 90 || EntityInfo.index == 91) {
+			// 	DebugLog(touches[i].id);
+			// 	DebugLog(touches[i].x);
+			// 	DebugLog(touches[i].y);
+			// 	DebugLog(dis);
+			// }
 			if (res != -1 && minDis <= dis) continue;
 
 			var claimIndex = claimed.indexOf(touches[i].id);
