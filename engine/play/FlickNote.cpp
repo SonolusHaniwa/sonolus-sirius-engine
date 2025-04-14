@@ -33,7 +33,7 @@ class FlickNote: public Archetype {
 
 	SonolusApi preprocess() {
 		beat = beat / levelSpeed;
-        if (mirror) lane = 14 - lane - laneLength; scratchLength = -1 * scratchLength;
+        if (mirror) lane = 14 - lane - laneLength, scratchLength = -1 * scratchLength;
 		enLane = lane + laneLength - 1;
 		inputTimeMin = beat - judgment.bad + offsets.input;
 		inputTimeMax = beat + judgment.bad + offsets.input;
