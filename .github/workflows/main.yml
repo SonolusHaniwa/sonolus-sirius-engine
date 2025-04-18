@@ -17,7 +17,7 @@ env:
 
 jobs:
   upload: 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     
     permissions:
       contents: write
@@ -38,7 +38,7 @@ jobs:
       - name: Preparing C/C++ Compiler
         run: |
           sudo apt update
-          sudo apt install g++ libjsoncpp-dev openssl libbrotli-dev libcurl4-openssl-dev libzip-dev libmysqlclient-dev libsqlite3-dev imagemagick ffmpeg libmsgpack-dev liblz4-dev libzip-dev -y
+          sudo apt install g++ libjsoncpp-dev openssl libbrotli-dev libcurl4-openssl-dev libzip-dev libmysqlclient-dev libsqlite3-dev imagemagick ffmpeg libmsgpack-dev liblz4-dev libzip-dev libpng-dev -y
 
       - name: Uploading data to server
         run: |
