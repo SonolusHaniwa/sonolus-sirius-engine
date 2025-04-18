@@ -55,12 +55,16 @@ class HoldEighth: public Archetype {
 	}
 	SonolusApi updateSequential() {
 		if (times.now < beat) return;
-		isHolding = findHoldTouch(lane, enLane) != -1;
+		isHolding = findHoldTouch(lane, enLane);
 
 		// 判定主代码
 		if (times.now < inputTimeMin) return;
 		if (times.now > inputTimeMax) complete(-1);
-		if (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now);
+		if (isHolding != -1) {
+			for (var i = 0; i < touchCount; i++) if (touches[i].id == isHolding)
+				if (touches[i].ended) lastHoldTime = touches[i].t;
+				else lastHoldTime = Max(touches[i].t, beat);
+		}
 		if (times.now >= beat && lastHoldTime != -1) complete(lastHoldTime);
 	}
 };

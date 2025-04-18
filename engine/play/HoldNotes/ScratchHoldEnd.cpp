@@ -123,8 +123,8 @@ class ScratchHoldEnd: public Archetype {
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 		}
 		if (times.now < stBeat) return;
-		isHolding = findHoldTouch(lane, enLane) != -1;
-		if (isHolding && playId == 0) {
+		isHolding = findHoldTouch(lane, enLane);
+		if (isHolding != -1 && playId == 0) {
 			if (HasEffectClip(Clips.Hold) && !autoSFX) playId = PlayLooped(Clips.Hold);
 			else playId = 1;
 			effectId = spawnHoldEffect(Effects.Scratch, lane, enLane);
@@ -133,7 +133,7 @@ class ScratchHoldEnd: public Archetype {
 				exportId = exportId + 1;
 			}
 		}
-		if (!isHolding && playId != 0) {
+		if (isHolding == -1 && playId != 0) {
 			StopLooped(playId); playId = 0;
 			DestroyParticleEffect(effectId); effectId = 0;
 			if (exportId <= time25) {
@@ -145,9 +145,13 @@ class ScratchHoldEnd: public Archetype {
 		// 判定主代码
 		if (times.now < inputTimeMin) return;
 		if (times.now > inputTimeMax) complete(lastHoldTime);
-		if (isHolding == 1) lastHoldTime = Max(lastHoldTime, inputTimeMin);
-		isHolding = findFlickTouch(scratchLane, scratchEnLane) != -1;
-		if (isHolding == 1) lastHoldTime = Max(lastHoldTime, times.now);
+		if (isHolding != -1) lastHoldTime = Max(lastHoldTime, inputTimeMin);
+		isHolding = findFlickTouch(scratchLane, scratchEnLane);
+		if (isHolding != -1) {
+			for (var i = 0; i < touchCount; i++) if (touches[i].id == isHolding)
+				if (touches[i].ended) lastHoldTime = touches[i].t;
+				else lastHoldTime = Max(touches[i].t, beat);
+		}
 		if (times.now >= beat && lastHoldTime > inputTimeMin) complete(lastHoldTime);
 	}
 
