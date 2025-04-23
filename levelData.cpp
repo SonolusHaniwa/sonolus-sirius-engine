@@ -211,6 +211,7 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
         else x.gimmickType = 0;
         notes.push_back(x);
     } sort(notes.begin(), notes.end(), [&](Note a, Note b){
+        callStacks.push_back({});
         if (a.startTime == b.startTime) return a.type < b.type;
         return a.startTime < b.startTime;
     });
@@ -575,6 +576,7 @@ string sus2txt(string text) {
 	                exp[i] = tmp2[0] + "'" + tmp2[1] + ":" + tmp3[0] + "." + tmp3[1];
 	            }
 	            sort(exp.begin(), exp.end(), [](string a, string b){
+                    callStacks.push_back({});
 	            	return a.size() == b.size() ? a < b : a.size() < b.size();
 	            }); // upd: 字符串类型的数字不能直接排序，警钟敲烂😓 2024/01/14
 	            for (auto i = 0; i < exp.size(); i++) {
@@ -650,7 +652,9 @@ string sus2txt(string text) {
     // cout << mainData.size() << endl;
     sort(mainData.begin(), mainData.end(), [](
         tuple<string, int, double, string> a, 
-        tuple<string, int, double, string> b){
+        tuple<string, int, double, string> b
+    ){
+        callStacks.push_back({});
         int a1 = atoi(get<0>(a).substr(0, 3).c_str());
         int b1 = atoi(get<0>(b).substr(0, 3).c_str());
         int a2 = get<1>(a), b2 = get<1>(b);
@@ -925,6 +929,7 @@ string sus2txt(string text) {
     string output = txt.str();
     auto tmp = explode("\n", output.c_str());
     sort(tmp.begin(), tmp.end(), [](string a, string b){
+        callStacks.push_back({});
         auto tmpa = explode(",", a.c_str());
         auto tmpb = explode(",", b.c_str());
         return atof(tmpa[0].c_str()) < atof(tmpb[0].c_str());
