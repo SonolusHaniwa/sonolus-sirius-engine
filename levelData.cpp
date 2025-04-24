@@ -309,7 +309,16 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
-            case wds::HoldStart: case BlueTap: {
+            case wds::HoldStart: {
+                HoldStartEntity entity;
+                entity.beat = x.startTime;
+                entity.lane = x.leftLane;
+                entity.laneLength = x.laneLength;
+                levelData.append(entity);
+                addSyncLine(x.startTime, x.leftLane, x.laneLength);
+                total++;
+            } break; 
+            case BlueTap: { // 和上面的相同
                 HoldStartEntity entity;
                 entity.beat = x.startTime;
                 entity.lane = x.leftLane;
@@ -345,12 +354,49 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
                 addSyncLine(x.startTime, x.leftLane, x.laneLength);
                 total++;
             } break;
-            case Hold: case CriticalHold: case ScratchHold: case ScratchCriticalHold: 
-            case NontailHold: case NontailCriticalHold: case NontailScratchHold: case NontailScratchCriticalHold: {
+            case Hold:  {
 				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
                 holdEnd.insert(x);
             } break;
-            case wds::Sound: case ScratchSound: {
+            case CriticalHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case ScratchHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case ScratchCriticalHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case NontailHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case NontailCriticalHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case NontailScratchHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case NontailScratchCriticalHold: { // 和上面的相同
+				lastType[x.leftLane][x.leftLane + x.laneLength - 1] = x.type;
+                holdEnd.insert(x);
+            } break;
+            case wds::Sound:  {
+                lastEighthTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
+                SoundEntity entity;
+                entity.beat = x.startTime;
+                entity.lane = x.leftLane;
+                entity.laneLength = x.laneLength;
+                levelData.append(entity);
+				entity.holdType = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+                total++;
+            } break;
+            case ScratchSound: { // 和上面的相同
                 lastEighthTime[x.leftLane][x.leftLane + x.laneLength - 1] = x.startTime;
                 SoundEntity entity;
                 entity.beat = x.startTime;

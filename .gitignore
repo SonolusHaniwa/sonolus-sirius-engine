@@ -5,3 +5,5 @@ compiler/*
 !compiler/main
 .sonolus
 !dist/thumbnail.jpg
+5.txt
+music_config.txt
