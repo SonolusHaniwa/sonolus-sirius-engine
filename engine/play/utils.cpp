@@ -228,7 +228,7 @@ SonolusApi spawnEffect(var linear, var circular, var lane, var enLane) {
 	auto rb2 = c2 + Vec(w / 2, 0), rt2 = c2 + Vec(w / 2, effectCircularHeight);
 	SpawnParticleEffect(linear, lb, lt, rt, rb, effectDurationTime, 0);
 	SpawnParticleEffect(circular, lb2, lt2, rt2, rb2, effectDurationTime, 0);
-	spawnLineEffect(lane, enLane);
+	// spawnLineEffect(lane, enLane);
 }
 
 SonolusApi spawnHoldEffect(var effect, var lane, var enLane) {

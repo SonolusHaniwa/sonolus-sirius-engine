@@ -392,8 +392,8 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
                 entity.beat = x.startTime;
                 entity.lane = x.leftLane;
                 entity.laneLength = x.laneLength;
-                levelData.append(entity);
 				entity.holdType = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+                levelData.append(entity);
                 total++;
             } break;
             case ScratchSound: { // 和上面的相同
@@ -402,8 +402,8 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
                 entity.beat = x.startTime;
                 entity.lane = x.leftLane;
                 entity.laneLength = x.laneLength;
-                levelData.append(entity);
 				entity.holdType = lastType[x.leftLane][x.leftLane + x.laneLength - 1];
+                levelData.append(entity);
                 total++;
             } break;
             case SoundPurple: {
