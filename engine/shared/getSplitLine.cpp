@@ -210,6 +210,7 @@ SonolusApi getSplitLine(var id) {
 		{ 11350, setSplitLine({ Sprites.SplitLine_11350 }) },
 		{ 11360, setSplitLine({ Sprites.SplitLine_11360 }) },
 		{ 11370, setSplitLine({ Sprites.SplitLine_11370 }) },
+		{ 11380, setSplitLine({ Sprites.SplitLine_2010, Sprites.SplitLine_2020, Sprites.SplitLine_2030, Sprites.SplitLine_2040a, Sprites.SplitLine_11380 }) },
 		{ 2, setSplitLine({ Sprites.SplitLine_2 }) },
 		{ 2010, setSplitLine({ Sprites.SplitLine_2010 }) },
 		{ 2020, setSplitLine({ Sprites.SplitLine_2020 }) },
