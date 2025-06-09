@@ -1,4 +1,4 @@
-class ITexts {
+class iTexts {
     public:
 
     InstructionText NormalNote = defineInstructionText(Text.Tap);

@@ -13,7 +13,7 @@ SonolusApi printNumber(var x, var y, var value, var format, var decimalPlaces, v
 	Print(value, format, decimalPlaces, x, y, pivotX, pivotY, screen.h / 10, screen.h / 20, 0, color, 1, ha, 0);
 }
 
-SonolusApi drawStage(var id) {
+Blocked SonolusApi drawStage(var id) {
 	var l = screen.l + id * stageFullWidth + (stageFullWidth - stageWidth) / 2;
 	var r = screen.l + (id + 1) * stageFullWidth - (stageFullWidth - stageWidth) / 2;
 	var t = stageHeight / 2;

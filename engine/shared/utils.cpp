@@ -14,8 +14,8 @@ class line {
 
     var offset;
     var lbx, lby, ltx, lty, rbx, rby, rtx, rty;
-    line(){}
-    line(var offset) {
+    Constructor line(){}
+    Constructor line(var offset) {
         lbx = Lerp(stage.l, stage.r, (offset - 1) / 12);
         lby = stage.b;
         ltx = Lerp(stage.l * highWidth, stage.r * highWidth, (offset - 1) / 12);

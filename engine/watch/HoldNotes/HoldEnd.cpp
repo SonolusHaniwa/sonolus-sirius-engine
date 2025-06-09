@@ -68,7 +68,7 @@ class HoldEnd : public Archetype {
 			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
 			status = comboStatus;
         	input.time = beat + accuracy;
-        	input.bucketIndex = int(HoldEndBucket);
+        	input.bucketIndex = HoldEndBucket;
         	input.bucketValue = accuracy * 1000;
 			EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
         	if (firstComboTime == 0) firstComboTime = beat;

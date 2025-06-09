@@ -160,12 +160,16 @@ class screen {
 class stage {
 	public:
 
-	FuncNode w = If(lockAspectRatio == 0 || screen.aspectRatio < targetAspectRatio,
+	FuncNode w = If(
+        lockAspectRatio == 0 || screen.aspectRatio < targetAspectRatio,
         screen.w * extraWidth,
-        screen.h * targetAspectRatio);
-    FuncNode h = If(lockAspectRatio == 0 || screen.aspectRatio > targetAspectRatio,
+        screen.h * targetAspectRatio
+    );
+    FuncNode h = If(
+        lockAspectRatio == 0 || screen.aspectRatio > targetAspectRatio,
         screen.h,
-        screen.w / targetAspectRatio);
+        screen.w / targetAspectRatio
+    );
     FuncNode l = -1 * w / 2;
     FuncNode r = w / 2;
     FuncNode t = h / 2;

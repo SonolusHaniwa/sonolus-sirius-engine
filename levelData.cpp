@@ -523,13 +523,13 @@ void addTime(
     else current += ((b1 - a1 - 1) + 1.0 - 1.0 * a2 / a3 + 1.0 * b2 / b3) * timesPerBeat; 
 }
 
-int extract(char x) {
+int extract2(char x) {
     return isdigit(x) ? x - '0' : x - 'a' + 10;
 }
 
 int getLine(char x, char offset = '0', int offset2 = 0) {
-    int id = extract(x) - 1;
-    int off = extract(offset);
+    int id = extract2(x) - 1;
+    int off = extract2(offset);
     id += off + offset2;
     SonolusAssert(
         id > 0 && id <= 12,
