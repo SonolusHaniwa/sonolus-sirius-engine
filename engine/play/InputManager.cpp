@@ -96,9 +96,11 @@ class ClaimManager {
 			// ClaimInfo replaced = getInfo(cldaimIndex)
 			// Debuglog(claimed.indexOf(touchIndex));
 			var tmp = currentId;
-			currentId = claimed[touchIndex];
+			currentId = claimed.getValue(claimIndex);
+			claimed.set(touchIndex, tmp);
+			// currentId = claimed[touchIndex];
 			// Debuglog(claimed.indexOf(touchIndex));
-			claimed[touchIndex] = tmp;
+			// claimed[touchIndex] = tmp;
 			// DebugPause();
 			// claimed.val.set(claimIndex, tmp);
 			// Debuglog(touchIndex);
