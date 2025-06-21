@@ -6779,7 +6779,7 @@ Variable SelectOption(
     res["standard"] = standard;
     res["advanced"] = advanced;
     res["scope"] = scope;
-    res["type"] = "toggle";
+    res["type"] = "select";
     res["def"] = def;
     res["values"].size();
     for (int i = 0; i < values.size(); i++) res["values"].append(values[i]);

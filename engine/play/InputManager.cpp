@@ -105,6 +105,7 @@ class ClaimManager {
 			// claimed.val.set(claimIndex, tmp);
 			// Debuglog(touchIndex);
 			// Debuglog(claimed.getValById(claimIndex));
+			
 			// if (claimed.getValById(claimIndex) != tmp) DebugPause();
 			// Debuglog(claimed.size);
 		}

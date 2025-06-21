@@ -33,11 +33,11 @@ class HoldEighth: public Archetype {
 
 	SonolusApi complete(var t) {
 		var res = 0, res2 = 0;
-		if (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3;
-		if (Abs(t - beat) <= judgment.good) res = 4, res2 = 3;
-		if (Abs(t - beat) <= judgment.great) res = 3, res2 = 2;
-		if (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1;
-		if (Abs(t - beat) <= judgment.perfectPlus) res = 1, res2 = 1;
+		// if (Abs(t - beat) <= judgment.bad) res = 5, res2 = 3;
+		if (Abs(t - beat) <= judgment.bad) res = 4, res2 = 3;
+		// if (Abs(t - beat) <= judgment.great) res = 3, res2 = 2;
+		// if (Abs(t - beat) <= judgment.perfect) res = 2, res2 = 1;
+		if (Abs(t - beat) <= judgment.great) res = 1, res2 = 1;
 		input.judgment = res2;
 		if (res2 != 0) {
 			input.accuracy = t - beat;
