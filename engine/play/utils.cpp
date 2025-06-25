@@ -415,7 +415,7 @@ FuncNode setSplitLine(vector<FuncNode> lines) {
     createNodeContainer();
     for (int i = 0; i < 16; i++) {
         splitLineMemory[i] = lines[i % lines.size()];
-		DebugLog(lines[i % lines.size()]);
+		// DebugLog(lines[i % lines.size()]);
 	}
     return mergeNodeContainer();
 }

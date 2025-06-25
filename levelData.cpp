@@ -230,10 +230,6 @@ string txt2data(string text, double chartOffset, double bgmOffset = 0) {
     levelData.append(InitializationEntity());
     levelData.append(InputManagerEntity());
     levelData.append(StageEntity());
-    HiSpeedEntity hiSpeed;
-    hiSpeed.beat = 0;
-    hiSpeed.value = 60;
-    levelData.append(hiSpeed);
     double lastEighthTime[13][13]; int lastType[13][13], total = 0;
     for (int i = 0; i < 13; i++) for (int j = 0; j < 13; j++) lastEighthTime[i][j] = 0, lastType[i][j] = 0;
     for (int i = 0; i < notes.size(); i++) {
