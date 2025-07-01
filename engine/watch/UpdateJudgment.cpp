@@ -14,7 +14,7 @@ class UpdateJudgment: public Archetype {
 		return TimeToScaledTime(beat); 
 	}
 	SonolusApi despawnTime() {
-		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].generic[2]);
+		return TimeToScaledTime(beat) + Max(1, EntitySharedMemoryArray[entityId].generic[2] - TimeToScaledTime(beat));
 	}
 
  	// int updateSequentialOrder = 1;
