@@ -5,12 +5,56 @@ class Stage: public Archetype {
 	bool input = false;
 	var firstTime;
 	var entityNumber;
+	defineImport(order0);
+	defineImport(order1);
+	defineImport(order2);
+	defineImport(order3);
+	defineImport(order4);
+	defineImport(order5);
+	defineImport(order6);
+	defineImport(order7);
+	defineImport(order8);
+	defineImport(order9);
+	defineImport(order10);
+	defineImport(order11);
+	defineImport(order12);
+	defineImport(order13);
+	defineImport(order14);
+	defineImport(order15);
+	defineImport(order16);
+	defineImport(order17);
+	defineImport(order18);
+	defineImport(order19);
+	defineImport(order20);
 
 	SonolusApi spawnTime() { return -999999; }
 	SonolusApi despawnTime() { return 999999; }
 
-	int preprocessOrder = 1;
+	int preprocessOrder = -2;
 	SonolusApi preprocess() {
+		if (replay) {
+			for (var i = 0; i < 21; i++) order[i] = EntityData[i];
+		} else {
+			for (var i = 0; i < 1; i++) order[i] = i + 1;
+			for (var i = 1; i < 3; i++) order[i] = i;
+			for (var i = 3; i < 6; i++) order[i] = i - 2;
+			for (var i = 6; i < 10; i++) order[i] = i - 5;
+			for (var i = 10; i < 15; i++) order[i] = i - 9;
+			for (var i = 15; i < 21; i++) order[i] = i - 14;
+			if (splitRandom) {
+				randomShuffle(order, 0, 1);
+				randomShuffle(order, 1, 3);
+				randomShuffle(order, 3, 6);
+				randomShuffle(order, 6, 10);
+				randomShuffle(order, 10, 15);
+				randomShuffle(order, 15, 21);
+			}
+		}
+		entityCount = 1;
+		while (EntityInfoArray[entityCount].index != 0) entityCount++;
+	}
+
+	SonolusApi initialize() {
 		firstTime = firstComboTime;
 		entityNumber = currentJudgeStartTime;
 	}

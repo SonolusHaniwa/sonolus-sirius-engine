@@ -124,8 +124,9 @@ FuncNode mirror = Options.Mirror;
 FuncNode speed = Options.NoteSpeed;
 FuncNode hidden = Options.Hidden;
 FuncNode autoSFX = Options.AutoSFX;
+FuncNode splitRandom = Options.SplitRandom;
 FuncNode splitLine = Options.SplitLine;
-FuncNode syncLine = Options.SyncLine;
+FuncNode syncLine = Options.SyncLine && splitRandom == 0;
 FuncNode lockAspectRatio = Options.LockAspectRatio;
 FuncNode extraWidth = Options.ExtraWidth;
 FuncNode levelSpeed = Options.Speed;
@@ -248,6 +249,8 @@ var lastUpdatedId;
 var firstComboTime;
 var totalAccuracy;
 var currentAccuracy;
+Array<var, 21> order; // [0, 1), [1, 3), [3, 6), [6, 10), [10, 15), [15, 21)
+var entityCount;
 FuncNode duration, noteCount, noteId;
 #endif
 #if defined(preview)

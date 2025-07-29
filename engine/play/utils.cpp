@@ -419,3 +419,15 @@ FuncNode setSplitLine(vector<FuncNode> lines) {
 	}
     return mergeNodeContainer();
 }
+
+SonolusApi randomShuffle(Array<var, 21> &arr, var st, var en) {
+    for (var i = st; i < en; i++) {
+        var j = RandomInteger(st, en - 1);
+        if (i != j) {
+            var temp = arr[i];
+            var temp2 = arr[j];
+            arr[i] = temp2;
+            arr[j] = temp;
+        }
+    }
+}

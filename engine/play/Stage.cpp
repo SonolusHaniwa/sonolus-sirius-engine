@@ -3,10 +3,55 @@ class Stage: public Archetype {
 
     string name = "Sirius Stage";
     bool input = false;
+	defineExport(order0);
+	defineExport(order1);
+	defineExport(order2);
+	defineExport(order3);
+	defineExport(order4);
+	defineExport(order5);
+	defineExport(order6);
+	defineExport(order7);
+	defineExport(order8);
+	defineExport(order9);
+	defineExport(order10);
+	defineExport(order11);
+	defineExport(order12);
+	defineExport(order13);
+	defineExport(order14);
+	defineExport(order15);
+	defineExport(order16);
+	defineExport(order17);
+	defineExport(order18);
+	defineExport(order19);
+	defineExport(order20);
 
     SonolusApi spawnOrder() { return 2; }
 
     SonolusApi shouldSpawn() { return 1; }
+
+	int preprocessOrder = -2;
+	SonolusApi preprocess() {
+		for (var i = 0; i < 1; i++) order[i] = i + 1;
+		for (var i = 1; i < 3; i++) order[i] = i;
+		for (var i = 3; i < 6; i++) order[i] = i - 2;
+		for (var i = 6; i < 10; i++) order[i] = i - 5;
+		for (var i = 10; i < 15; i++) order[i] = i - 9;
+		for (var i = 15; i < 21; i++) order[i] = i - 14;
+		if (splitRandom) {
+			randomShuffle(order, 0, 1);
+			randomShuffle(order, 1, 3);
+			randomShuffle(order, 3, 6);
+			randomShuffle(order, 6, 10);
+			randomShuffle(order, 10, 15);
+			randomShuffle(order, 15, 21);
+		}
+		entityCount = 1;
+		while (EntityInfoArray[entityCount].index != 0) entityCount++;
+	}
+
+	SonolusApi initialize() {
+		for (var i = 0; i < 21; i++) ExportValue(i, order[i]);
+	}
 
     SonolusApi drawJudgeText() {
 		var H = judgeTextHeight * configuration.judgment.scale;

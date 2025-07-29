@@ -56,7 +56,7 @@ class Options {
         false
     );
     var SplitRandom = ToggleOption(
-        "Split Random Fall (not implement yet)",
+        "Split Random Fall",
         "",
         false,
         false,
@@ -76,7 +76,7 @@ class Options {
         Text.PercentageUnit
     );
     var SyncLine = ToggleOption(
-        Text.SimlineAlpha,
+        Text.Simline,
         "",
         false,
         false,

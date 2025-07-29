@@ -21,7 +21,7 @@ class SyncLine: public Archetype {
     }
 
     SonolusApi updateParallel() {
-        if (Options.SyncLine == 1) {
+        if (syncLine) {
             drawSyncLine(TimeToScaledTime(beat), left, right);
         }
     }
