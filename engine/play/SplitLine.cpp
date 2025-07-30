@@ -73,12 +73,12 @@ class SplitLine: public Archetype {
 					EntityInfoArray[i].archetype == getAid(FlickNote)
 				) &&
 				inSplitLine(split, EntityDataArray[i].generic[1], EntityDataArray[i].generic[2]) &&
-				beat < EntityDataArray[i].generic[0] && EntityDataArray[i].generic[0] < endBeat
+				beat <= EntityDataArray[i].generic[0] && EntityDataArray[i].generic[0] <= endBeat
 			) {
 				var lane, laneLength;
 				var id = getSplitLineId(split, EntityDataArray[i].generic[1]);
 				getSplitLine(split, order[getOrderId(split, id)], lane, laneLength);
-				DebugLog(lane), DebugLog(laneLength);
+				// DebugLog(lane), DebugLog(laneLength);
 				EntityDataArray[i].generic[1] = lane;
 				EntityDataArray[i].generic[2] = laneLength;
 			}
@@ -90,7 +90,7 @@ class SplitLine: public Archetype {
 					EntityInfoArray[i].archetype == getAid(ScratchHoldEnd)
 				) &&
 				inSplitLine(split, EntityDataArray[i].generic[2], EntityDataArray[i].generic[3]) &&
-				beat < EntityDataArray[i].generic[1] && EntityDataArray[i].generic[1] < endBeat
+				beat <= EntityDataArray[i].generic[1] && EntityDataArray[i].generic[1] <= endBeat
 			) {
 				var lane, laneLength;
 				var id = getSplitLineId(split, EntityDataArray[i].generic[2]);
