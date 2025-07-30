@@ -1,5 +1,4 @@
 #include<bits/stdc++.h>
-#define watch
 #include"sonolus/sonolus.h"
 #include"engine/engine.cpp"
 #include"levelData.cpp"
