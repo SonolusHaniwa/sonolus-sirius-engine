@@ -244,7 +244,6 @@ var currentJudgeStartTime;
 Array<var, 16> splitLineMemory;
 var comboNumber;
 var comboStatus;
-var lastNoteId;
 var lastUpdatedId;
 var firstComboTime;
 var totalAccuracy;

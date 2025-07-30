@@ -53,9 +53,10 @@ class ScratchHoldEnd : public Archetype {
 	var effectInstanceId;
 	var scratchLane;
 	var scratchEnLane;
-	var combo = EntitySharedMemory[0];
-	var status = EntitySharedMemory[1];
-	var nextNoteTime = EntitySharedMemory[2];
+	var combo = var(EntitySharedMemoryId, 0);
+	var status = var(EntitySharedMemoryId, 1);
+	var nextNoteTime = var(EntitySharedMemoryId, 2);
+	var currentAccuracy = var(EntitySharedMemoryId, 3);
 
 	SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
 	SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
@@ -68,21 +69,13 @@ class ScratchHoldEnd : public Archetype {
 		scratchLane = If(scratchLength >= 0, lane, enLane + scratchLength + 1);
 		scratchEnLane = If(scratchLength <= 0, enLane, lane + scratchLength - 1);
         currentJudgeStartTime = Max(currentJudgeStartTime, info.index);
-        nextNoteTime = 99999;
-        var id = lastNoteId, thisId = info.index;
+        var thisId = info.index;
 		input.time = judgment.bad;
-		totalAccuracy = totalAccuracy + 1.01;
 		life.miss_increment = -80;
         if (replay == 1) {
-			if (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
-			else comboNumber = 0; 
-			combo = comboNumber;
-			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			status = comboStatus;
         	input.time = beat + accuracy;
         	input.bucketIndex = int(ScratchHoldEndBucket);
         	input.bucketValue = accuracy * 1000;
-        	EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
         	if (firstComboTime == 0) firstComboTime = beat; 
 			if (autoSFX)
 	        	PlayScheduled(Clips.Scratch, beat, minSFXDistance);
@@ -90,9 +83,9 @@ class ScratchHoldEnd : public Archetype {
 				if (judgeResult == 1) PlayScheduled(Clips.Scratch, beat + accuracy, minSFXDistance); 
 				if (judgeResult == 3) PlayScheduled(Clips.Great, beat + accuracy, minSFXDistance); 
 			} 
-        	if (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy }); 
-			if (judgeResult == 1) currentAccuracy = currentAccuracy, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy }); 
-			if (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy }); 
+        	if (judgeResult == 0) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy }); 
+			if (judgeResult == 1) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy }); 
+			if (judgeResult == 3) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy }); 
 			if (autoSFX) StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			else
 				for (var i = time1.index; i <= time25.index; i += 2) {
@@ -104,20 +97,14 @@ class ScratchHoldEnd : public Archetype {
 					} 
 				}
         } else {
-			comboNumber = comboNumber + 1;
-			combo = comboNumber;
-			comboStatus = 0;
-			status = comboStatus;
         	input.time = beat;
         	input.bucketIndex = int(ScratchHoldEndBucket);
         	input.bucketValue = 0;
-        	EntitySharedMemoryArray[id].generic[2] = beat;
         	if (firstComboTime == 0) firstComboTime = beat; 
 	        PlayScheduled(Clips.Scratch, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			Spawn(getAid(UpdateJudgment), { beat, Sprites.JudgeAuto, combo, status, thisId, 0, 0 });
-		} 
-		lastNoteId = info.index;
+		}
  	}
 
  	SonolusApi initialize() {

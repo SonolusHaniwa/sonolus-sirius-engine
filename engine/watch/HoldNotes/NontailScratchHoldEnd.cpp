@@ -40,9 +40,10 @@ class NontailScratchHoldEnd : public Archetype {
 	var effectInstanceId;
 	var scratchLane;
 	var scratchEnLane;
-	var combo = EntitySharedMemory[0];
-	var status = EntitySharedMemory[1];
-	var nextNoteTime = EntitySharedMemory[2];
+	var combo = var(EntitySharedMemoryId, 0);
+	var status = var(EntitySharedMemoryId, 1);
+	var nextNoteTime = var(EntitySharedMemoryId, 2);
+	var currentAccuracy = var(EntitySharedMemoryId, 3);
 
 	SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
 	SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }

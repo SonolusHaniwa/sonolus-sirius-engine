@@ -43,9 +43,10 @@ class HoldEnd : public Archetype {
 	defineImport(time26);
 	var enLane;
 	var effectInstanceId;
-	var combo = EntitySharedMemory[0];
-	var status = EntitySharedMemory[1];
-	var nextNoteTime = EntitySharedMemory[2];
+	var combo = var(EntitySharedMemoryId, 0);
+	var status = var(EntitySharedMemoryId, 1);
+	var nextNoteTime = var(EntitySharedMemoryId, 2);
+	var currentAccuracy = var(EntitySharedMemoryId, 3);
 
 	SonolusApi spawnTime() { return TimeToScaledTime(stBeat) - appearTime; }
 	SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
@@ -56,21 +57,13 @@ class HoldEnd : public Archetype {
         if (mirror) lane = 14 - lane - laneLength;
         enLane = lane + laneLength - 1;
         currentJudgeStartTime = Max(currentJudgeStartTime, info.index);
-        nextNoteTime = 99999;
-        var id = lastNoteId, thisId = info.index;
+        var thisId = info.index;
 		input.time = judgment.bad;
-		totalAccuracy = totalAccuracy + 1.01;
 		life.miss_increment = -80;
         if (replay) {
-			if (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
-			else comboNumber = 0;
-			combo = comboNumber;
-			comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
-			status = comboStatus;
         	input.time = beat + accuracy;
         	input.bucketIndex = int(HoldEndBucket);
         	input.bucketValue = accuracy * 1000;
-			EntitySharedMemoryArray[id].generic[2] = beat + accuracy;
         	if (firstComboTime == 0) firstComboTime = beat;
 			if (autoSFX) PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			else {
@@ -79,12 +72,12 @@ class HoldEnd : public Archetype {
 				if (judgeResult == 4) PlayScheduled(Clips.Good, beat + accuracy, minSFXDistance);
 				if (judgeResult == 5) PlayScheduled(Clips.Bad, beat + accuracy, minSFXDistance);
 			}
-        	if (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy });
-			if (judgeResult == 1) currentAccuracy = currentAccuracy, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy });
-			if (judgeResult == 2) currentAccuracy = currentAccuracy - 0.01, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfect, combo, status, thisId, accuracy, currentAccuracy });
-			if (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy });
-			if (judgeResult == 4) currentAccuracy = currentAccuracy - 0.51, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGood, combo, status, thisId, accuracy, currentAccuracy });
-			if (judgeResult == 5) currentAccuracy = currentAccuracy - 1.01, Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeBad, combo, status, thisId, accuracy, currentAccuracy });
+        	if (judgeResult == 0) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeMiss, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 1) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfectPlus, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 2) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgePerfect, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 3) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGreat, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 4) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeGood, combo, status, thisId, accuracy, currentAccuracy });
+			if (judgeResult == 5) Spawn(getAid(UpdateJudgment), { beat + accuracy, Sprites.JudgeBad, combo, status, thisId, accuracy, currentAccuracy });
 			if (autoSFX) 
 				StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			else
@@ -97,20 +90,14 @@ class HoldEnd : public Archetype {
 					}
 				}
         } else {
-			comboNumber = comboNumber + 1;
-			combo = comboNumber;
-			comboStatus = 0;
-			status = comboStatus;
         	input.time = beat;
         	input.bucketIndex = int(HoldEndBucket);
         	input.bucketValue = 0;
-			EntitySharedMemoryArray[id].generic[2] = beat;
         	if (firstComboTime == 0) firstComboTime = beat;
 	        PlayScheduled(Clips.Perfect, beat, minSFXDistance);
 			StopLoopedScheduled(PlayLoopedScheduled(Clips.Hold, stBeat), beat);
 			Spawn(getAid(UpdateJudgment), { beat, Sprites.JudgeAuto, combo, status, thisId, 0, 0 });
 		}
-		lastNoteId = info.index;
  	}
 
  	SonolusApi initialize() {

@@ -87,4 +87,5 @@
 #include"watch/HoldNotes/NontailScratchHoldEnd.cpp"
 #include"watch/SyncLine.cpp"
 #include"watch/SplitLine.cpp"
+#include"watch/Preprocess.cpp"
 #endif

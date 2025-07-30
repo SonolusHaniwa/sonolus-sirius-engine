@@ -6,7 +6,7 @@ class Initialization: public Archetype {
 	SonolusApi spawnTime() { return 0; }
 	SonolusApi despawnTime() { return 0; }
 
-	int preprocessOrder = 2;
+	int preprocessOrder = -10000;
 	SonolusApi preprocess() {
       	// 界面开关参数
         var menuWidth = 0.15 * configuration.menu.scale;

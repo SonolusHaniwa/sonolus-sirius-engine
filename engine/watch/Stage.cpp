@@ -1,3 +1,15 @@
+SonolusApi getValue(var index) {
+    if (EntityInfoArray[index].archetype == getAid(HoldEnd) || EntityInfoArray[index].archetype == getAid(Sound)) 
+        return EntityDataArray[index].generic[0] + EntityDataArray[index].generic[5];
+    else if (EntityInfoArray[index].archetype == getAid(ScratchHoldEnd) || EntityInfoArray[index].archetype == getAid(FlickNote))
+        return EntityDataArray[index].generic[0] + EntityDataArray[index].generic[6];
+    else return EntityDataArray[index].generic[0] + EntityDataArray[index].generic[4];
+}
+
+#ifndef COMPILE_RUNTIME
+SonolusApi calcCombo(){}
+#endif
+
 class Stage: public Archetype {
 	public:
 
@@ -5,6 +17,8 @@ class Stage: public Archetype {
 	bool input = false;
 	var firstTime;
 	var entityNumber;
+    var headNoteId;
+    var noteNumber;
 	defineImport(order0);
 	defineImport(order1);
 	defineImport(order2);
@@ -30,8 +44,53 @@ class Stage: public Archetype {
 	SonolusApi spawnTime() { return -999999; }
 	SonolusApi despawnTime() { return 999999; }
 
+#define DISABLE_INTERPRETER
+    // Inplemented in Preprocess.cpp
+    SonolusApi calcCombo(string, string, int, int, string);
+    SonolusApi calcCombo();
+#undef DISABLE_INTERPRETER
+
 	int preprocessOrder = -2;
 	SonolusApi preprocess() {
+		calcCombo();
+        var head = headNoteId;
+		totalAccuracy = noteNumber * 1.01;
+        // cout << lastClickMenuTime << " " << headNoteId << " " << noteNumber << endl;
+		// DebugLog(headNoteId); DebugLog(noteNumber); DebugLog(1);
+        if (replay) {
+            for (var i = 0; i < noteNumber; i++) {
+				var judgeResult = 0;
+				if (EntityInfoArray[head].archetype == getAid(HoldEnd) || EntityInfoArray[head].archetype == getAid(Sound) || EntityInfoArray[head].archetype == getAid(FlickNote)) 
+					judgeResult = EntityDataArray[head].generic[4];
+				else if (EntityInfoArray[head].archetype == getAid(ScratchHoldEnd)) judgeResult = EntityDataArray[head].generic[5];
+				else judgeResult = EntityDataArray[head].generic[3];
+				if (judgeResult <= 3 && judgeResult >= 1) comboNumber = comboNumber + 1;
+				else comboNumber = 0;
+	        	EntitySharedMemoryArray[head].generic[0] = comboNumber;
+	        	comboStatus = Max(comboStatus, If(judgeResult == 0, 6, judgeResult));
+	        	EntitySharedMemoryArray[head].generic[1] = comboStatus;
+				EntitySharedMemoryArray[head].generic[2] = getValue(EntitySharedMemoryArray[head].generic[31]);
+				if (judgeResult == 0) currentAccuracy = currentAccuracy - 1.01;
+				if (judgeResult == 1) currentAccuracy = currentAccuracy;
+				if (judgeResult == 2) currentAccuracy = currentAccuracy - 0.01;
+				if (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21;
+				if (judgeResult == 4) currentAccuracy = currentAccuracy - 0.51;
+				EntitySharedMemoryArray[head].generic[3] = currentAccuracy;
+	        	head = EntitySharedMemoryArray[head].generic[31];
+	        }
+        } else {
+            for (var i = 0; i < noteNumber; i++) {
+	        	comboNumber++;
+	        	EntitySharedMemoryArray[head].generic[0] = comboNumber;
+	        	comboStatus = Max(comboStatus, 0);
+	        	EntitySharedMemoryArray[head].generic[1] = comboStatus;
+				EntitySharedMemoryArray[head].generic[2] = getValue(EntitySharedMemoryArray[head].generic[31]);
+				currentAccuracy -= 0;
+				EntitySharedMemoryArray[head].generic[3] = currentAccuracy;
+	        	head = EntitySharedMemoryArray[head].generic[31];
+	        }
+	    }
+
 		if (replay) {
 			for (var i = 0; i < 21; i++) order[i] = EntityData[i];
 		} else {
@@ -50,8 +109,8 @@ class Stage: public Archetype {
 				randomShuffle(order, 15, 21);
 			}
 		}
-		entityCount = 1;
-		while (EntityInfoArray[entityCount].index != 0) entityCount++;
+		entityCount = 0;
+		while (EntityInfoArray[entityCount].index == entityCount) entityCount++;
 	}
 
 	SonolusApi initialize() {
@@ -184,6 +243,7 @@ class Stage: public Archetype {
 	}
 
 	SonolusApi drawAccuracy() {
+		if (totalAccuracy <= 0) return;
 		var a = currentAccuracy / totalAccuracy * 101;
 		var b = Floor(a), c = a - Floor(a);
 		var scale = configuration.combo.scale;
