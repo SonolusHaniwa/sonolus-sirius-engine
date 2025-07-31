@@ -52,8 +52,8 @@ SonolusApi Stage::calcCombo() {
             archetypeIndex == getAid(Sound) ||
             archetypeIndex == getAid(FlickNote) || 
             archetypeIndex == getAid(HoldEnd) ||
-            archetypeIndex == getAid(NontailHoldEnd) ||
-            archetypeIndex == getAid(NontailScratchHoldEnd) ||
+            // archetypeIndex == getAid(NontailHoldEnd) ||
+            // archetypeIndex == getAid(NontailScratchHoldEnd) ||
             archetypeIndex == getAid(ScratchHoldEnd)
         ) {
             lineLength = lineLength + 1;
