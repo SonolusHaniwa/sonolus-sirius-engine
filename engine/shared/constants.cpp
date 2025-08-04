@@ -163,9 +163,9 @@ class stage {
 
 	FuncNode w = If(
         lockAspectRatio == 0 || screen.aspectRatio < targetAspectRatio,
-        screen.w * extraWidth,
+        screen.w,
         screen.h * targetAspectRatio
-    );
+    ) * extraWidth;
     FuncNode h = If(
         lockAspectRatio == 0 || screen.aspectRatio > targetAspectRatio,
         screen.h,
