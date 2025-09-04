@@ -186,6 +186,7 @@ class Stage: public Archetype {
 
 	SonolusApi drawAccuracy() {
 		var a = If(totalAccuracy == 0, 1, currentAccuracy / totalAccuracy) * 101;
+		if (a < 0) a = 0;
 		var b = Floor(a), c = a - Floor(a);
 		var scale = configuration.combo.scale;
 		var accuracyHeight = If(comboStatus <= Sprites.JudgePerfect, comboAPNumberHeight2, comboNumberHeight2);

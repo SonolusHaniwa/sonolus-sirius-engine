@@ -1,3 +1,6 @@
+#ifndef COMPILE_RUNTIME
+#define play
+#endif
 #include<bits/stdc++.h>
 #include"sonolus/sonolus.h"
 #include"engine/engine.cpp"
