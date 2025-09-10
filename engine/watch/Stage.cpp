@@ -52,6 +52,7 @@ class Stage: public Archetype {
 
 	int preprocessOrder = -2;
 	SonolusApi preprocess() {
+		for (var i = 101; i <= 110; i++) DebugLog(i), DebugLog(TimeToScaledTime(i));
 		calcCombo();
         var head = headNoteId;
 		totalAccuracy = noteNumber * 1.01;

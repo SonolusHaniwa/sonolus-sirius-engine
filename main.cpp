@@ -1,5 +1,5 @@
 #ifndef COMPILE_RUNTIME
-#define play
+#define watch
 #endif
 #include<bits/stdc++.h>
 #include"sonolus/sonolus.h"

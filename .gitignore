@@ -7,3 +7,7 @@ compiler/*
 !dist/thumbnail.jpg
 5.txt
 music_config.txt
+.vscode
+test*
+emsdk
+libsirius*

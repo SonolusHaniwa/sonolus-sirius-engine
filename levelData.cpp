@@ -709,6 +709,7 @@ string sus2txt(string text) {
 
     // 处理主数据
     stringstream txt; map<double, vector<tuple<string, int, double, string> > > noteList[13][13];
+    txt << setprecision(10);
     for (int i = 0; i < mainData.size(); i++) {
         if (i == 0) addTime(currentTime, currentBpm, currentBeat, { "00000", 0, 1.0, "00" }, mainData[i]);
         else addTime(currentTime, currentBpm, currentBeat, mainData[i - 1], mainData[i]);

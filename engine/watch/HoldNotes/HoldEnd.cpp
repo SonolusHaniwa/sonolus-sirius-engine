@@ -52,6 +52,7 @@ class HoldEnd : public Archetype {
 	SonolusApi despawnTime() { return TimeToScaledTime(beat) + accuracy; }
 
 	SonolusApi preprocess() {
+		if (info.index == 1107) DebugLog(stBeat), DebugLog(TimeToScaledTime(stBeat));
  	 	beat = beat / levelSpeed;
  	 	stBeat = stBeat / levelSpeed;
         if (mirror) lane = 14 - lane - laneLength;
