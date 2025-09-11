@@ -5,3 +5,6 @@ emcc emscripten.cpp -o libsirius.js -s MODULARIZE -s EXPORT_ES6=1\
 	-I./emsdk/include -L./emsdk/lib \
 	-sALLOW_MEMORY_GROWTH -g -O3 -w \
 	-ljsoncpp
+
+sha256sum libsirius.js
+sha256sum libsirius.wasm
