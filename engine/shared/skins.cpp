@@ -893,6 +893,9 @@ class Sprites {
 	SkinSprite SplitLine_11450 = defineSkinSprite("Sirius Split Line #11450");
 	SkinSprite SplitLineTrans1_11450 = defineSkinSprite("Sirius Split Line Transform 1 #11450");
 	SkinSprite SplitLineTrans2_11450 = defineSkinSprite("Sirius Split Line Transform 2 #11450");
+	SkinSprite SplitLine_11470 = defineSkinSprite("Sirius Split Line #11470");
+	SkinSprite SplitLineTrans1_11470 = defineSkinSprite("Sirius Split Line Transform 1 #11470");
+	SkinSprite SplitLineTrans2_11470 = defineSkinSprite("Sirius Split Line Transform 2 #11470");
 	SkinSprite SplitLine_2 = defineSkinSprite("Sirius Split Line #2");
 	SkinSprite SplitLineTrans1_2 = defineSkinSprite("Sirius Split Line Transform 1 #2");
 	SkinSprite SplitLineTrans2_2 = defineSkinSprite("Sirius Split Line Transform 2 #2");
