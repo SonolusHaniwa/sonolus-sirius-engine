@@ -76,6 +76,7 @@ class Stage: public Archetype {
 				if (judgeResult == 2) currentAccuracy = currentAccuracy - 0.01;
 				if (judgeResult == 3) currentAccuracy = currentAccuracy - 0.21;
 				if (judgeResult == 4) currentAccuracy = currentAccuracy - 0.51;
+    if (judgeResult == 5) currentAccuracy = currentAccuracy - 1.01;
 				EntitySharedMemoryArray[head].generic[3] = currentAccuracy;
 	        	head = EntitySharedMemoryArray[head].generic[31];
 	        }
