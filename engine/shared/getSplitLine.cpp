@@ -266,6 +266,7 @@ SonolusApi getSplitLine(var id) {
 		{ 11671, setSplitLine({ Sprites.SplitLine_11671 }) },
 		{ 11672, setSplitLine({ Sprites.SplitLine_11670, Sprites.SplitLine_11671 }) },
 		{ 11680, setSplitLine({ Sprites.SplitLine_11680 }) },
+		{ 11690, setSplitLine({ Sprites.SplitLine_11690 }) },
 		{ 2, setSplitLine({ Sprites.SplitLine_2 }) },
 		{ 2010, setSplitLine({ Sprites.SplitLine_2010 }) },
 		{ 2020, setSplitLine({ Sprites.SplitLine_2020 }) },
