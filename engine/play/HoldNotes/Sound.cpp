@@ -93,6 +93,7 @@ class Sound: public Archetype {
 	}
 
 	SonolusApi updateParallel() {
+		if (despawn.despawn) return;
 		if (holdType == 100 || holdType == 101 || holdType == 1100 || holdType == 1101) drawTick(Sprites.TouchTick, TimeToScaledTime(beat), lane, enLane);
 		if (holdType == 110 || holdType == 111 || holdType == 1110 || holdType == 1111) drawTick(Sprites.TouchScratchTick, TimeToScaledTime(beat), lane, enLane);
 	}

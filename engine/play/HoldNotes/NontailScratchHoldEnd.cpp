@@ -126,6 +126,7 @@ class NontailScratchHoldEnd: public Archetype {
 	}
 
     SonolusApi updateParallel() {
+		if (despawn.despawn) return;
 		drawHoldEighth(Sprites.Scratch, lane, enLane, TimeToScaledTime(stBeat), TimeToScaledTime(beat), isHolding);
 		if (times.scaled > TimeToScaledTime(stBeat) && times.scaled < TimeToScaledTime(beat)) 
 			drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, times.scaled);

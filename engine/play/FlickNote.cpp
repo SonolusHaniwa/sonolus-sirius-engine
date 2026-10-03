@@ -111,6 +111,7 @@ class FlickNote: public Archetype {
 	}
 
 	SonolusApi updateParallel() {
+		if (despawn.despawn) return;
 		drawNormalNote(Sprites.ScratchNoteLeft, lane, enLane, TimeToScaledTime(beat));
 		if (scratchLength == 0) drawArrow(lane, enLane, TimeToScaledTime(beat));
 		else {

@@ -120,6 +120,7 @@ class FlatNote: public Archetype {
 	}
 
 	SonolusApi updateParallel() {
+		if (despawn.despawn) return;
 		drawNormalNote(getSprite(), lane, enLane, TimeToScaledTime(beat));
 		// Rect hitbox = getFullHitbox(lane, enLane);
 		// hitbox.b = -0.2, hitbox.t = 0.2;
